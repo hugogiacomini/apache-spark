@@ -1,0 +1,1 @@
+Convert this text in a very detailed explained document. Use markdown language, and keep the language Portuguese. Include pyspark codes to exemplify concepts and how to apply them.

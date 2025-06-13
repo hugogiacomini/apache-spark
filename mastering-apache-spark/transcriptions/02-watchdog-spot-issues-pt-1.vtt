@@ -1,0 +1,2649 @@
+É isso que eu quero, é exatamente isso
+que eu quero, beleza?
+Gente, então a gente vai começar hoje
+falando um pouquinho do repositório, ok?
+Porque muita gente me perguntou sobre
+ele, como que ele está estruturado,
+enfim, e aí eu quero mostrar para vocês
+como que esse cara está estruturado e
+como que vocês podem utilizar para
+replicar todas as demonstrações que a
+gente está fazendo aqui, todas elas.
+Então eu vou deixar gravado aqui, caso
+vocês queiram reproduzir elas
+posteriormente, vocês podem fazer sem
+problema algum,
+tá?
+Então deixa eu só organizar aqui,
+beleza.
+Então vamos lá, esse é o nosso
+repositório, tá?
+Cada dia mais vem crescendo.
+E nesse repositório, o que a gente tem?
+A gente tem várias áreas aqui, eu vou
+trazer uma, no final do treinamento eu
+vou deixar uma aba atualizada do que
+cada dia mais vem crescendo.
+Cada uma dessas pastas fazem, mas eu vou
+deixar explicado aqui para vocês, caso
+vocês queiram depois revisitar aqui,
+beleza?
+Então a primeira coisa aqui, a gente tem
+o build.
+O build é para a gente criar o ambiente
+de Spark local.
+Então, ah Luan, eu não quero testar em
+nenhum cluster gerenciado, eu quero
+testar direto ali na minha máquina, eu
+quero fazer todos esses testes ali.
+Consigo fazer?
+Consegue.
+Então o que você vai ter que fazer?
+Você vai ter que buildar as imagens do
+Spark.
+Então aqui no Widmin, você tem um passo
+a passo para isso.
+Então.
+Então, o que a gente precisa fazer?
+A primeira coisa, aqui a gente instala
+os requisitos, então tem alguns
+requisitos aqui para funcionar, para a
+sua máquina local, a ideia é você
+instalar isso em um ambiente
+virtualizado.
+E aí a primeira coisa que você vai fazer
+é criar um arquivo .env, é um arquivo de
+ambiente de variável, aonde você vai
+passar as informações, aonde basicamente
+estão os seus...
+as suas informações de storage e paths
+que você tem, porque eu vou usar esses
+paths para poder também mapear com um
+dock.
+Então aqui eu estou falando o seguinte,
+olha, é o meu repositório barra src, meu
+repositório barra storage, meu
+repositório barra logs, meu repositório
+barra metrics e meu repositório barra
+events.
+Então, o que eu vou fazer?
+Eu vou criar um .env e eu vou colocar os
+meus locais, aí no seu ambiente vai ser
+diferente.
+Aí, agora que eu tenho esses locais, eu
+vou acessar a pasta de build, eu vou ter
+o docker executando e aí eu vou buildar
+essas imagens, inclusive elas estão aqui
+ó, build imagens.
+Então você vai lá e vai buildar essa
+imagem puxando o docker file spark.
+O que esse cara vai fazer?
+Ele vai entrar aqui na pasta de config e
+vai usar algumas configurações para
+buildar para você ali a imagem.
+Então aqui você já veja que a gente tem
+um delta e a gente tem um spark .file.
+Eu só tenho um spk -measure, por
+exemplo, ali, que já vai estar
+funcionando off the shelf, tá?
+E o history serve que esse é o dos
+grandes keys assim.
+Eu não sei se vocês já viram algum
+docker file, mas o cara eu tive muito no
+início, muito doido de cabeça para ter
+um spark history funcionando
+corretamente, porque na verdade nas
+aplicações de spark você consegue ver o
+spk history até quando a aplicação está
+funcionando.
+Após isso, o history é desligado
+juntamente com uma VM toda ela.
+Então, eu vou colocar o docker -file,
+após isso eu vou colocar o docker -file,
+após isso ficava meio difícil.
+Então, a gente buildou uma imagem
+completamente separada do history.
+Então, está aqui as informações desse
+parque e as informações do history.
+Você vai conseguir buildar essas duas
+imagens.
+Elas vão estar disponíveis para você no
+seu repositório
+local.
+Agora que elas estão disponíveis no
+repositório local, agora é fácil.
+Aqui, se você quiser ver o que eu estou
+fazendo, você vai no Docker, traço
+Compose.
+E nesse Docker Compose aqui, eu estou
+setando as configurações.
+Comprações.
+Lembra lá do Envy?
+Então, em vez de eu ficar passando os
+paths aqui, e você vai ter que alterar,
+você só altera no .envy.
+Então, eu estou mapeando lá a minha
+pasta de app, a minha variável de app,
+ou seja, tudo que eu escrever no src, ou
+seja, tudo que eu escrever nessa pasta
+aqui de src, está vendo?
+Tudo que eu escrever aqui
+automaticamente vai ser mapeado lá no
+meu Docker, lá no meu container jobs.
+Todas as informações que eu colocar no
+path de storage, vai cair, vai ser
+mapeado em storage, e assim por diante.
+Então, todos os containers vão ter
+compartilhados essas informações.
+Então, aqui está a configuração do
+master.
+E, no meu caso aqui, eu tenho três
+workers.
+Cada worker possui 3 GB de memória e
+dois cores.
+Então, você pode trabalhar do jeito que
+você quiser aqui, não
+impede.
+Essa forma é chata.
+Eu já fiz isso também, mas é chata.
+E aqui o Spark History, que está a
+imagem do History aqui específico, e os
+paths de métricas.
+Então, basicamente, ele vai subir, e aí
+no final que você fizer esse cara aqui,
+o que você vai fazer é docker -compose
+-up menos d, e aí o que você vai ter
+aqui?
+Se você vier em docker -ps, você vai ter
+aqui os três carinhas executando, que é
+um master, três executores, e um Spark
+History.
+De William, não existe requisito mínimo,
+você vai ter que rodar, o que a gente
+recomenda ao rodar o Spark, lembra que
+ontem eu até falei sobre isso, o que a
+gente pode fazer?
+Geralmente 2 GB de RAM, dois cores e 4
+GB de RAM.
+Então, o que eu diria mínimo que você
+pode fazer aqui, é você, em vez de ter
+três, por exemplo, três workers, você
+ter dois workers.
+E aí, o que você tem que ter são quatro
+cores e seis GB de RAM.
+Bem razoável, para você subir aí no seu
+ambiente.
+Após isso, ele vai te expor dois
+endereços.
+O local roxo 8080, que vai ser
+basicamente onde você tem as
+configurações dos seus jobs.
+Então, você tem aqui as informações de
+configuração, está vendo?
+Então, você tem o total de máquinas,
+total de cores, quantidade de workers, e
+o 18080 é o Spark Restore Server, que
+está aqui todos os seus planos de
+execução.
+Que, na verdade, esses planos de
+execução são salvos aqui dentro, em
+logs.
+Está vendo?
+Que foi exatamente o que o Eduardo
+falou.
+Antigamente, a gente tinha que brincar
+com esses caras aqui.
+Entrar e debugar cada um um a um.
+Entender passo a passo de cada um desses
+caras aqui.
+Então, é aqui que ele gera.
+Ele gera um JSON, e daí você consegue
+parciar esse cara e entender o que está
+acontecendo.
+Beleza?
+Esse é o build.
+Aí, a gente tem aqui a parte de logs,
+que eu falei para você.
+Então, toda vez que eu escrevo, que eu
+escrevo uma aplicação, que eu executo
+uma aplicação no doc, ele vai gravar
+essas informações no log.
+As métricas a gente tem para poder
+guardar as informações do Spark Measure,
+que eu vou mostrar ao longo dessa semana
+aqui.
+E a gente tem o app que eu trouxe para
+vocês.
+O que esse app faz?
+Esse app, ele escreve arquivos dentro de
+um storage, no MinIO.
+Como a gente vai utilizar muito
+Kubernetes, a partir de amanhã, quarta,
+quinta e sexta, a gente vai usar
+bastante Kubernetes.
+Então, o que a gente tem?
+A gente tem um script que gera
+informações reais, realmente, que você
+pode trabalhar com o dado.
+Então, o que você precisa fazer aqui?
+Você tem um ritmo aqui também do mesmo
+jeito, e basicamente o que você tem que
+fazer, e é bem simples essa aplicação, é
+configurar o seu ponto envio.
+Então, criar um ponto envio, e aí
+basicamente passar as informações do
+MinIO.
+Ah, Luan, mas eu não sei trabalhar com o
+MinIO, eu não entendo muito bem.
+Sem problema, amanhã a gente vai ver
+sobre Kubernetes, e eu vou explicar um
+pouquinho de MinIO, vou explicar um
+pouquinho de toda a infraestrutura.
+Então, pode ficar tranquilo que isso vai
+ser explicado.
+Então, aqui eu estou passando as
+configurações para acessar o meu S3 lá.
+E, o que eu tenho aí?
+Depois eu tenho uma CLI que fala, cara,
+eu quero gravar todos os arquivos em
+Parquet, ou eu quero gravar todos os
+arquivos, por exemplo, em JSON.
+E aí eu posso tanto escolher qual o
+formato, que eu quero gravar.
+Hoje disponível em Parquet e JSON, e a
+gente vai ver uma demo muito legal sobre
+isso, inclusive.
+Beleza.
+E, por fim, nós temos SRC.
+O SRC é onde nossos scripts estão.
+E aqui dentro, veja que eu tenho uma
+pasta, que é uma das mais importantes,
+que ela está checkout.
+Eu não estou checando ela no Git, porque
+ela é gigantesca.
+Eu tenho os meus arquivos para se
+trabalhar local.
+Esses arquivos aqui, você pode,
+inclusive tem no README, você pode
+baixar essas informações, tá?
+Então, são informações públicas.
+Eu vou até colocar aqui o do Yelp, para
+vocês.
+Então, basicamente, eu estou usando dois
+datasets para brincar com SPAC, nesse
+caso aqui.
+O customizado, que a gente escreveu, o
+TLC, que é o New York Trip Record Data,
+e o Yelp Dataset.
+Então, basicamente, é só você baixar
+esses caras e você vai conseguir acessar
+essas informações aqui.
+Beleza?
+Alguma dúvida?
+Me fale aí, se vocês têm alguma dúvida.
+Beleza?
+Estamos bem?
+Beleza, tranquilo.
+Então, a gente vai começar.
+Começou?
+Beleza.
+Então, a gente vai começar a nossa
+brincadeira agora.
+Lucas, no terceiro dia, nós iremos, tá?
+Falar de padrões, que é o Masterpiece.
+Inclusive, bem lembrado.
+Vamos passar aqui o que a gente vai ver
+hoje, né?
+Então, hoje, no dia dois, né?
+Então, só pra gente recapitular ontem, a
+gente viu todas as partes de fundação.
+Qual é a arquitetura do SPAC?
+Navegamos ali nos intrínsecos do driver,
+do executor.
+Entendemos também o ciclo de vida da
+aplicação.
+Por que que eles utilizam JVM?
+As otimizações que houveram na JVM ao
+longo desses anos, principalmente com o
+projeto TugStank, foram várias
+atualizações em CPU e memória pra você
+processar esses caras.
+Vimos também como alocar recursos e como
+esses caras funcionam por debaixo dos
+plans.
+Quais são os diferentes classes
+managers.
+Vimos também os modos de deployments que
+nós temos.
+Então, uma vez que eu escrevo essa minha
+aplicação local, eu posso colocar essa
+aplicação basicamente em qualquer local.
+A gente viu também o modelo de
+agendamento de FIFO e FAIR.
+A gente viu também que o Databricks, por
+exemplo, utiliza o FAIR scheduling.
+E a gente olhou um pouquinho das
+informações como um todo de internos,
+né?
+Então, olhar pra MapReduce, como que os
+RDDs funcionam, as operações básicas ali
+de abstrações dos RDDs que são inscritas
+em escala.
+Falamos de DataFrame e aí exploramos ali
+toda a parte de execução de plano,
+olhamos os planos e hoje a gente vai
+continuar vendo isso, mas a gente vai
+pegar todo esse conteúdo aqui e a gente
+vai condensar ele no segundo dia.
+Então, hoje a gente vai passar um
+pouquinho na visão de perspectiva
+operacional pra entender como que eu
+posso, e aí rapidinho essa parte, ao
+longo da semana, quando a gente estiver
+principalmente no Kubernetes, eu vou
+mostrar como monitorar as aplicações
+realmente, mas hoje eu utilizo somente o
+Spark Manager, tá?
+Vou dizer pra vocês que ao longo dos
+anos eu utilizei diversas formas de
+gerenciar minhas aplicações, mas pra mim
+o Spark Manager é muito fácil e ele é
+muito rápido de você se trabalhar, tá?
+Por exemplo, trabalhar com o Promif, o
+Sgrafana, eu já trabalhei.
+Trabalhar com o FKStack também, eu já
+trabalhei.
+Inclusive, eu mostrei isso funcionando
+lá na semana de performance stunning
+numa aplicação para Spark e Spark SQL,
+mas eu acredito que Spark Manager, de
+todas, é a melhor proposta e a gente vai
+estar focando nela na quarta, quinta e
+sexta.
+Beleza?
+Ou seja, todas as execuções que a gente
+fizer em grande escala, a gente vai
+rastrear essas informações pra debugar e
+resolver problemas e verificar como isso
+vai acontecer por debaixo dos panos lá,
+tá?
+Beleza.
+E aí a gente vai entrar numa das coisas
+que eu sou mais apaixonado de todas e
+isso aqui é um compilado de patterns e
+antipatterns, tá, cara?
+Isso aqui é muito legal porque, é, vai
+te ajudar bastante a entender qual é um
+padrão, o que fazer e o que não fazer no
+Spark e a gente vai navegar em cada
+explicação em muito detalhe pra ver uma
+meríade de como resolver diversos
+problemas complexos que a gente tem no
+Spark.
+Por que que a gente começou com essa
+proposta?
+Então a gente vai ver ali primeiro os
+antipatterns, depois a gente vai ver os
+patterns e amanhã a gente vai ver tudo
+que está embaixo desses patterns que são
+exatamente os cinco S's.
+Então a gente vai ver o problema de
+cima, né?
+Então eu acessei uma aplicação Spark e,
+cara, eu tenho um problema, beleza?
+E daí a gente vai começar a ver o que
+que eu tenho que fazer ou quais são as
+características daquele problema.
+A gente vai identificar, a gente vai
+entender e solucionar pra amanhã
+entender na hora que eu tiver um skill,
+que eu tiver um spill, que eu tiver um
+shuffle, ou seja, o problema do cinco S,
+a gente conseguir destrinchar ele muito
+bem.
+Então hoje a gente vai focar bastante
+nos patterns e antipatterns aqui e a
+gente tem várias demonstrações, tá?
+Pra poder fazer hoje.
+Então hoje o dia tá recheado de coisas,
+beleza?
+Bacana, pessoal, sempre gosto de pegar
+alguns datasets grandes pra usar Spark,
+mas sem dificuldade de achar.
+Geralmente uso os dados da Receita
+Federal.
+Você tem alguma dica sobre isso, um
+ponto de dataset, ponto de dados?
+Felipe, o que que eu faço quando eu
+quero fazer grandes datasets?
+Eu tenho um script aqui que eu posso
+mostrar pra você que vai duplicando o
+dataset.
+Inclusive eu rodei ele aqui agora.
+Mas eu gosto de utilizar o dataset do
+Yelp.
+Você pode, tipo, copiar e colar, são
+arquivos relativamente grandes e, cara,
+vai dar muito dado, tá?
+O que também é bom é o TLC Dataset.
+Eu gosto bastante também porque eles são
+arquivos grandes.
+A gente já vê isso aqui hoje também,
+beleza?
+Então eu usaria esses dois aí.
+Beleza.
+Vamos ver mais alguma pergunta, Matheus.
+Tá, beleza.
+Então vamos lá.
+Então vamos passar aqui rapidinho nas
+diferentes formas que nós temos de
+gerenciar e de, na verdade, coletar
+insights e fazer diagnósticos de
+aplicações em Spark.
+Quais são as opções e o que que eu
+recomendo pra você que vai se tornar um
+desenvolvedor avançado e que realmente
+vai utilizar uma vez que você utiliza o
+Spark na sua totalidade, eventualmente o
+que você vai precisar é precisar de um
+mecanismo pra capturar métricas e
+entender quais são.
+Existem várias, a gente vai passar por
+algumas aqui.
+E aí eu vou deixar pra você qual é a
+mais interessante na minha visão depois
+de ter trabalhado com todas elas, tá?
+Então a primeira coisa que a gente
+começa a pensar é o seguinte, qual é o
+benefício de fazer performance stunning,
+né?
+Lembra que a gente falou isso algumas
+semanas atrás lá no evento do workshop
+que a gente teve do treinamento de três
+dias.
+Mas, cara, basicamente a gente vai ver
+hoje que a gente tem uma surface de
+problemas, né?
+E na escala operacional a gente tem ali
+alguns problemas que são importantes e
+outros que não são tão importantes ao
+longo do dia.
+Como eu falei pra vocês, a grande
+recomendação é o quê?
+Cara, 70%, uma vez que eu aprenda a
+escrever com as melhores práticas, 70 %
+do meu dia a dia vai ser basicamente o
+quê?
+Escrever minhas aplicações e, cara,
+teoricamente eu não vou ter problemas
+com elas se eu escrever utilizando as
+melhores práticas, tá?
+Então vai funcionar tudo muito bem no
+final do dia.
+Só que a gente vai ter 30 % ali que
+requer muita atenção, porque esses 30 %
+de fato fazem uma diferença muito
+significativa na sua entrega ali do
+ambiente.
+Então a gente tá falando o quê?
+De redução de custo de infraestrutura,
+né?
+E aí, por exemplo, ontem alguém falou
+que reduziu o job de tantas horas pra
+tantas horas, enfim, era um ganho
+gigantesco.
+A gente tá falando de, cara, de máquinas
+ligadas menos 5, 6 horas por dia.
+Se você calcular isso vezes mês e ver o
+valor atachado a isso, é um valor muito
+significativo.
+E talvez por uma mudança muito rápida
+que você fez ali, eu acho que era o
+broadcast.
+Então assim, você adicionou uma linha de
+código e você caiu 5 horas, horas de
+processamento.
+E isso realmente acontece, tá?
+A ideia é de você poder ter essa entrega
+dessa informação rápida e conseguir
+desbloquear outros pontos, tá?
+E a gente conseguir não ter que ficar
+constantemente trocando de stacks ao
+longo do tempo.
+Muitas das coisas, as vezes que eu vi,
+foi por exemplo, eu já vi isso acontecer
+bastante.
+Ah, Luan, eu tô utilizando aqui o
+Dataproc, cara, e eu tô tendo problemas
+de custo.
+Nossa, sério?
+Você tá tendo problemas de custo?
+Eu tô tendo problemas de custos aqui
+gigantescos, a Google é muito cara,
+enfim, eu falei, cara, que estranho, né?
+A Google é de fato, em relação a
+serviços e produtos pra dados e
+analytics, o mais barato de todos.
+Ou pelo menos, muito competitivo com
+todos os outros.
+Então eu achei bastante estranho essa
+afirmação.
+Mas, eles, não, então a gente vai mudar
+pra Databricks, porque Databricks vai
+reduzir nossos custos, a gente tem um
+controle melhor das máquinas, a gente
+consegue configurar políticas e assim
+por diante.
+O cara, foi pro Databricks e, cara, seis
+meses depois, o custo tava ainda maior.
+Então, o que acontece é que, às vezes,
+você troca de ambiente, na verdade, a
+troca de ambiente não é a solução.
+Na verdade, é você escrever suas
+aplicações de forma correta.
+Então, de novo, hoje a gente vai ver os
+problemas mais gritantes, né?
+Amanhã a gente vai ver os problemas de
+dentro, todos os 5S's, que é Spill,
+Skill, Shuffle, Serialization e Storage.
+E na quinta -feira a gente vai ver
+padrões de desenvolvimento.
+A gente vai aprender como escrever uma
+aplicação perfeita.
+Como que a gente escreve uma aplicação
+maravilhosa ali.
+É bem um papo de vendedor, realmente.
+Então, pra gente não ter esses
+problemas, o que eu sempre considero é o
+seguinte, um dos maiores problemas que a
+gente vai ver no Spark, existem vários
+aqui.
+Por exemplo, o volume, crescimento de
+volume é uma grande dor de cabeça.
+Por quê?
+Você não consegue prever o aumento do
+seu volume.
+Ou, por mais que você consiga ter uma
+estimativa, às vezes ela é completamente
+errónea.
+E talvez aquela estimativa realmente vai
+explodir o seu cluster.
+Principalmente porque você tem mais
+dados chegando a cada tempo, tá?
+Às vezes você tem recursos que não são
+bem utilizados.
+Então, às vezes você tem um cluster
+horizontal, só que esse cluster não está
+sendo utilizado, como a gente viu ontem.
+Seria mais inteligente você ter menos
+máquinas e você ter uma vértice, uma
+incrementação vertical pra que você
+tivesse menos troca de rede, menos troca
+de rede, reduzir esse paralelismo sem
+afetar o seu tamanho e você teria um
+custo, né?
+E você estaria usando as máquinas de
+forma eficiente.
+Por quê?
+Três ou quatro vezes o tamanho das
+partições ali das CPUs, né?
+Skill.
+Esse cara aqui é, de fato, é o que eu
+falei há semanas atrás, o skill é o
+problema em dados, na perspectiva do
+dado, ele é o problema mais crítico que
+existe.
+Porque ele, o skill em si, ele gera
+todos os outros.
+Então, é muito importante que você
+entenda o skill e que você aprenda a
+debugar o skill.
+Por quê?
+Porque uma vez que você resolva ele,
+você vai reduzir drasticamente os outros
+quatro S's ao longo da sua aplicação, da
+escrita da sua aplicação.
+Então, é importante você fazer isso.
+Isso é uma das coisas que você sempre
+tem na cabeça, quando você está pensando
+em escrever, por exemplo, um job pra
+produção, ou um job crítico, ou um job
+que vai processar grandes montantes de
+dados, periodicamente, é pensar, cara,
+esses datasets aqui possuem skill?
+Como que eu verifico isso?
+Vale a pena eu passar um tempo
+investigando isso?
+E sim, vale, porque isso vai te
+economizar muito ao longo do tempo.
+Aí a gente também tem limitações de
+hardware, às vezes, principalmente
+porque às vezes o ambiente está on
+-premises.
+A gente não tem storages rápidos, por
+exemplo, como SSDs, por mais que estejam
+bem comuns hoje, às vezes tem ainda
+muitos HDDs.
+E aí, a gente tem uma latência muito
+grande de disco e a gente também tem
+aumento da complexidade dos jobs ao
+longo do tempo.
+Então, cara, você escreveu o seu job pra
+se comportar dessa forma, de repente
+você teve uma nova atualização de
+código, alguém postou um novo pull
+request lá e essa mudança de código foi,
+por exemplo, uma UDF function.
+O cara meteu uma UDF function no meio da
+sua aplicação.
+E aí, o que você vai ter?
+Você vai ter uma queda de performance
+drástica ao longo do tempo.
+Então, é muito importante também que
+você tenha o processo de gatekeeping,
+que você mantenha a qualidade do seu
+software pra que outros possam
+trabalhar, mas que você garanta a
+qualidade dele ao longo do tempo.
+Isso é muito, muito, muito importante.
+E aí, eu listei aqui quais são os
+problemas mais comuns que nós temos
+trabalhando com Spark.
+A gente vai ver todos eles aqui em
+detalhes.
+Mas o que me dá mais medo é o skill.
+De novo.
+Então, talvez eu esteja overreacting,
+mas eu não estou, não.
+É porque, realmente, ele é muito chato.
+Eu já tive muita dor de cabeça com o
+skill.
+E até entender e identificar o skill
+realmente, me levou muito tempo.
+Beleza?
+Então, acho que existem várias formas do
+porquê é importante a gente continuar a
+diagnosticar nossas aplicações.
+Então, assim, hoje em dia, nós temos,
+geralmente, você que está desenvolvendo,
+que está aqui, enfim.
+A gente acabou de começar, Jonathan.
+Então, o que acontece?
+Hoje, você que está aqui, por exemplo,
+você vai ter algumas opções, muito
+fáceis hoje.
+Ou você está rodando seu código no
+Databricks, que você já tem, tudo
+integrado.
+Ou você está rodando seu código no
+Dataproc, por exemplo.
+E daí, você tem já toda a parte de stack
+e de login embedado dentro do Google.
+Se você está na AWS, você também tem
+tudo isso utilizando EMR, por exemplo.
+Você tem isso tudo integrado com
+CloudWatch.
+E se você está no Azure, você pode,
+independentemente do Fabric ou Synapse
+Analytics, ou qualquer outra oferta como
+HD Insight, por exemplo, você tem os
+logs sendo coletados pelo Azure Monitor,
+por exemplo.
+Então, você tem, basicamente, um
+ambiente onde você consegue consultar
+essas informações.
+Mas, eu ainda acho muito pertinente
+utilizar o Spark Manager.
+E eu vou falar para vocês por quê?
+Pela simplicidade que tem, pelo controle
+que você pode ter.
+Mas, no final das contas, é importante
+demais que você tenha algum processo de
+captura de métricas no Spark.
+Por quê?
+Para você medir baseline.
+Você tem que ter um baseline da sua
+aplicação.
+Cara, essa minha aplicação, normalmente,
+ela executa em duas horas.
+E, de repente, ela começou a executar em
+quatro, em oito, em nove, em treze.
+O que está acontecendo?
+O que mudou daqui para cá?
+Então, em relação a recursos, em relação
+a processamento e assim por diante.
+Então, é importante que você tenha a
+ideia de que rastreabilidade desses
+recursos é muito importante.
+Beleza?
+Fechou.
+Então, quais são as ferramentas que nós
+temos disponíveis na nossa mão aí?
+A primeira delas é o Spark UI, com
+certeza.
+A gente já viu ela ontem.
+A gente vai navegar ainda mais hoje em
+todos os dias do treinamento.
+Nós temos o Spark Listener e o Spark
+Metrics, que, na verdade, são wrappers
+criados dentro do Spark.
+São APIs expostas, abertas, que você
+pode se conectar e trabalhar com eles.
+Inclusive, existem vários projetos que
+utilizam ou conectam no Spark Listener
+ou conectam no Spark Metrics para
+rastrear e para raspar informações de
+métricas e de processos de execução.
+Qual a parte legal disso?
+A parte legal disso é que o Spark
+Measure já faz isso.
+Então, o Spark Measure nada mais, nada
+menos, ele raspa essas informações de
+métricas e de Listener.
+E ele captura isso para você.
+Então, ele faz ficar isso muito simples
+com uma linha de comando.
+Por isso que eu adoro o Spark Measure.
+Ele é muito eficiente, muito rápido e
+assim por diante.
+O EFK Stack ou Elastic Search Stack, por
+exemplo, para você guardar logins.
+Então, todas aquelas informações que
+você está vendo de informação que foi
+colocada ali toda vez que a gente
+escreve uma aplicação.
+Dependendo do que você faz e como você
+usa o login, é super interessante que
+você logue essas informações.
+Então, é importante você ter isso
+guardado em algum lugar.
+Nas aplicações de hoje, a gente já tem
+as informações coletadas do Spark por
+padrão.
+Mas vamos supor que você quer logar
+informações mais business.
+Você quer, por exemplo, falar você quer
+escrever certas lógicas e escrever essa
+mensagem ali.
+Você quer dar um output dessa mensagem.
+Então, você quer ter certeza que você
+vai capturar isso para criar uma regra
+de negócio, um alerta ou assim por
+diante.
+Então, acho que o Elastic Search ou
+qualquer ferramenta de login vai te
+ajudar bastante nisso aqui.
+E se você quiser um dashboard muito
+bonitão, enfim, utilizar o Prometheus e
+o Grafana.
+Eu só acho relativamente eu diria que
+não overkill de utilizar, mas eu não sei
+o quão efetivo é você utilizar as
+métricas de Prometheus e Grafana em
+relatórios.
+Claro, tem uns relatórios muito bons de
+se analisar, mas eu julgo o quão rápido
+isso é para você entrelaçar e ir direto
+no ponto.
+Então, de todas essas propostas aqui, o
+Spark Manager para mim é o que mais me
+atrai, de fato sem nenhuma dúvida.
+Beleza, então, como eu falei para vocês,
+o Spark Measure, na verdade, ele junta
+justamente toda a parte de listener e a
+parte de métricas e ele tem um wrapper
+que te possibilita acessar essas
+métricas.
+Então, o Spark Measure ele é criado pelo
+Lucas Canale.
+Esse cara trabalha somente no CERN, que
+é o centro de partículas.
+Então, eles utilizam Spark lá para
+processar alguns petabytes de dados e
+ele criou o Spark Measure justamente
+porque ele tem ambiente crítico lá,
+processa teras e petabytes no dia a dia
+dele, não é uma coisa normal.
+Então, ele criou esse cara justamente
+para conseguir extrair o melhor e
+conseguir rastrear métricas, conseguir
+coletar informação de uma forma muito
+fácil.
+E, rapidamente, você conseguir olhar
+para esse cara e debugar.
+Então, de todos esses caras aqui que eu
+já utilizei ao longo dos meus sete anos
+trabalhando com Spark, de fato, o mais
+proativo, o mais rápido e o mais
+inteligente é o Spark Measure de longe.
+Então, só para vocês terem ideia, a
+aplicação constantemente está sendo
+atualizada.
+Isso é muito legal.
+Então, você pode vir ali acompanhar o
+Lucas, pode conversar com ele, ele é
+sempre muito responsivo.
+E, cara, é, para mim, de fato, o melhor,
+a melhor forma, a melhor forma de você
+coletar.
+Além de ter uma documentação
+maravilhosa.
+Basicamente, o que a gente vai ver, olha
+só que lindo.
+Quando você habilita o Spark Measure,
+ele te cospe informações muito legais.
+Então, ele já te dá aqui uma série de
+informações que hoje, quando a gente
+começa a olhar algumas coisas aqui, não
+sei se faz tão sentido, porque a gente
+está no segundo dia do treinamento
+ainda.
+Mas, quando a gente estiver no último
+dia de treinamento e vocês olharem isso
+aqui, vai fazer muito sentido.
+Ah, nossa, eu te dei uma dica.
+Houveram oito Shuffle Records Read.
+Ah, houveram Shuffle Total Bytes Read.
+Houveram Shuffle Bytes Written.
+Ah, legal.
+Teve Disks Spilled?
+Teve Memories Spilled?
+Não.
+Então, aqui, rapidamente, por olhar
+aqui, você já consegue identificar qual
+o tipo da aplicação e qual o problema
+que ela tem.
+Está só de bater o olho nas métricas.
+Então, esse cara é muito legal.
+E ele dá uma métrica bem detalhada.
+Ele dá uma métrica tanto nível estágio,
+quanto nível tarefa.
+Então, você consegue tanto rastrear o
+que aconteceu, tanto o que aconteceu.
+naqueles estágios, quando você também
+consegue rastrear tudo o que aconteceu
+dentro das tarefas.
+Então, ele te dá uma informação bem mais
+alto nível e bem mais baixo nível,
+dependendo de como você queira, tá?
+Então, eu vou deixar o link aqui pra
+vocês do Spark
+Manager.
+Beleza.
+Bem, agora, o que esse cara faz?
+Esse cara ele tem, basicamente, quatro
+componentes aqui.
+O primeiro componente, como eu falei, é
+o Stage Matrix.
+Então, ele rastreia todos os estágios.
+Luan, o que são os estágios?
+Lembra que a gente viu aqui num plano de
+execução que a gente tem, o que?
+Os estágios.
+Os Jobs, Stages e Tasks.
+Então, ele rastreia todos esses stages.
+Então, por exemplo, se eu tive nove
+stages aqui, né?
+Nove stages total, que foram completos,
+ele vai, basicamente, te mostrar todas
+as informações referentes a todos esses
+stages aqui.
+Então, você vai conseguir ter uma visão
+bem mais ampla do que aconteceu em
+relação a cada um deles, duração, tempo,
+quais foram as operações que aconteceram
+e assim por diante, tá?
+Assim como também, você vai ter a
+informação de métrica, de Task Metric.
+Então, se você quiser, se você tem uma
+aplicação, e aí o recomendado é, quando
+você começa a fazer um debug utilizando
+performance ou Spark Measure, a ideia é
+você utilizar somente o que?
+Utilizar o Stage Matrix, não utilizar o
+Task Matrix, tá?
+Porque o Task Matrix, eu não vou falar
+que ele tem um overhead muito grande,
+mas ele vai coletar nível tarefa.
+Então, aqui a gente tem, sei lá, poucas
+tarefas, né?
+Então, a gente tem aqui um total de, sei
+lá, quantas tarefas?
+72 tarefas, beleza?
+Mas imagina as vezes que tem ambiente
+que nós temos 700 tarefas, ele vai
+coletar métrica de tudo isso.
+Então, as vezes, você vai ter alguns
+delays por utilizar esse cara, tá?
+Nada fora do normal, não vai parar a sua
+aplicação, absolutamente não, mas é um
+cara que você tem que tomar cuidado
+quando você está utilizando, tá?
+Ele também tem um cara de Memory Matrix,
+que eu gosto bastante, ele consegue
+acessar os barramentos de memória do
+Spark, consegue te entregar um relatório
+de memória pra falar o que que tem nessa
+memória, o que que aconteceu, espaço on
+-heap, espaço off -heap, assim por
+diante, é legal pra você ter uma visão
+do que está acontecendo no ambiente de
+memória do Spark e você consegue
+integrar ele também automaticamente com
+Promif, EOS, Grafone e assim por diante.
+Além do mais, ele oferece uma integração
+direta com com alguns outros, com
+algumas outras ferramentas pra você
+conseguir ter dashboards interativos.
+Então, aqui no repositório, cara, é
+muito completo, a documentação é muito
+boa.
+Se você vier aqui, tem uma parte, aqui
+ó, Spark Monitoring Dashboard, Accused
+Monitoring Pipeline and Dashboard for
+Spark.
+Então, se você abrir aqui, por exemplo,
+ele tem um outro repositório chamado
+Spark Dashboard.
+E aí ele mostra como que foi
+desenvolvido, e nesse caso aqui ele
+utiliza o Telegraph, o Victoria Metrics
+e o Grafone.
+Então, ele constrói um relatório pra que
+você consiga acessar métricas dele em
+dashboards, tá?
+E você consegue ver toda a configuração
+aqui.
+É super interessante, inclusive, tá?
+Tem alguns relatórios muito, muito
+legais.
+E outra coisa que eu gosto bastante, que
+eu recomendo demais, é se você quiser
+realmente trabalhar com Spark em nível
+stellar, nível realmente alto, uma das
+coisas que ele tem aqui é esse TPCDS pra
+Spark.
+Ele criou um benchmarking de Spark.
+Então, você rola esse benchmark aqui,
+você pode escalar até terabyte, de
+análise, e ele gera pra você todas as
+queries, e gera várias informações pra
+você brincar com a otimização dentro
+dele.
+Então, esse cara aqui é um ótimo
+ambiente pra você brincar.
+Então, você pode tanto ter alguns gigas,
+como você pode ter diversos gigas ali
+executando, e você consegue ter uma
+quantidade de queries e debugar muito
+bem.
+A documentação dele sempre é muito boa.
+Então, cara, ele vai pecar pelo nível de
+detalhe.
+Muito bom.
+Beleza.
+Esse cara é muito foda.
+Ele é muito foda.
+Então, basicamente, como funciona o
+Spark Manager?
+E aí é o que eu falo.
+Cara, ele é muito fácil de usar.
+Chega a ser ridículo.
+Você começa a escrever sua aplicação, e
+no início da sua aplicação, você
+simplesmente vai falar stagemetrics
+.begin, e no final da sua aplicação,
+você vai colocar stagemetrics .end e
+printReport.
+E é isso.
+Ele vai exportar essas métricas pra
+você.
+Ou seja, é isso que você precisa fazer
+na sua aplicação pra começar a rastrear
+todas as informações características da
+performance.
+É muito fácil.
+Você consegue fazer isso também sem
+licitar na sua aplicação, caso você
+queira, e você consegue também puxar
+métricas de execução de uma query
+específica.
+Então, vamos supor que você tem um
+código gigantesco, mas você identificou
+que naquela parte ali daquele select que
+utiliza um group, um order by, um rank,
+enfim, que você está tendo problema de
+performance.
+Então, você pode dar um begin e um end
+dentro dele ali, nesse conjunto, e
+executar a query, e ele vai capturar
+todas as métricas referentes àquela
+query pra você.
+Então, cara, é muito, muito legal.
+A gente vai ver ao longo dos dias.
+Hoje, hoje, não muito, né?
+Hoje a gente vai só pincelar, mas
+quinta, quarta, quinta e sexta, a gente
+vai ver ele bastante.
+Então, a gente vai, daqui a pouco,
+entrar num processo natural de analisar
+esses caras.
+Primeiro, eu quero que vocês estejam
+muito bem analisando as métricas dentro
+desse cara aqui, dentro do History
+Server, pra que depois fique ainda mais
+fácil de vocês analisarem essas métricas
+fora do History Server.
+E aí, só pra mostrar que a gente tem um
+EFK stack, então, a gente usa isso
+bastante, por exemplo, no Kubernetes.
+O Kubernetes tem tipos de deployment que
+fazem com que fiquem muito, muito fácil
+você provisionar novos recursos dentro
+dos seus containers.
+Então, por exemplo, você tem um tipo de
+deployment que, na hora que um novo nó é
+colocado no seu Kubernetes cluster, ele
+automaticamente instala um agente pra
+capturar as informações de login.
+Então, uma das formas que a gente pode
+fazer aqui é utilizar o EFK stack dentro
+do Kubernetes pra capturar o login de
+todos os containers do Spark.
+Então, tudo que tá acontecendo ali no
+Spark executor, que o cara tá cuspindo,
+eu tenho um Elasticsearch, na verdade,
+um Filebit, pra poder puxar essas
+métricas ali, ou Filebit, ou existem
+outros, pra você captar essas métricas
+ali, essas informações, e enviar essas
+informações pro Elasticsearch pra
+indexar e, posteriormente, trabalhar com
+o Kibana, caso você queira.
+Eu, particularmente, não utilizo mais
+esse cara pra ambientes de Kubernetes,
+tá?
+Por diversos fatores, mas um deles é a
+quantidade de log que você captura e a
+quantidade de detalhes que você tem que
+ter por trabalhar com Elasticsearch.
+O Elasticsearch vai ficando grande,
+então ele requer espaço, ele requer
+máquina, ele requer poder de
+processamento.
+Então, cara, pra um ambiente que não é
+muito grande, talvez não vá valer a
+pena.
+Além disso, você tem que trabalhar muito
+com, deixar isso muito bem estabelecido,
+o ciclo de logins.
+Você tem que criar rotinas de exclusão
+de log e de que você possa ciclar o seu
+log.
+Porque, senão, você acaba com logs
+gigantescos e seu storage ali começa a
+ficar bem caro, tá?
+E a gente tem o Promifias, né?
+O Promifias e o Grafana.
+O Promifias pra você puxar as métricas,
+raspar métricas, né?
+Então, ele raspa essas métricas, você
+consegue colocar essas informações
+dentro do Promifias, que é um banco de
+dados orientado a eventos ali, pra que
+você possa armazenar métricas.
+E o Grafana consome do Promifias, e aí
+você consegue criar relatórios em cima
+disso.
+Luan, se você fosse me recomendar fora
+do ambiente de cloud, utilizar alguma
+coisa pra rastrear as minhas aplicações
+Spark, alguma dessas, hoje eu não
+recomendaria.
+Eu acho que você vai gastar muito tempo
+provisando o Promifias, configurando
+Grafana, e assim por diante.
+Eu acho que vai ser muito mais efetivo
+pra você simplesmente consultar e
+utilizar o Spark Mesh, por isso que eu
+acredito que ele seja a melhor proposta
+pra hoje, se você quiser trabalhar e
+debugar aplicações.
+Beleza?
+Alguma dúvida aqui?
+Porque agora a gente vai começar a
+esquentar o caldo, né?
+Então, tem alguma dúvida?
+Pois tão bem.
+Boa pergunta.
+Boa pergunta, André.
+Perguntem.
+Tirem suas dúvidas.
+Com certeza consegue, e é muito fácil.
+Olha só.
+Ele, inclusive, tem aqui um repositório.
+Ele tem aqui um exemplo de Python.
+Python Notebook.
+E aqui ele explica um pouquinho, mas
+basicamente o que você tem que fazer na
+entrada do Spark é chamar from
+SparkMeshImportStageMetrics e aí você
+chama StageMetrics no contexto do Spark.
+E acabou.
+E aí você executa tudo que você quer ali
+dentro e no final você pode, inclusive,
+fazer select direto nessas métricas.
+Então, aqui ele explica pra você bem
+detalhado como fazer.
+Bem simples de trabalhar com ele, tá?
+Onde ficam os dados do SparkMetrics?
+Os dados do SparkMetrics ficam
+exatamente aqui.
+Eles são expostos aqui.
+Deixa eu mostrar pra vocês.
+Dentro desses dois wrappers aqui.
+Que são esses caras.
+Tanto o SparkListener quanto o
+SparkMetricsSystems.
+Então, o que ele faz?
+Na hora que você liga uma aplicação, e
+você tem um plano de execução e todos os
+processos acontecendo, essas informações
+estão sendo logadas.
+Então, o SparkListener fica aberto
+jogando diversas métricas ali dentro,
+assim como o MetricsSystems.
+E aí você pode plugar nesse cara e
+customizar uma aplicação pra ler e
+entender isso, que é exatamente o que o
+SparkMetrics faz.
+Você, inclusive, pode, por exemplo,
+salvar as informações do SparkListener e
+do SparkMetrics num S3.
+E essas informações são colocadas ali no
+storage pra que você possa analisar
+posteriormente.
+Mas ela é bem complexa, bem verbosa, é
+um JSON gigantesco, com várias
+informações.
+E o SparkMetrics já compila tudo isso
+pra você, sem você ter que se preocupar.
+Por isso que ele é o cara que você tem
+que se preocupar nada mais do que isso.
+Beleza?
+Tá.
+Então, vamos lá.
+Vamos pro nosso antipatterns.
+Quais são os antipatterns do Spark?
+Bem, aqui eu passei alguns meses
+pensando em quais são os problemas mais
+comuns que se existem no ecossistema de
+Spark nos meus sete anos trabalhando com
+o Spark.
+Eu já criei aplicações do zero, eu já
+evoluí aplicações escritas por outros,
+eu já criei um sistema gerenciado de
+pipeline de dados de engenharia
+autônomo, utilizando o Spark basicamente
+pra toda parte do processamento
+customizado, eu já trabalhei com
+clientes de terabyte scale, eu já fiz
+muita coisa com o Spark.
+Então, o que eu fui tentar fazer aqui é
+olhar na internet, olhar nos livros,
+enfim, o que eles consideram que são
+patterns e antipatterns, e vários
+artigos do Miriam, assim como também
+trazer toda essa minha experiência e
+juntar essas informações.
+Então, aqui é um compilado do que eu
+acredito que são...
+Existem outros, existem outros patterns,
+mas esses são os principais antipatterns
+aqui.
+Então, eu trouxe seis antipatterns e
+seis patterns.
+Então, no final a gente vai ver doze
+conteúdos de pattern e antipattern, além
+de uma explicação em cima de cada um
+deles, que vai abrir a sua mente pra
+gente entender os cinco S's com muito
+mais clareza.
+Então, no final do dia de hoje, você vai
+conseguir ver com muita clareza o que
+cada um é, o que cada um representa e o
+que cada um faz, porque aqui a gente vai
+navegar dentro de cada um com muito
+detalhe, tá?
+E a gente vai ver tanto a explicação
+teórica, quanto uma demonstração em cima
+de cada uma desses antipatterns.
+Então, hoje a gente tem mais de doze
+demos pra mostrar, acho que a gente vai
+ver tem quinze ou dezesseis demos pra
+mostrar, só pra vocês terem ideia.
+Então, um dia recheado de demos pra
+gente ver na prática, discutir, tirar
+dúvida, enfim.
+Então, usa o dia de hoje, cara, pra
+realmente concentrar.
+Lembra o seguinte, provavelmente você já
+trabalhou o dia todo, você tá super
+cansado, eu entendo, mas, cara, faz um
+esforço aqui, né?
+Faz um esforço pra você se concentrar,
+porque depois isso vai fazer um payoff,
+isso vai pagar pra você, tá?
+Esse conteúdo aqui vai te ajudar pra
+você trabalhar com Spark.
+Beleza, então vamos começar a falar um
+pouquinho de como melhorar, né?
+Como você consegue transpor e resolver
+problemas.
+E esses antipatterns aqui, gente, vocês
+vão ver across the board.
+Esses problemas aqui você vai ver,
+dificilmente você não vai ver ele em
+ambientes produtivos.
+Eu vou falar por quê.
+Muita gente que programa em Spark,
+muito, tem muito background de
+engenharia de software.
+Muitos, tá?
+E muitos, às vezes, não entendem como o
+PySpark funciona e durante muitas vezes
+tenta replicar um código de Pandas ou de
+Python dentro do Spark.
+Existem muitas aplicações escritas
+assim.
+Porque o cara processa uma quantidade de
+dados, tá funcionando tudo bem, mas,
+cara, de repente ele começa a ver ali
+que, cara, você tá tendo problemas de
+degradação de performance ao longo do
+tempo, né?
+Inclusive, eu tenho um cliente hoje
+passando por isso.
+Os caras fizeram a criação de um
+pipeline no Databricks.
+Essa aplicação rodava em duas horas,
+hoje ela tá rodando em 15 horas.
+E, basicamente, o que a gente tem é
+aumento de dados, não atualização de
+estatísticas e a gente tem vários outros
+problemas ali relacionados ao dado como
+um todo e funções que foram escritas em
+Python.
+Por quê?
+Porque, na verdade, foi um software
+engineer que escreveu e ele não tinha
+uma ideia muito ampla de melhores
+práticas no Spark, cara.
+Ele foi escrever da forma mais
+confortável dele e tá tudo ok.
+Então, isso acontece, né, só no Brasil.
+Isso acontece fora do país e bastante.
+Então, é normal.
+Então, você vai bater de frente com
+esses problemas aqui em algum momento da
+sua carreira, beleza?
+Então, vamos lá.
+O que que eu dividi aqui pra vocês, né?
+Então, isso aqui é uma figura bem legal
+que, inclusive, eu trouxe do treinamento
+de performance troubleshooting do Spark
+na Databricks, né?
+Eu fiz esse treinamento há três semanas
+atrás, então eu trouxe muita coisa de lá
+já pro treinamento, muita coisa.
+Na verdade, tudo que foi dado no
+treinamento, que foram de sete horas
+ali, tudo tá aqui dentro, né?
+Então, tudo tá aqui diluído pra vocês,
+num processo pra que vocês consigam
+diluir muito mais fácil.
+Mas é um treinamento de troubleshooting
+avançado em Spark.
+Eu fiz esse treinamento lá em São
+Francisco, quando eu tava no Data AI
+Summit.
+E eles mostraram essa figura que eu
+gostei bastante, que faz muito sentido,
+né?
+Então, cara, das milhares de pipelines
+que o time da Databricks já trabalhou ao
+longo dos anos, do time de
+desenvolvimento, de consultoria e assim
+por diante, eles identificaram esses
+três pilares principais pra problemas
+comuns de performance.
+Cara, você tem noção que 50 % dos
+problemas estão relacionados a layout de
+dados, velho?
+Isso é assustador.
+Eu não esperava uma quantidade tão
+grande dessa.
+Eu realmente esperava que o conceito de
+layout de dados fosse um grande blocker
+de processamento e de melhoria de
+performance no Spark.
+Mas eu não sabia que ele ia levar mais
+de 50%.
+Um pouquinho mais de 50%.
+O que é o layout?
+Fundação de como o Spark consulta esse
+dado.
+Então, o layout aqui que eu tô me
+referindo é o que?
+É o Apache Parquet, é o Lake House, é
+você utilizar essas caras pra ter uma
+fundação de dados e auxiliar o Spark a
+consultar os dados de forma eficiente.
+Então, muita gente hoje ainda processa
+dados com JSON, muita gente hoje
+processa dados com CSV.
+Isso é normal no dia a dia, tá?
+Fora do país você vai ver isso também.
+Dentro você vai ver é normal as pessoas
+fazerem isso.
+E às vezes a gente vai ver que, com
+poucas otimizações aqui nos fundamentos,
+na fundação, vai te dar diversas
+melhorias ao longo do tempo e a gente
+vai vê -las aqui hoje.
+Segunda parte, otimização.
+Então, cara, imagina que 50 % dos
+problemas que você tem de performance e
+tanning estão relacionados a
+foundations.
+Então, se você começar hoje uma
+aplicação e você tá escrevendo ali em
+Delta ou em Iceberg, cara, você já tem
+50 % dos seus problemas resolvidos.
+Até porque quando a gente for ver na
+sexta -feira Delta Lake em detalhe todos
+os novos recursos que o Delta Lake traz
+pra vocês, eles vão ficar simplesmente
+esparramados aí, tá?
+Principalmente o Liquid Clustering igual
+a Automatic, tá?
+É realmente breathtaking demais e
+resolve muitos problemas.
+Beleza?
+E, por fim, Fine Tanning, que é, aí sim,
+aqui é o apertar das, né, das
+parafusinhas, dos parafus, das
+porquinhas, enfim.
+Aqui realmente requer que você faça o
+que?
+Aqui, quando a gente tá falando de Size
+e Fine Tanning de Workloads, a gente tá
+falando, cara, de identificar os
+problemas do 5S, de otimizar máquinas,
+de otimizar o seu processo, de adicionar
+configurações extras no Spark.
+Então, a gente tá falando que de toda a
+mirilha de problemas comuns que a gente
+tem, de análise de performance que a
+gente tem no Spark, somente 20 % é o
+Fine Tanning, né?
+E aí, a gente tá falando, cara, mas a
+gente vai aprender em detalhe todos
+eles?
+Sim, por quê?
+Porque você vai conseguir muito bem,
+depois do treinamento, escrever
+aplicações que você consiga tá muito,
+nos 80%.
+Então, assim, você já vai começar com a
+fundação certa, você vai escrever a sua
+aplicação já pensando nos comportamentos
+que ela pode causar e seguindo as
+melhores práticas, logo, você vai
+reduzir a otimização, você não vai
+precisar ficar tunando toda hora, ou
+nunca talvez, a sua aplicação.
+E aí, para as aplicações que você
+escreveu que são extremamente críticas,
+aí você vai apertar o parafuso.
+Aí requer que você adicione um Spark
+Measure, que você colete as informações,
+que você debugue essa aplicação, que
+você tenha um baseline.
+Por quê?
+É uma aplicação de alta criptocidade.
+Beleza?
+De todos os problemas, quais são os mais
+atormentadores aí que a gente tem no
+escopo de Spark?
+Tá?
+O primeiro deles é o Small Files
+Problem.
+Tá, cara?
+Esse aqui, ele é o campeão de vendas.
+Tá?
+É o campeão de bilheteria.
+Todo ambiente, todo, todos os ambientes
+que eu conheço de média e grande escala,
+todos eles sofrem de Small Files
+Problems.
+E o engraçado é que, cara, hoje é um dia
+que, tipo, pra mim, ele é muito
+excitante, ele é muito foda.
+Porque vocês vão entender um conceito
+chamado de File Explosion que vai deixar
+vocês boquiabertos, assim, sabe?
+Tipo, e eu vou mostrar, eu vou falar
+alguns casos de valores que vocês até
+vão duvidar, mas é verdade.
+Por causa dos adventos de Small Files
+Problems.
+Então, Small Files Problems é um
+problema comum, ele acontece em
+abundância, ele vai acontecer no seu
+ambiente normalmente, e ele não é
+complexo de se resolver hoje.
+Muito pelo contrário, ele é simples de
+se resolver hoje.
+Hoje, nos dias atuais, é extremamente
+fácil de você resolver.
+Antigamente, né, falando aí uns 4, 5
+anos atrás, a gente escrevia scripts
+customizados pra poder, o quê?
+Juntar esses arquivos.
+Hoje a gente já tem rotinas no Delta
+Lake, hoje a gente já tem rotinas no
+Iceberg que fazem isso pra você
+automaticamente.
+Você chama um comando e ele faz isso pra
+ti.
+Então a gente vai ver como resolver
+esses problemas de Small Files Problems
+aqui, bonitinho, tá?
+Fiquem tranquilos.
+Depois, o segundo terrorista da minha
+vida, o Skill, tá?
+Esse cara que mais me dá medo, tá?
+Porque quando você tem uma aplicação
+grande com o Skill, você demora muito
+tempo pra conseguir debugar e achar o
+problema, tá?
+Eu já passei, cara, 3, 4 dias pra
+identificar o problema de Skill.
+Por quê?
+Porque o dataset que eu tava trabalhando
+era absurdamente grande.
+Então, qualquer operação que eu tentasse
+pra entender o meu histograma de dados,
+enfim, era muito pesado.
+Demorava horas.
+Então, esse cara aqui, ele é muito
+perigoso.
+Muito perigoso mesmo.
+Então a gente vai ter um cuidado muito
+interessante com ele.
+Tá?
+Outro ponto.
+Eu não sei se vocês sabem, mas a maioria
+dos Data Lakes normais, quando você faz
+um reprocessamento como você faz uma
+atualização do seu arquivo, na verdade o
+que ele tá fazendo, ele tá reescrevendo
+esse arquivo novamente.
+Então um dos grandes problemas de você
+utilizar somente Parquet e você não
+utilizar um Lake House em cima do seu
+ambiente, é porque na verdade as
+operações de interação com o Storage são
+muito custosas.
+Muito mais custosas do que se você
+estiver num Lake House.
+Tá?
+E aí a gente vai ver os detalhes disso
+do porquê.
+E no final, eu diria que a alocação de
+recursos.
+A alocação de recursos é um outro
+carinha, um outro tópico à parte também
+mais complexo.
+Mas eu diria que esses quatro são os
+grandes quatro pilares atormentadores aí
+de qualquer desenvolvedor Spark.
+Beleza?
+Então, hoje a gente vai navegar em seis
+pitfalls, em seis problemas comuns no
+Spark.
+A gente vai falar de inconsistência de
+arquivos.
+Nós iremos falar de File Explosion.
+Eu adoro isso, cara.
+A gente vai falar de ignorar
+particionamento de dados.
+Ah, não preciso particionar dados.
+Beleza, eu vou escrever do jeito que eu
+acho que tá tudo certo.
+A gente vai ver um cara muito legal
+chamado Collect, que talvez você já
+tenha utilizado.
+A gente vai também olhar que aí vocês
+vão olhar talvez pra essa demonstração e
+falar, cara, a galera não faz isso, mas
+faz.
+Transformação sequencial em vez de
+transformação paralela.
+E Joins.
+Como você pode aumentar a produtividade
+das suas queries por adicionar hints
+nela.
+Então, a gente vai ver uma quantidade de
+explicações e cada uma dessas
+demonstrações aqui, a gente vai navegar
+em detalhes sobre cada peculiaridade do
+Spark e como ele trabalha com sistemas
+de disco, e acesso de dados e assim por
+diante.
+Bem, antes de eu começar, alguma dúvida?
+Ah, o Lucas já mandou um foda aí.
+Pode fé.
+É, tem muita coisa legal aqui, hoje.
+Ah, então vamos lá.
+Vamos navegar nesses caras.
+O primeiro que a gente vai olhar é o
+Inconsistent Data Formats.
+Então, um dos problemas muito comuns que
+a gente tem em qualquer ambiente Spark,
+como eu estava falando anteriormente, é
+você ter, na verdade, uma diferente
+miscigenação de dados dentro do seu Data
+Lake, o que é normal para a gente.
+Isso, não tem como você forçar que o seu
+Data Lake vai ter somente parqueiro.
+Não tem como só forçar que o seu Data
+Lake somente escreve Iceberg, ou que se
+trabalhe somente com formatos de Lake
+House.
+É normal que você tenha na sua landing
+zone, arquivos JSON, arquivos CSV,
+arquivos TXT, está tudo certo.
+Tá?
+Só que o grande problema aqui é quando
+você, não utiliza os formatos corretos
+para processamento.
+É aí o problema, tá?
+O grande problema é exatamente esse.
+Então, o problema não é você ter JSON,
+ou você ter outros formatos de arquivos,
+mas é você não utilizá -los ou não
+processar com o formato que você precisa
+processar, que é otimizado, tá?
+Então, por exemplo, quando a gente olha
+hoje nas diferentes formas que a gente
+tem, né, os mais utilizados, então pensa
+aqui num Data Lake que possui diversos
+tipos de arquivo, a gente tem um cara
+muito comum que é o JSON, né?
+Então, o JSON, a gente já começa a ver o
+seguinte, cara, o JSON ele é text
+-based, tá?
+Então, ele não é um formato colunar, ele
+é um formato tipo texto.
+E ele, cara, ele tá across the wire, né?
+Ele tá em todas as comunicações de
+microserviços, de serviços e assim por
+diante.
+Então, indiscutivelmente, você vai
+lidar, você vai ter JSON lá no seu Data
+Lake, isso vai acontecer.
+Só que a gente não gosta, gosta de
+trabalhar com esse formato.
+Por quê, tá?
+Ele não possui nenhum mecanismo colunar.
+O processo de parse dessa estrutura, né,
+porque é uma estrutura complexa, sem um
+esquema entrelaçado, então
+computacionalmente é caro pro Spark, né,
+fazer isso.
+E ele não tem suporte nativo pra
+compressão.
+E compressão é um big thing, é um grande
+tópico pro Spark.
+Por quê?
+Porque a compressão faz com que você
+resolva diversos problemas.
+Faz com que você reduza o footprint de
+query, faz com que você armazene
+eficientemente memória e, na hora que
+você precisa serializar e deserializar o
+dado, você consegue fazer isso com pouco
+espaço ou mais eficiente.
+Então, quando você tem um formato de
+arquivo que não te possibilita tudo
+isso, você perde absurdamente.
+Vocês vão ver na demonstração a
+quantidade de porcentagem em operações
+ridiculamente simples aqui e o quanto
+que a diferença desses caras é gritante,
+tá?
+Depois a gente tem um formato open
+source chamado Apache ORC que ganhou
+muita atração nos cenários de Hive.
+Então, pra quem já trabalhou com Hive
+aí, já viu muito sobre ORC.
+Não é o ORC lá do Warcraft, não.
+É o Optimize Row Column.
+Esse cara é um formato de arquivos
+colunar desenvolvido pra alta
+performance.
+E ele é muito bom.
+Ele responde muito bem pra grande
+queries, ele tem uma performance muito
+interessante.
+Inclusive, o Iceberg utiliza o ORC e
+Avro.
+Na verdade, o Iceberg utiliza todos os
+formatos de arquivos, né?
+Ele escreve tanto em ORC, quanto ele
+escreve em Avro, quanto ele escreve em
+Parquet.
+Mas o ORC é muito legal porque ele tem
+uma ótima eficiência em armazenamento de
+metadado, eficiência de acesso, ele
+consegue trazer características de
+caching, ele tem pushdown e pruning, ou
+seja, quando você faz uma query no Spark
+e você dá um where, por exemplo, ele, na
+verdade, o Spark não vai carregar pra
+memória e depois fazer o where.
+Ele vai fazer o que?
+Um pushdown.
+Ele vai tentar passar esse filtro pra
+frente lá pro arquivo.
+E por causa dos metadados que o arquivo
+tem, captar essas informações e puxar
+pra memória somente o que foi feito do
+pushdown.
+Então, isso é uma característica muito
+interessante.
+Outro ponto que ele tem aqui ele tem
+alto nível de compressão.
+Então, ele tem uma compressão muito
+interessante aqui nesse arquivo.
+E, geralmente, a gente utiliza ele pra
+grandes ambientes de analytics.
+Luan, você trabalha com ORC?
+Cara, faz anos que eu não trabalho com
+ORC.
+Então, hoje, quando a gente fala com
+Spark, dificilmente você vai trabalhar
+com ORC e dificilmente você vai
+trabalhar com Avro, sendo bem sincero.
+Talvez com Avro se você estiver
+utilizando streaming.
+Então, você teria realmente esse cara.
+Beleza.
+Então...
+Boa, Eduardo.
+O pushdown, ele é uma característica
+muito bom.
+O pushdown é uma característica...
+Por isso que é foda o treinamento.
+Sabe?
+Tipo, isso que é legal do treinamento.
+Que a gente tá desmistificando as coisas
+aqui.
+Então, o pushdown, galera, ele tá
+relacionado ao arquivo.
+Então, por exemplo, se você consegue
+fazer pushdown em JSON...
+Não, você não consegue fazer pushdown em
+JSON.
+E eu vou mostrar pra vocês isso
+funcionando.
+Ficar claro pra vocês.
+Caraca, eu vou ler JSON...
+Eu vou ler parquê...
+E aí?
+Tem diferença?
+Vocês vão ver que tem diferença.
+Bastante.
+Então, na verdade, é o formato de
+arquivo.
+E aí, Eduardo, pra explodir mais a
+cabeça de vocês, do Eduardo, do
+Jonathan, enfim...
+Pensa no seguinte.
+Por que que o SPAC não é tão eficiente
+consultando de banco de dados
+relacional?
+Por que que o SPAC não é tão eficiente
+consultando de NoSQL Systems?
+Funciona?
+Funciona.
+É bom?
+É interessante.
+Mas funciona muito bem como um data
+lake?
+Não, não funciona.
+Por quê?
+Justamente pela característica da fonte
+de dados, das limitações que a fonte de
+dados tem.
+Não está realmente relacionada
+exatamente.
+Não está...
+É que ele consegue distribuir as
+consultas, ele não consegue fazer isso
+muito bem em sistemas relacionais por
+thread pool, caching, sessão e assim por
+diante.
+Então, existe uma limitação do JDBC pra
+fazer esse cara.
+Então, o melhor ambiente de você
+trabalhar com SPAC é no data lake.
+Beleza?
+Depois, nós vamos pro Avro.
+O Avro, que é ótimo, mas prestem
+atenção.
+Enquanto o ORC é colunar, pasmem, o Avro
+é row -based.
+Por isso que muita gente pergunta assim,
+Aluã, por que que a galera usa mais
+Parquet e usa menos Avro pra processar
+com SPAC, sendo que os dois são formatos
+otimizados de big data?
+Porque o SPAC ele é um modelo colunar em
+memória e o Avro, ele é armazenado em...
+É...
+Ele é armazenado...
+Ele é armazenado, esse dado, em bytes e
+ele é row -based.
+Então, ele é linha, tá?
+E aí você pergunta o seguinte, mas por
+que ele é linha?
+Porque, na verdade, pra sistemas de
+streaming, o processo de serialização e
+deserialização do dado, quando você
+trabalha com streaming, ele é mais
+eficiente com Avro.
+Então, tanto é isso que, por exemplo, se
+você perguntar pro nosso mestre do Kafka
+aí, o Matheus, o formato em que o Kafka
+trabalha muito bem é Avro, né?
+Porque ele se comunica muito bem com
+esse cara.
+Então, sistemas de streaming,
+geralmente, vão ter mais vazão pro Avro
+e sistemas de big data e analytics de
+processamento de backfilling, enfim, vão
+ter mais aderência a Parquet.
+Outro ponto importante também.
+Tanto é que se você olhar, por exemplo,
+no Iceberg, você tem a característica de
+escrever dados em streaming.
+E aí, quando você habilita essa escrita
+constante, a recomendação é que você
+faça o quê?
+Pare de escrever em Parquet e escreva em
+Avro, porque vai ser mais eficiente pra
+você trabalhando com streaming e com
+poucos chunks de dados.
+Então, o formato de arquivo influencia
+demais na performance ao longo do tempo,
+tá?
+Beleza?
+Então, ele é eficiente pra serialização,
+troca de dados, ele é flexível e ele
+suporta criptografia, beleza?
+E aí, a gente vai pro mais utilizado de
+todos, que é o Parquet.
+O Parquet é, de fato, o mais utilizado.
+Ele é um formato colunar, tá?
+Ele é totalmente tipado, ele tem
+primitivos muito bons, em relação aos
+formatos inteiros e assim por diante.
+Então, ele é o cara mais utilizado e ele
+tem uma ótima compressão, né?
+Então, a gente sabe aí que a compressão
+do Parquet é muito interessante e tanto
+é verdade que, por exemplo, hoje o
+formato mais utilizado pra Lake House se
+utiliza muito mais hoje o Parquet.
+Então, o Parquet é utilizado aí pra
+tudo.
+E aí, o que eu fiz pra vocês, né?
+Aqui a gente tem um treinamento o quê?
+Mastigadinho, né?
+Beleza?
+Eu trouxe uma cola pra vocês.
+Olha só que legal.
+Então, eu montei aqui esse spreadsheet e
+coloquei aqui pra vocês.
+Então, o que que tem em cada um, qual a
+comparação entre eles e qual o caso de
+uso ideal.
+Olha só que legal.
+Então, cara, pra quando que você usa
+cada um deles, né?
+Então, caso de uso ideal aqui pra JSON,
+quando você realmente não, você precisa
+ter intercomunicação entre microserviços
+ou, enfim, vamos supor que o seu Spark,
+ele trabalha com in and out e de alguma
+forma ele disponibiliza informações pro
+microserviço, pra sistemas de mensageria
+embarcados, enfim.
+Então, trabalhar com JSON aqui vai ser
+uma boa opção pra você escrever em JSON,
+tá?
+Não recomendo que você trabalhe com
+leitura em JSON.
+Recomendo que você converta seus
+arquivos pra JSON e daí converta seus
+arquivos de JSON pra Parquet e daí
+realmente escreva eles em JSON caso você
+precise, tá?
+O RC, quando você tiver integração com
+Hive, então vou dar um exemplo pra
+vocês.
+Vamos supor que eu estou, isso acontece,
+tá?
+Você está no ambiente on -premises ou
+você ainda está no
+ambiente cloud adaptiva onde você tem
+pedaços de tecnologias mais recentes e
+pedaços Hadoop, por exemplo, grandes
+empresas como Netflix ainda, Uber,
+Facebook, Verizon, Medicare Airlines,
+enfim, empresas grandes, Macy's e assim
+por diante, possuem Hive, de fato, Hive
+muito utilizado, né?
+E aí, por exemplo, eu quero integrar
+Hive e Spark.
+Você nem vai pensar.
+Você vai direto pro ORC.
+Vai ser o melhor formato de você
+trabalhar com Hive.
+Então, você vai receber os dados,
+whatever, você vai processar essas
+informações no Spark, você vai escrever
+em ORC pra que o Hive possa pegar esse
+dado e trabalhar com ele.
+Então, essa vai ser a melhor forma de
+você trabalhar com ele.
+Então, a gente usa o ORC hoje de verdade
+quando você tem integrações pra
+ambientes de Hive Integration ou pra
+grandes montantes de dados.
+Por exemplo, se alguém já trabalhou com
+a Amazon Athena, se vocês colocarem seus
+dados em ORC, vocês vão se surpreender.
+Ele performa muito melhor do que em
+Parquet.
+E Ávoro também.
+Então, um cara legal de você testar.
+Parquet vai ser o mais genérico e o
+Ávoro vai ser, geralmente, pra
+streaming, pra serialização de dados e
+assim por diante.
+Lembrando que nós temos duas diferenças
+aqui.
+Text based e columnar based.
+Então, o Spark sempre vai o que?
+Preferir o que?
+O columnar based.
+Sempre.
+Então, ele vai ser muito mais otimizado
+se você estiver utilizando o formato
+colunar.
+Por quê?
+Porque você consegue ter diversas
+características de sistemas MPPs maduros
+pra que você possa ter tanto pushdown
+quanto column to pruning.
+Beleza?
+Deixa eu pegar as perguntas aqui.
+O Eduardo tinha perguntado.
+É correto fazer os cálculos com base nos
+recursos totais do cluster?
+Digo isso porque usamos o Yarn aqui com
+bastante concorrência.
+De mil cores.
+Somente alguns porcento estavam
+disponíveis e vários bastantes durante
+um dia a ponto de, às vezes, ficar mais
+de seis horas inaccepted.
+Então, fico na dúvida se existe uma
+melhor prática de como chegar nesse
+número de quando de memória Vcore eu
+devo usar nos cálculos que seja de
+acordo com a realidade do cluster e não
+um número frio.
+É, isso é bem complexo.
+Eduardo, que é uma das coisas que a
+gente conversou ontem sobre o Yarn, como
+ele compartilha essas informações no NOS
+e como ele tem um Node Manager ali
+dentro do NOS, do Spark.
+Então, você vai ter uma área de memória,
+de alguma forma, compartilhada.
+Não vai ser uma memória totalmente dela.
+E quando você tem muitas tarefas sendo
+submetidas, você tem grandes tarefas,
+grandes trabalhos para serem executados
+no Spark, você tem uma saturação de Yarn
+muito grande em relação a entrada e
+saída de kill e assim por diante.
+Então, esse tipo de latência que você
+tem aí é algo que acontece em grandes
+ambientes de Yarn.
+Uma das recomendações aí é você ter o
+Yarn completamente separado do Spark.
+O que é uma trampeira muito grande de
+fazer, inclusive, e a gente vê isso mais
+em ambientes on -premises.
+Mas isso é complexo de você realmente
+trabalhar.
+Legal, hein, Felipe?
+Está carregando dado de History 7 no
+Pinot.
+Interessante.
+Mais o que aqui de pergunta?
+Beleza, temos aqui.
+Faz quanto tempo que esses parquês levam
+vantagem em relação ao ARC pela
+possibilidade de usar Delta?
+Então, nesse caso, se você pegar somente
+parquês, esquece Lake House, vamos pegar
+só o File Formats, que isso aqui são
+arquivos, são formatos de arquivos.
+Logo depois, a gente vai ver sobre OTF,
+que é Open Table Format.
+E aí você vai ver Iceberg, Rude e Delta.
+Mas vamos pensar aqui somente no tipo de
+arquivo, no File Format.
+No tipo de arquivo, se você for colocar
+o ARC de um lado e o parquê do outro,
+para o Spark, para o Spark, ao longo
+prazo, o parquê vai ser mais eficiente
+do que o ARC.
+Para o Spark.
+Por quê?
+Porque toda configuração e método de
+acesso do dado que a gente já viu logo
+aqui embaixo, ele é endereçado para o
+Spark.
+Para o parquê.
+Quando eu digo isso, eu não estou
+falando que o ARC não tem uma ótima
+atração e funciona muito bem.
+Funciona muito bem.
+Mas você vai utilizar o ARC justamente
+se você quiser fazer integrações com
+raio.
+Aí ele vai funcionar perfeitamente.
+E aí a gente, não só pensando nisso, se
+a gente levar uma camada para cima e for
+para os Open Table Formats, e aí
+realmente vai ser parquê de fim a fim,
+que é o método mais utilizado.
+Eu falo ARC igual do Senhor dos Anéis,
+Orc.
+Não, é isso mesmo.
+Pode ser.
+Não dá nada.
+Tem um...
+Deixa eu ver aqui.
+Para processar o ARC a partir de um
+JSON, eu preciso gravar em disco ou
+existe algum método?
+Uso o ARC aqui no Hive diariamente.
+JSON não, mas sempre vamos saber.
+É, então, nesse caso, não.
+É isso mesmo.
+Recebe o dado em formato qualquer,
+carrega para o Spark, escreve ele no
+ARC.
+E aí ele fica disponível para o Hive
+para você
+acessar.
+Beleza.
+Tem muitos arquivos hoje em parquê com
+JSON dentro de colunas em formato
+string.
+Acabo fazendo em um from JSON.
+Acredito que isso deve ser oneoso para
+Spark tratativa.
+Tem alguma boa prática?
+Rapaz, não tem uma boa prática, não.
+Tem uma maravilhosa prática.
+A gente vai ouvir falar...
+Eu vou guardar para você, mas a gente
+vai ouvir falar do Variant.
+É um novo tipo disponível no Delta Lake
+e no Spark 4 .0.
+Você vai ter um formato Variant, que é
+otimizado para isso.
+Ele reduz somente 50 % de performance em
+cima desses carros.
+Tá?
+Muito legal.
+Inclusive, a gente vai dar umas
+olhadinhas desse cara no Spark 4 .0 em
+preview se a gente conseguir.
+Se eu conseguir ter tempo ali de
+preparar demos, a gente vê Spark 4 .0.
+Então, ele vai estar disponível no Spark
+4 .0 Variant.
+Então, para esse tipo de problema seu
+aí, vai voar
+maravilhosamente.
+Beleza.
+Mas aqui a gente está no treinamento de
+internos.
+Então, a gente precisa dissecar por que
+que o Spark ama o parquê e vice e versa,
+né?
+Basta eu já começar falando que existem
+métodos específicos dentro da abstração
+do Spark para o Spark Catalyst Optimizer
+vinculado ao parquê.
+Então, dentro do código base, fonte do
+Spark, você tem ali o Catalyst Optimizer
+que faz todo o planejamento, enfim, e
+ele tem, cara, um módulo de parquê
+extremamente bem escrito.
+Então, cara, é o melhor de longe, de
+todos os arquivos, hoje, escritos, é o
+método de parquê, que é o mais complexo.
+Aí ele utiliza diversas características,
+diversas coisas para poder fazer, tá?
+Então, imagina o seguinte.
+Imagina que você tem um modelo de dados,
+né?
+Então, você tem ali coluna ID, coluna
+nome e idade, beleza?
+Na época eu tinha 34 anos, eu já estou
+com 36.
+E aí, o que que a gente tem?
+A gente tem duas formas, né?
+A gente pode ter o dado tanto em forma
+linha, né?
+Então, o dado vai ser armazenado em
+linha, quanto o dado pode ser armazenado
+em coluna.
+Veja que ele está vinculado à coluna,
+né?
+Então, qual a diferença aqui?
+Basicamente o workload que você está.
+Se você está num sistema OLAP, né?
+Se você está num sistema OLTP, por
+exemplo, então, o que você vai ter
+melhor aqui no caso é utilizar Co
+-Oriented, provavelmente, que é Online
+Transactional Processing.
+Vai ser muito mais eficiente você fazer
+consultas que tragam poucos dados e que
+te tragam o máximo de informações no
+Select, para você preencher os seus
+frames, para você preencher as suas
+aplicações e assim por diante.
+Do outro lado da moeda, quando você
+precisa de sistemas analíticos, de fazer
+queries analíticas, aí você precisa de
+um sistema OLAP, que é Online Analytical
+Processing.
+Aí sim, a query, o footprint de query
+aqui é totalmente diferente.
+Do footprint de query do role é
+Oriented.
+Por quê?
+Porque aqui, nesse caso, a gente tem o
+quê?
+O dado organizado, endereçado,
+compactado em segmentos dentro dos
+arquivos e ele é otimizado para acessar
+colunas específicas.
+Então, lembrem disso.
+Então, o sistema colunar, ele é super
+otimizado em dois pontos.
+Primeiro, a compressão de um sistema
+colunar é absurda, tá?
+E aí, eu vou só entrar um pouquinho
+nisso, porque eu gosto de falar dessa
+compressão para vocês entenderem.
+Pensa no seguinte, vamos supor que você
+tem um algoritmo de compressão e aí o
+algoritmo de compressão olhou para uma
+linha aqui e ele falou o seguinte, ah,
+legal, tem um Luan Moreno, 34, dois
+Matheus, 35.
+O que que eu tenho de comum aqui, né?
+Uma das formas de você comprimir é por
+um dicionário de dados.
+Então, você fala cara, três, tá?
+Ele tem ocorrência três aqui, aparece o
+quê?
+Uma vez, duas vezes aqui, então vamos
+falar que esse cara é 0x001.
+Vamos falar mais o quê?
+Vamos ver que a letra A aqui, ela
+aparece duas vezes, então ela é 0x003,
+3, 2.
+E ele vai criando um dicionário de
+catálogo que na hora que você acessa
+esse dado, ele consegue fazer várias
+instruções.
+Só que veja que a compressão é muito
+difícil de você conseguir por quê?
+Porque você está em linha, então você
+não consegue ter similaridades.
+Agora, velho, olha isso aqui.
+Se você for fazer isso aqui, dentro de
+uma coluna, se eu for acessar somente
+uma coluna que tem todos os IDs do
+usuário, qual a possibilidade de eu
+conseguir achar dados repetidos ali
+dentro?
+São gigantescos, só nome, só idade, só
+CPF.
+Então, o dicionário de compressão, ele é
+muito mais eficiente, tá?
+Muito mais eficiente.
+Então, por vários motivos, sistemas
+analíticos se comportam e sempre são
+colunares, por causa disso.
+Então, basicamente, por que o Spark?
+Funciona de forma perfeita com o
+Parquet.
+Porque, na verdade, ele possui métodos
+estruturados bem definidos.
+Então, olha só que legal.
+Dentro do Parquet, você tem um
+dicionário de dados.
+E, geralmente, a divisão de grupos do
+Parquet, ela acontece de 128 a 128
+megas.
+Olha que interessante.
+Alguém sabe por quê?
+Porque o block size do Hadoop é 128
+megas.
+Então, todos os sistemas que você vê,
+S3, Blob Storage, Google Cloud Storage,
+enfim, eles utilizam um bloco de divisão
+de 64 ou 128 megas.
+Por padrão, é 128 megas.
+Por isso que o alinhamento do arquivo,
+junto com o alinhamento do Storage,
+junto com o alinhamento do Spark em
+relação à partição, é 128.
+E ele funciona melhor com 128.
+Essa é a melhor prática.
+Beleza?
+Então, o Parquet, automaticamente, ele
+vai dividir, ele vai dividir, ele vai
+dividir, ele vai dividir, ele vai
+dividir, ele vai dividir.
+Ele vai dividir os seus dados com os
+esquemas embedados dele de 128 e 128
+megas.
+E daí você tem aqui toda a parte de
+acesso do Catalyst Optimizer para
+escanear esse RDD, para construir os
+Partition Values.
+Esses são os métodos que são chamados
+dentro do Spark Catalyst que eu trouxe
+para vocês.
+E Vectorize Parquet Record Reader.
+Então, ele vetoriza esse cara e coloca
+em memória.
+Então, ele utiliza esses três steps.
+Para carregar as partições para dentro
+do Spark.
+Então, esse cara é o que, de fato,
+funciona melhor integrado com o Spark.
+E aí, o que eu quero mostrar para vocês?
+Vamos ver uma demo sobre isso.
+Então, vamos lá.
+Vamos ver nossa demo que é Rides .json e
+Rides .parquet.
+Então, vamos lá.
+Vamos falar, vamos se animar aí.
+Vamos se animar que a gente vai ver
+muita coisa.
+Legal aqui, tá?
+Então, a primeira coisa que eu vou
+mostrar para vocês é o seguinte.
+Eu vou aqui no meu Storage.
+Então, a gente vai...
+Eu vou explicar isso com mais detalhes
+para vocês ao longo do treinamento.
+Mas esse cara aqui, para quem não
+conhece, é um MinIO.
+O que ele é?
+Ele é um Object Storage, assim como
+HDFS, como S3, como Google Cloud Storage
+e Blob Storage.
+Só que ele é dentro do Kubernetes.
+Então, você pode instalar esse cara open
+source dentro do Kubernetes.
+E a parte mais linda dele é que ele te
+expõe protocolos S3.
+Então, para o Spark, você está acessando
+S3.
+É como se você estivesse acessando o
+Amazon S3.
+Mas, na verdade, você está acessando
+esse cara aqui.
+Então, ele trabalha com o protocolo S3A,
+mas funciona transparentemente para as
+aplicações que entendem que são...
+que se comunicam com S3.
+Então, aqui você tem a mesma ideia de um
+Data Lake.
+É exatamente a mesma coisa.
+Então, aqui eu tenho a Lending Zone.
+Então, se você entrar no meu Lending
+Zone aqui, eu tenho algumas informações.
+Dentro de MongoDB aqui, eu tenho uma
+pasta de corridas.
+E vejam que eu tenho os arquivos em
+JSON.
+Olha, Small Files Problem.
+Eu tenho arquivos pequenininhos.
+Isso é padrão do dia a dia.
+Isso é um caso real.
+Como eu também tenho esses mesmos
+arquivos em Parquet.
+Então, o que eu fiz aqui?
+Na verdade, eu gerei 188 arquivos JSON
+de usuário.
+Com usuários diferentes, de corridas
+diferentes, enfim.
+E gerei 180 arquivos Parquet do mesmo
+cara.
+Vejam já aqui que só olhar pro arquivo,
+você tem 34 .9 Kbytes escritos contra
+18.
+A gente tá falando de metade, tá?
+Só de cara, por eu escrever o mesmo
+dado.
+Então, se eu tô escrevendo em vez de
+JSON, tô escrevendo esse cara em
+Parquet, eu já tenho quase 50 % de cut,
+de
+storage.
+Beleza?
+Então, a gente já começa por aí.
+É verdade, mas acontece muito
+normalmente.
+Então, o que a gente vai ver aqui?
+A gente vai, basicamente, nessa
+aplicação, nós iremos acessar o Data
+Lake.
+Então, aqui na minha máquina, a gente
+vai acessar o Data Lake lá.
+Então, aqui eu estou passando as
+configurações no Spark Session.
+Na sessão do Spark, pra acessar esse
+cara aqui.
+Então, eu tô passando aqui por padrão
+Qual é o Max Partition Bytes?
+128 MB, que é o padrão que a gente viu
+ontem.
+Aqui eu tô passando as informações de
+acesso do S3, do Endpoint, do Access Key
+e do Secret Key.
+Você pode colocar isso aqui no
+Environment Variable.
+Tá sem problema.
+Aqui algumas configurações de como você
+trabalha com o dado, como você traz ele.
+São as configurações do S3.
+Aqui é a extensão pra você conseguir
+acessar o sistema.
+E aqui, Delta, caso a gente consiga,
+caso a gente queira utilizar.
+Então, o que eu vou fazer aqui, gente?
+Eu vou simplesmente, tá?
+Quero ver qual é esse cara aqui.
+Então, S3, a Landing com MongoDB Writes
+.json.
+É exatamente o lugar lá que eu tava
+mostrando pra vocês.
+Writes .json.
+Então, eu tô entrando aqui dentro.
+Beleza?
+O que eu vou fazer?
+Eu vou ler esses arquivos.
+E simplesmente eu vou falar qual é a
+quantidade de partições.
+É só isso que eu vou fazer.
+Então, o que que eu tô fazendo?
+Eu tô acessando o sistema, tô vendo como
+o Spark vai trazer essas informações e
+eu vou cuspir esse dado lá no final.
+Então, vamos rodar essa consulta aqui
+pra gente ver.
+Então, vamos lá.
+O que que vocês acham que vão acontecer
+aqui?
+Nós temos em média, e aí eu vou fazer
+essa query pra vocês aqui.
+Se eu consultar, eu tô acessando, o meu
+data lake lá e contando a quantidade de
+arquivos que eu tenho.
+Então, eu tenho cento e oitenta e oito
+arquivos de aproximadamente trinta e
+quatro ponto oito kbytes.
+Aí, exatamente, Eduardo.
+Vamos lá.
+Agora a gente vai falar dos números de
+partições versus blá, blá, blá, blá,
+blá.
+Certo?
+Então, vamos lá.
+O que que vocês acham aqui de partição?
+O que que o Spark fez?
+Vamos ver o que que ele fez?
+Vamos ver qual o mecanismo que ele
+utilizou.
+Então, se eu vier aqui, número de
+partitions, vamos ver quantos números de
+partitions ele estimou?
+Olha, ele estimou seis.
+Então, ele colocou os arquivos JSON em
+seis partições.
+Ele escolheu heuristicamente, baseado no
+plano de execução, baseado em como ele
+acessou esse dado, na quantidade de
+threads que ele fez acesso, enfim.
+Ele dividiu esses caras em seis
+partições.
+Vejam que existe uma referência muito
+legal dessas seis partições com seis
+cores de CPU que a gente tem, seis
+slots.
+Então, existe uma relação heurística
+dentro do Spark Catalyst Optimizer sobre
+isso.
+Então, ele considera algumas
+configurações dependendo do que ele está
+fazendo.
+Então, alguns pontos legais aqui.
+Então, o block size, como eu falei, é
+128.
+A forma com que o split na partição
+acontece depende do formato de arquivo.
+Muito do formato de arquivo.
+Então, não é todas as vezes que ele vai
+colocar em seis partições se fosse um
+formato diferente de arquivo.
+Então, depende muito de qual é a fonte
+do arquivo que você está consultando.
+Depende também da quantidade de acesso a
+disco que você consegue fazer naquele
+momento.
+Depende da característica do seu
+storage.
+Então, depende de alguns fatores.
+Não é somente o formato do arquivo.
+Então, o que vai acontecer aqui?
+O partition size vai tentar colocar
+esses dados em menores partições para
+reduzir o overhead.
+E ele vai tentar alinhar o default
+paralelismo com o sistema de heurística
+dele.
+Então, ele vai tentar fazer o que?
+Pegar o número 2 e multiplicar pela
+quantidade de cores normalmente.
+Então, como a gente tem ali três caras,
+cada um com dois cores, a gente tem um
+total de seis cores.
+Então, o que ele conseguiu fazer aqui
+muito bem é falar o seguinte.
+Olha, eu consegui, nesse caso aqui,
+colocar todos os arquivos em seis
+partições.
+Beleza.
+Só que seis partições não é a melhor
+forma para a gente.
+Por que não é a melhor forma para a
+gente?
+Porque aqui nós estaríamos, o que?
+Cores que não estão sendo executados ao
+longo do tempo.
+Por que?
+Porque, na verdade, a partição ideal
+saudável para a gente seria seis cores
+vezes quatro.
+Ou seja, vinte e quatro partições.
+Seria o melhor dos mundos para essa
+minha configuração de cluster.
+É ter vinte e quatro partições.
+Então, o que a gente vai fazer aqui?
+Eu não vou mexer em nada, mas,
+basicamente, o que eu vou mostrar para
+vocês é que a gente tem, se a gente for
+querer achar esses números, vamos supor
+que esses são arquivos constantes, está
+vendo?
+Concorda que é constante?
+Lembra lá que a gente falou de duas
+características.
+Quando que eu utilizo o max partition
+byte, eu brinco com ele.
+E quando que eu deixo de utilizar o max
+partition byte, na verdade, eu utilizo,
+por exemplo, o repartition.
+Então, por exemplo, nesse caso aqui, que
+a gente tem arquivos que são sempre dos
+mesmos tamanhos e sempre segue a mesma
+parte para esse processamento, eu
+poderia, por exemplo, mexer no max
+partition byte.
+Eu poderia diminuir esse cara, porque eu
+teria mais partições sendo criadas.
+Mas o que eu quero mostrar para vocês
+aqui não é isso.
+O que eu quero mostrar para vocês é o
+plano de execução que foi gerado e o que
+ele vai entregar.
+Então, no plano de execução aqui, o que
+a gente tem?
+A gente tem, olha só, listing leaf
+files.
+Olha o tanto de tempo que eu tenho por
+listar
+arquivos.
+Então, se você olhar aqui, 12 segundos
+do tempo total dessa aplicação foi
+listar os arquivos.
+Então, um dos pontos do small files
+problem não é, teoricamente, só o
+processamento e o skill e a quantidade
+de partições que você acaba tendo.
+Mas é, de fato, isso aqui.
+É quanto você está saturando o seu
+storage, então é importante você
+entender isso aqui.
+Eu passei 12 segundos para poder fazer
+esse listing.
+E aqui ele deixa muito claro para mim,
+nessa minha aplicação.
+Então, aqui dentro da aplicação, se você
+procurar por listing, ele fala, olha,
+estou fazendo a consulta na HDFS,
+listando os arquivos no diretório em
+paralelo e eu achei 188 paths.
+Os primeiros paths são o seguinte.
+Então, ele vai listando em chunks.
+Ah, listei 50.
+Beleza, coloque -se em uma partição.
+Listei mais 30.
+Bota em outra partição.
+Listei mais 15.
+Bota em outra partição.
+E assim por diante.
+Então, ele vai listando e colocando
+essas informações dentro da partição.
+Só que o listing é uma operação cara por
+si próprio.
+Então, se a gente vem aqui e observa o
+que aconteceu, olha só que interessante.
+Nós escaneamos 18 .800 registros no
+total.
+Nós lemos 188 arquivos.
+E passamos 2 milissegundos para
+consultar metadados e o tamanho total
+que nós lemos foi 6 .4 megas.
+Beleza?
+Bem, agora vamos para o exemplo do
+parquê.
+Seguindo a mesma lógica e a mesma ideia.
+A única coisa que eu vou fazer agora é
+em vez de eu consultar JSON, em vez de
+eu consultar esse cara aqui que está em
+JSON, eu vou consultar o mesmo arquivo,
+o mesmo dado, só que ele foi convertido
+antes de eu processar ele, em que?
+Em parquê.
+Então, o que eu fiz na verdade?
+Eu recebi o dado na landing zone, eu
+peguei esse dado, eu utilizei o Spark
+para ler esses dados em JSON e escrever
+ali em um outro diretório, por exemplo,
+em parquê, e eu vou acessar essas
+informações agora.
+Então, eu vou acessar esses arquivos
+parquê que são os mesmos 188 arquivos.
+Então, se a gente vier aqui, vou mostrar
+para vocês que eu tenho 188 arquivos.
+188 arquivos também.
+Então, eu tenho tantos 188 arquivos no
+JSON quanto eu tenho 128 arquivos aqui.
+Bem, Luan, qual vai ser a diferença?
+Eu simplesmente vou executar essa
+aplicação agora, tá?
+Então, vou executar ela e vamos ver
+quanto tempo ela vai demorar
+para executar.
+Então, aqui nós tivemos a aplicação
+demorando um total
+de 52 segundos.
+Vamos ver quanto tempo agora eu passo a
+utilizar o
+parquê.
+Lembrando que eu só mudei o formato de
+arquivo, tá?
+Eu saí de um arquivo text -based para um
+formato parquê, que é um modelo colunar.
+Eu não fiz mais nada além disso.
+Beleza?
+Deixa ele terminar.
+Ele já está acabando já, acredito.
+Beleza.
+Acabou.
+Então, provavelmente, você vai ver um
+tempo similar.
+A diferença não é muito grande, né?
+Só que olha só isso aqui que eu quero
+mostrar para vocês.
+Então, quando você olha para esse cara
+aqui, você consegue identificar o
+seguinte.
+Eu tenho algumas operações a mais que
+aconteceram aqui, que não aconteceram
+aqui, mas eu quero mostrar para vocês a
+comparação dos scans.
+Olha só.
+Aqui eu tive número de arquivos 188, só
+que em vez de ter 6 .5, eu tenho 3 .5
+megas de dados.
+Ou seja, olhando ao exemplo anterior,
+que era 6 .4 megas em JSON e 3 .5 megas
+em Parquet, você está falando de uma
+redução de 45%, cara, no que você está
+trazendo para o Spark.
+Você tem noção do que eu estou falando?
+Então, assim, você está vendo o mega.
+Imagina 100 gigas.
+Na verdade, não são 100 gigas que você
+vai carregar.
+Vão ser o quê?
+50 gigas.
+Porque o processo de redução é quase 50
+% para carregar o dado.
+E lembrem, eu não estou fazendo nada.
+Eu só mudei o formato de arquivo.
+Beleza?
+Luan, às vezes para montar um Spark
+Session, eu tenho dificuldade de setar
+configurações e também colocar os
+packages no Spark Submit.
+É melhor colocar os packages para baixar
+durante a execução ou deixar os jars na
+imagem?
+Deixa os jars na imagem.
+Eu realmente deixo esses caras buildados
+já na imagem porque todo mundo que
+consumir desse cara, ele não precisa
+ficar setando as informações nível
+sessão.
+Ele já tem subido o dado.
+Então, eu prefiro sempre mudar.
+O Eduardo também deixou uma coisa legal.
+Utilizar o Python Path também para usar
+é bem legal.
+Beleza?
+O que vocês acharam?
+Legal?
+Sabiam disso?
+Que só por mudar, realmente vendo isso,
+a gente tem uma quantidade muito menor
+de acesso a dado.
+Ou seja, chega a ser de novo, quase 50 %
+a menos.
+Em termos de execução de jobs, por que a
+diferença de tempo não foi diferente?
+Porque a gente está falando de uma massa
+muito pequena de dados.
+Basicamente por isso.
+Se a gente tivesse aqui multiplicado
+vezes 100, por exemplo, se a gente
+tivesse um ambiente extremamente
+gigantesco, você teria exatamente a
+metade de tempo ou um pouquinho menos do
+que isso.
+Então, por isso que você não viu a
+relação desse tempo.
+Mas você já consegue ver exatamente a
+relação de tamanho, de proporção e
+tamanho.
+Então, se a gente tem aqui uma redução
+de 45%, você pode pensar exatamente no
+cenário que eu falei.
+Você tem 5 gigas de dados para carregar
+e você vai optar, por exemplo, em fazer
+em JSON ou fazer em Parquet.
+Se possivelmente, só por ter em Parquet,
+você vai reduzir 40 % a 50 % de custo em
+cima disso.
+Além do que o Lucas falou da redução do
+storage, de realmente, de fato, que vai
+ser absurdo para você.
+Então, por isso que a gente evita
+utilizar JSONs.
+Ficou claro isso aqui, gente, para
+vocês?
+Falem para mim aí.
+Claro?
+Beleza.
+Então, são 8h40, vamos dar uma pausa
+para a gente poder comer alguma coisa ou
+dar um break no banheiro e assim por
+diante.
+A gente volta 9 horas, beleza?
+Então, são 8h40, 20 minutinhos aí para a
+gente poder voltar.
+Já é?

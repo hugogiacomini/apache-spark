@@ -1,0 +1,4626 @@
+Bem, gente, boa noite.
+Estamos agora no nosso último dia de
+treinamento do Mastering de Apache
+Spark.
+Hoje a gente vai falar do último
+componente que falta para a gente, que é
+a formação de Lakehouse e como a gente
+consegue fazer deployments em
+Kubernetes.
+E aqui é uma coisa muito legal, porque
+vocês vão ver, muita gente talvez não
+conheça, vocês vão ver o sistema de
+Kubernetes funcionando com o Spark, como
+eles funcionam lindamente juntos, e não
+só isso.
+Em relação à utilização de recursos, o
+quão usa menos e o quão rápido é se
+trabalhar com streaming e batch dentro
+do Kubernetes.
+Então, vai ser uma das coisas que a
+gente nunca mostrou antes.
+E tem algumas cerejas do bolo que eu
+trouxe para vocês aqui, para mostrar
+como que a gente faz aqui, quando a
+gente está literalmente trabalhando com
+o Production Grading Ready, quando a
+gente está literalmente trabalhando com
+esse cara.
+Beleza?
+Então, vamos passar por algumas...
+uns conceitos aqui, e aí a gente vai
+entrar nas demos no momento em que eu
+for passando esses caras com vocês.
+E utilizem hoje, sexta -feira, para
+poder perguntar bastante.
+Lembrando que a gente vai tentar acabar
+ali entre as 10 horas, tá?
+Para poder todo mundo descansar um
+pouquinho.
+A gente vai direto hoje, beleza?
+Então, a gente tem três horas aí de pura
+diversão.
+Beleza?
+Então, vamos lá.
+O que eu quero falar aqui rapidinho, que
+provavelmente vocês já estejam cansados
+de ver, treinamentos nossos, enfim, é o
+conceito de Data Lake e Lake House, né?
+Mas, basicamente, mostrar a figura do
+que é o Lake House como um todo,
+integrado com o Data Lake.
+E é importante a gente ter essa visão
+aqui, porque isso aqui mostra, por
+exemplo, o que a gente vem falando em
+todos esses últimos dias, né?
+Eu tentei segurar o máximo de delta para
+vocês, porque se eu adicionasse delta no
+primeiro dia, muitas coisas e conceitos
+que a gente aprendeu e identificou, por
+exemplo, não ficariam muito bem
+explicados.
+E, além disso, não são todos os
+ambientes, por exemplo, hoje, ou
+ambientes legados, enfim, que você tem
+delta.
+Mas, você sabe que uma hora que você
+adicione delta no seu ambiente, ou um
+formato de Lake House, você vai ter
+ganhos expressivos em relação à
+performance, não ter habilidade do
+código, melhoria de entrega e por aí
+vai, tá?
+Mas, basicamente, os dados continuam
+caindo no Data Lake e a gente faz o quê?
+Ou nós trazemos esse dado da Link, e
+colocamos como tabela, que a gente chama
+de Open Table Format, que são tabelas
+julgadas, conjugadas ali com o arquivo,
+né?
+E a gente sabe, por exemplo, que Lake
+House escreve em parquê, ou seja, eles
+escrevem em formatos otimizados para Big
+Data, beleza?
+Então, a gente já sabe disso também.
+E, consequentemente, uma vez esse dado
+compartilhado no Lake House, nós temos
+aí essas informações integres, entregues
+para todos.
+Os usuários, né?
+E uma das coisas legais de Data Lake
+contra Data Lake House é que,
+basicamente, se alguém aqui já tentou
+fazer streaming em Data Lake, viu que
+isso é muito mais complexo e que
+realmente se promete ter, mas, de fato,
+não acontece.
+Mas que a gente viu que com o Lake House
+hoje é possível.
+Então, hoje, quando a gente fala de
+arquitetura e de entrega de soluções de
+analytics, nós acabamos ficando em duas
+arquiteturas.
+Ou a gente utiliza a arquitetura, ou a
+gente utiliza a arquitetura Modern Data
+Stack.
+E cada uma delas vai ter seu pró e
+contra.
+Se você utiliza Spark, mais normalmente
+você vai utilizar Spark com Lake House.
+E quando você fala de Modern Data
+Warehouse, de Modern Data Stack, você
+vai utilizar algum Data Warehouse e,
+além disso, um cara em cima dele para
+ser o seu Rapid Query, por exemplo, um
+DBT.
+A minha pergunta para vocês é, olhando
+hoje, no cenário atual de hoje, o que
+vocês acham que tem a tendência de durar
+e de realmente ser colocado como, de
+facto, de implementação?
+Vocês acreditam que a Modern Data Stack,
+com ainda a ideia de Data Warehouse
+moderno, ou definitivamente o Lake
+House?
+O que vocês acham?
+Eu vou falar a minha opinião para vocês.
+Isso aí é um moonshot.
+Eu acredito que disparadamente o Lake
+House.
+Eu vou falar por que eu acredito nisso.
+Porque o Lake House, além de ser aberto,
+ele desacopla o storage de computação.
+Então, isso faz com que agora nós
+possamos ter um conceito de Fair House,
+que eu vou explicar para vocês, vocês
+vão gostar disso aqui.
+É um conceito extremamente novo, que
+está lá fora, ainda nem chegou no
+Brasil.
+Então, a gente vai para um conceito de
+Fair House, onde você vai conseguir
+literalmente escolher qual a engine que
+você quer processar e qual o local que
+você quer armazenar os seus dados.
+E aí, a gente não vai ter mais esse
+conceito de Fair House, a gente vai ter
+esses dados proprietários guardados no
+Snowflake, esses dados proprietários
+guardados ali no Redshift, esses dados
+proprietários gravados no BigQuery.
+Claro que eles não vão deixar de
+existir, obviamente, são ferramentas
+excelentes, têm os seus casos de uso
+maravilhosos, mas eu acredito que para
+grande escala e de processamento,
+definitivamente o Lake House vai ser o
+standard.
+Eu não vou falar que ele é o de facto
+hoje, porque ele não é usado em todos os
+cenários, mas ele é standard com
+certeza.
+Ou você utiliza um Lake House, ou você
+utiliza um Modern Data Stack.
+Beleza, a gente já entende como o
+conceito de Lake House funciona.
+O que eu quero mostrar para vocês é para
+onde nós estamos indo.
+Então, nós estamos vindo para cá, para o
+conceito de Fair House.
+Alguém aqui já ouviu falar desse carro?
+Beleza, então.
+O Jonathan falou o seguinte, acho que o
+Lake House traz sim muita vantagem, é
+uma abordagem moderna, mas acho que tem
+coisas que um banco relacional clássico
+ainda faz melhor, até porque você é
+muito...
+mais maduro.
+Sim, sentido.
+Faz sentido também.
+Então, o que é o Fair House?
+É onde a gente consegue combinar as
+necessidades dos usuários finais, tanto
+na parte de armazenamento, quanto na
+parte de query.
+Então, se a gente pegar aqui da
+esquerda, lembra lá nos nossos on
+-premises, nos TDWs, nos Traditional
+Data Warehouses, onde a gente tinha o
+quê?
+Eu vou até deixar anotado para vocês
+aqui.
+No Traditional Data Warehouse, nós
+tínhamos o quê aqui, né?
+Nós tínhamos on -premises, né?
+Então, geralmente, quando a gente falava
+de Traditional Data Warehouses,
+nós estávamos falando, com certeza, de
+ambientes on -premises, que divide a
+computação e o processamento,
+entretanto, é acoplado, né?
+Então, olha só aqui, a gente tem uma API
+de query, a gente tem uma engine de
+processamento, e a gente tem um storage
+que está acoplado a esses caras.
+Então, aqui, a gente tinha hardware
+extremamente caros e ultra
+-especializados, por exemplo, como
+Teradata e Netiza, e, cara, Traditional
+Data Warehouses foi um boom grande em
+2000, onde, basicamente, todo mundo que
+se falava de analytics ou de dados para
+análise, falava de se trabalhar com esse
+cara.
+Depois, nós tivemos o quê?
+Os Modern Data Warehouses, né?
+Que é, de fato, a mesma ideia de um
+Traditional Data Warehouse, com a
+diferença que é o seguinte, a gente
+ainda tem o storage, enfim, mas ele é um
+decoupled system, ele é um sistema
+desacoplado, tá?
+Na característica de que o storage e o
+processamento, eles não residem na mesma
+máquina, tá?
+E aí, ele foi construído para ter uma
+escalabilidade limitada.
+Por quê?
+Porque você pode, literalmente,
+desacoplar o seu dado.
+E isso é um ponto interessante, porque
+isso faz com que você possa ultra
+-especializar a sua indigência, tanto
+para armazenamento, quanto para
+processamento, beleza?
+E aí, cara, um dos caras que tomaram
+muita atração nisso, no Flake, Redshift,
+Google BigQuery e assim por diante.
+E aí, em 2020, a gente teve a revolução
+do Lake House, que foi exatamente trazer
+o melhor, né?
+A gente costuma falar que o Lake House é
+o melhor de todos os dados de data
+warehouse e data lake.
+Então, ele trouxe...
+Foi isso, né?
+As duas grandes sacadas aí, na minha
+opinião, foram essas.
+Unir, unificar o Data Warehouse e
+unificar o Data Lake.
+Então, trazer o melhor do que um data,
+do que o Modern Data Warehouse tem,
+como, por exemplo, transações
+distribuídas.
+Desculpa, transações ácidas e atômicas.
+E hoje a gente consegue fazer transações
+distribuídas também, de certa forma.
+E a gente trouxe também o melhor do Data
+Lake, por ser um ambiente barato.
+Então, aqui, o que a gente tem?
+Se a gente olhar de cima para baixo, nós
+temos as APIs de SQL.
+Então, você tem, cara, Beam SQL, Sans
+SQL, Spark
+SQL, DuckDB, Dranion, Snowflake e por aí
+vai, tá?
+Esses caras possuem suas engines de
+interpolação, que são as Query Engines.
+E as Query Engines consultam o quê?
+Um Data Lake House, que está no formato,
+hoje ainda, não vou dizer proprietário,
+porque eles são open source, mas eles
+têm formatos diferentes.
+Então, o Apache Iceberg se comporta de
+uma forma, o Apache Root se comporta de
+outra, e o Data Lake se comporta de
+outra.
+O que faz ficar bem difícil para quando
+a gente está montando esse tech dentro
+do Lake House, para ser bem honesto.
+Porque eu tenho que olhar para toda essa
+face de integrações, todas as
+necessidades, saber, cara, para esse seu
+ambiente aqui, a gente vai de iceberg.
+Porque você utiliza essas ferramentas e
+possui uma integração muito melhor com
+essas ferramentas do que, por exemplo,
+com Delta.
+Então, você ainda tem esse trabalho
+hoje.
+E, claro, que para poder armazenar esses
+metadados, a gente vai ver, por exemplo,
+que uma das grandes características do
+Lake House é o desacoplamento da tabela
+com o metadado dele.
+Então, a ideia é você tentar, ao longo
+desses anos, conseguir escolher o quê?
+Um formato independente.
+E para onde a gente acredita que a gente
+está indo?
+A gente está indo para o conceito de
+Fair House.
+Onde a gente vai ter, não só o melhor
+dos mundos, como Data Warehouse e Data
+Lake, mas a gente vai ter um local
+aberto, totalmente aberto.
+Aonde, aqui, nós não estejamos mais
+falando, por exemplo, de qual formato eu
+estou escrevendo, mas eu estou falando
+de Unified Data Open Able Format.
+Então, você está falando de um ambiente
+unificado, aonde, agora, a engenharia de
+computação ou a YMPI, que consulta essa
+informação, para ela, independente se
+ela é um RUDI, se ela é um Iceberg, se
+ela é um Delta Lake.
+A gente acredita que nós estamos indo
+para esse paradigma.
+O que confirmou mais ainda foi a
+aquisição da tabula pela Databricks,
+porque, exatamente aquilo que eu falei
+para vocês, o Ali Godzi, que é o CEO da
+Databricks, falou lá na conferência,
+cara, tem outros problemas que a gente
+quer resolver e eu não quero estar
+falando sobre eles.
+Então, eu estou falando para vocês de
+formato de arquivo daqui a dois, três
+anos.
+A ideia é que seja transparente.
+E a gente também tem um cara chamado
+Apache Xtable, que a gente vai falar um
+pouquinho aqui, que ajuda bastante
+nisso.
+Tem muita coisa acontecendo nesse
+espectro.
+Então, a gente vai chamar esse cara de
+stack de dados modular.
+Então, você vai conseguir mudar aqui um
+pedaço para outro, enfim.
+Eu estou curioso, Matheus, para daqui a
+dois, três anos, quando a galera ver o
+Fair House acontecer, eles viram esse
+conteúdo há muito tempo atrás.
+Então, esse é o caminho que a gente está
+indo.
+Vai ser interessante, daqui a dois, três
+anos, a gente voltar para falar sobre
+isso.
+Vai ser mesmo.
+Preparem -se, porque isso acontece com
+frequência.
+Beleza.
+E aí, a gente tem aqui o rise das
+engines genéricas.
+E é isso que a gente quer.
+A gente quer a novidade de conseguir
+integrar, entregar o dado para todo
+mundo no final das contas.
+Beleza.
+Dito isso, o que a gente vai...
+Onde a gente consegue chegar com isso?
+O que a gente pode falar?
+E como que isso tudo é segregado e
+dividido?
+Então, se a gente for pensar, por
+exemplo, em como sistemas de analytics
+são desenhados, e essa imagem aqui
+mostra muito bem isso, a gente está
+falando hoje, atualmente, de quatro,
+três grandes camadas e outras três
+camadas um pouco mais superficiais.
+Seguindo a mesma ideia que a gente tem
+ali, pensa no seguinte.
+O dado está, de fato, armazenado num
+sistema distribuído.
+Então, ele pode estar, literalmente, em
+qualquer lugar, anywhere.
+Depois que esse dado é armazenado, ele
+tem um formato que está entrelaçado a
+esse armazenamento, ou ele é parquet, ou
+ele é ORC, ou ele é Avro.
+Eu não acredito que a gente vai ver
+outros tipos de arquivos open source nos
+próximos tempos.
+Eu acredito que todas as melhorias irão
+acontecer entre esses três.
+Eu realmente não sei como está a
+velocidade de atualização do Apache ORC,
+nem do Avro, mas eu sei que a Apache
+Parquet continua melhorando o seu
+codebase.
+Então, eu acredito que a gente não vai
+ter nenhuma surpresa em relação a isso.
+Aqui em cima, a gente vai para o quê?
+Para o Table Format, que, basicamente, o
+que ele faz?
+Ele é um metadado ali, ou seja, ele é
+uma interpolação de um conjunto de
+tabelas como um arquivo.
+Porque quando você faz um select, você
+bate no Table Format, mas o Table
+Format, na verdade, ele vai lá e busca
+as informações que estão dentro de um
+File Format.
+Então, é interessante como a gente
+consegue quebrar esses conceitos e
+entender aqui claramente o nível de
+responsabilidade de cada uma dessas
+características, desses boxes aqui.
+E claro que em cima, eu tenho um outro
+cara chamado Storage Engine, diferente
+do Storage, é um Engine de armazenamento
+que vai entender processos de
+manutenção, atualização de estrutura de
+dados, manutenção e assim por diante.
+Por exemplo, o Liquid Clustering, quando
+a gente pensa um pouquinho, ele está
+nesse conjunto de Storage Engine, que a
+gente vai ver que ele tem um processo de
+retroalimentação muito interessante.
+Depois, nós temos o Catálogo, com uma
+parte extremamente importante para
+qualquer Lake House, porque, de fato,
+uma das grandes características de um
+Lake House ser inteligente e ser capaz
+de escalar em terabyte scale é por causa
+do seu metadado.
+Então, hoje, a gente tem esse
+desacoplamento do dado e o metadado
+dentro do Table Format.
+Então, a ideia é que a gente continue
+crescendo ainda mais esses ecossistemas,
+existem vários outros tipos de catálogos
+chegando no mercado, tem catálogos por
+API e assim por diante.
+Então, a gente também vai ver muita
+coisa acontecendo nessa área aqui.
+E as Engines, né?
+E as Engines distribuídas que vão
+eventualmente conectar com esse formato
+de dados e conseguir entregar esse dado
+transparente para o usuário final.
+Até porque o grande objetivo é a gente o
+quê?
+Acelerar o negócio.
+Não ficar gastando tempo decidindo se
+Delta, Iceberg ou Root é melhor.
+Isso realmente tem que se tornar
+irrelevante dado o cenário de que a
+gente está aqui para resolver problemas
+de negócio, tá?
+Beleza.
+Dito isso, eu não vou gastar muito tempo
+aqui, mas eu trouxe um pouquinho para
+vocês de um pouquinho de Delta e um
+pouquinho de Iceberg, tá?
+Mas eu não vou passar muito tempo
+falando sobre eles porque isso a gente
+já tem em outros treinamentos, eu
+acredito que vocês também já saibam um
+pouquinho sobre esses caras, tá?
+Se existe alguma dúvida pontual sobre
+Iceberg e Delta, vocês podem me
+perguntar aqui que eu acho melhor
+responder.
+Eu quero focar em outros pedaços aqui.
+Mas basicamente, gente, o que eu quero
+mostrar é que no frigir dos ovos, no
+final do dia, a proposta é exatamente a
+mesma, tá?
+É a mesma proposta.
+Ou seja, qual é a proposta inicial de
+ambos?
+É entregar um ambiente unificado aonde
+você não consulte arquivos, você
+consulte um conceito tabela que é muito
+familiar para todo mundo que trabalha
+com tecnologia.
+E essas informações sejam consultadas de
+forma inteligente.
+Então, o Lake House nada mais é do que
+esse layer inteligente, ele trabalha com
+um metadado super inteligente para
+consultar essas informações que estão
+colocadas do storage, ou seja, do object
+storage.
+A grande dificuldade aqui é que quando a
+gente fala de feature, feature -wise,
+vamos comparar aqui Iceberg com Delta.
+Quais são os features?
+Que eles têm?
+Basicamente, hoje, eles possuem as
+mesmas quantidades de features, as
+mesmas capacidades, basicamente as
+mesmas capacidades, tá?
+Existe uma coisa ou outra interessante
+ali no Iceberg que não tem no Delta e
+vice -versa.
+Existem coisas no Delta que não existem
+no Iceberg.
+Por exemplo, no Iceberg nós temos a
+ideia de hidden partitioning.
+Então, automaticamente, quando você
+salva o metadado desacoplado, você tem
+um conjunto de arquivos de manifestos
+que conseguem fazer o layout dessa
+organização de dados de uma forma com
+que, quando você pesquisa, você tenha
+uma eficiência extrema para recuperar
+esse dado.
+Do outro lado da moeda, o Delta, por
+exemplo, possui o Uniform, que é o
+Universal Table Format.
+Então, você consegue, teoricamente,
+escrever em Delta e falar para essa
+tabela Delta o seguinte, olha, você para
+leitura não é Delta, você para leitura é
+Iceberg.
+Muito legal isso, né?
+Isso é muito fera, realmente.
+Então, isso é muito revolucionário o que
+está acontecendo no mercado agora.
+Então, o Delta foi, literalmente, o
+primeiro a trazer isso como
+componentização.
+Na verdade, a gente teve um projeto um
+pouquinho antes chamado One House, que
+virou Apache Xtable, mas para o mundo do
+ecossistema Delta, nós temos esse cara
+que faz isso hoje e a gente vai falar um
+pouquinho sobre ele.
+E, claro, quando a gente for navegar ali
+e fazer um zoom em cada um desses caras,
+a gente vai encontrar que existem
+algumas features interessantes.
+Por exemplo, o Change Data Feed no Delta
+Lake é muito interessante, no Iceberg
+você tem, como eu falei, Hidden
+Partitioning, você tem expressividade em
+SQL basicamente completa de fim a fim,
+você tem integrações com sistemas de Big
+Data muito bons e existe uma grande
+diferença, tá?
+É o seguinte, na minha opinião.
+Na minha opinião, não.
+O que é?
+E aí, por que o Delta comprou, de fato,
+o Iceberg?
+Comprou não o Iceberg, comprou a tabula,
+né?
+Que é o seguinte, aonde o Delta se
+destaca?
+O Delta se destaca em fazer com que
+fique extremamente fácil para quem
+consome desse dado.
+Por quê?
+Porque ele armazena o metadado, por mais
+que seja no storage, de certa forma ele
+está ali na mesma estrutura de
+inteligência do que o dado por si.
+Então, a gente vai ver, a gente vai
+analisar um Delta Log Table, para ver
+basicamente o que ele escreve, como que
+ele faz e assim por diante.
+Só que o Iceberg funciona um pouquinho
+diferente, ele tem literalmente uma
+profundidade no metadado.
+Então, quando você vai estudar metadado
+em Iceberg, você vai estudar metadado em
+Delta, cara, o Iceberg, ele confia
+demais no metadado, tá?
+E aí existe um motivo disso, por quê,
+tá?
+Delta, você pode ter tabelas de
+terabytes e vai funcionar decentemente,
+mas se você falar de grandes tabelas
+realmente, o Iceberg, ele faz um
+outperform em cima do Delta muito
+grande, por causa do seu nível e
+características de metadados que ele tem
+embedado dentro do sistema deles, tá?
+Inclusive, foi a Netflix que criou.
+Então, dado as características da
+Netflix, por exemplo, existem tabelas lá
+hoje que tem 7, 8, 9, 10 terabytes de
+dados, tá?
+E elas são consultáveis, tá?
+Você pode usar um engine de Python para
+consultar.
+Aí você, assim, como assim?
+Sim, a gente escutou isso.
+Inclusive, de uma das engenheiras de
+dados dentro da Netflix que nós
+entrevistamos, acho que é um ano, um ano
+e meio atrás.
+Inclusive, acho que vale, Matheus, a
+gente trazer ela de novo para a gente
+poder gravar algo novo com ela.
+É muito legal.
+A Mabel Shin.
+Sim.
+Beleza.
+Então, aqui eu deixei um pouquinho dos
+princípios de design que cada um tem,
+basicamente explicando isso que eu falei
+para vocês, né?
+Uma diferença importante aqui, notável,
+por exemplo, é essa ideia de partition
+evolution.
+Por exemplo, a evolução de
+partitionamento no Iceberg, ele
+literalmente é uma modificação do
+esquema.
+Ele não reescreve o dado.
+No Delta, isso pode acontecer.
+Você pode reescrever o dado por causa de
+uma mudança que você teve no metadado.
+Então, como eu falei para vocês,
+existem, né?
+Olhando de cima para baixo ali, olhando
+bem de longe, você vai ter a mesma
+proposta de entrega, tá?
+E aí, quando você dá um zoominho aqui,
+você vai dando, vai entrando nos
+detalhes de cada uma dessas ferramentas,
+você vai encontrando características bem
+diferentes em relação a como elas, de
+fato, implementam tudo isso, tá?
+Mas, o que a gente vai ver daqui para
+frente, é que esses caras vão ser
+unificados, né?
+Pelo próprio, eu não sei se vai
+continuar sendo Delta, eu não sei o que
+vai acontecer com Iceberg.
+Acho que Iceberg vai continuar sendo
+Iceberg.
+Eu realmente não sei o que vai acontecer
+ainda nesse espectro, tá?
+O que eu gostaria de ver, talvez, é que
+eles continuassem existindo e a gente
+tivesse um projeto completo.
+Eu pensasse que fizesse tudo isso
+transparente.
+É o que eu gostaria de ver.
+Eu acho mais interessante do que você
+acabar um projeto Iceberg ou fazer um re
+-branding desse cara no Delta.
+Então, vamos ver o que vai acontecer nos
+próximos anos nisso.
+Hoje é um hot topic e a gente realmente
+não sabe o que vai acontecer.
+Essa é a verdade, tá?
+E uma outra diferença, né?
+Que é importante vocês saberem, que é a
+seguinte.
+No Delta, nós escrevemos somente em
+Parquet.
+Não existe outra opção, tá?
+Enquanto no Iceberg, você tem a opção de
+escolher como você quer gravar os seus
+arquivos.
+Você pode gravar em Avro, Parquet e ORC.
+Então, ele também te traz uns outros use
+cases muito legais, principalmente para
+streaming, né?
+Então, por exemplo, numa tabela
+streaming, você pode habilitar o formato
+de arquivo ORC, tá?
+E também existem formas de escritas
+avançadas no Iceberg também, que são bem
+interessantes, tá?
+É o More Your Course.
+Então, ele vai te dar mudanças de como
+você quer escrever esse
+dado.
+Mas, no final do dia, ambos fazem a
+mesma coisa, né?
+Beleza.
+E aqui eu queria focar com vocês no
+Delta.
+Luan, por quê?
+Cara, se você está utilizando o
+ecossistema de Spark, eu ainda acredito
+que seja mais simples trabalhar com
+Delta, tá?
+Por mais que eu goste bastante do
+Iceberg, tá?
+Não achem que eu estou escolhendo entre
+um e outro.
+Mas, na perspectiva do Spark, olhando
+para o Spark, somente ele, pensando com
+ele, definitivamente, se eu tivesse
+escolhido, eu escolheria Delta sem
+pensar.
+Por vários fatores.
+Mas, o primeiro fator aqui é,
+basicamente, porque foi criado pelo time
+que desenvolveu o Spark.
+Então, ele foi, literalmente, criado nas
+mesmas ideias, noções, conceitos,
+desacoplamento com o Spark.
+Então, ele foi feito para se trabalhar
+100 % integrado com o Spark.
+Hoje, a gente oferece integração para
+todo o resto, justamente pela criação do
+Delta Kernel, que a gente já falou um
+pouquinho, que fez com que eles
+abstraíssem essa complexidade e
+quebrassem esse layer.
+Mas, eu acredito que o Delta, hoje, é a
+melhor proposta para você que trabalha
+somente com o Spark, por exemplo, tá?
+Talvez, quando você for construir uma
+stack fim a fim, e aí, dependendo das
+tecnologias que vão ser os seus
+downstream, ou seja, as pessoas que vão
+consumir o seu dado, aí,
+definitivamente, Delta não seja a melhor
+proposta para você.
+Definitivamente, Iceberg não.
+Eu espero que seja muito melhor para
+você, tá?
+Outra coisa legal que o Jonathan falou,
+sim, com certeza, o projeto Ness, eu já
+mostrei uma demo sobre ele.
+Você pode criar branches de dados.
+Então, cara, ele é excelente.
+É um produto open source.
+Ele também possui catálogo.
+Ele é muito legal de utilizar.
+Então, vale também a menção aí, vocês
+darem uma pesquisadinha depois.
+E aí, o que eu fiz?
+Eu fiz um trabalho de coletar tudo o que
+aconteceu desde o evento onde eu e o
+Matheus pudemos ter a oportunidade e ser
+lendário para a gente, Matheus.
+Nós estávamos no evento do Spark AI
+Summit Keynote.
+Na primeira fila, não foi na segunda,
+não, na primeira fila, o Matheus Zaharia
+estava aqui na minha frente.
+E, na verdade, eles falam que quem
+anunciou no Keynote foi o Ali Gutz.
+Errado.
+Quem anunciou o Delta Lake open source
+foi o Matheus Zaharia, tá?
+Nós estávamos lá.
+E, cara, foi muito emocionante quando
+ele fez isso para a Linux Foundation.
+Então, muito legal isso que aconteceu.
+E depois de que isso aconteceu, nós
+vimos aí diversas coisas acontecendo,
+interessantíssimas, tá?
+Esse projeto, ele já começa mais ou
+menos lá no Databricks em 2017, tá?
+Se em 2017 você fosse olhar ali o
+Databricks, você tinha ali write format,
+eu não me lembro, Databricks Delta
+preview, algo assim como True.
+E aí você podia, na verdade, escrever
+esse dado já no formato Delta, tá?
+Então, é legal ver isso acontecer.
+Eu tive o prazer de, cara, de lidar com
+as primeiras versões de Delta, ver ele
+sendo publicado como open source.
+E o que aconteceu depois disso foi
+absurdo, né?
+A gente está falando aí de, cara, desde
+que ele foi colocado como open source
+ali em meados, no final de 2019, cara, a
+gente começa a ver vários milestones
+aqui absurdos.
+Com coisas muito legais, né?
+Então, a gente já teve rapidamente a
+entrada de Change Data Feed, a gente
+teve também a entrada de ordenação
+inteligente no cluster, a gente teve
+também partition overwrite de
+inteligência, nós tivemos integrações
+com as novas versões do Spark, tivemos
+melhoria nas APIs de escrita, tivemos
+melhorias no mecanismo interno, tivemos
+também capacidade de converter dados de
+um lado para o outro, ou seja, se você
+tiver, vou dar um exemplo para vocês,
+outro ponto que não sei se todo mundo
+sabe disso, mas olha só, imagina que
+você tem uma pasta que fica caindo
+parquê, né?
+E aí você quer transformar esse cara
+para Delta, você tem um comando
+específico que vai fazer isso para você,
+que é o Converge to Delta, você não
+precisa carregar esse dado e, cara,
+enfim, ele vai fazer exatamente isso
+para você, ele vai pegar o seu parquê,
+ele vai olhar, vai criar os metadados
+necessários e vai transformar isso na
+tabela Delta para você, tá?
+Depois a gente teve a entrada do Merge
+Statement, que foi algo muito esperado,
+entretanto existia latência, porque
+Merge Statement é uma operação
+extremamente cara porque ele faz Insert,
+Update ou Delete, tá?
+E aí a gente começou a ver várias outras
+features acontecendo, por exemplo, Zero
+Copy para converter Delta de tabelas
+Iceberg, tivemos a ideia de Shallow
+Clone também, que segue um pouquinho da
+ideia do Snowflake, que faz isso muito
+legal, tá?
+Você tem o Clone e o Shallow Clone, você
+também tem melhorias ali, de performance
+e acesso nos subsistemas de arquivo,
+melhorias nos processos de Delete e
+assim por diante, por o Delta ser
+baseado em uma estrutura hierárquica
+também, assim como o Data Lake Storage
+Gentoo, e aí em 2023, lá em junho, foi
+lançado um cara chamado Delta Universal
+Format, mais conhecido como Uniform, né?
+E aí a ideia dele é com que você consiga
+transparentemente entregar entre
+interoperabilidades de tabelas
+diferentes.
+Então eu escrevo Delta e entrego ROOT,
+escrevo Delta e entrego Iceberg, ou
+seja, agora toda a stack de dados, todas
+as stacks de ferramentas que se conectam
+nessa tabela Delta, na verdade eles
+entendem protocolo Iceberg, tá?
+Por exemplo.
+Bom ponto, né?
+Se você não pode vencer seu inimigo, se
+junte a ele, isso aí é tipo Lesson 101,
+né?
+E também aqui em 2019, eles criaram a
+primeira ideia do Delta Kernel,
+realmente, tá?
+Que é o desacoplamento das APIs
+chamadas, enfim, para fazer com que a
+gente conseguisse trabalhar de forma
+mais aberta dentro do Delta.
+Depois a gente teve Deletion Vectors,
+que é uma coisa que está muito na moda,
+né?
+Então são características e formas
+inteligentes de como você pode escrever
+ou deletar dados de forma eficiente.
+E aqui a gente já teve, também teve a
+entrada do Liquid, o Liquid Vectors em
+Preview.
+Muita coisa aconteceu, e nós estamos
+agora em Junho, né?
+Em Junho 13, nós tivemos a release do
+Delta Lake 4 .0 .0 Preview.
+Então aqui você já tem suporte do Spark
+Connect com Delta, você tem Type
+Whitening, tá?
+Que é interessantíssimo.
+Você tem suporte para Variante, né?
+Que eu falei para vocês que é um formato
+que vai trabalhar com melhorias de
+arquivos sendo estruturados, por
+exemplo, no JSON.
+Você tem 30 % a 50 % de melhoria.
+E por último, algumas melhorias no
+Delta, assim como anteriormente tem tech
+para ROOD.
+Então hoje, teoricamente, você já
+consegue no Uniforme escrever e
+disponibilizar para um cliente ROOD ou
+para um cliente Iceberg, tá?
+Você já consegue fazer isso.
+Outra coisa que aconteceu legal aqui foi
+o Delta Uniforme com ROOD Support,
+contribuindo pela pasta Xtable, tá?
+Então, esse projeto eu espero que ele
+ganhe muita atração nos próximos anos.
+Então, basicamente, o que é o Uniforme?
+O Uniforme nada mais é do que, como eu
+falei para vocês aqui, você tem diversos
+clientes, isso é muito chato para a
+perspectiva de realmente ter que
+escolher qual stack que vai se encaixar
+melhor.
+Mas o que eles possuem em comum, eles
+possuem metadados e eles possuem dados.
+E o dado sempre está escrito em Parquet,
+por exemplo.
+Então, o que você pode fazer é unir
+essas informações e criar um formato
+único de arquivo que é a ideia do Delta
+Uniforme, tá?
+Me preocupa a Databricks ter parado de
+doar produtos novos para Apache, além de
+mesclar open -source com proprietários,
+por exemplo, Photon.
+Faz sentido?
+Esse movimento Terraform, Redis, enfim,
+me preocupa.
+Não me preocupa, Jonathan.
+Eu vou falar para você por quê.
+Porque quando eu olho, e para eu tomar
+uma decisão dessa mentalmente para
+responder para você, eu olho muito o que
+aconteceu nos últimos anos.
+A Databricks sempre foi uma empresa que
+delegou e que sempre teve esse discurso
+de open -source.
+Só que uma coisa é você falar que você
+faz alguma coisa open -source.
+Outra coisa é, de fato, você fazer.
+Então, por exemplo, quando a gente olha
+essas iniciativas, teve um momento em
+que a Databricks tentou fazer exatamente
+isso que você falou.
+Ela tentou ser totalmente proprietária
+em termos de feature, né?
+Então, por exemplo, não sei se vocês
+lembram disso, mas o que aconteceu?
+O Delta, cara, era the key on the block,
+the new key on the block.
+Todo mundo amava o Delta, o Delta era
+foda, não sei o quê.
+E aí, o que começou a fazer?
+A Databricks viu esse potencial, caraca,
+deu muito certo, foda, o que eu vou
+fazer?
+Eu vou continuar entregando open
+-source, só que eu vou entregar algumas
+formas, algumas coisas out -of -the -box
+disponíveis no Databricks e outras
+coisas não disponíveis no Databricks.
+E aí, isso começou a acontecer, isso
+começou a gerar burburismo, começou a
+gerar exatamente isso que você está
+falando, fricção e um pouco desse
+sentimento de que, cara, vocês estão
+mudando um pouquinho a estratégia.
+E tudo bem, eu entendo até aí, porque a
+empresa precisa ganhar de alguma forma,
+até aí eu entendo.
+Só que foi maravilhoso que aconteceu
+posteriormente a isso.
+O que aconteceu?
+Bem, o Iceberg nasceu com...
+Não vou falar que nasceu, já existia há
+um tempo, mas ele começou a ganhar muita
+atração por causa disso.
+As pessoas começaram a olhar mais para o
+Iceberg, começaram a integrar mais os
+produtos dela com o Iceberg, porque,
+cara, tinham medo desse Delta
+proprietário.
+E aí, cara, o Iceberg nos últimos 2, 3
+anos, ele tracionou num nível tão
+absurdo que ele estava fazendo o
+overtaking do Delta.
+Então, eu já via clientes hoje nem
+falando de Delta, principalmente no
+ambiente de Microsoft, que a gente não
+tinha muito Iceberg, por exemplo, a
+gente começou a ver a entrada de Delta,
+então a gente começou a crescer essa
+face de possibilidades.
+E aí, o que aconteceu?
+A Databricks foi lá e abriu o codebase
+do Delta 100 % dele.
+Então, basicamente, você tem tudo.
+Aí, o que eles fizeram?
+Bem, eu vou abrir, então eu vou ter o
+Spark totalmente open source, eu vou ter
+o Delta Lake open source, eu tenho agora
+o Unity Catalog open source, e realmente
+eles vão melhorar esse projeto, vocês
+podem ter certeza disso, baseado nessas
+evoluções anteriores.
+Só que teve uma sacada muito frágil,
+muito foda que eles tiveram.
+Cara, beleza, então a gente não pode
+locar os clientes, forçar eles de uma
+certa forma de ter algo freemium, um
+pedaço que você paga e outro não.
+Então, o que a gente vai fazer?
+A gente vai desenvolver uma engine
+nossa, e ali dentro, sim, ela vai ser
+proprietária.
+Ela vai ler tudo o que é open source,
+ela vai tracionar o que é open source,
+ela vai continuar entregando a mesma
+ideia, mas ela vai ter características
+específicas, e ao longo dos anos a gente
+vai ver que essa engine, ela vai se
+sobrepor ao Spark como um todo.
+Então é exatamente isso que está
+acontecendo com a Photon Engine.
+E faz muito sentido eles seguirem esse
+approach, porque eles precisam se
+especializar realmente.
+E aí também com as entradas da Nvidia,
+enfim, do que está acontecendo, vai ser
+muito legal de ver isso rolando
+realmente.
+Bem, na camada open source, valeu,
+Joana, olhando um pouquinho na camada
+open source, essa é a vantagem de ser
+velho, né?
+A gente passa por um bocado de coisa.
+Então a gente tem esse cara chamado
+Apache Xtable.
+Então olha só que legal.
+Ele é open source, antigamente a gente
+não tinha esse projeto, ele foi doado
+para Apache.
+Ele está incubando e foi renomeado, ele
+era One Table, e foi realmente renomeado
+para Apache Xtable, de
+interoperabilidade, né?
+Então ele performa em todos os lados.
+E esse projeto é muito legal, me faz
+muito feliz ver isso, porque é de fato a
+comunidade mostrando a força de se ter
+isso totalmente independente, né?
+Então o que ele faz?
+Ele faz interoperabilidade entre
+tabelas, entre Open Table Formats, que
+se chama de OTF, Open Table Formats,
+Hudi, Delta e Iceberg.
+Então o que você faz?
+Você escolhe qual é a fonte que você
+está escrevendo o dado.
+Então vamos supor que você está
+escrevendo em Delta.
+Você fala qual é o destino dela.
+Então, cara, eu estou escrevendo em
+Delta, o meu escritor está escrevendo em
+Delta, mas o meu leitor está lendo, por
+exemplo, em Iceberg.
+E o que ele faz automaticamente, ele
+traduz o metadado para a gente, a fim de
+que tudo o que está acontecendo desse
+lado seja um formato, e tudo o que está
+acontecendo do outro lado seja um outro
+formato na perspectiva de quem escreve e
+na perspectiva de quem consome, tá?
+Então ele tem essa ideia de
+omnidirectional.
+E aí uma coisa muito foda aqui é o
+seguinte, ele não funciona só daqui para
+cá, ele funciona omni, ele é direcional,
+tá?
+Então ele funciona de lá para cá também,
+então ele vai sincronizando os
+metadados, tá?
+Ou seja, não é só a fonte e o destino, é
+o reader e o writer trabalhando em
+lugares diferentes, tá?
+Então esse projeto é muito legal, muito
+mesmo, beleza?
+Então a ideia é, você escreve uma vez,
+você tem sincronização de metadado, né,
+com o formato universal, e aí você tem
+tanto o formato incremental quanto o
+formato full, e aí você tem as engines
+que se conectam a ele transparentemente,
+tá?
+É um arquivo aberto um pouco diferente
+para que ele possa sincronizar, tá?
+Ele não é um metadado ambos, é um
+pouquinho diferente.
+Até porque eles precisam do próprio
+mecanismo para poder fazer essa
+tradução.
+No caso o engine vai conectar no Xtable,
+no caso o engine vai se conectar à
+ferramenta, tipo, ao formato de arquivo
+que você quer, tá?
+Então olha só aqui.
+Deixa eu pegar um try on GitHub para a
+gente ver só uma
+demo rapidinho.
+Deixa eu ver se ele mostra aqui.
+Então aqui, ó.
+Cara, qual a fonte?
+Hood.
+E qual o target?
+Ah, eu quero que você entregue em Delta
+e em Iceberg.
+Então, teoricamente o que você vai fazer
+é só passar as características de local
+onde esses arquivos estão e assim por
+diante, e ele vai se encarregar de fazer
+o hard lifting.
+Ele que vai ali sincronizar, fazer todo
+o pedaço para você, o que é muito foda,
+né, na verdade.
+Tá, então teoricamente funciona desse
+jeito.
+Você fala, cara, estou escrevendo nesse
+formato, disponibiliza para o mesmo
+formato, enfim, para outros.
+Então ele vai sincronizando essas
+informações para
+você, tá?
+E aqui, não, ele não vai duplicar o
+dado, não.
+Vai ser o mesmo dado, tá?
+Ele vai trabalhar no nível metadado.
+E aqui eu trouxe para vocês, eu não vou
+parar muito tempo, tá?
+Eu trouxe para vocês aqui, caso vocês
+queiram desenvolver uma arquitetura lake
+house realmente para entrega em
+produção, algo muito sério, a ideia é
+você partir de uma arquitetura bem
+desenhada, tá?
+Então é o que a gente chama de Well
+-Architected Data Lake House.
+Então aqui existem algumas
+características para você construir.
+Então o Matheus, inclusive, estava
+falando agora, né?
+Ah, vamos desacoplar o Spark para a
+ingestão, do que ele fazer o
+processamento, enfim.
+E de fato, numa arquitetura distribuída,
+você vai ter aqui cada um com uma
+responsabilidade.
+Então você vai ter um sistema de
+ingestão que pode se comportar tanto em
+batch quanto em processamento real
+-time.
+Você vai ter um lake para isso, né?
+E aí, plugado a esse lake, você vai ter
+uma camada de processamento, que pode
+ser streaming ou batch, ou pode ser
+unificado, por exemplo, como a gente viu
+ontem.
+Esses dados vão ser consumidos na camada
+de serving, mas ela não precisa ser
+servida somente com Data Warehouse, ela
+pode ser servida como API, como sistemas
+de real -time, elas podem ser
+compartilhadas e assim por diante.
+Para isso, você disponibiliza
+informações no nível analítico, para o
+nível de pessoas que consomem, as
+personas, e por fim, pessoas que
+consomem, ou seja, projetos, ou produtos
+que consomem da sua camada de entrega,
+tá?
+Então aqui é mais ou menos quando você
+pensa em arquitetar, de fato, um lake
+house, considerando também a parte de
+catálogo, governança e layer de
+segurança, tá?
+Em que momento essa sincronização
+acontece?
+Durante a própria escrita, eles chamam
+na sequência do update, você pode
+especificar se você quer fazer full ou
+se você quer fazer
+incremental, beleza?
+Fechou.
+Bem, e agora eu quero entrar um
+pouquinho mais em como a gente consegue
+resolver alguns probleminhas que a gente
+viu ao longo desses dias aí, como que a
+gente pode simplesmente fazer de quick
+wins, ou seja, low -hanging fruits, a
+gente usa muito esse conceito, low
+-hanging fruits, são as frutinhas que
+estão para cair aqui, as fáceis de
+pegar, que vão te dar quick wins, que
+vão te dar, cara, muita melhoria com
+pouco esforço.
+Então vamos dar uma olhada um pouquinho
+na ideia do Delta internamente para a
+gente entender como que a gente pode
+fazer isso.
+E a gente vai navegar nesse cara aqui,
+beleza?
+Então, primeiro, quais são as features
+que o Delta
+entrega, né?
+Então aqui eu botei todas elas, né?
+Então, primeiro, transação ACID,
+metadado escalável, ela vai crescendo de
+acordo com a sua necessidade, time
+travel, guardar histórico, você
+conseguir voltar no tempo, por exemplo,
+você consegue consolidar streaming batch
+na mesma tabela porque ela é versionada,
+você tem esquema evolution, né?
+Você tem auditoria também, porque ele
+grava, grava esses metadados, você tem
+hoje a possibilidade de escrever DMLs
+tanto em SQL, quanto em Scala, quanto em
+Python, totalmente transparente para
+você hoje, e você também pode
+compartilhar o seu lake, o seu lake
+house, o seu Delta lake, com outras
+pessoas utilizando o Delta sharing,
+beleza?
+Então essas são as possibilidades que o
+Delta te entrega basicamente.
+Só que eu quero olhar um pouquinho mais
+adentro desse cara.
+Quando a gente está falando de uma
+arquitetura lake house, o que vai
+acontecer com vocês é, a gente vai falar
+da ideia de bronze, silver e gold, que
+são o quê?
+Ou arquitetura multi -hop ou arquitetura
+medallion, tá?
+Independentemente do nome, significa a
+mesma coisa.
+Eu quero que vocês entendam que cada uma
+delas, de bronze, silver e gold, a gente
+está falando de modelos de maturidade de
+entrega de dados.
+Então o dado chega bronze cru, ele é
+melhorado na silver, e ele é entregue
+para o negócio na gold.
+Então existem melhorias progressivas em
+cada um deles.
+Aonde?
+No final da entrega gold, normalmente
+hoje o que as empresas optam é escolher
+entre essas duas modalidades de entrega.
+Ou a pessoa vai entregar um Star Schema,
+como a gente já conhece no modelo de
+Ralph Kimball, onde você tem um sistema
+em estrela, ou você vai entregar o
+conceito de OBT, que é o One Big Table.
+Inclusive se você quiser saber mais
+disso em detalhe, a gente teve um
+workshop muito legal de...
+de Data Vault, acho que três
+treinamentos, ou dois treinamentos de
+Data Vault consecutivos, que a gente
+passou com isso aqui em detalhe.
+Criamos, desenvolvemos e assim por
+diante.
+Aqui tem esse cara.
+Que bom que vocês fizeram.
+Para quem fez aí, acho que deve ter
+curtido, porque foi bem legal
+mesmo.
+Beleza.
+Então quando você começar a pensar em
+desenvolver Lake House, obviamente a
+recomendação é que você use esse padrão
+de desenvolvimento.
+Bem, mas eu não quero parar ainda.
+Eu quero mostrar para vocês,
+internamente, como que o Delta tem...
+como ele funciona debaixo do capô.
+Porque isso aqui vai dar o nosso
+entendimento das features que eu vou
+mostrar para vocês logo mais.
+Cara, que eu vou entregar para vocês
+entenderem aí.
+Então aqui do lado da esquerda, você tem
+a engine, você tem a engine que escreve
+essa informação dentro do Data Lake, e
+aí você tem uma tabela que está ali na
+sua Bronze, na sua Silver ou na sua
+Gold.
+Dentro da estrutura do Delta, você tem
+dois grandes chances.
+Você tem os arquivos, que são os
+arquivos escritos em Parquet, e você tem
+os logs, aonde para cada atualização que
+você tem, você tem um novo log gerado a
+ele.
+Beleza?
+Então, olha só.
+Se a gente acessar aqui o nosso Data
+Lake,
+o que a gente vai ver?
+Se a gente acessar esse cara aqui, Yelp,
+a gente vem em Produção, Yelp, Business,
+e olha só, eu tenho aqui os meus
+arquivos, como eu falei para vocês,
+Parquês, eles não mudaram, a mesma coisa
+se eu tivesse escrevendo Parquet, só que
+agora aqui tem uma diferença, porque eu
+tenho um cara chamado Delta Log, e veja
+que esse Delta Log aqui possui versões,
+né?
+Então se a gente organizar aqui pelo
+Last Modified, aqui está a última
+atualização desse cara, as 7h57, que é a
+versão 14 desse cara.
+Então a gente vai baixar esse carinha, a
+gente vai no JSON Crack, e a gente vai
+dar uma olhadinha nessa estrutura
+interna aqui, rapidinho, tá?
+Eu vou abrir aqui, esse cara no Visual
+Studio
+Code, vou dar uma olhada como que ele
+divide os sistemas dos arquivos.
+Então primeiro, ele cria um cara
+chamado, é, comitinfo, vamos lá meu
+filho, gera para mim, por favor.
+Por que você está demorando?
+Aí.
+Então você tem aqui, comitinfo, que tem
+o timestamp, qual foi a operação que foi
+realizada para este log, tá?
+E aí qual foi o modo, se foi
+particionado ou não, beleza, qual o
+nível de isolamento, e as operações que
+foram feitas, olha só que interessante,
+você tem aqui número de arquivos, número
+de linhas, e número de bytes que foram
+colocados, e qual foi a engine que
+escreveu, então foi Apache Spark 3 .5
+.1, com Delta Lake 3 .2 .0, adoro,
+beleza?
+Depois, se a gente navegar agora, na
+informação de metadado dele, em relação
+a, inteligência, de metadado, o que que
+a gente vai conseguir ver aqui, por
+exemplo?
+A gente vai conseguir ver, que Data
+Change está marcado como True, que agora
+é padrão, não sei se vocês sabiam, mas
+está aqui Data Change True, parte do
+arquivo, o nome dele, ou seja, qual foi
+o arquivo que foi adicionado, e aqui a
+gente tem os status, dessas informações,
+que se a gente colocar, acho que
+acredito aqui, deixa eu ver se consigo,
+não
+consigo, não, mas eu consigo, aqui, e
+arquivos que foram removidos,
+então, toda vez que eu faço uma query
+aqui, ou seja, toda vez que eu faço uma
+query nesse cara, primeira coisa que ele
+vai fazer, é checar, o que?
+Checar o que está acontecendo, em
+relação ao metadado, quais são os
+arquivos que estão atrelados a esse
+metadado, e assim por diante, então, se
+a gente pegar a primeira carga aqui, 1,
+por exemplo, deixa eu abrir 1 para
+vocês, que é o 0 na verdade, no 0, a
+gente tem aqui, toda a informação, de
+metadado inicial dele, como criação de
+estrutura, e tudo
+mais, então está aqui, tipo, aqui está o
+metadado, literalmente, a string do
+esquema, que foi criada, veja que ele
+utiliza essas informações aqui, como
+base também, para entender, quais são as
+colunas, funcionamento, e assim por
+diante, e, tem mais uma coisa que eu
+quero mostrar para vocês aqui, o arquivo
+de checkpoint, eu acho que ele vai dar
+um
+probleminha, para aceitar, consigo,
+enfim, vamos ver se ele baixa aqui,
+depois eu mostro para vocês, tá, mas
+basicamente, o que vocês tem que saber,
+é que ele vai armazenar essas
+informações aqui, dentro da ideia do
+Delta Log, então, como a gente mostrou
+aqui,
+ele é segregado, beleza, e hoje, a gente
+tem o kernel ali, que é uma outra
+segregação, que é o Delta Engine, né,
+que é basicamente o seguinte, você tem
+as engines, que consomem desse cara, né,
+então, você tem aqui as engines, que
+consomem, Spark, DB, assim por diante,
+você tem o engine Delta, hoje, que
+utiliza, né, uma engine vetorizada em
+C++, que é o princípio do fóton, então,
+esse cara está dentro do kernel do
+Delta, né, então, você tem um mini
+fóton, dentro do Delta, ali, por quê?
+Porque ele utiliza uma engine vetorizada
+em C++, então, ele tem o Power
+Optimizer, as características de
+caching, que ele consegue fazer, e ele
+tem a execução nativa, né, que aí, ele
+pode fazer várias operações, mais
+rápidas, e mais eficientes, com
+instruções, porque o seu controle de
+nível, no C, vai ser muito maior, que o
+seu controle no
+Java.
+E no log de transação?
+Bem, como a gente estava vendo ali, no
+log de transação, o que que acontece?
+Imagina que eu tenho, uma operação, que
+vai acontecer, e aí, eu tenho dentro
+dessa tabela, como eu falei para vocês,
+os arquivos, como eles estão aqui, de
+fato, né, e você tem a tabela, a, a
+pasta Delta Log, que possui esses
+arquivos, né, e cada arquivo desse,
+representa uma informação, então, por
+exemplo, nesse JSON 0000, você vai ver,
+por exemplo, que eu adicionei dois
+parquês, no arquivo 001, por exemplo,
+você vai ver que eu removi dois, e
+acrescentei mais um, então, ele vai te
+trazer, toda a rastreabilidade, do que
+aconteceu, na sua tabela, assim como,
+também, conseguir fazer com que, você
+resolva conflitos, ou seja, se você tem
+alguém, que está naquele momento,
+mutuamente, escrevendo, você consegue
+escrever, sem, sem estourar, a outra
+pessoa, consegue, você consegue fazer
+assim, com o que ela faz, tá, beleza,
+então, isso ajuda, para a gente, por
+exemplo, tem o que eu falei para vocês,
+de, esse primeiro escritor aqui, talvez,
+está escrevendo, um, backfilling, que é,
+reprocessando os dados ali, desde o, da
+data, whatever, e, esse outro cara aqui,
+está fazendo o que, um streaming de
+dados, ou seja, todos os dados, que
+estão, aqui, em batch, por exemplo,
+sendo escritos em batch, você, também,
+tem uma nova versão, da tabela, que está
+sendo escrita, em streaming, ela está
+acessando, a mesma tabela, e aí, ele
+consegue entender, criar versões, e se
+basear, em como ele vai escrever, isso,
+e resolver, esses conflitos, de forma
+otimista, tá, criando novas versões, da
+tabela delta, como a gente viu, ali em
+cima, professor, essa base, onde estão
+as tabelas, ela só é possível, de ser
+acessada, através dos strings, de
+conexão, que possuem, nos arquivos
+python, não, aqui, eu, pelo que entendi,
+aqui, do que você perguntou, eu já
+consigo acessar, direto, no storage, vai
+estar aberto, ali, para você, né, você
+consegue acessar, esses caras, gente,
+data feed, tá, esse cara,
+é bem interessante, ele permite, com que
+você consiga, rastrear mudanças, nível
+linha, tá, do que aconteceu, não é mais
+experimental, né, mas, o que acontece é,
+vamos supor, que você tem, escritas, que
+aconteceram, da sua tabela silver, para
+a sua tabela, gold, e na hora, que você
+vai fazer, um merge, por exemplo, entre
+elas, o que você pode fazer, é, pedir
+para o data feed, passar somente, o que
+mudou, da última vez, ou seja, a carga,
+de metadados, de dados, que você vai
+carregar, para o outro lado, vai ser
+infinitamente menor, então, a gente usa,
+principalmente, aqui, como essa
+característica, e aí, o Igor perguntou,
+Luan, qual a diferença, entre CDF, e
+CDC, CDC, é Change Data Capture,
+obviamente, né, então, a gente tem,
+essas tecnologias, esse conceito, bem
+envelopado, com a ideia, de você
+conseguir, acessar, logs, e acessar, uma
+estrutura, de entendimento, do lado, do,
+do lado, da fonte de dados, com um banco
+de dados, relacional, e, o CDF, ele tem
+a mesma ideia, mas, como ele não está
+atrelado, a um sistema, relacional,
+enfim, eles optaram, utilizar um nome,
+CDF, que é, Change Data Feed, tá, que,
+funciona um pouquinho mais, para a
+ideia, de sistemas distribuídos, em
+streaming, do que, sistemas mais
+clássicos, de Change Data Capture, no
+final das contas, eles fazem,
+exatamente, o mesmo, eles conseguem,
+propagar mudanças, e conseguem ver,
+essas mudanças, somente, por exemplo, se
+um SQL Server, tiver o CDC, habilitado
+lá, quando você fizer um insert, quando
+você fizer um delete, por exemplo, você
+vai conseguir saber, qual era a linha
+anterior, e qual era a linha, atual, no
+Change Data Feed, a gente tem, uma puta
+tabela grande, e aí depois, eu vou
+perguntar para, por exemplo, a minha
+Gold, vai perguntar para a minha Silver,
+o seguinte, olha só, eu não quero fazer
+uma query, em tudo, vamos supor, que
+essa minha tabela, tem um tera, eu não
+quero, escanear metadados, de um tera,
+eu quero saber, só o que aconteceu, do
+último momento, que eu perguntei para
+você, o que que mudou, desse tempo, e
+aí, o Bronze, vai entregar para o
+Silver, só, um pouquinho de informação,
+e um metadado, muito mais eficiente, e o
+dado, como um todo, para que você possa,
+processar somente, o que foi
+diferenciado, tá, então, ele vai ter,
+uma outra pasta,
+chamado, Change Data, que ele vai
+armazenar, essas informações aqui, tá,
+e, o que você vai ter, é a capacidade,
+de fazer isso aqui, olha que legal, você
+consegue, falar o seguinte, olha, leia,
+do Change Feed, começando, dessa data,
+ou, dessa data, então, toda vez que você
+consome, por exemplo, de uma tabela, uma
+das coisas, que a gente tem no cliente,
+é o seguinte, cara, eu uso o Feed,
+porque eu tenho muito dado, chegando na
+Silver, da Silver para Bronze, quando eu
+processo, eu faço um Merge, e o Merge é
+muito caro, então, eu só quero
+consultar, o que mudou, no último tempo,
+então, o que que eu faço, eu faço isso
+em Batch, mas, eu salvo, a última data,
+que eu fiz, numa tabela de controle,
+então, eu chego ali, por exemplo,
+escrevo na tabela de controle, que o meu
+Starting Timestamp, e End Timestamp, foi
+esse, aqui, né, e aí, o que que eu faço,
+depois, quando eu vou consultar, de
+novo, essa tabela, eu busco, o último
+momento, de lá, até, o próximo, que eu
+estou fazendo, e aí, eu capto, só, as
+mudanças, que aconteceram, eu posso
+fazer isso, também, pensando, em
+Streaming, você pode pesquisar, por
+níveis, versões, também,
+beleza, e aí, você vai ter a
+característica, de conseguir, puxar
+essas informações, muito mais
+otimizadas, Luan, o CDF, funcionaria,
+como Join, de duas tabelas Silver,
+entregando uma Gold, sim, ele pegaria, a
+diferença, de cada Silver, somente,
+conseguiria realizar, o Join,
+corretamente, ou é um Pro, não, cada
+mudança, perfeito, cada mudança, que
+está acontecendo, Guilherme, ela está
+acontecendo, em cada uma, das tabelas,
+então, você pode consultar, 50 tabelas,
+e falar, cara, traz as mudanças, de
+vocês, somente, é um Kafka, nível
+arquivo, entendeu, que foda, muito foda,
+ele é um Kafka, nível arquivo, a gente
+viu, no Kafka, lá, que a gente consegue,
+falar com o Kafka, o que aconteceu,
+antes, o que aconteceu, na última vez,
+que eu vim aqui, no momento, que eu vim
+aqui, ele
+vai te entregar, isso, somente, em vez
+de você, ter que escanear, ou trabalhar,
+em todo o metadado, para entender isso,
+então, é muito mais eficiente,
+principalmente, para quem trabalha, com
+cargas incrementais, e assim por diante,
+beleza, exatamente, é um controle, nesse
+caso, eu controlo manual, então, eu
+escrevo, e aí, puxo o Start Time Stamp,
+End Time Stamp, guarda essa informação,
+na tabela, e toda vez, que eu consulto,
+que eu rodo, o Job, eu pego essa
+informação, e recupero ela, como que eu
+faço isso, lembra, que eu mostrei ontem,
+arquivo de configuração, eu salvo, num
+arquivo JSON, qual foi o último tempo,
+estruturado, e depois, eu vou lá, e
+busco dessa tabela, eu sempre fico
+gravando, essa informação, desacoplada,
+da minha aplicação, precisa nem ter, um
+banco de dados, precisa nem gravar, isso
+em uma tabela Delta, um JSON, vai
+funcionar, muito bem,
+beleza, Data Skipping, a gente já viu,
+então, a gente viu, lá na terça -feira,
+se eu não me engano, que isso aqui, é
+uma das grandes características, do que?
+De tabelas Parquet, que muita gente
+acredita, e muita gente daqui, também
+acreditava, que o Parquet, não fazia
+isso, beleza, tudo normal, que muita
+gente, ainda acredita, que isso aqui,
+não é feito no Parquet, mas sim, é feito
+no Parquet, junto com o engine, que está
+consultando ela, pelo Spark ser,
+extremamente maduro, ele consegue fazer
+isso, muito bem, o Delta, melhora isso,
+por quê?
+Porque o Delta, além de ter um controle,
+transacional, muito mais rebuscado, ele
+tem um log, muito mais inteligente,
+então, o que ele faz, na verdade, ele
+consegue ser, ainda mais eficiente, da
+forma, com que ele consulta, essas
+informações, isso quer dizer, o quê?
+Que esse cara, pode agilizar, na
+consulta, dos dados, absurdamente,
+fazendo, o que a gente falou, de
+planning, e de selecionar, as colunas,
+que a gente vai trazer, a gente viu,
+isso ontem, e aí, eu queria, por
+exemplo, mostrar para vocês, um cara
+chamado, The Ordering, que eu não sei,
+se todo mundo conhece, então, o que é o
+The Ordering?
+O The Ordering, é uma estratégia, então,
+entenda, o The Ordering, não é o
+proprietário, da Databricks, não é o
+proprietário, de uma empresa,
+específica, The Order, é uma
+característica, de ordenação, é um dos
+tipos, de técnicas, de ordenação, que
+você tem, e aí, o Delta, foi muito, eu
+acredito, que foi muito, incentivo, em
+trazer, essa proposta, para dentro, do
+Lake House, o que foi, muito, muito,
+muito legal, então, basicamente, o que
+acontece, é, você tem, uma técnica, de
+ordenação, eficiente, para que você,
+possa consultar, dados, dito isso, eu
+trouxe, para vocês, aqui, como esse
+cara, funciona, para vocês, terem uma
+ideia, porque, muita gente, fala de The
+Order, enfim, mas será, que você
+consegue, visualizar, realmente, como
+ele funciona, tá, então, vamos lá,
+imagine, que eu chego, lá no meu,
+ambiente, eu tenho, uma tabela, chamada,
+tabela, e eu, falo o seguinte, olha,
+essa tabela, aqui, gente, ela é
+consultada, demais, pela coluna,
+usuário, vamos pegar, aqui, ó, optimize
+rights, the order by,
+timestamp, caramba, essa tabela, aqui,
+ela é, ela, ela é, utilizada, demais, o
+timestamp, a coluna dela, então, eu
+quero, que você faça, a ordenação, em
+formato, Z, desta coluna, aqui, e você
+faça, um layout, desse dado, de uma
+forma, inteligente, com que eu possa,
+consultar, tá, beleza, o que, que ele
+vai fazer, então, imagina, o seguinte,
+que aqui, desse lado, ele vai organizar,
+as informações, né, então, aqui, ele
+tinha, por exemplo, ó, no arquivo 1, que
+foi escrito, no parquê, ele tinha, ali,
+coluna mínima, 3, 6, e coluna máxima, 8,
+no parquê, 2, ele tinha, coluna máxima,
+3, coluna máxima, 10, e depois, no
+parquê, coluna máxima, 1, mínima, 1,
+coluna máxima, 2, esse dado, foi
+organizado, de uma forma, com que ele,
+mostre, o que, uma sequência, tá vendo,
+1, 3, 4, 7, 8, e 10, e daí, quando eu
+faço uma consulta, né, 7, se eu não
+tivesse, utilizado, o the ordering, o
+que, que tinha acontecido, se eu não
+tivesse, utilizado, the ordering, quando
+eu fizesse, esse select, o que, que ia
+acontecer, a estatística, ia passar
+aqui, ia ver o seguinte, ó, pode estar,
+no arquivo 1, como pode estar, no
+arquivo 2, tá vendo, que legal, então,
+eu tenho, que carregar, esses dois
+arquivos, para memória, para poder,
+depois, saber, de fato, o que, que é,
+que eu tenho, que consultar, ficou
+claro, enquanto, se eu faço, um the
+ordering, pela coluna, que eu faço, a
+consulta, né, então, onde, timestamp,
+então, aqui, a tabela, rights, vamos,
+deixar, essa, essa query, rebuscado,
+aqui, né, então, onde, a data, igual, a,
+2024, 07, 05, as, 20, 18, 20, 18, e, 54,
+.000, muito, irado, isso, aqui,
+né, essa query, que, você, falou,
+amigão, eu, estou, entre, um, e, sete,
+lá, era, sete, antigamente, funcionava,
+aqui, a, mesma, ideia, né, e, aí, ele,
+vai, trazer, em, vez, de, dois,
+arquivos, ele, vai, trazer, somente,
+isso, somente, no, caso, de, ordem, e,
+otimização, tem, que, ser, orientado,
+as, colunas, de, escopo, da, consulta,
+caso, contrário, tem, degradação, de,
+performance, também, não, em, relação,
+a, degradação, de, performance, mas,
+vai, ser, uma, consulta, mais, custosa,
+mas, não, que, degrade, a, performance,
+tá, ele, vai, estar, só, organizado, de,
+uma, outra, forma, tá, então, pra,
+forma, que, você, pediu, a, query, ele,
+vai, funcionar,
+normalmente, ali, é, trazendo, mais,
+dados, por, exemplo, pra, você, mais,
+funcionar, muito, bem, tá, saber, se,
+está, em, quais,
+arquivos, então, juntamente, aqui, com,
+delta,
+ele, vai, ter, um, metadado, mais,
+inteligente, ainda, para, poder, fazer,
+isso, a, quantidade, de, arquivos, para,
+quem, não, muda, com, the, ordem,
+lembro, vagamente, de, ter, aplicado,
+the, ordem, data, brics, ele, ter,
+reduzido, a, quantidade, de, arquivos,
+você, tem, uma, outra, forma, de, fazer,
+isso, você, tem, operações, que, tanto,
+fazem, a, otimização, que, é, reduzir,
+esses, caras, como, reduzir, de, small,
+files, reduzir, de, small, files, para,
+isso, exatamente,
+opt, isso, para, quem, faz, isso, já,
+fiz, bastante, em, ambientes, de,
+clientes, até, então, isso, aqui, não,
+existe, mas, isso, aqui, é, coisa, do,
+passado, agora, irmão, a, a gente, vai,
+trabalhar, com, um, cara, chamado,
+liquid, clustering, esse, cara, que, é,
+foda, tá, então, ele, vem, para, acabar,
+com, tudo, isso, olha, só, vamos, lá,
+vamos, ver, o, ele, faz, esse, cara,
+que, é, foda, então, o, que, que, o,
+liquid,
+clustering, faz, ele, ele, é, mecanismo,
+inteligente, de, layout, de, dados,
+para, você, ser, automático, tá, já,
+começo, por, aí, então, o, que, ele,
+vai, fazer, para, você, basicamente,
+ele, vai, né, você, vai, especificar,
+algumas, colunas, para, sua, query, e,
+ele, baseado, nessas, colunas, que,
+você, deu, de, input, que, você,
+clusterizou, o, dado, ele, vai,
+escolher, como, ele, vai, fazer, o,
+layout, do, dado, para,
+você, então, vai, normalmente, se, você,
+tivesse, um, parquet, você, ia, dar, um,
+partition, by, se, você, tivesse, antes,
+do, liquid, clustering, você, ia, fazer,
+um, z, ordem, possivelmente, depois,
+aqui, não, você, vai, especificar, as,
+colunas, que, você, quer, clusterizadas,
+e, ele, vai, fazer, o, layout, do, dado,
+por, ele, vai, escolher, então, o, ele,
+faz, ele, faz, uma, organização, de,
+dados, adaptiva, ele, monitora, os,
+padrões, de, que, foram, batidos, ali,
+pelo, metadado, do, do, delta, e, ele,
+começa, a, ver, como, que, ele, vai,
+deixar, o, layout, do, dado, para, você,
+tá, então, cara, significamente, você,
+vai, ter, uma, melhoria, de,
+performance, absurda, além, dele,
+mitigar, skill, porque, se, ele,
+identificar, na, hora, que, está,
+fazendo, a, organização, do, layout, do,
+dado, que, essa, partição, né, que,
+esse, pedaço, de, arquivo, está,
+desbalanceado, ele, automaticamente,
+vai, redistribuir, o, dado, para, você,
+ou seja, teoricamente, na, perspectiva,
+do, arquivo, você, não, vai, ter, skill,
+porque, ele, vai, deixar, isso, mais,
+balanceado, para, você, então, ou seja,
+ele, é, um, cara, que, vai, fazer, é,
+manutenção, automática, tá, esse, dado,
+e, aí, a, Igor, como, ele, faz, isso, o,
+mecanismo, interno, de, como, ele, vai,
+redistribuir, esse, dado, para, você, é,
+uma, operação, que, está, acontecendo,
+no, background, dele, e, ele, que,
+trabalha, com, isso, tá, beleza, só,
+que, quando, você, utiliza, o, liquid,
+clustering, aqui, ó, quando, você,
+utiliza, o,
+liquid, clustering, a, também, podem,
+habilitar, esse, cara, você, vem, pai,
+com, o, escala, aqui, eu, venho, ó,
+cria, a, tabela, adiciona, as, colunas,
+e, clusteriza, pela, coluna, tá, vendo,
+só, que, eu, posso, clusterizar, por,
+mais, de, uma, coluna, né, e, aí, o,
+que, acontece, eu, também, posso, mudar,
+ao, longo, do, tempo, a, minha,
+distribuição, isso, não, vai, fazer,
+com, que, eu, reescreva, o, dado, isso,
+não, vai, ter, nenhum, impacto, no,
+dado, porque, isso, vai, ser, uma,
+operação, de, meta, dado, que, vai,
+acontecer, como, eu, também, posso,
+deixar, essa, tabela, sem, nenhum, tipo,
+de, otimização, específica, para, eles,
+só, que, vejam, né, se, alguém, por,
+favor, se, vocês, viram, esse, que,
+acharam, foda, segundo, foda, para,
+gente, falar, o, foda, agora, na,
+versão, 3 .2, a, gente, faz, isso, aqui,
+na, versão, 4 .0, a, gente, vai, ter,
+um, cara, chamado, alter, table, create,
+cluster, by, e, aqui, a, vai, colocar,
+alto, vai, ser, automático, você, não,
+vai, mais, ter, que, se, preocupar, com,
+isso, baseado, nas, que, você, imputa,
+para, ele, eles, tem, inteligência,
+artificial, para, entender, qual, é, o,
+layout, que, ele, vai, escolher, para,
+seu, cara, tá, isso, aqui, vai, ser,
+absurdo, já, é, absurdo, vai, então,
+ficar, foda, aqui, essa, tem, os,
+usuários, e, você, tem, as, datas, e,
+aqui, são, aonde, seus, dados, se,
+encontram, né, são, seus, arquivos,
+então, ele,
+vai, criar, né, um, layout, dessas,
+partições, ou, ele,
+vai, unir, ou, ele, vai, explicar, as,
+as, partições, automáticas, para,
+ajustar, o, tamanho, dos, arquivos, é,
+ele, faz, isso, para, você, tá, ele,
+vai, ajustar, para, você, o, tamanho,
+desse, cara, e, aí, ele, fica,
+monitorando, o, tamanho, e, monitorando,
+todas, essas, informações, para, você,
+para, que, no, final, você, possa,
+simplesmente, o, que, consultar, esse,
+dado, de forma, totalmente,
+transparente, então, ele, vai, ser,
+utilizado, para, que, coluna, de, alta,
+cardinalidade, quando, você, tem,
+problema, de, skill, você, vai, jogar,
+dentro, dele, quando, o, dado, cresce,
+muito, grande, nesses, caras, padrões,
+de, acesso, ao, longo, do, tempo, e,
+principalmente, partições, que, tem, ou,
+muito, ou, poucas, ou, seja, small,
+files, ou, big, files, você, não, vai,
+ter, mais, esse, problema, x, x, x, x,
+x, x, x, x, x, x, x, x, x, x,
+x, x, x, x, x, x, x, x, x, x, x, x, x,
+x, x,
+x, x, fala, não, olha só, tem arquivos
+aqui muito grandes, arquivos pequenos,
+eu estou vendo que a consulta está sendo
+muito acessada pelo campo cliente, então
+eu já vou criar um layout aqui e deixar
+organizado para que toda vez que alguém
+faça cliente seja eficiente.
+Daqui mais 20 versões que aconteceram
+aqui, o cara vai olhar e falar, opa,
+não, agora mudou, então agora a gente
+tem cliente sendo muito consultado e
+agora tem data sendo consultada também,
+então deixa organizar de um jeito com
+que fique rápido para os dois.
+Então ele vai incrementando a
+inteligência dele e entendendo como que
+ele vai deixar o dado organizado para
+você acessar esse cara
+transparentemente.
+Lua, o Microsoft desenvolveu o vOrder,
+que opera direto na forma de escrita no
+parquet e funciona em conjunto com o
+vOrder.
+Não é uma concorrência, o Microsoft
+disse que melhora a compressão,
+performance, mesmo por fora do Fabric.
+É bom mesmo ou é só marketing?
+Eu nunca testei, mas eu sei que a
+performance no One Lake, ele é bem, bem
+expressiva, tá?
+Então, de fato, eles têm ali uma coisa
+muito legal.
+Eu só não sei se realmente isso, como
+isso está sendo utilizado fora somente
+do projeto Fabric, né?
+Eu sei que no projeto Fabric está sendo
+feito, eu não sei como isso está fora,
+então eu não sei se isso está sendo
+acelerado e assim por diante, mas eu sei
+que funciona muito mais rápido, tá?
+O Liquid Plus também reescreve os
+arquivos no Storage para melhorar o dado
+pelas personalizadas fisicamente, sim,
+né?
+Então aqui, ó, ele, por exemplo, se você
+tiver um cara desse tamanho e um outro
+cara desse tamanho, o que ele vai fazer?
+Ele vai entender o seguinte, tixa, olha
+só, tem essa partição aqui que é bicha
+gigante, desculpa, essa partição não,
+tem esse arquivo aqui que é grandão e
+esse outro que é pequenininho e esse
+outro aqui que é médio e esse outro aqui
+que é bem minúsculozinho, então o que eu
+vou fazer?
+Eu vou tentar deixar todo mundo
+homogêneo,
+tá?
+Se o Iceberg tem essa possibilidade,
+essa feature?
+Não, não tem essa feature.
+Não tem essa feature.
+Mas, entretanto, todavia, ele tem um
+conceito de Header Partitioning, né?
+Que é basicamente algo parecido com isso
+sem inteligência artificial, porque ele
+controla tudo isso em metadado de
+Iceberg, tá?
+Os metadados.
+O metadado dele é muito mais rebuscado,
+como eu falei com vocês, mas muito mais
+mesmo, tá?
+O nível de detalhe de metadado que você
+tem no Iceberg é absurdo.
+Então eu tô ansioso pra ver o que vai
+acontecer nas próximas cenas desse
+capítulo, na verdade, porque me
+interessa entender aí o que que vai
+acontecer na aquisição da na aquisição
+da tabular,
+beleza?
+É, afinal, quem ganha é a gente sempre,
+né?
+Beleza?
+Beleza?
+Fechou.
+Agora, a gente vai pra última parte do
+nosso treinamento, onde eu vou trazer
+uma demo pra vocês, como o Matheus
+falou, pra vocês darem uma chorada aí.
+Matheus, inclusive, Matheus, se prepare
+aí que eu quero que você mostre a de
+streaming com o Trino, tá?
+Eu vou mostrar de batch, mas você mostra
+de
+streaming.
+Opa, pode ser?
+Vamos ver se ele tá aí.
+Matheus, se tiver aí, quando ele voltar,
+fala com ele.
+Deixa eu falar pra ele aqui.
+Se ele apresenta pra mim.
+Beleza.
+Então, agora a gente vai falar de Spark
+no Kubernetes.
+Bem, gente, eu vou ser bem honesto pra
+vocês.
+Se você não tem Databricks e você
+utiliza, não utiliza Databricks, hoje eu
+não consigo ver na minha opinião, tá?
+Pra um ambiente onde você possa estar
+ali desacoplado, claro que você pode ter
+um sistema gerenciado de Kubernetes,
+como Dataproc e assim por diante, mas se
+você pensar em algo agnóstico, algo que
+pode ser, né, interpolado em qualquer
+plataforma, eu acho que a ideia do Spark
+no Kubernetes, ela é muito atrativa por
+vários fatores.
+Se a sua equipe já tem, por exemplo,
+classes de Kubernetes, é extremamente
+interessante.
+Se seus times de desenvolvimento, por
+exemplo, já trabalham com microserviços,
+então eles já possivelmente têm
+Kubernetes, tá?
+Se você quer unificar uma stack, né,
+criando uma plataforma de engenharia de
+dados no local unificado, você pode
+utilizar o Kubernetes.
+E aí o que é legal é que hoje você tem
+suporte Enterprise Production Ready pra
+Kubernetes no Spark no Kubernetes.
+Então você pode utilizar em alta escala,
+tá?
+Sem problema nenhum.
+Inclusive a gente tem diversos jobs
+executando em cliente constantemente com
+esse cara.
+E ele vai ser infinitamente mais leve,
+né, e ele é muito rápido.
+A gente vai ver aqui como ele funciona.
+Beleza?
+Então antes disso, vou passar com vocês
+rapidinho aqui na arquitetura de
+Kubernetes, um pouquinho mais em
+detalhe, pra vocês entenderem como que a
+integração do Kubernetes com o Spark ela
+acontece, beleza?
+Então aqui tá a ideia de um sistema, né,
+de orquestração.
+Então você tem containers, que são
+imagens ali, né, esses containers eles
+estão dentro de uma engine que roda um
+virtualizador, não um virtualizador, mas
+ele roda um daemon, que pode ser, por
+exemplo, um daemon de Docker, mas você
+tem vários outros containers, Red e
+assim por diante.
+Então não é somente o Docker.
+E, de fato, o cluster de Kubernetes
+utiliza máquinas virtuais.
+Então nada mais é do que o quê?
+Você tem as máquinas virtuais, você bota
+o Kubernetes em cima e você interage com
+os pods em cima dele.
+Quando a gente entra na arquitetura
+dele, os componentes, olha só como ele
+é.
+Ele é parecido, na verdade ele é um
+sistema distribuído assim como Spark,
+que tem o quê?
+O driver e os executors.
+Aqui ele tem o quê?
+Ele tem o master e o worker.
+E dentro de cada um desses caras aqui,
+vejam que ele tem diversos componentes
+diferentes.
+Então vou falar rapidinho pra vocês aqui
+o que cada um faz, tá?
+Então você tem o API server, que é a
+comunicação, todo o acesso que acontece
+no Kubernetes, ele acontece nesse cara
+aí.
+O ETCD é o banco de dados do próprio
+Kubernetes distribuído que ele tem.
+O scheduler, é o cara responsável por se
+comunicar com todos os nós pra falar
+qual é o estado desejado que vai ser
+aplicado.
+Então eu chego pro Kubernetes e falo,
+olha só, eu quero uma aplicação de Spark
+que tenha 10 nós.
+Beleza?
+Tá.
+Essa informação vai ser passada,
+validada, escrita no ETCD e assim por
+diante, coordenada e vai ser colocada
+pro scheduler.
+Ó o scheduler, aplica o estado desejado.
+E aí o scheduler vai se comunicar ali
+com o kubelet, do lado dos workers, pra
+conseguir fazer o quê?
+Passar essas instruções pra lá e rodar
+os containers dentro do container
+runtime.
+Beleza?
+Aí o que a gente tem aqui embaixo?
+A gente tem o kubectroller e o
+cloudcontroller, tá?
+O kubectroller é o controle interno do
+Kubernetes como um todo.
+É o mecanismo de controle e o
+cloudcontroller, ele vai ser
+implementado baseado na nuvem que você
+tá.
+Então se for Azure, você vai ter um
+controlador que se comunica direto com o
+sistema da Azure como um todo pra
+requisitar as informações que o cluster
+precisa.
+Do lado do worker, você tem quatro
+componentes básicos, que é o kubelet,
+tá?
+Que é a interface de comunicação própria
+dele.
+O proxy, que lida com toda a parte de
+networking.
+O container runtime, que é de fato onde
+o seu container fica.
+E o kubectl é nada mais do que a engine
+onde você acessa a CLI que você consegue
+acessar a entrada por aqui, tá?
+E a gente chama esse cara de dataplane,
+beleza?
+Que a gente tem o controlplane e o
+dataplane.
+Isso aqui é basicamente o que eu
+mostrei, o que eu falei pra vocês, né?
+Detalhados, então depois se vocês
+quiserem dar uma olhada, né?
+Comunicação e isso por diante, tá?
+Nunca trampei com a 8S, mas as vezes que
+tentei usar demorou uns 45 minutos pra
+ordenar as máquinas.
+É assim mesmo essa demora?
+Depende de como você tá fazendo.
+Se você tá construindo o Kubernetes
+realmente sim, mas se você tá
+construindo ele na nuvem, é pra ser
+extremamente rápido.
+A gente sobe um cluster de Kubernetes e
+acho que em menos de 15 minutos, tá?
+Então não é pra ser um trampo tão
+gigantesco, não.
+Tá?
+E aí a sua aplicação vai estar
+conterinizada aqui, ó, dentro de um
+container que tá sendo executado ali
+dentro do container runtime, beleza?
+A menor unidade de execução do
+Kubernetes se chama pod, não é
+container.
+O pod é um conjunto de containers, tá?
+Você pode ter um ou mais.
+Então no final das contas, é essa
+arquitetura resumida que a gente tem.
+Cluster, control plane, workers, data
+plane, a engine como um todo e aí
+utilizando o cluster, né?
+E aí, o que que acontece agora?
+Agora a gente tem a integração do
+Kubernetes com o Spark.
+Então essa é uma das coisas muito
+legais, cara, que...
+Luan, consegue explicar como esse config
+funciona?
+Set local properties, Spark scheduler,
+pool, default?
+Daqui a pouco eu dou uma olhada.
+Explico sim.
+Então olha só, o que que o Spock é?
+É o Spark no Kubernetes que a gente
+chama.
+Então, isso aqui é muito foda.
+Por quê?
+Porque eu lembro qual o nome da empresa?
+Ah, tá.
+Palantir?
+Palantir?
+Spark?
+Data e...
+2019.
+2019?
+2019?
+Spark 2019.
+Tanto Spark Summit, porque você colocou
+DTS, não era DTS Summit na época.
+Era Spark Summit, né?
+Era Spark Summit.
+Tem esse cara aqui.
+Eu acho que é esse cara aqui, não é?
+É.
+Nós estávamos nessa apresentação, né,
+Matheus?
+Isso.
+Will Manning.
+Esse cara mesmo.
+Will Manning e Matt Shee.
+Cara, esses dois caras aqui, cara,
+principalmente esse cara aqui.
+Ele é bem esquisito.
+Mas, enfim, eles mostraram lá em 2019 a
+evolução do Kubernetes e se todo
+mundo estava utilizando realmente,
+assim, por diante.
+Qual foi a timeline, as melhorias e por
+aí vai.
+Então, em 18 de junho a gente teve a
+migração completa do Yarn para
+Kubernetes em produção.
+Então, os caras fizeram todo esse hard
+lifting no código para poder fazer o que
+fosse possível.
+Eu queria ver, Matheus, se ele tem aqui
+as métricas.
+Você consegue?
+Vê se você acha para mim aí.
+Dá uma olhada aí e vê se você acha.
+Quantos milhões de pods eles executavam
+por dia?
+Cinco milhões por dia, mas eu vou pegar
+aqui.
+Cinco milhões por dia, né?
+É pouco, gente.
+Não é muito escalável, não, tá?
+É cinco milhões.
+Por dia.
+Tá de boa.
+E, cara, depois que a gente viu essa
+demonstração, esse cara, a gente começou
+a olhar de fato e Kubernetes, a gente já
+brincava, com Kubernetes naquela época,
+mas aquilo ficou muito melhor e muito
+mais atrativo.
+Então, basicamente, o que a gente tem é,
+hoje, uma integração total.
+Então, agora, o Spark no Kubernetes não
+precisa ter um cluster manager de Yarn
+ou um cluster manager desacoplado.
+Ele pode ter o próprio cluster manager
+do Kubernetes.
+Então, ele funciona hand in hand, mão a
+mão.
+Então, eles funcionam juntos.
+Então, como eu falei para vocês, toda
+vez que acontece, uma interação com o
+cluster, ele acontece pelo quê?
+Pelo API server.
+Então, você tem um Spark Submit, lembra
+lá?
+Você vai fazer um Spark Submit, ele vai
+bater no control plane, aí agora você
+está se perguntando ah, por isso que
+você me explicou as estruturas internas
+do Kubernetes, para eu começar uma
+ideiazinha aqui do passo a passo,
+exatamente, tá?
+Então, eu venho aqui, me comunico com o
+API server, o API server registra essa
+informação no etcd e passa essa
+informação para scheduling, né?
+E aí, o scheduler vai lá, inicia o
+driver, ele passa as informações, fala,
+ó, é necessário você criar um driver,
+ele vê os recursos, enfim.
+O driver, ele inicia, se comunica com o
+Kubernetes, obviamente, e fala, cara, eu
+estou pronto.
+Aloca os recursos aí, Kubernetes.
+Você tem os recursos para alocar?
+Tem, legal.
+Os recursos estão prontos?
+Estão.
+Então, eu vou iniciar os meus
+executores, tá bom?
+E aí, ele vai lá e faz o launching dos
+executores, que vão executar dentro de
+content, cara, isso aqui é muito sexy.
+Quem nunca viu isso funcionar, coloca eu
+aí, só pra só pra eu ter ideia.
+Um, dois, só duas pessoas?
+Três, quatro, mais quem?
+Cinco, seis, sete, oito, nove.
+Beleza.
+Então, eu posso fazer com dynamic
+allocation, mas eu também posso setar o
+que eu quero, o edge, depende de como
+você quer.
+Tá?
+Então, vocês vão pirar com isso aqui,
+velho.
+Então, vamos lá, vamos pirar um
+pouquinho.
+E aí, logo, os workers e esses workers
+começam a executar.
+Acabou a finalização deles.
+O que acontece, Matheus?
+Quando esses jobs acabam, quando essa
+unidade de trabalho acontece, o que
+acontece com esses workers aqui?
+Eles somem, tá?
+Então, eles executam e morrem.
+Por quê?
+Porque aplicações em Kubernetes são
+short lived.
+É pra elas viverem alguns segundos ou
+minutos, tá?
+Então, ele vai lá, abre, computação,
+processa, e automaticamente faz o
+shutdown, limpa os recursos e fala,
+cara, conclui essa aplicação com
+sucesso, tá?
+Isso vai acontecer automaticamente pelo
+Spock, que é o Spark do Kubernetes.
+Bem, existem duas formas de você depenar
+essa galinha.
+Você pode utilizar o Spark Submit
+clássico, que é o que eu mostrei aqui,
+tá?
+Então, ele vai ser um projeto ali que
+você já tá embedado dentro do core do
+Spark.
+Então, tá aqui, ó, runningonkubemiris
+.html.
+Então, se você acessar aqui, você vai
+ver como que você faz pra executar o
+Spark no Kubernetes, tá?
+E eu não recomendo vocês fazerem isso.
+Eu recomendo vocês utilizarem o quê?
+O Spark on K8S Operator.
+E a notícia mais foda do dia é que,
+possivelmente, vocês não sabem, mas esse
+projeto, ele estava morto há seis meses,
+quase um ano atrás.
+Era da Google, tanto é, não sei se vocês
+sabem, mas o que roda, por debaixo do
+Google Dataproc, é esse cara aqui, tá?
+Então, só pra começar aí.
+É o Codebase do Spark Operator.
+Eles têm o próprio Spark Operator, eles
+doaram o Spark Operator pra comunidade.
+Isso estava dentro do repositório da
+Google e foi passado agora pro
+repositório do Kubflow.
+E há semanas atrás eles atualizaram as
+imagens pra ser possível com que você
+possa fazer o quê?
+Spark 3 .5, galera.
+Olha isso, que loucura.
+E a gente vai mostrar isso aqui
+funcionando.
+Então, isso aqui é muito recente.
+Tanto é que a gente estava debugando
+aqui alguns dias atrás, tentando fazer
+funcionar e ajeitando os detalhes pra
+mostrarem pra vocês funcionando em alta
+escalabilidade.
+Beleza?
+E aí, o que que eu vou fazer?
+Eu vou mostrar pra vocês passo a passo
+de como a gente construiu isso aí.
+Pra vocês terem uma ideia.
+Então, a ideia de...
+Eu tô pensando em utilizar Spark.
+Você vai utilizar Spock, que é o Spark 1
+.8s Operator.
+Tá?
+Então, ele é um open source doado pela
+Google e ele tem um operador.
+O que é um operador no Kubernetes?
+O operador no Kubernetes é um agente
+ultra especializado dentro do
+Kubernetes.
+Então, imagina que você tem um
+Kubernetes que é inteligente, ele agenda
+perfeitamente no sistema distribuído,
+resiliente e assim por diante.
+Só que ele conhece as intricidades do
+Kubernetes.
+O Spark Operator conhece tudo sobre
+Spark.
+O Kafka Operator conhece tudo sobre
+Kafka.
+O Flink Operator conhece tudo sobre
+Flink.
+Então, você faz o deployment de uma
+inteligência, um agente inteligente
+dentro do Kubernetes.
+Então, quando algumas coisas acontecem
+ali, ele vai ser acionado pra poder
+fazer o processo.
+Então, a gente vai ver no YAML, por
+exemplo, que eu vou falar Ei, inicie
+esse job pra mim e aí o que vai
+acontecer?
+Ele vai olhar o application e vai
+identificar Ah, isso aqui é o operador
+do Spark.
+Passa pra ele.
+E o operador do Spark vai saber como
+iniciar o driver, processar com os
+executores, desligar, e fazer tudo isso
+pra você.
+Ele simplifica ainda mais a sua
+experiência trabalhando com aplicações.
+Uma das coisas super interessantes no
+Kubernetes é que, cara, Kubernetes,
+assim, quando a gente fala de
+containers, a gente já tá falando que a
+comparação de máquinas virtuais pra
+containers são absurdas, né?
+Enquanto, por exemplo, você precisa de 4
+cores e 16 GB de RAM pra rodar jobs
+decentes no Spark, no Kubernetes você
+vai precisar de...
+um terço disso pra rodar na mesma
+velocidade.
+Então, o job que executa em 4 cores e 16
+GB de RAM, possivelmente você consiga
+executar ele em 2 cores e 4 GB de RAM.
+Se não mais rápido, na mesma velocidade.
+Só pra vocês terem uma ideia do que eu
+tô falando pra vocês.
+Porque a economia de recursos e
+velocidade é extremamente absurda, tá?
+Beleza.
+E lembra que a gente também tem aquele
+cálculo de CPU.
+Lembra que nem sempre quando você pede
+um CPU, você tem que entender que existe
+é...
+um...
+existe um alocamento interno do sistema,
+lembra lá?
+Dos 300, 500 megas, né?
+Os 300 megas.
+O Diego, essa era a minha pergunta.
+Como você estima o seu cluster de K8S
+pro Spark?
+Então, eu eu evito gastar tempo com
+isso.
+Hoje eu utilizo ou um autoscaler como
+queda pra evoluir baseado em evento ou
+eu utilizo o próprio o...
+o...
+o Dynamic Allocation e vou na verdade
+assistir o meu cluster de Kubernetes,
+tá?
+O meu cluster base eu sempre gosto de
+trabalhar no mínimo com dois nós de 8
+gigas.
+Mas não só pro Spark, pra toda a stack.
+Né?
+Mas a gente tem cliente normalmente três
+nós, tá, Diego?
+De três a cinco nós com 16 gigas de RAM.
+Então, eu começo o cluster de base dessa
+forma.
+Pra cliente, pra produção.
+Então, são três nós escaláveis até cinco
+e cada um tem 16 gigas de RAM.
+Tá?
+É isso mesmo, né, Matheus?
+Matheus, você consegue fazer a demo de
+streaming depois?
+Eu vou fazer de back, você faz de
+streaming?
+Pode ser?
+Olá.
+Volumetria de dado?
+Matheus, dá aí umas médias de volumetria
+dos nossos clientes
+pequenos.
+Você viu mensagens por segundo?
+De Neo Kafka?
+Com cinco brokers de um giga cada?
+Mentira, né, velho?
+É.
+Já trabalhamos com 300 conectores, se eu
+não me engano, ao mesmo tempo.
+E Spark?
+Cara, acho que o maior cluster...
+Porque o Spark a gente trata não como
+cluster, a gente trata mais como uma
+aplicação isolada.
+É, acho que o nosso maior foi o quê?
+4 gigas?
+Foi, eu acho que foi o maior.
+O maior que eu tive na minha vida foi,
+eu acho que 4.
+4 ou 8 gigas.
+E a gente tinha aproximadamente 700 a
+900 gigas em Neo.
+Não é isso?
+Isso.
+Ou seja, vocês têm noção?
+A gente tá falando de, cara, é muito
+pouco recurso pra muita coisa, velho.
+Então, assim, quando, por exemplo, o
+Matheus chega e fala, cara, eu reservo 2
+gigas de RAM pro Kafka, o CPU 2 gigas de
+RAM e eu processo 100 mil eventos por
+segundo, o cara do outro lado fala,
+cara, não tem como vocês fazerem isso, é
+impossível.
+Por quê?
+Porque numa VM Kafka...
+Matheus, qual é o mínimo pra rodar
+interessante dentro de uma VM, o Kafka?
+36 gigas pra você começar a brincadeira.
+36 gigas, no mínimo, 3, né?
+Isso.
+Tá?
+Então, assim, é muito importante.
+Muito mesmo.
+E vocês entenderem que isso aqui é,
+cara, isso aqui é foda.
+Uma vez que você bota um pé aqui, velho.
+Por isso que eu, Luan Moreno,
+particularmente, eu gosto muito de
+recomendar pros meus clientes testarem
+isso aqui.
+A gente tem vários casos de migração de
+Databricks pra Kubernetes, com não só
+melhoria de preço, mas em velocidade de
+execução com recursos infinitamente mais
+reduzidos, tá?
+A gente tem esses casos aqui.
+Então, é muito foda trabalhar com esse
+cara, porque, de fato, é o que acontece
+muito fora do país, tá?
+Luan, no mercado de dados, qual é o
+requisito para o professor de engenharia
+de dados no Brasil?
+Qual a sua leitura?
+Não, não é.
+Se eu falar que é obrigatório, eu tô
+mentindo, não é.
+Assim como o conceito de engenharia de
+software.
+Mas é um diferencial.
+Eu falei há 2, 3 anos, mais ou menos,
+nos eventos que eu fiz, com o Matheus,
+enfim, que eu acredito que daqui a
+alguns anos, esse conhecimento vai ser
+um conhecimento que vai te diferenciar
+demais da massa e, posteriormente, vai
+ser um conhecimento obrigatório pra todo
+mundo que trabalha com TI, tá?
+No quesito de DevOps, engenheiro de
+software, cientista de dados e
+engenheiro de dados.
+Vai ser obrigatório você saber de
+Kubernetes.
+Por quê?
+Basicamente pelo fato de que, no final
+do dia, se você tem containers, não
+importa mais onde você tá rodando sua
+infraestrutura.
+Simplesmente não importa mais.
+Pode estar na Google hoje, amanhã pode
+estar na Amazon e depois pode estar no
+GCP.
+Tanto faz.
+Vai ser o que for mais viável pro
+cliente baseado, por exemplo, na
+necessidade dele ou baseado num caso de
+uso, assim por diante.
+Tá?
+Então, realmente, é uma coisa
+interessante.
+E é um sistema relativamente complexo,
+mas uma vez que você entende, é um
+conhecimento que vai servir pra tudo.
+Então, você pode botar tudo dentro dele,
+né?
+Não é fácil.
+Não é fácil.
+Não, não é.
+A gente aqui na empresa utiliza uma
+stack nossa chamada de Orion.
+A gente faz o deployment da
+infraestrutura inteira do cliente dentro
+do Kubernetes e entrega pra ele.
+A gente consegue fazer isso de forma
+extremamente rápida.
+A gente consegue buildar esses sistemas
+inteiros em duas, três horas e a gente
+tem tudo disponível.
+Tem MinIO, Kafka, Airflow, Trino,
+HiveMetStore, enfim, you name it.
+Spark, Flink, mais o que a gente tem de
+Dacry House?
+A gente tem Pinot, a gente tem
+StarRocks.
+O StarRocks parece que é esquisito
+também.
+É, a gente tem, a gente tá tentando,
+inclusive, trazer isso pra um dos
+clientes.
+Então, muita coisa acontece.
+Dá pra você subir a stack inteira de
+dados, além de ser extremamente
+barato.
+Conhecimento de ouro, que bom, né?
+Isso realmente, o Databricks é foda, mas
+saber que posso fazer open source, in
+-house, habilita muito startup que não
+teria grana pra pagar.
+Bom ponto, Jonathan, exatamente.
+Muita gente não consegue já começar com
+o Databricks, né?
+Isso, Eduardo, e a gente sobe tudo com o
+Terraform.
+Tipo um cluster de 6 VCPs e 12 GB de
+RAM, já dá pra brincar?
+Porra!
+Duas dessas eu subo a stack inteira.
+Duas dessas aí eu subo a stack inteira.
+Kafka, Trino, MinIO, Spark, Airflow,
+tudo.
+Dá pra subir tudo com o Scala, tá?
+Aqui, por exemplo, ainda não tenho de
+aprender.
+Cara, e aí, só, né?
+Inclusive, daqui a pouco eu vou até
+chamar o Regis pra falar um pouquinho
+daqui de uma oferta, mas pra quem já tá
+na comunidade, Matheus, você recomenda
+fazer o curso, o novo curso do Luan
+Moreno?
+De Kubernetes?
+100%.
+100%.
+Não sabendo...
+É.
+Se você fizer esse curso de Kubernetes e
+você não sair...
+Me chama, moleque.
+Se você fizer...
+Eu vou além.
+Se você fizer esse treinamento de
+Kubernetes pra iniciantes aqui...
+Não tem nada de iniciante, porque são 70
+vídeos, mas...
+Enfim, você faz esse treinamento.
+Depois desse treinamento, você dá uma
+olhada no exame de certificação, o CKAD.
+Faz os...
+os...
+os exames.
+Você pode testar ali no CodeCloud, por
+exemplo.
+Eu garanto pra você, que você vai passar
+na prova, tá?
+Então, a gente fez o treinamento baseado
+no conteúdo de certificação e também pra
+que a gente pudesse entregar fim a fim
+um entendimento de Kubernetes.
+E não só Kubernetes, mas Kubernetes pra
+dados, tá?
+Então, eu vou...
+Eu desço bem a fundo no treinamento pra
+mostrar pra vocês.
+E o BDK tá vindo aí.
+O BDK tá vindo.
+É, o treinamento de...
+Então, eu recomendo.
+Kubernetes pra iniciantes.
+Como não usei K8S, como seria a
+configuração pra trabalhar com Jupyter?
+Vida.
+Implimentei a Flow aqui em K8S na QS.
+Pra desenvolvimento, qual a melhor forma
+de subir em K8S?
+De fato, eu mostro isso no treinamento
+lá, mas eu utilizaria o...
+Qual o nome?
+Minikill.
+Pra mim, é o mais legal.
+E dá pra você fazer tudo local, tá?
+Você sobe e faz tudo.
+Sou eu como instrutor, é.
+Sim, Matheus, explica aqui o caso.
+A gente tem tempo, né?
+A gente vai acabar às 10, mas explica o
+caso aí.
+O Deuíno perguntou, recomenda K8S pra on
+-premises?
+Ô, amigo, não só recomendo, como...
+Hoje, os clientes que procuram a gente,
+grande parte deles é por conta disso.
+Eles não botam em pra nuvem.
+Tipo, se for algum tipo de restrição, ou
+é algum público, ou é uma estratégia da
+empresa, como um todo.
+E uma das coisas que eu ouvi bastante
+foi...
+E aí, gente, ficam pra vocês como um
+conhecimento extra, tá?
+Cara, eu vi várias pessoas chegarem aqui
+e falarem o que fazem, mas a coisa que
+eu entreguei pra eles não conseguiram
+andar, porque estão acostumados naquele
+processo de nuvem, de estar encapsulado,
+igual eu falo muito no Luiz.
+Cara, quando eu trabalho com a Adabrix,
+eu adoro.
+Eu adoro, porque está encapsulado
+praticamente tudo que eu ia passar horas
+pra poder fazer.
+Porém, né?
+Porém, tem momentos que você não vai
+trabalhar com a Adabrix, você vai ter
+que fazer.
+Eu gosto de mostrar aqui agora, vai ter
+situações em que eu tenho que subir
+Jars, por exemplo, no Spark, né?
+Que é o grande pesadelo.
+Mas vai ter que fazer.
+E tem que aprender a fazer, gente.
+É parte do trabalho.
+Não tem choro, né?
+Pra isso.
+Minha meta de vida é zerar todos os
+custos da plataforma.
+Meu irmão, se tu zerar todos os
+treinamentos, já todos
+certificados, tem coisa ali, viu?
+Caraca, tem coisa hoje.
+Hoje tem conteúdo demais, que bom.
+E vai sair mais.
+Ô Luan, a gente tem família.
+Para de lançar curso foda.
+Nada que 10 anos de estudo não resolva.
+E falaram que medicina era difícil.
+É, foda.
+A mulher perguntando com o que você
+gasta tanto dinheiro comprando curso do
+Luan.
+Caraca, gente.
+Que merda, né?
+Mas espero que isso traga um resultado
+pra vocês absurdo.
+E se não tiver, tá errado.
+Mas, depois de 3 dias, eu queria mostrar
+rapidamente aqui, porque a gente tá
+falando de Kubernetes, né?
+Então, a gente tem aqui, ó, esse cara.
+Fundamentos de Kubernetes.
+Então, aqui no treinamento, nós vamos
+explorar tudo de Kubernetes, tá?
+Não é pra dados, não.
+É tudo mesmo.
+Então, parte de introdução, beleza.
+Mas ele vem com os conteúdos de
+computação na nuvem, princípios, GitOps,
+ArgoCD, a explicação de dados no
+Kubernetes.
+Aí vem fundamento, história do
+Kubernetes.
+Olha o tanto de vídeo.
+Cara, é muita coisa.
+Esse treinamento tá...
+Foi o melhor treinamento que eu já fiz
+gravado até hoje, esse aqui, tá?
+Então, ó, princípios de contenização,
+história, orquestrador, o que que...
+Qual o landscape da CNL hoje?
+Da CloudNave.
+Arquitetura, interface, pod, manifesto,
+Helm, Artifact Hub, repositório.
+Aí vem desenvolvimento local.
+Qual é a melhor forma de você se
+desenvolver local?
+Utilizando o Minikube.
+Introdução pra cada um das nuvens.
+Pod.
+Então, cara, tem tudo de pod.
+Health Check, Liveness Probe, Resource
+Management, Request, Volume, Label
+Selector.
+Depois, todos os controllers.
+Demon Set, Replica Set, Deployment,
+Stateful Set, Job, Chrome.
+Tem tudo, cara.
+É tudo.
+CRD, Custom Resource pra você criar
+coisas customizadas.
+Todos os tipos de serviço e como eles
+funcionam.
+Persistência de dados, que é um conteúdo
+que não existe em português, tá?
+Eu desconheço conteúdo desse em
+persistência de dados pra Big Data,
+enfim.
+E utilitários de desenvolvimento.
+Então, cara, o treinamento de...
+Acho que deu nove, sete, oito horas e tá
+muito legal, de verdade, tá?
+Então, recomendo vocês, quem tiver
+interesse, quem tiver na comunidade.
+Pra quem não tá na comunidade e tá
+fazendo esse treinamento, a gente tem um
+comunicado pra vocês daqui a pouco,
+beleza?
+Mas vamos seguir aqui.
+Então, vamos lá, tá?
+O que que a gente vai fazer agora?
+A gente vai olhar um pouquinho em
+Dynamic Allocation.
+Então, a gente tem duas formas de alocar
+recursos dentro do Kubernetes.
+A gente tem o Startup Resource
+Allocation, onde você vai falar, cara,
+eu quero um job que tenha essa
+configuração.
+A questão é, se esse job, de alguma
+forma, aumentar ou você precisar de mais
+recursos, é capado ali pela configuração
+que você fez.
+Ou você pode escolher em fazer um DRA,
+que é o Dynamic Resource Allocation.
+Você pode falar com que o Kubernetes e o
+operador do Spark possam trabalhar da
+melhor forma possível escalando esses
+caras.
+Então, você pode tanto ter o
+escalonamento do cluster de Kubernetes,
+como você pode ter o escalonamento do
+operador em mais executores acontecendo.
+Tá?
+Lembra que eu falei pra vocês?
+Matheus, acho que foi ontem, ou antes de
+ontem, que caso você tenha um shuffle
+ativo, esse cara, ele consegue.
+Então, quando eu venho aqui e dou um
+Spark Dynamic Allocation Enable equals
+true e dou um Spark Dynamic Allocation
+.shuffleTracking .enable true, se eu
+tiver cinco executores trabalhando.
+Olha só isso aqui, Matheus.
+Eu tenho cinco executores, três
+executores trabalhando.
+Entendi que eu tenho que escalonar.
+Escalei.
+Comecei a fazer shuffle.
+Tô organizando.
+Aí, esses dois caras pararam, saíram.
+Eu perco o shuffle que foi fake?
+Não.
+Porque essa feature tá habilitada.
+Então, eu consigo fazer utilizar todos
+os outros props pra poder olhar pro
+shuffle, sem perder o shuffle.
+Tá bem.
+Tem um tempo que eu só fico pensando
+assim...
+É vários sofrimentos de aprender
+Kubernetes mesmo.
+Não tem jeito, não.
+É.
+Assim, você aprende, mas depois também,
+cara...
+É.
+A gente tem o Master, tem muita coisa de
+Kubernetes.
+Tem muita coisa.
+Legal, Diego.
+Faz e depois, inclusive, grava pra
+gente.
+Seria ótimo.
+Um conteúdo legal.
+Então, como eu falei pra vocês, a
+locação demora, olha só, Matheus, demora
+menos de dez segundos pra inicializar um
+executor.
+Então, é um pouco rápido, né, galera?
+É um pouquinho rápido pra iniciar um
+executor dentro do Kubernetes.
+Demora em média menos de dez segundos.
+Você pode também habilitar a ideia de
+Spot Instances.
+Então, uma das coisas que a gente também
+faz no cliente nosso, que é o seguinte,
+cara...
+É o seguinte.
+A gente executa esses jogos aqui em
+certos horários e aí a gente tem um Node
+Affinity, que eu já vou explicar aqui o
+que que é.
+E aí, a gente cria máquinas Spot
+Instances e a gente dá um Node Affinity
+pra ele.
+E aí, na hora que a gente vai fazer o
+deployment da aplicação do Kubernetes,
+do Spark, a gente fala, ei, eu quero que
+você execute nessa afinidade de Node.
+E aí, os containers vão pra este cara,
+que dá até 75 % de redução de custo.
+Então, assim, cara, dá pra fazer tanta
+coisa legal aqui.
+Tipo, literalmente o...
+Sabe?
+Tipo...
+Você tem milhares de opções.
+Pra Dynamic Allocation, eu vou sempre de
+3 a 5, né?
+Dynamic Allocation existe em Spot On
+-Premises.
+Ele é uma feature do Spark.
+Da onde estiver, tá?
+Então, você tem a parte de Shuffle
+também, que coloca essas informações.
+As informações nos discos persistentes.
+E aí, você pode vincular discos que são
+SSD.
+Shuffle, pra que você não precisa ter
+problema.
+E aqui, o que eu mostrei pra vocês do
+recurso avançado.
+Então, por exemplo, quando você faz a
+criação de um cluster de Kubernetes, o
+que você pode fazer é, quando você cria
+ele, você pode fazer isso pelo
+Terraform, enfim, você chega e fala pra
+ele o seguinte, olha, eu quero criar
+pools, nós de pools, né?
+Node pools.
+E aí, você cria, por exemplo, System
+Pool, Memory Pool, Storage Pool, CPU
+Pool e assim por diante.
+Aí, esses pools, eles possuem as
+máquinas virtuais ali, que podem ser de
+características diferentes.
+Por exemplo, você vai ter uma máquina
+especializada em CPU, você vai ter uma
+máquina especializada que performa em
+melhor em disco, você vai ter uma melhor
+em memória e o que é de sistema vai
+ficar somente aqui.
+E aí, você pode utilizar o conceito de
+tent, né?
+Que é munchar esse cara.
+Então, você fala o seguinte, olha, todo
+mundo que está aqui vai ser o quê?
+Critical, add -on zone e construe.
+Então, ele só aceita entrar neste pool
+aqui o que for de sistema.
+Ou seja, todos os conteúdos ali que eu
+expliquei do Kubernetes vão ficar aqui
+dentro dessas máquinas aqui.
+Enquanto todas as outras, eu posso
+utilizar o quê?
+Um node affinite.
+Eu posso, por exemplo, falar, olha, tudo
+que é igual ao dedicated e com os Kafka
+vem para esse pool aqui.
+Tudo que é igual ao dedicated e com, por
+exemplo, Spark, ele cai para cá.
+E daí, automaticamente, você consegue
+balancear suas aplicações em diferentes
+locais.
+E tem o scaffold que eu vou mostrar um
+pouquinho, porque agora a gente vai para
+a demo do demo.
+A demo do demo hoje é bem interessante.
+A gente vai usar uma arquitetura tirando
+ali o MinIO, que é uma arquitetura
+basicamente que a Netflix utiliza.
+A Netflix tem S3, que está na Amazon.
+Ela utiliza Spark e Flink para
+processamento e escreve os dados em
+Iceberg.
+E aí você tem o Trino consultando dessa
+informação.
+Então, agora vamos condensar todo esse
+conhecimento aqui.
+Nossa, última demo.
+Fiquem tranquilos que vai valer a pena e
+eu quero ver um bocado de foda para a
+gente fechar com chave de ouro.
+Então, então aqui, ó, criei uma pasta
+nova, já está lá, chamada...
+Inclusive, eu vou atualizar aqui, gente,
+o dia 4 e o dia 5, tá?
+Depois aqui da aula.
+Mas, Kubernetes, eu criei uma nova pasta
+de Kubernetes aqui que a gente vai
+passar passo a passo.
+Então, a gente vai no Readme e antes de
+ir no Readme, o que eu fiz?
+Lembra que a gente escreveu uma
+aplicação aqui antes, seguindo as
+melhores práticas?
+Olha que legal.
+Eu criei aqui uma pasta app e aí eu fiz
+bem bonitinho, ó.
+Config, eu deixei os arquivos de config.
+Beleza?
+Data, eu deixei Business, Ingestion,
+Output e Transformation, né?
+Como a gente tinha escrito já com as
+melhores práticas.
+E o Tios, o Helpers.
+Então, está aqui a aplicação e eu
+escrevi essa aplicação linda aqui, tá?
+Bem enxuta, tá vendo?
+Seguindo as melhores práticas.
+Então, aqui a gente lê os arquivos, o
+arquivo de configuração que está
+desacoplado, a gente tem aqui as
+informações do Job, Ingestão, o Tios,
+Transformação e Output dos dados.
+Uma coisa legal aqui é que se eu abrir o
+Spark Session, veja que meu Spark
+Session agora, Matheus, não tem nada, ó.
+Ele está limpo.
+Tá?
+Meu Spark Session está limpo aqui.
+Beleza.
+Então, o que a gente fez?
+A gente organizou esse cara aqui e agora
+a gente vai trabalhar esse cara dentro
+do Kubernetes.
+Como que a gente faz isso?
+Primeira coisa que a gente vai fazer, a
+gente vai containerizar essa aplicação.
+É isso mesmo.
+Então, você vai containerizar uma
+aplicação de Spark.
+Olha só que legal.
+Você vai pegar essa aplicação aqui e
+você vai colocar ela dentro de um
+container.
+Então, como que a gente faz isso?
+A gente tem um Docker File, né?
+E esse Docker File vai fazer o quê?
+Ele vai compilar tudo dentro do
+container para mim.
+Quando você faz a criação de uma imagem
+de um container, você precisa ter a base
+image, o base image, que é a imagem
+base.
+A imagem base aqui, eu estou utilizando
+o Bitnami Spark 3 .5, que é o mesmo que
+eu estava utilizando anteriormente no
+Composer.
+Então, está aqui.
+Então, eu estou herdando desse cara
+aqui.
+Essa flag de plataforma, ela é muito
+importante.
+Se você está utilizando, por exemplo, os
+novos Macs, que é a arquitetura ARM,
+você tem que fazer isso aqui.
+Senão, ele vai compilar e não vai...
+não vai funcionar, tá?
+Então, você tem que setar.
+Se você compila em máquinas assim, você
+tem que setar a plataforma em Linux AMD,
+tá?
+Aí, o que eu estou fazendo aqui?
+Eu estou copiando os jars para o local
+dos jars dele.
+Então, veja aqui, ó.
+Jars.
+Eu estou copiando os jars para dentro do
+container.
+E estou copiando a pasta app para a
+pasta app.
+Então, ó.
+Estou construindo, estou criando, estou
+movendo aqui tudo que é app, todas as
+informações das minhas aplicações, para
+esse cara aqui.
+E estou falando que o diretório de
+trabalho dele é app, porque na hora que
+eu der, por exemplo, um barra, alguma
+coisa, ele vai identificar que o meu
+base, que o meu home base é app.
+Beleza?
+É isso aí.
+Eu já sofri bastante com isso, tá?
+É simplesmente a merda de uma flag.
+Beleza.
+Então, vamos ao nosso readme aqui.
+O que a gente vai fazer?
+Aqui eu deixei para vocês algumas
+informações, mas a gente vai buildar
+essa imagem.
+Então, eu vou utilizar docker build.
+Aqui eu estou passando a flag.
+Eu posso passar lá ou eu posso passar
+aqui.
+Eu deixei as duas opções para vocês.
+E eu vou buildar essa imagem, ou seja,
+eu tenho que estar na pasta.
+Eu estou explicando passo a passo, tá,
+gente?
+Beleza?
+Para ficar claro para todo mundo.
+Então, se eu for na pasta aqui, eu tenho
+um cara chamado docker file.
+Então, se eu der um cat docker file, é
+exatamente aquele docker.
+Então, eu vou chegar nesta pasta que tem
+um docker file e eu vou falar o
+seguinte, olha, build essa imagem para
+mim e você vai chamar ela de etl help
+batch.
+Tá?
+Aí eu vou taguear esse cara local e vou
+mandar para o meu repositório.
+Eu vou mandar para o meu repositório
+aqui, lá no docker registry.
+Eu posso utilizar google, cloud
+registry, eu posso utilizar qualquer um,
+mas aqui eu estou utilizando o docker, o
+docker registry.
+Onway solution, etl batch e eu tagueei
+aqui como latest.
+É importante que vocês deixem essa flag
+latest aqui, eu já vou explicar porquê.
+Uma vez que eu tenho isso, eu buildei
+essa imagem local aqui, tá tudo certo
+com ela.
+Beleza?
+E mandei ela para o meu registry.
+Agora ela está disponível na internet.
+Ela pode ser pública ou privada.
+Nesse caso aqui, ela é pública.
+E aí eu vou acessar o meu kubernetes.
+Então, uma das formas de acessar o meu
+kubernetes é utilizando o kubectx, que é
+o contexto.
+Então, aqui eu estou falando, me conecta
+neste kubernetes, porque se eu vier aqui
+em kubectx, eu consigo listar todos os
+kubernetes que eu tenho no contexto
+local meu, tá?
+Então, aqui eu estou nesse cara.
+Uma vez que eu entro aqui, eu vou
+acessar os namespaces.
+Essas são das coisas que a gente gosta
+muito de trabalhar aqui.
+O que é um namespace?
+É a unidade de organização dentro do
+kubernetes lógica.
+Então, olha só que lindo.
+Eu posso ter um namespace de deep
+storage, de githops, de ingestion, de
+metastore, de processamento, de
+warehouse.
+Então, fica tudo muito bem segregado e
+dividido.
+Então, é fácil você trabalhar ali
+desacoplado e entender a organização de
+cada um dos produtos.
+E aí, amigão?
+Eu vou trabalhar com o quê?
+Com instalar o meu operator.
+Então, uma vez que eu instale esse
+operator aqui, que está ali na
+descrição, o que você vai ver?
+Você vai fazer um listing aqui, um Helm,
+que você vai instalar ele para o Helm.
+E ele vai aparecer para você o seguinte.
+Olha, eu tenho um Helm instalado chamado
+Spark Operator que está trabalhando no
+namespace processing.
+Você fez, você não fez nenhuma alteração
+nesse cara.
+Ele foi deployado com sucesso e isso
+aqui é importante.
+A versão do operador é 1 .4.
+1 .4 .3 e a versão da API é a última.
+Está vendo?
+1 .6 .1 barra 3 .5 .0.
+Ou seja, imagem base Spark 3 .5.
+Beleza, lindo.
+Eu tenho o operador ali, bonitão.
+Agora, o que eu vou fazer?
+Eu vou simplesmente...
+Não, a gente está rodando no
+DigitalOcean.
+Deixa eu até entrar aqui no DigitalOcean
+para vocês verem.
+A gente ama o DigitalOcean, né?
+Nós amamos o DigitalOcean.
+Nossos clusters ficam no DigitalOcean,
+inclusive.
+Faz uma raiva de vez em quando, mas...
+De vez em quando dá uma parada muito
+doida, mas geralmente funciona muito
+bem.
+Diria que 95 % dos tempos...
+Para quem quer testar cluster, eu
+recomendo fortemente ler esse cara.
+Eu quero ir para um ambiente para testar
+cluster de POC, para cliente estudar
+esse cara aqui, porque ele é barato.
+Ele é barato.
+Acho que é a minha internet que está
+ruim, realmente.
+Então, aqui, depois eu acesso o cluster
+para vocês verem, mas é um cluster...
+Matheus, qual a configuração desse
+cluster?
+É isso que eu estou confirmando agora.
+Eu acho que são três nós...
+Eu vou trocar de internet, tá?
+Só um minuto.
+Eu vou sair da internet para outra.
+Agora eu estou aqui.
+Deixa eu confirmar, porque tem um tempo
+que eu criei
+ele.
+Quantos nós você tem, amiguinho?
+É, três...
+nós de 12 gigas cada.
+Matheus?
+Fez.
+Voltei?
+Voltou.
+Beleza.
+Então, eu troquei de internet.
+Então, a gente tem o que aqui?
+Acho que são três de 16.
+São três de 16?
+A gente está pagando quanto?
+Então, são três, realmente.
+Vou dar uma olhada aqui.
+Três de três.
+Nós temos...
+Não é 16, não.
+É, está de 16 gigas.
+16 gigas.
+Beleza.
+E olha, 288 dólares por mês.
+E a gente roda toda a stack.
+Nossa, todas as demos, enfim.
+Aqui dentro.
+Então, bem decente, tá?
+E com isso aqui, a gente consegue fazer
+tudo, né, Matheus?
+24, VCP, uso 48 gigas de RAM, tudo.
+Dá para fazer tudo em grande escala.
+Beleza?
+Então, está aqui.
+Diz que está hoje.
+Funcionando.
+Show.
+Então, eu estou conectando naquele
+cluster lá.
+E aí, gente, olha só, Matheus.
+Presta atenção, Matheus.
+Como é difícil fazer o agendamento,
+dentro de uma aplicação dentro do
+Kubernetes.
+Olha, tem uma de stream aqui.
+Interessante.
+Matheus já vai mostrar de streaming para
+vocês.
+Olha só que lindo isso aqui.
+Isso aqui soa como...
+Não música, né?
+Mas é que é lindo de ver.
+Parece uma pintura.
+É um YAML que você vai passar para o
+operador.
+Então, olha só aqui.
+A versão.
+Lembra da versão da API que a gente viu
+lá no Helm?
+Sim.
+E aqui, o kind, qual é o tipo de
+aplicação?
+E aí, ele vai falar Spark Application.
+Ah, então, Spark Application é o que?
+É o operador.
+Então, quando eu fizer o deployment
+disso no Kubernetes, ele vai ver que,
+cara, tem um kind aqui chamado Spark
+Application, que é um operador.
+Beleza.
+O metadado dele, que é o nome dessa
+aplicação e onde ele vai ficar.
+Qual é o tipo dele?
+Python.
+Vai executar em modo cluster,
+distribuído.
+Olha a imagem minha aqui, que eu acabei
+de buildar com a tag de Latest, está
+vendo?
+Então, eu tenho aqui a minha imagem ETL
+e Elp Pad, que tem a minha aplicação e o
+Latest.
+Isso aqui é muito importante que vocês
+façam.
+Image Pool Policy.
+Por padrão, não é Always.
+Mas é importante que você tenha sempre
+como Always.
+Nesse caso aqui, eu vou mostrar por quê.
+O que é o Always?
+Toda vez que ele for buildar, que ele
+for executar esse cara, ele vai
+consultar o registro para ver se...
+E vai trazer de novo a imagem.
+Ele vai subscrever a imagem que ele já
+tem lá no container do Kubernetes.
+Então, por que a gente faz isso?
+Porque a gente já vê que, por exemplo,
+se eu quiser evoluir minha aplicação,
+evoluir minha aplicação, mas o Image
+Pool Policy não está como Always, a
+minha aplicação não vai mudar, porque a
+imagem que o Kubernetes está utilizando,
+ela é ultrapassada.
+Beleza?
+Aí, onde está a minha aplicação?
+Ela está lá no app etlbatch .py.
+Então, ela está no app.
+Ela vai executar esse batch aqui, que
+tem todas as pastas funcionando
+perfeitamente.
+Show.
+Lindo.
+Aí, aqui, qual é a versão do Spark?
+Em características de falha.
+Então, em falha, a gente vai fazer o
+retry de três vezes, tá?
+E, gente, olha que legal isso aqui.
+Passando as configurações de acesso do
+S3 desacoplado da aplicação.
+Lembra que eu falei que cada vez mais a
+gente tem que desacoplar esse cara?
+Então, aqui, antigamente, a gente usava
+essa configuração acoplada.
+Então, se a gente viesse aqui em src
+app, src, pegar o main e acessar o Spark
+Session, a gente veria que isso aqui
+está na cabeça da aplicação.
+Nesse caso, a gente removeu esse
+desacoplamento de configuração, como é
+melhor prática, e deixou ela responsável
+somente no YAML, configuração no YAML.
+Beleza?
+Inclusive, eu posso obfuscar esse cara
+aqui.
+Outro ponto legal.
+Olha só.
+Agora, eu estou me conectando intra
+conexão.
+Porque agora, eu estou na rede do
+Kubernetes.
+Então, é o svc .cluster .local.
+Então, agora, eu vou me conectar com o
+endereço do minha IO.
+Eu não preciso passar qual IP, porque
+ele vai resolver por nome.
+Ele tem um DNS que resolve por nome
+dentro do Kubernetes.
+Beleza.
+Matheus, você lembra quantos minutos a
+gente demorava para executar?
+Vocês lembram, gente?
+Me dá aí um momento.
+Quantos minutos a gente demorava para
+executar aquela aplicação?
+Essa aqui, essa aplicação que buscava o
+dado, escrevia o dado e fazia as
+transformações?
+É importante ver se vocês lembram dessa
+aplicação que eu acabei de mostrar, a
+main, que ela pegava os dados, fazia uma
+transformação e escrevia o join.
+Quanto tempo ela demorava
+aproximadamente?
+Ela demorava aproximadamente, acho que
+de 2 a 3 minutos, para executar.
+Isso que é a palavra, 2 a 3.
+Isso.
+E aqui, Matheus, olha só.
+Eu estou pedindo um core para o driver.
+Estou pedindo um core para o executor e
+duas instâncias.
+Então, a gente vai executar em dois
+cores e eu estou pedindo 502 mili.
+Tá?
+Micro.
+Então, metade de um giga.
+Ele é 512 megas.
+Eu estou pedindo 512 megas.
+512 megas de memória.
+Vocês estão vendo isso aqui, né?
+512 megas de memória para rodar aquilo
+que era 3 gigas na minha máquina.
+Lembra que eu tinha 3 nós de 3 gigas
+cada?
+3, 6, 9.
+Eu tinha 9 gigas.
+Lembra?
+E eu tinha 6 CPUs.
+Aqui a gente tem 3 CPUs e 1 giga e meio.
+Beleza?
+Tá.
+Então, agora, eu vou fazer o quê?
+Eu vou aplicar essa definição.
+Eu vou aplicar essa definição para o
+Kubernetes.
+Só que tem uma coisa mais linda ainda.
+Dentro do operador, você consegue ir
+mais além ainda.
+Você consegue, por exemplo, esquedular o
+seu job.
+Então, se você vier aqui em deploy, eu
+criei um deploy chamado SCH.
+E esse deployment faz o quê?
+Schedule a cada 5 minutos.
+Então, eu estou rodando essa aplicação a
+cada 5 minutos.
+Ela está iniciando, processando e por aí
+vai.
+Então, se a gente vier aqui, no meu
+carinha favorito, prazer, apresente -se
+para vocês o OptaCube.
+OptaCube, para mim, é vida.
+É a coisa mais linda que existe esse
+cara aqui.
+O que o OptaCube faz?
+Está rodando.
+Ele nada mais é do que um cara, um
+visualizador de Kubernetes.
+Então, aqui você tem as informações de
+nó.
+Ele cresceu, não é, Matheus?
+Deve ter falado uma coisa.
+Namespaces, é o cluster.
+Pods, todos os pods feitos lá dentro.
+Quais são os tipos, os sets, os IPs.
+Eu consigo ver os volumes.
+Eu consigo ver tudo do Kubernetes dentro
+desse cara aqui.
+E aí, uma das coisas que eu consigo ver
+também é acessar o namespace.
+O quê?
+Processing.
+Lembra que a gente estava colocando lá?
+E eu tenho uma aplicação.
+O operador está rodando.
+E eu tenho uma aplicação.
+Uma aplicação chamada ETL Yelp Batch
+Driver e uma outra chamada SCH ETL Yelp
+Batch Driver.
+Beleza?
+Aí, quando a gente olha para esse cara,
+o que a gente vê?
+Ela executou há dois minutos atrás.
+Está vendo?
+Ela executou.
+Então, vamos ver o que aconteceu com
+essa aplicação.
+Se eu vier aqui, ela foi executada
+aparentemente.
+Deu tudo certo com esse cara.
+Tem uma informação aparente, os logs de
+execução, a configuração dele, eventos e
+por aí vai.
+Aí, o que eu vou fazer?
+Olha lá.
+Eu tenho uma outra aplicação rodando
+agora.
+Está vendo?
+Está rodando.
+Então, o que você vê aqui?
+Deixa eu mostrar para vocês isso na
+interface.
+Que também é legal.
+K get pods.
+Então, olha só.
+Ele abriu.
+Abriu o driver.
+Abriu os executores.
+Está executando.
+E aí, eu vou deixar aqui para vocês
+verem.
+Daqui a pouco, ele vai simplesmente
+terminar a execução
+dele.
+Então, deixa eu deixar o watch aqui
+agora.
+Então, ele está rodando aqui há 53
+segundos, o driver, e os executores há
+41 segundos.
+A gente vai ver que depois que esse cara
+acabar, o que ele vai fazer?
+Ele vai morrer.
+Então, vamos esperar quanto tempo ele
+vai demorar aqui para poder executar o
+meu job, que demorava ali em torno de 2
+a 3 minutos utilizando 9 GB de RAM.
+Estou fazendo exatamente a mesma coisa,
+utilizando interconexão e estou dentro
+do Kubernetes, obviamente.
+Então, ele vai executar esse job.
+Vai escrever os dados, se tudo deu
+certo.
+Aonde?
+No meu data lake.
+Então, vamos ver se no meu data lake, lá
+no minha I .O., os dados não estão
+inscritos.
+Vamos ver.
+Então, vou atualizar aqui.
+Vou em production, que é o bucket que eu
+escolhi.
+E help.
+Business e reviews.
+Tenho reviews aqui.
+E é, de fato, eu tenho arquivos.
+Que foram inscritos a...
+Qual foi a última data de modificação?
+9 .23.
+Que é exatamente agora.
+Beleza.
+Está executando aqui.
+2 minutinhos.
+Então, ele está escrevendo esses dados
+aqui.
+Ou seja, eu tenho aplicação de Spark.
+Ela se conecta no data lake.
+Aplica a lógica que ela tem que aplicar.
+E escreve num folder de produção.
+E está aí.
+Meu job demorou 2 minutos e 15.
+E agora eu estou automaticamente
+desligando ele.
+Terminando.
+Então, meus recursos estão completamente
+parados.
+Beleza?
+Legal.
+Só que eu guardei o melhor para o final.
+Vejam o seguinte.
+Isso aqui, Matheus.
+Antes de você explicar a parte de...
+Isso aí eu acho que eu tenho que falar.
+Isso aí é...
+Só que a gente é preguiçoso.
+Não é?
+E aí eu sou preguiçoso.
+Então, o que acontece?
+O que é chato de trabalhar no Kubernetes
+aqui nesse caso?
+Na verdade, eu perguntei.
+Luan, tem que fazer uma modificação na
+aplicação.
+Isso.
+Chega para mim.
+Você é o gerente.
+Mandei.
+Beleza.
+Essa aplicação está ótima.
+A gente tem que mudar a agregação dela.
+E agora?
+Não posso, não.
+São 9h24 da noite.
+Na sexta.
+Tem que fazer agora.
+Tem que fazer agora.
+Tem que fazer agora.
+Beleza?
+Tem que fazer.
+Tem que mudar a imagem tudo de novo.
+Porque você me achou perfeito.
+Então, beleza.
+Então, eu vou abrir aqui a pasta.
+Vou lá na minha aplicação.
+E eu vou agora mudar essa minha
+aplicação.
+Está vendo?
+Eu vou escrever agora.
+A tabela join.
+Beleza?
+Eu vou salvar esse script aqui.
+Quando eu salvo?
+20 minutos agora.
+Aí, salvei esse script aqui.
+O que eu vou ter que fazer?
+Eu vou ter que seguir o mesmo passo de
+antes.
+Eu vou ter que buildar a minha imagem.
+E depois eu vou ter que aplicar o meu
+operador.
+Certo?
+Eu vou ter que fazer isso manual.
+Então.
+Não.
+Não faço manual.
+Eu tenho um cara chamado Skafold.
+Skafold.
+Skafold.
+Olha isso.
+Eu vou vir aqui e vou tirar esse
+comentário que é desnecessário.
+Uma vez que eu salvo o arquivo.
+Olha isso.
+Ele vai buildar a imagem para mim
+automático e vai deixar lá no
+repositório.
+Porque da próxima vez que o job executar
+lá de Spark no Kubernetes.
+Esse cara já está lá.
+Tá?
+Então, cara.
+Isso aqui é uma das grandes maravilhas
+do mundo.
+E quem é esse cara?
+Ele é o Skafold.
+E muito simples.
+O que você precisa fazer?
+Basicamente nada.
+Você precisa instalar o Skafold local.
+Tá?
+E aí você vai criar um arquivo YAML
+chamado Skafold.
+Tá?
+E aqui no Skafold você vai falar o
+seguinte.
+Olha.
+Eu tenho uma definição de YAML.
+O artefato é.
+Você vai olhar para essa imagem.
+Que é Dockerfile.
+E você vai interagir no Dockerfile.
+No latest.
+Ou seja.
+Toda vez que você rodar um kubectl e
+referente a esse deployment.
+Ou qualquer mudança na pasta.
+Que esse cara está vinculado.
+Ele vai ativar a mudança do meu.
+Da minha imagem.
+Então, eu simplesmente venho aqui.
+E chego na pasta.
+Onde está o Skafold.
+O arquivo Skafold.
+E eu falo.
+Skafold.
+Hoje.
+Deve.
+E acabou.
+Ele vai estar agora olhando a minha
+aplicação.
+Qualquer mudança que eu faço.
+Ele vai buildar a aplicação.
+E a nova imagem vai ser feita.
+Então, daqui uns minutos.
+O que não tinha Join aqui.
+Opa.
+Está lá.
+Está aqui.
+A gente acabou de implementar a mudança.
+Em produção.
+Foi aprovado.
+Na sexta -feira.
+Nove e meia.
+Na sexta -feira.
+Nove e meia.
+Cara.
+Isso é foda.
+Fecha isso aqui.
+Com chave de ouro.
+Utilizando o Skafold.
+Beleza?
+Só que a gente só viu o Spark, Matheus.
+Agora eu vou passar para você.
+Mostra aí.
+Vamos lá, gente.
+Vamos fazer uma brincadeira aqui agora.
+Vamos fazer uma brincadeira.
+Vocês acham que isso vai ser preguiçoso.
+Você vai ver o que eu vou fazer aqui
+agora.
+A ideia, Eduardo.
+Só para falar.
+A ideia é você utilizar isso para
+desenvolvimento local.
+Depois você faz esse push para o seu
+processo normal de GitHub.
+Tá?
+Vai lá.
+Posso compartilhar?
+Eu nunca habilitei o GitHub.
+Eu utilizo.
+Eu salvo ele e analiso em outro lugar.
+Então a gente vai ter que se
+compartilhar para poder compartilhar.
+Vou.
+Vou compartilhar.
+Manda aí.
+Se colocar aqui.
+Advanced.
+Advanced.
+Portion.
+Aí.
+Eu vou fazer assim.
+Ó.
+Eu quero que vocês vejam.
+Beleza.
+Beleza.
+Lembra da nossa aplicação de ontem?
+Então.
+Nossa aplicação de ontem.
+A gente.
+Recebeu a demanda.
+De subir ela para Kubernetes.
+Né?
+E.
+Tem que buildar.
+Isso aqui é um pesadelo de qualquer
+pessoa.
+O tal dos jars.
+Cara.
+Esse aqui.
+Vamos começar a aplicação primeiro.
+Depois eu vou falar dos jars.
+Então.
+O que é essa aplicação?
+Tem que subir no Kubernetes.
+Tem que seguir o mesmo padrão do Luan.
+Né?
+Tem que usar os namespaces.
+Eu vou deixar aqui o chat aberto.
+Para poder ver se alguém perguntar
+alguma coisa.
+É.
+Então.
+Então.
+Então.
+Então.
+Temos que subir no mesmo padrão.
+Qual é o legal?
+Ou outra informação é interessante?
+A partir do momento que você está usando
+o service name.
+Se acontecer algum redeployment da
+aplicação Minあろう mudar.
+Tipo.
+O IP não muda.
+O IP muda.
+Desculpa.
+Esse nome não muda.
+Então.
+A nossa aplicação é transparente para
+isso.
+O nosso Kafka também.
+Vamos colocar esse endereçamento aqui.
+Porque.
+Se está todo mundo prefigurando o
+Kubernetes.
+Pra que eu vou usar.
+P né?
+Resolvendo.
+Então a gente segue Só que aqui a gente
+está agora gravando Dentro do nosso
+Minha Yola No Bucket Streaming A gente
+está gravando agora Eu quero uma saída
+de console em memória A gente agora está
+gravando isso lá no Delto Ou seja, leio
+do Kafka E trago para o Delto Vamos
+fazer uma brincadeira simples Vamos
+terminar mais simples hoje Só quero
+mostrar para vocês o mais importante Só
+que eu falei com o Lu assim Cara, eu não
+vou fazer imagem não Não vou Não vou,
+não aceito Não aceito Então Voltando ao
+nosso tipo de deployment Lembra do YAML
+que o Luan mostrou Que tem imagem e tal
+Se eu for aqui no deployment, eu tenho
+um stream Observe essa quantidade de
+jars Que eu tinha que ter Eu tinha que
+criar um build da imagem Copiando jars,
+que era minha imagem própria E tudo mais
+Só que Vamos fazer mais simples Vamos
+fazer o seguinte Vamos dentro do YAML
+Passar o nome do repositório Que é um
+maven E passar todos os meus packets que
+eu preciso Que foda Então a partir de
+agora eu não quero buildar Eu quero
+lidar direto com o maven Só que eu
+também não quero mexer com imagem Não
+quero com o meu script Eu não quero
+imagem Vamos fazer o seguinte Vamos
+subir o nosso script Para executar
+dentro do S3 Ou seja, vai lá no S3 para
+mim Acha a minha aplicação E aplica tudo
+isso aqui Vamos jogar a Kubernetes E
+vamos rodar um código simples Vamos
+rodar um Porque de novo, eu sou
+preguiçoso para caramba Então vamos dar
+aqui um apply Não tinha a minha
+aplicação Vamos ver aqui Get Spark
+Application Isso aqui é bem legal Ela
+apareceu aqui 6 segundos Vamos ver um
+negócio aqui Esse aqui já está meio que
+pronto Vamos ver o driver Só que eu não
+tenho tempo Acho que já vai
+subir Ele está instalando Nossas
+dependências todas Vai no maven para mim
+E procura para mim tudo Para eu não
+poder ter dor de cabeça Eu não quero De
+novo, aí começa a aplicação A gente vai
+sair daqui, nessa tela Não faz muito
+sentido A gente vai agora Ver que ele
+vai disparar Nossos executores Pode ser
+que a minha internet está meio zoada
+ultimamente Então pode ser Pode ser que
+eu não tenha tempo Pode ser que eu não
+tenha tempo Se eu cair, por favor Espere
+um pouquinho que eu volto Para voltar
+rápido Eu acho que eu já perdi conexão
+Já Que é normal Já É Eu já perdi E aí é
+minha internet, gente Que está zoada De
+vez em quando eu perco conexão com as
+coisas E tudo mais Vamos ver se volta
+Por favor, volte Por favor Não Vai me
+fazer raiva Não é da apresentação A
+gente passa É nosso isso aqui Tudo
+certinho Mas nada de apresentar Está aí
+Está rodando Mostra no Minhaio Eu quero
+ver se não Isso Isso Boa E aí, gente
+Vamos fazer melhor?
+Vamos fazer melhor Vai fazer melhor que
+mostrar no Minhaio?
+Vamos fazer melhor Minhaio não Minhaio
+não Minhaio não Sou preguiçoso Eu não
+quero ver Minhaio não É Vamos lá no
+trigo Ah, não Você quer fazer query
+Vamos fazer query Vamos fazer query
+Porque a gente gosta de fazer query
+Então vai Gente Eu subi a minha internet
+E lá Os três Escrevi três esquemas
+Dentro do trino E agora Como o trino
+está configurado Para o Minhaio Está
+aqui Eu falei que agora O novo esquema E
+a posição Que estava o meu delta Porque
+eu estou gravando delta Lembra do meu
+código Gravando delta?
+Vamos ver se é verdade isso Por favor Eu
+nunca vi o Matheus Estar preguiçoso É,
+Matheus Está preguiçoso Eu sou muito
+Muito Muito Principalmente quando Os
+negócios Eu tenho que fazer Coisas
+complexas É, eu acho Que estou sem
+conexão Acho que eu estou Acho que a
+minha conexão Com qualquer coisa Ah, foi
+Foi Só que eu tenho 53 mil, né?
+Vamos colocar aqui 53 mil Pô Eu não vou
+olhar Nem o Minhaio Não vou olhar Vou só
+fazer o seguinte Vamos disparar, então
+Já estava rodando, né?
+Mas eu vou fazer um rerun Do meu amigo
+Produtor Então eu estou Produzindo um
+dado aqui Então vamos lá de novo Estou
+produzindo um dado aqui E
+vamos lá Está de chorar agora, né?
+Vamos chorar Vamos ver se vai Vamos ver
+se vai É lá Já está carregando, né?
+Então praticamente Eu estou Da local da
+minha máquina Mandando para o Para o
+Kubernetes Para o Kafka Do Kafka Minha
+aplicação Spark Está olhando para ela E
+ó Jogando para ele Do Minhaio Só que eu
+não vou olhar O Minhaio Eu vou olhar O
+meu trino E para não provar Para provar
+que está No Minhaio Né?
+Porque depois Depois, né?
+O canal Isso aqui está tudo Marcado, né?
+Se a gente for aqui Isso aqui é o código
+Que a gente subiu Stream Delta Rides
+Small files Até as horas Ah, não Isso aí
+é outro Já vamos comparar Com algumas
+diferenças Hoje, né?
+Tem problema Dos gostos Olha aí 9 .34
+Aqui Sendo executados Gente, isso é
+lindo, velho A gente está mostrando O
+fluxo inteiro Do pipeline Então Aqui é
+brincar Aqui você pode fazer Join Com um
+dado Que está Bruto dentro Do Minhaio
+Com Delta Com E assim, né?
+Em diante Luan, deixa eu passar para
+você Porque eu só peguei essa palhinha
+Porque eu queria mostrar De novo, gente
+Essa é uma forma de fazer Para quem está
+se perguntando Sobre a questão Do
+arquivo Está aqui no Git Ela não está no
+Git E está aqui No No S3 A ideia é Que o
+seu pipeline De CD Quando você mudar
+para o Git Ele coloca aqui E a partir
+desse momento Você tem um bucket
+Exclusivo Que ninguém acessa Aquele que
+vai ter a aplicação Você não precisa
+Buildar a imagem Por exemplo É, tipo
+Imagina o seguinte Você está
+desenvolvendo O local Essa é a questão
+Você está desenvolvendo O local aqui Fez
+as modificações Está usando o Scaffold
+Está tudo funcionando Aí você foi lá
+Criou uma branch nova No seu GitHub
+Normal Fez o seu Pull request Beleza Ele
+foi aprovado Pull request foi aprovado
+Aí o que vai acontecer O CSD vai rodar E
+vai pegar Vai copiar esse arquivo Ou o
+projeto inteiro Para uma pasta Aí dentro
+E aí automaticamente A aplicação Em
+produção Vai lá Busca essa informação E
+você tem Um script atualizado Lindo E
+aqui Nós temos aqui
+Essa aplicação Põe pouco Põe pouco
+arquivo Deixa eu passar Para você Eu só
+queria Dessa palinha Obrigado Muito foda
+Muito foda Muito bom Muito bom Espero
+que vocês tenham gostado Porque eu
+praticamente Eu gosto muito Dessas
+coisas Beleza E antes de eu fazer Minhas
+considerações finais aqui E a gente
+entrar Nas perguntas Enfim Aguenta aí Eu
+quero chamar o Regis Um pouco Para falar
+De uma oportunidade Para vocês Antes da
+gente fechar O treinamento De fato E eu
+quero deixar As considerações
+importantes Aqui para vocês De próximos
+passos Regis Você está aí?
+Levanta Levanta a mão Que a gente dá
+acesso Não sei se você tem acesso aí Opa
+Estou sim Eu estou com um rosto já O
+Matheus Que Já tinha Já tinha me
+colocado ali E aí gente Beleza?
+Galera Vocês estão com Com S de Spark
+Boa
+Então Olha só Minha parte aqui Bem
+rapidinho mesmo É só porque Estava
+conversando Estava conversando Com Luan
+hoje E tudo E a gente sabe Quem Manda no
+chat aí Quem Quem é novo Que está
+participando agora E a gente sabe E que
+E que ainda não faz parte Da comunidade
+Da Blammers Quem está participando aí?
+Pô Eu vi que tinha bastante Porra
+Bastante gente nova mesmo
+Legal Massa Então É o seguinte A gente
+procura ser O mais justo possível Com
+todo mundo A gente sabe Que muita gente
+chegou E que muitos ainda Já entraram de
+cara Pelo Mastering E não se faziam
+ideia De que existia A comunidade Da
+Blammers Então Então o nosso objetivo
+aqui É igualar a oportunidade Para vocês
+De Que entraram pelo Mastering De ter De
+igualar A mesma oportunidade Que quem já
+veio E que entrou Às vezes direto Pela
+comunidade E assim por diante Então Só
+que antes de eu falar Assim como Do que
+a gente preparou Com relação a isso Eu
+vou fazer o seguinte Estou numa reunião
+aqui Com o Matheus e o Luan Não vai ser
+eu Quem vai explicar O programa Os
+treinamentos Tudo que tem a ver Ali
+dentro da comunidade Então inclusive Eu
+acredito que O Matheus Esses dias Passou
+assim né Passou umas duas semanas ali
+Reorganizando Visitando todo o material
+Matheus Você podia cara Mostrar ali
+Explicar Às vezes nem todo mundo Tem
+muita clareza Mostrar rapidinho Qual é o
+programa exclusivo Dos membros O que
+você está preparado Ali para agora Não
+só posso Como eu vou compartilhar
+Rapidamente aqui Eu vou dar até um
+Disclaimer tá Gente Gabriel Acho que o
+Lucas Está aí também Da comunidade
+Parabéns Os dois estão participando Das
+aulas ao vivo Recomendação demais Usem
+essas aulas ao vivo Então aqui a gente
+tem Aulas semanais De terças e quartas
+Em que pelo menos Uma vez Por mês Eu e o
+Luan Estamos lá Falando sobre Como
+utilizar a plataforma Dicas de Carreira
+É um espaço Que eu digo Bruno Também
+Porra Também Concordo E eu digo Que é um
+momento Que não vai ter gravação Eu por
+exemplo Eu gosto De fazer por menos
+Quinze minutos Antes e quinhentos Depois
+Em que eu Só inicio Depois que eu falo
+Algumas coisas Eu tenho uma interação
+Com vocês E depois no final Eu dou
+algumas Dicas que estão fora Justamente
+O pessoal que está participando Para ver
+a importância De estarem lá De gastar
+realmente O tempo A noite Eu sei que não
+é difícil Gente Eu faço a mesma coisa De
+estar aqui Luan É Desde dez horas Semana
+que vem Tem outra rotina De ficar até
+mais tarde Também Para gerar conteúdo Eu
+sei que não é simples Mas é uma jornada
+Eu acho que eu sempre Eu vejo a gente da
+forma A gente gasta um pouco De tempo
+ali Para poder ganhar Muito lá na frente
+E eu considero Que eu ganhei bastante
+Fazendo isso E eu fiz isso Para a gente
+Isso dá bastante A noite Ainda faço isso
+ainda Então Essa bladezinha aqui Essa
+bladezinha aqui É o principal Da comida
+Vou até dar um zoom Para vocês poderem
+Pegar aqui Acho que é Essa blade aqui É
+a blade da comunidade Tem uma questão De
+slack Quero tirar dúvida Quero uma
+comunicação rápida Com o instrutor Com o
+Luan A gente demora um pouquinho Para a
+questão Dos horários A gente trabalha Em
+projetos fora Aí fica também Aqui na
+comunidade Então Mas sempre tento
+responder O Guider Como eu comentei Um
+guia de estudo Mateus Quero saber Sobre
+como usar A plataforma melhor Quero
+saber Sobre dicas De vagas estrangeiras
+Equipes estrangeiras A gente vai trazer
+Vários temas Diferentes Isso aqui está
+bem legal Hands on Vai com o professor E
+vai tirar dúvida De prática É abrir
+código E tirar dúvida De prática Isso
+aqui É muito importante A gente está
+trazendo Uma galera de fera Para falar
+sobre certificação Porque sim
+Certificação tem um peso Gigantesco No
+nosso mercado E de novo Estamos com
+carência Viu Já paro Já tivemos Uma
+correria No passado Procurar pessoas
+Certificadas Num projeto Gigantesco
+Infelizmente Não conseguimos Fechar o
+quórum Por não encontrar Pessoas
+qualificadas A gente está olhando Para a
+comunidade Aula de inglês Gente Não
+tenho desculpas São duas aulas Segunda
+Com o Luiz Um brasileiro Fala muito bem
+Que tem um professor Excelente E com o
+Irving Que é o nosso professor Meio do
+Luan Particular Então o cara é sério O
+cara fala português É a ideia De você
+testar Com a pessoa De fora do país
+Mesmo Conversar É uma conversação Bem
+legal E isso aqui Não tem desculpa De
+falar assim Ah mas eu não tenho A
+oportunidade Porque eu não falo Eu já vi
+As pessoas falando comigo Não passei na
+entrevista Porque Não sabem o inglês
+Gente Duas horas por semana Ou seja Seis
+horas por mês É muita coisa É muita
+coisa Fora isso aqui Gente A gente Tem
+algumas coisas Também Que a gente está
+fazendo No background Então tem
+treinamento Exclusivo Teve treinamento
+De pinô Teve treinamento De 9 -5 Vai ter
+treinamento De alteração De Big Data No
+Kubernetes Vai ter treinamento Que eu
+não posso falar Por enquanto Porque
+senão Vai dar briga O pessoal vai pedir
+Pelo amor de Deus Faz agora Então não
+vou falar Para não criar Expectativa Mas
+tem no mínimo No mínimo No pipeline 3 a
+4 treinamentos Exclusivos De planos São
+coisas Que a gente está fazendo A gente
+está primeiro Fazendo tudo em background
+Para depois soltar Um mês Dois meses
+Antes do pessoal Se preparar Então agora
+A gente fez com o 9 -5 Agora a gente Fez
+com o pinô Não estava sendo Não tinha
+sido divulgado Não tinha sido falado Em
+momento algum Simplesmente na semana No
+mês seguinte A gente Temos aqui Esse
+treinamento Participa Então é uma
+comunidade Técnica Para formar Eu estava
+até conversando Isso com o pessoal Do
+Guider E eu reafirmo A comunidade Ela
+foi criada O Luan Quando pensou nela
+Quando ele veio Com essa ideia Que ele
+falou comigo Foi criar profissionais
+Para qualquer tipo De vaga No mundo Você
+passar em vaga Desde no Brasil Até na
+Europa Até nos Estados Unidos Às vezes
+Seja qual for A sua vontade A ideia É
+que ia te abrir portas Então a
+comunidade Ela foi feita Para isso Então
+a gente Está fazendo Várias modificações
+A gente está fazendo Todo um trabalho
+Para a gente poder Deixá -la melhor Do
+que ela já estava A plataforma nova Com
+o Regis Plataforma maravilhosa Ficou
+muito mais fácil De conseguir Navegar
+Explicar E tem muitas coisas Que a gente
+vai trazer Isso foi um trampo Que foi
+feito De várias mãos Tindo o Regis Nós
+Tínhamos Um time técnico Nosso time de
+campo Cara Foi um trabalho sensacional E
+eu falo para você Essa plataforma Ela é
+maravilhosa Inclusive Matheus Depois
+você passa Em um deles Para mostrar As
+capacidades Importantes É Só uma coisa
+Que o Igor falou Igor legal Geralmente
+eles não pedem Não é pedir Geralmente
+Eles procuram Antes Quem é certificado
+Para depois Entrar no processo De pedir
+acesso Então Eu vejo muito O que a gente
+O pessoal Obviamente Dentro O pessoal de
+fora Perguntando Ah Quais são as pessoas
+Certificadas Para a gente Entrar em
+contato Beleza Então não é mais Não é
+pedindo Durante a entrevista Eles olham
+primeiro Para depois Chamar para certas
+vagas Beleza São das que a gente Está
+vendo muito próximo Desculpa É porque eu
+estava Olhando a pergunta Não peguei o
+que você falou Não Depois você mostra A
+capacidade da IA Acho Ah Isso é massa
+demais Então vamos pegar Aqui uma aula
+Vamos pegar Aqui o Pegar de carca Eu sou
+meio Sou bobo Sou bobo Mas Essa é a
+carca Então aqui Gente Isso aqui Ficou
+bem legal E isso tem também No começo No
+começo Lá na Na Plataforma Tem um Comece
+por aqui Sempre começa Começa por aqui
+Como é que a plataforma Tem Então Uma
+coisa que eu acho legal É o resumo Ela
+reduz O tempo do vídeo Uma hora Sem
+resumo Está dando aqui Três horas
+Aqueles cortes E tal Perguntas Então dá
+uma resumida Isso aqui Acho que é bem
+legal Isso aqui é da IA Que faz E aqui
+eu tenho Um ebook Onde eu tenho O resumo
+das aulas Aqui dentro Você pode baixar
+Ou seja Notação Gente Não precisa Eu
+tenho também Um mapa mental De tudo
+Baseado em tópicos Ou seja Quero estudar
+Isso aqui Gente Baixo os tópicos Tudo
+download Isso é bem legal E eu tenho Uma
+coisa que é bem legal Que eu recomendo
+fortemente Tem várias perguntas Que ela
+vai testando Baseado no conteúdo Isso é
+legal Para você ver Se você realmente
+fixou Um quiz A gente está batendo Muito
+na tecla De vir Com alguns exames Para
+vocês poderem Se testar aqui dentro
+Realmente A gente já viu Essa
+necessidade A plataforma Está entregando
+agora Então nas próximas Digo Meses
+Podem se preparar Que vai ter conteúdo
+Que a gente só vai conseguir fazer Se
+passar o exame Então Ela tem uma série
+De funcionalidades Interessantíssimas
+Sem contar Que agora Eu tenho Essa aqui
+não está Chantabilizando Eu tenho várias
+Funcionalidades Que são
+interessantíssimas Pesquisa sobre o
+texto Acho que Esse aqui Acho que tem
+pausa Gente Eu estou mexendo Nisso aqui
+ainda Está no resumo Aqui está no resumo
+Está no resumo É verdade Cara Isso é
+Para mim É absurdo Então vamos lá Olha o
+que o Matheus Falou do JDBC Esse vídeo
+não Porque não vai ter mesmo Porque o
+primeiro dia Da aula Então tem o JDBC
+Estava testando ela Mas aqui eu falo
+Sobre craft Como pegou ainda
+Zookeeperless
+Zoo Aí ó Olha o zookeeper Então eu posso
+fazer Vários tipos de perguntas Para ela
+E ela vai Pesquisar Dentro da imagem
+Isso aqui é muito legal Isso aqui é
+muito legal Assim Aqui é um negócio Do
+idioma Porque estava Resumo realmente De
+novo A gente é bom de cá Como a gente é
+Tecnologia em geral Eu sou a negação
+Minha esposa briga Com a minha direta Eu
+faço stream Com 100 mil registros Por
+segundo Mas não sei fazer Muitas coisas
+Com tecnologia Então aqui você tem
+Português Inglês Espanhol Então por
+exemplo Ah eu tenho um colega Eu tenho
+um amigo Que é espanhol Do Chile Da
+Argentina A gente teve um caso agora No
+workshop anterior Teve um chileno Que
+comprou Um amigo Que comprou o
+treinamento Assistiu ele Mas falou Cara
+eu vou Depois assistir Com legenda
+espanhol E aí já era Legenda espanhol
+Para ele poder
+ver E tem uma coisa A IA A própria IA
+Que nós estamos usando aí A medida que
+nós estamos Subindo Ela está sendo
+treinada Cada vez ela vai ficando Mais
+assertiva Então a cada vez Que a gente
+sobe Mais conteúdos Que a gente vai
+corrigindo Alguns pequenos pontos Vai
+estar treinando a IA E cada vez Os
+resumos saem melhor Cada vez E tem
+novidades Porque eu não posso falar aqui
+Porque não depende exatamente Só da
+gente Depende do nosso provedor também
+De IA Mas tem umas coisas Muito legais
+também Que vão ajudar muito Vocês podem
+ter certeza Assim de uma coisa E O que O
+que foi O que trouxe ali Quando a gente
+conversou lá Mostrei tudo O Luan trouxe
+O que existe Gente não existe EAD
+Qualquer um que faz Esse investimento Em
+EAD Em tudo De experiência Porque são
+duas coisas Completamente distintas aí
+Hoje nós temos aí Um provedor Assim O
+mais moderno Que eu conheço Para vídeo E
+também A plataforma também Vem a parte
+Agora vem a próxima etapa Onde Nós
+estávamos Estávamos nesse processo
+Terminamos uma etapa Da migração Em
+breve Vocês vão ver aí Um processo de
+gamificação Também bem legal Que a gente
+vai começar A liberar para vocês aí Que
+vem a segunda etapa Agora, viu Legal,
+Igor Essa pergunta é legal A
+gente está criando Algumas trilhas
+específicas Em que você só vai conseguir
+Passar para a próxima etapa Do exame
+Baseado naquela etapa anterior Então é
+como você Fazendo o Coursera, por
+exemplo Tem aquele exame Do Coursera
+Para mudança de módulo Por exemplo Você
+não consegue ver o módulo Sem passar por
+aquele exame Até mesmo porque A gente
+está com outras novidades Que vão Que
+essa questão de gamificação Vai
+influenciar Exames práticos Eu estou
+querendo fazer Outra coisa Que eu não
+vou falar Por enquanto Mas tem uma Tem
+uma ideia Prática para a comunidade Que
+eu estou querendo Me emergir Durante um
+mês Com o Luan De fechar a caverna Para
+poder falar Sobre isso Então, calma Vai
+ter coisas práticas Demais Mas por
+enquanto Eu não posso falar Não tem
+coisa Sem segredo Sim Sem segredo
+Infelizmente Mas é coisa legal Eu só
+Réis Pode falar Eu já acho Que já
+mostrei Você quer que mostre alguma
+coisa?
+Perfeito Não Você terminou a parte Eu
+acho que você não passou Todos os Todos
+os programas Você estava falando lá
+Parou ali perto do Clube do Líder Só
+conclui ali E aí eu já venho E a gente
+passa a bola Para o Luan novamente
+Beleza Beleza Então, gente Tem reunião
+De engenharia de dados Que a gente fala
+sobre Pega um tema Vamos falar Sobre
+Spark no Kubernetes Por exemplo A gente
+traz um Alguém da comunidade Que já
+trabalha com isso Para poder Estar
+falando Sobre aquele tema Então são Mais
+específicas Hack de estudo Como é que é?
+Como é que a gente estuda melhor?
+Como é que a gente consegue absorver
+Tanto conteúdo?
+Ciência de dados A gente já trazia muita
+coisa De ciência de dados Que é bem
+interessante Vamos falar sobre carreiras
+Carreiras e aprimorando Skills para
+contratação Aqui a gente fala de tipo
+Cara, como se comportar Em uma
+entrevista Expectativas E por aí vai
+Então tem muita coisa Em rede de
+software Reprogramando o seu cérebro
+Vamos pensar também Em descansar Não só
+também Estudar para morrer Mas em que
+momento A gente tem que realmente
+Descansar o cérebro Desligar Para a
+gente conseguir Até absorver melhor Os
+estudos Então Todo esse conteúdo Aqui,
+tá gente?
+Tem da comunidade Semanalmente Fora
+série De tudo Fora toda a parte técnica
+Que a gente tem Muita coisa aí Mas essa
+parte Falando São mais de 150 horas Eu
+estava vendo Uma estimativa Na
+apresentação Mais de 150 horas De vídeo
+Que a gente tem Eu acho que é até Um
+pouco mais Tem coisa Que a gente está A
+gente não trouxe Da antiga para a nova
+Justamente porque Quem está atualizando
+Detalhe importante Quem está na
+comunidade Desde sempre E na mudança Viu
+coisas Ah, Marcos Isso aqui não veio Não
+veio por um motivo A gente está
+atualizando Porque muita coisa
+Desatualizou No meio do caminho Mudou a
+versão Mudou a forma Como se trabalha
+Então a gente já tirou Esse tempo Da
+migração Para já atualizar Então tem
+várias coisas No forno Como a Reis falou
+Com duas semanas Olhando para a
+plataforma Olhando com o instrutor
+Fechando Um contrato Com o pessoal Para
+poder criar Conteúdo para vocês Então se
+preparem Muita coisa legal Está por vir
+aí Rédios E aí Mostra Acho que é isso As
+trilhas A gente vai falar Das trilhas
+também Sim Ótimo Pode mostrar ali Porra
+Trilha aqui Pelo menos uma Pelo menos
+uma de exemplo Inclusive O pessoal Todos
+que estão Participando aqui Que se
+inscreveram No Mastering Eles levaram
+Como Como bônus Eles tinham levado
+Independente De que Façam agora Um
+upgrade Para a comunidade Eles têm
+acesso A formação De Spark Que está aí
+Os membros da comunidade Obviamente têm
+acesso A todas as formações Mas Mas Essa
+de Spark Ela está aí Todos que Se
+inscreveram No Mastering Têm acesso a
+ela Perfeito Então justamente A gente
+também Preocupou Nessa ideia De seguir
+uma linha De raciocínio Uma linha lógica
+De estudo Cheguei agora E tal Eu quero
+pegar Spark Beleza Fundamento de
+engenharia Fundamento de Spark Spark
+Spark Até falar Chega Tipo Vamos ter
+Gente De novo A ideia está aí Nessas
+trilhas A gente tem alguns exames Também
+Para a gente poder De novo Algo do
+futuro Não tem nada agora Consumo à
+vontade Beleza E a gente tem Formação
+vai gerar Certificado Essa é uma boa
+pergunta Acredito que sim Vamos ter
+certificado Para as formações Sim Por
+isso que a gente Está na parte de exame
+Porque realmente A gente vai Criar uma
+série De certificados Exclusivos para as
+trilhas Então preparem -se Com isso aí
+Vai ter coisa legal E sim E
+provavelmente O certificado De uma
+formação dessas Ele não vai ser emitido
+No finalzinho ali Inclusive eu vou falar
+Do certificado Do próprio Mastery também
+Não vai ser emitido No finalzinho
+Automático ali não Por quê?
+Porque você vai concluir A formação E aí
+você vai fazer A prova que o Matheus Vai
+preparar ali O Matheus vai liberar E aí
+com a prova sim Você tira o certificado
+Porque a gente quer É que realmente
+assim Os certificados Que saem da
+Direita da Academia Já tem Hoje nós
+temos aí Times de dados De grandes
+empresas De algumas das maiores Do
+Brasil Com a gente A gente tem esse
+privilégio O pessoal confia na gente E
+tem cada vez mais E Então a gente quer
+Que seja cada vez mais Tenha peso Um
+certificado Realmente Da Direita da
+Academia E o cara fala assim Poxa o cara
+tem Não é fácil Eu já tentei Eu vi Não é
+Então O certificado Das formações Eles
+vão ter realmente Essas provas E vai ter
+um peso No mercado Perfeito E por fim Só
+queria mostrar rapidinho Essa parte de
+comunidade Que eu achei bem legal Então
+tem coisas Que a gente está trabalhando
+Hoje com Com a parte de comunidade
+Comunicação Post Tem questão de vaga
+Sugestão Gente Comunicado da comunidade
+Vai ser tudo por aqui Então a gente está
+trabalhando Muito pesado Na plataforma
+Para você Estar o máximo possível Ah
+Matheus Eu tenho a comunidade Mas o
+Slack Às vezes é complicado Eu uso mais
+a comunidade Perfeito Aqui , ó Comunique
+com a gente aqui Então vai ter toda a
+parte De comunicação Dessa parte Então
+Rez Acho que foi só um overview Porque é
+muita coisa Não tem como falar tudo Mas
+quem não conhecia agora Já até viu E o
+seguinte também Agora vindo da minha
+parte Minha parte como eu falei Já é bem
+rápido O Matheus já fez a parte Ele
+estava com preguiça Mas ele já fez a
+parte Mais demorada Então Então é o
+seguinte O Como funciona hoje A questão
+da comunidade em si A comunidade Ela é a
+nossa assinatura premium Tá E a
+comunidade Eu acho muito interessante O
+seguinte Enquanto eu estava falando aqui
+Estava lembrando de uma coisa Quando o
+Luan me falou Do que ele imaginava Da
+comunidade Lá no início Quando ele
+estava idealizando Ele falou uma coisa
+Que eu acreditei de cara No projeto Pelo
+seguinte Eu havia acabado De ler um
+livro na época Que falava muito O
+conceito Que ele estava me falando Que
+ele queria fazer Que nesse livro Era um
+livro Eu não lembro do seu nome O título
+dele em português Mas em espanhol Seria
+Que é de um cara Que falava sobre as
+mudanças do mundo Tudo que aconteceu e
+tal E Um Um jornalista americano E ele
+falava de tudo De como ia mudar No
+futuro Tudo Já falava da IA Isso há
+quatro anos atrás Quando ele escreveu
+esse livro Já falava da revolução da IA
+E E aí ele falava Da revolução do ensino
+E ele falava uma parada Que tem muito a
+ver Com a ideia do Luan Com o The
+Plumbers E é o seguinte Ele falava que o
+futuro Das universidades Não é você se
+formar Ninguém se forma mais Você vai
+estar sempre em formação Então Então o
+que acontece Quando você escolheu uma
+universidade Vamos supor que você
+escolheu Ah, eu escolhi ali Eu escolhi a
+A FGV Você vai escolher uma universidade
+Não para fazer uma formação Você vai
+escolher uma Uma universidade Para você
+se filiar a ela E seguir nela Enquanto
+você estiver ativo Na sua profissão E
+ela vai agir Como uma curadoria Ela vai
+agir como Uma fonte confiável Porque a
+gente vive hoje Num mundo cheio de Ao
+mesmo tempo Cheio de informação E muita
+coisa aqui Então você vai ter Uma fonte
+confiável Você fala assim Cara, eu tenho
+aqui Uma fonte confiável De tudo o que
+eu preciso De todo o assunto Que eu
+trabalho Do que é a minha profissão E
+tudo mais Então Eu achei muito legal
+Porque quando eu Quando o Luan falou
+isso Na época Eu falei Cara Lembrei
+Casou muito com isso E vocês vão
+perceber Que cada vez mais Essa é a
+ideia Do The Plumbers E cada vez mais
+Vai se tornar cada vez mais isso Tá
+Então Concluindo aqui É o seguinte Gente
+A assinatura do The Plumbers Ela é uma
+assinatura E Ela Ela Ela custa hoje Doze
+de trezentos e noventa e nove reais
+mensais Gente sendo Indo bem diretamente
+E Só que Vocês que se inscreveram Direto
+no Mastering Vocês nem conheciam The
+Plumbers na época Certo?
+Então não seria justo Poxa Você entrou
+por aqui Muitos de vocês Estão
+participando do Mastering Que ainda não
+tem acesso A comunidade Se tivessem tido
+a escolha E conhecidos desde o início
+Teriam feito talvez Talvez ter ido
+direto Então por isso Que nós vamos
+disponibilizar Para vocês aqui hoje A
+possibilidade de Fazerem O upgrade para
+a comunidade Pagando apenas a diferença
+Do valor Do Mastering Para a comunidade
+Ou seja Eu vou Desliberar o link aqui
+Vocês podem fazer assim Que o Luan
+terminar E já passam a ter o acesso
+Direto e imediato A gente depois libera
+o GitHub E tudo mais O acesso no Slack
+Talvez não seja liberado amanhã Porque é
+sábado Não depende Então Mas no máximo
+Segunda -feira vocês já tem o acesso Ao
+Slack Então Sim Então Então assim Eu vou
+mandar o link aqui E você vai ter o
+acesso exatamente Pagando mais doze de
+cem reais Tá Que seria Aqui a diferença
+exatamente Do Mastering Que é Que é dois
+nove Que foi doze de duzentos e noventa
+e nove Para a comunidade Exatamente
+esses cem reais Então eu vou mandar o
+link Você tem a opção De pagar em doze
+de cem reais Ou Se pagar a vista Ou em
+uma vez no cartão Você tem o desconto De
+duas parcelas O que ficaria Em mil reais
+Beleza?
+Então é isso Não vou Tomar muito mais o
+tempo aqui E aí eu vou passar para o
+Luan Para o Luan encerrar E de repente
+falar Mais algumas novidades aí E é isso
+pessoal Eu deixo o link E se alguém
+tiver Alguma pergunta aí também Depois
+Pode chamar também No suporte Tá?
+O Luan vai seguir daqui Mas depois que o
+Luan terminar Eu vou Eu vou jogar o link
+No chat aqui Mas vocês podem também
+Chamar no suporte Que eu vou Passar um
+tempinho aqui Vou passar uns Uns trinta
+minutos Depois que o Luan terminar Para
+tirar qualquer dúvida Que vocês tiverem
+por lá Fechou?
+É isso aí Vai lá Luan Obrigado Não
+Agradecer o Regis E o Matheus aí Pela
+explicação Valeu Gente É , eu queria
+agradecer Todo mundo que ficou aí Até as
+dez horas De sexta -feira Então,
+parabéns A nem nosso Não é para vocês
+mesmo Realmente Mostra muito Da
+personalidade De como vocês são Do
+esforço E quem vai assistir A gravação
+também Porque é um treinamento Muito
+denso É um treinamento Que tem muito
+conteúdo Que se fala Em muito detalhe
+Enfim E expressar aqui Cara A minha
+gratidão Para o time É uma vitória nossa
+Entregar o Mastering de SPA Que é um
+treinamento Que a gente Nunca tinha
+entrado Nunca vi Fora do país Foi uma
+jornada Para vocês terem ideia Para a
+gente conseguir Fazer isso Que a gente
+fez A gente passou Mais de um ano De
+organização Não é Regis?
+Acho que foi mais de um ano De
+organização Para a gente conseguir
+Encadear Encaixar Dar Fazer treinamento
+Conteúdo Enfim Então Também sem o meu
+Braço direito aí Matheus Isso não
+estaria sendo feito Então obrigado
+demais Cara Por sempre estar Do nosso
+lado aí Do meu lado especificamente E
+agradecer vocês Eu Estou Exausto Né Essa
+semana Foi muito pesada Para mim Mas do
+mesmo jeito Que eu estou cansado Eu
+estou feliz Porque eu sei Que a gente
+Aprendeu Eu sei que vocês saíram aqui
+Com alguma coisa E eu sei que isso vai
+gerar Frutos para vocês Então cara Só
+agradecer Foi bom demais Vou deixar A
+gente geralmente Deixa aberto Para quem
+Se alguém quiser falar Alguma coisa
+Levanta a mão E foi um prazer demais
+Estar com vocês Obrigado viu Matheus
+Obrigado Regis Valeu equipe inteira
+Cristina Cristina Cristiane Floriano
+Cara Toda a equipe de marketing Tim
+Luisa Enfim Todo mundo Sem vocês A gente
+não conseguia fazer isso Parece eu
+falando aqui Mas na verdade Tem um time
+gigantesco Atrás fazendo isso acontecer
+Então muito obrigado Todo mundo
+aí Luan Só respondendo aqui Certificado
+Perguntaram lá O certificado do Mastery
+Olha só Como vocês participaram ao vivo
+Eu deixei ele liberado Na plataforma De
+forma que você Não precisa concluir Na
+plataforma O curso Para emitir É só você
+ir lá Vai ter a opção Emitir certificado
+Emite ele Baixa Posta no LinkedIn lá Tá
+Então Tem a opção De você postar direto
+Direto da plataforma Você vai Já sai
+direto No LinkedIn E com a validação Do
+Da Da Gerentidade Academy Beleza Então
+podem ir lá Vai ficar liberado Para
+emitir direto De hoje Até amanhã Depois
+Eu vou tirar A liberação Direta Porque
+aí Vocês participaram ao vivo Já vão ter
+feito Para quem For assistir depois Tem
+que assistir o curso Para poder emitir
+Obviamente Tá bom?
+Então só isso aí Com relação ao
+certificado Eu acho que a gente tem Um
+Jonathan aí Que levantou a mãozinha
+Particulou bastante Desse treinamento
+Jonathan Pode Opa Boa noite pessoal Boa
+noite Queria só Dar uma testemunha aí
+Porque Eu estou na comunidade Já tem Já
+estou no segundo ano De assinatura O
+Luan Não deve mais Aguentar ver a minha
+cara Que todo presencial Que está Eu
+estou aqui Cara aí É um ponto que Para
+quem conhece Há pouco tempo Assim cara
+Além desses conhecimentos Assim absurdos
+Tipo Spark Kafka Que tem Direto curso
+Cara É uma coisa Que a gente consegue
+Estar sempre Sabendo o que está rolando
+Tipo Coisa que nem chegou Aqui ainda no
+Brasil Acho que a gente Viu essa questão
+aí Do Do próprio Lake House Nessa
+questão Do Fair House Aí Que O Luan já
+Já falou Que isso aí Vai explodir Daqui
+a pouco Cara Questões de Enfim Data
+Vault Para ficar na tendência Sim é
+excelente E cara É bizarro Porque Quando
+eu vi Falando desse curso
+Especificamente Quando eu vi O Luan
+Postando lá no LinkedIn Vai ter o curso
+Aqui de Mastering Eu olhei e falei
+Caraca Sinistro Mas isso aqui Vai ser
+tão absurdo Que isso aqui Deve estar por
+fora Da comunidade Isso aqui Não deve
+entrar não E não deve ser maluco Esse
+conhecimento Isso aqui É muito
+específico Deve estar por fora Da
+comunidade E não O Luan é maluco Está
+aqui Na comunidade Cara É o tipo de
+coisa Assim Que a gente Nem precisa se
+inscrever Pessoal Você entra lá no Slack
+E está assim Pessoal A comunidade está
+aqui Tipo Zero burocracia Nesse sentido
+Então Toda hora Tem coisa nova Eu
+particularmente Quando eu entrei Na
+comunidade Eu achava Que era mais Os
+cursos assíncronos E Cara Todos esses
+cursos Que tem assim Ao vivo Dá para
+fazer também Isso vai estar lá Gravado
+Para assistir Depois Então É o tipo de
+coisa Que sinceramente Eu faço Parana de
+graça Porque realmente É foda É uma
+coisa Realmente Que eu acho Que não
+existe No mundo Sinceramente Ainda mais
+Para a gente Assim É super nichado Né
+cara Coisa de engenharia De dados Então
+é completaço A comunidade É foda Assim A
+galera Responde dúvida Para caramba Lá
+no Slack Compartilha a coisa Então Vale
+muito a pena Queria só dar Esse
+testemunho aí E Luan Obrigado Mais um
+curso Muito foda Cara Isso aqui É Mina
+de ouro Agora Acho que como você falou É
+tentar assistir Isso aqui Umas Quatro ou
+cinco vezes Até começar a internalizar
+Cara Obrigado aí Pelo feedback E parece
+que a gente Nem te pagou ainda Para isso
+Estou zoando Mas pô Obrigadão demais Eu
+fico feliz demais De escutar Você estar
+com a gente Desde sempre Então isso
+mostra também Cara O comprometimento
+Essa visão E quando você fala De nenhum
+lugar no mundo A gente parte Com muito
+orgulho Para falar Porque é um conteúdo
+Em português Que já não tem E a ideia é
+exatamente Se diferenciar E vocês Não
+tem noção De quanto brasileiros São bem
+apreciados Fora do país Então Tentar
+trazer isso Para vocês também Então
+obrigadão aí Jonathan De verdade Beleza
+gente Então se é isso
+Obrigado aí Todo mundo Foi um prazer
+Estar com vocês Eu sigo aí Eu vou tirar
+Uns dias sabáticos aqui Se ter esse
+sábado e domingo Vou desligar minha
+mente Eu estou Extremamente feliz E
+cansado Ao mesmo tempo Estou Num roller
+coaster Aqui Num No momento Bittersweet
+Mas é isso Obrigado a todo mundo E a
+gente se vê No próximo treinamento Até
+mais gente Fica com Deus Viu meus

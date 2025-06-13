@@ -1,0 +1,3549 @@
+Foi.
+Ótimo.
+Obrigado, Matheus.
+Então, beleza.
+Então, como a gente falou há 20 minutos
+atrás, vamos navegar no Shuffle, numa
+demo bem detalhada sobre esse cara.
+E aí eu falei também que a gente vai
+parar de usar muito o UI.
+A gente vai usar, né?
+Obviamente.
+Mas eu quero que a gente foque muito no
+Spark Manager.
+Eu vou mostrar para vocês por que eu amo
+bastante ele.
+Beleza?
+Então, vamos lá.
+Então, o que eu estou fazendo aqui?
+Eu estou criando a sessão do Spark, né?
+Então, detalhes aqui.
+Então, vejam que hoje a gente ainda está
+criando a sessão do Spark sem função,
+sem melhores práticas.
+Enfim, isso é intencional, tá?
+Amanhã a gente vai ver melhores práticas
+de escrito.
+Então, a gente vai ter uma funçãozinha
+que chama organizado o script.
+Tudo bonitinho, tá?
+Fica tranquilo com isso.
+Beleza.
+Então, a gente vai setar as
+configurações para acessar o S3, como a
+gente já tem feito.
+Então, e a gente vai começar a
+desenvolver.
+A primeira coisa que eu vou fazer no meu
+script é acionar aqui, trazer o Spark
+Manager.
+Está vendo?
+Então, aqui eu trago o Spark Manager.
+Vejam.
+From Spark Manager, import Stage
+Metrics.
+Esse cara foi instalado aqui em
+Requirements.
+Spark Manager.
+E eu já buildei a imagem de Docker com
+ele.
+Então, se a gente vier aqui em Build, em
+Config, Spark, Jars, eu coloquei o Jar
+do Spark Manager para vocês.
+Vocês nem precisam se preocupar.
+É só chamar ele realmente e ser feliz.
+Beleza?
+Então, está aqui.
+Chamei Spark Manager.
+Vejam como é difícil.
+Vamos chamar Stage Metrics equals Stage
+Metrics Spark.
+Ou seja, eu estou pedindo para que essa
+classe faça um wrapping dentro da sessão
+do Spark, que ele vai captar tudo.
+E daqui eu começo a minha coleta de
+dados.
+Olha que lindo.
+Beleza.
+É isso.
+Então, aqui eu vou especificar a
+localização dos arquivos, vou ler os
+arquivos, e vou fazer como a gente
+geralmente faz, utilizando a quantidade
+de tempo que demorou.
+Então, a primeira coisa que eu vou fazer
+aqui no Shuffle é simplesmente eu vou
+fazer um Join de Business, um Reviews, e
+vou ver o tempo que esse cara vai, de
+fato, demorar para fazer isso e qual a
+operação que ele vai utilizar.
+E aí, no final de todo esse meu script,
+o que eu faço?
+Eu tenho que finalizar o Stage Metrics.
+Então, eu dou um Stage Metrics end,
+Stage Metrics print e report.
+E a gente tem um outro cara chamado
+Aggregated Stage Metrics.
+Então, ele agrega para você as métricas.
+Então, rodeia esse cara.
+Existem operações aqui que demoram 20,
+30 minutos.
+Algumas vocês podem ver.
+Tem operações que demoram 19 minutos,
+20, 30 minutos.
+Tem umas que demoram até um pouco mais.
+Inclusive, tem uma que está rodando já
+45 minutos, por exemplo.
+Que é esse cara aqui.
+Beleza?
+Rafael, tenta tirar esse vermelhinho
+aqui.
+Se eu conseguir.
+Eu acho que riscou, foi tudo.
+Deixa eu ver se eu consigo fazer.
+Eu acho que não consigo.
+Limpar aqui.
+Só eu que estou vendo o risco?
+Ou, na verdade, todo mundo está vendo?
+Todo mundo, né?
+Beleza.
+Então, eu vou...
+Ver se eu consigo tirar aqui.
+Ver se eu consigo tirar.
+Parece que eu não consigo tirar.
+Tem um presente aqui.
+Valeu, Matheus.
+Ótimo.
+Então, pronto.
+Vamos lá.
+Vamos lá, então.
+Então, eu vou printar aqui e vou colocar
+o Stage Matrix.
+E aí, entrego essas informações aqui.
+Então, a primeira coisa que a gente vai
+fazer.
+Eu executei esse script.
+E esse cara demorou 2 ,6 minutos
+inicialmente com o Join.
+Então, eu não passei nenhuma hint para
+ele.
+Lembrando que o Reviews é uma tabela
+grande.
+E o DF Business também é uma tabela
+grande.
+Tá?
+Tá?
+Relativamente.
+Ela tem 166...
+36 megas, mais ou menos.
+Então, se a gente abrir o plano de
+execução dela, a gente vai ver que esse
+cara, de fato, demorou 2 ,6 minutos.
+E aqui, a gente tem exatamente o que a
+gente estava esperando, né?
+A gente tem um Exchange, que acontece
+entre essas duas tabelas grandes.
+Porque uma tem 1 ,2 gigas em tamanho,
+né?
+E esse outro cara tem 36 megas.
+Ou seja, por que eu não fiz um Broadcast
+Hash Join?
+Porque, primeiro, o meu álcool...
+O Broadcast não estava setado, né?
+Estava padrão, que é 10 megas.
+Ou eu não tinha passado nenhuma hint
+para o Spark.
+Então, nesse caso aqui, ele vai fazer o
+segundo Join mais performático, que é o
+SortMesh Join.
+Né?
+Então, o SortMesh Join...
+Na verdade, ele fez o...
+Ele esperava ele fazer o Shuffle, né?
+Mas ele fez um SortMesh Join, aqui no
+caso, pelo tamanho das tabelas.
+Então, ele ordenou essas informações,
+fez o Exchange para fazer o Join, dos
+requisitos de Business ID com Business
+ID.
+O Adaptive Core Execution fez o Coalesce
+de 36 partições, para que elas fossem
+iguais.
+Daí, a ordenação é extremamente rápida e
+eficiente.
+Então, aqui eu estou ordenando 160
+megas, e aqui eu estou ordenando 32,
+basicamente, de memória.
+E eu estou entregando esse resultado no
+final.
+Então, esse cara demorou aqui 2 .4
+minutos, beleza?
+Agora, olha só que coisa linda.
+Junto com a execução do Spark, no final
+das contas, ele cospe as informações
+para vocês.
+Olha que lindo isso, gente.
+Vocês não vão falar nada.
+Olha só que legal.
+Aggregated Spark Stage Metrics.
+Então, ele fala, cara, nessa execução
+que você fez, nós tivemos 5 estágios, 25
+tarefas.
+Tempo total, tempo executado total,
+tempo de desterilização, garbage
+collector, spill, memory byte, bytes
+read, records written, shuffle, e um
+cara muito importante, Shuffle Bytes
+Written.
+Então, a gente tem Shuffle aqui, tá?
+É desprezível.
+Aqui, deixa eu mostrar para você.
+Ele é esse aqui.
+Ele é esse cara aqui.
+Então, assim, é desprezível,
+literalmente, tá?
+O Stage Metrics é desprezível
+completamente.
+Você não vai ter problema nenhum com
+ele, porque ele utiliza o Spark Metrics
+por debaixo dos panos, né?
+E o Listener.
+Então, é extremamente lightweight,
+utiliza a própria biblioteca do Spark, é
+embedado dentro.
+Por isso que eu falei, o cara criou uma
+parada muito foda e eu só uso ele,
+tá?
+Beleza.
+Então, vejam que a gente tem Shuffle, de
+fato.
+Alô, eu precisei entrar no plano de
+execução para saber que eu tenho
+Shuffle?
+Não.
+Mas a gente conseguiria achar esse cara
+também.
+Tá aqui.
+Tá?
+Então, aqui, eu tive Shuffle.
+Só que ao invés de passar aqui para
+identificar, a gente foi mais esperto,
+né?
+E simplesmente, aqui, ó.
+E simplesmente, viu?
+Aqui.
+É muito mais rápido de debugar.
+Beleza?
+Show.
+Aí, eu vim, né?
+E aqui no final ele te falou, ó.
+Média de tarefas ativas.
+E isso é que eu gosto bastante, tá?
+Lembra do Summary?
+Olha só que legal.
+Ele traz para você, para cada estágio,
+quanto tempo durou.
+Isso é importante para você,
+principalmente quando você está fazendo,
+por exemplo, otimização.
+Porque você quer saber, por exemplo, nos
+estágios que estão sendo executados,
+aonde você quer ter melhoria.
+Então, por exemplo, estágio 2 e estágio
+3, certo?
+Então, se a gente vier aqui em estágio,
+estágio 2 e estágio 3 são, de fato, os
+que mais demoraram.
+Então, se a gente pegar o estágio 2
+aqui, é exatamente a minha operação de
+mapping que eu fiz o exchange do arquivo
+que acabou acontecendo o spill.
+O shuffle, desculpa.
+Beleza.
+O que a gente pode fazer aqui?
+Então, lembrem que as caras executam em
+2 .6 minutos.
+O que a gente pode fazer aqui fora de
+opções?
+Então, eu trouxe aqui uma outra forma de
+você brincar com eles.
+Então, a gente pode brincar um pouquinho
+com as configurações do próprio Spark.
+Então, tem duas coisas que eu gosto
+bastante de utilizar, que é o Spark SQL
+Shuffle Partitions.
+Então, lembra que esse número controla a
+quantidade de shuffles.
+Por padrão, ela é 200, tá?
+E para essa operação, eu vou reduzir ela
+para 6, tá?
+Então, eu estou reduzindo ela para
+cumprir o máximo para eu reduzir
+exchange e eu reduzir sort.
+E esse cara aqui eu gosto bastante, tá?
+Esse cara é bem...
+Assim, dificilmente eu vejo a galera
+utilizando, mas eu gosto bastante
+dele.
+Esse cara aqui é o tamanho do buffer da
+operação que você vai ter.
+Por padrão, eu acho que é 10 kbytes, ou
+seja, é bem pequenininho o buffer de
+comunicação.
+Aqui, eu estou colocando esse cara para
+1 mega.
+Aí, estou aumentando o buffer de
+comunicação do shuffle.
+Então, quando eu vou fazer, o que é o
+buffer?
+Quando eu vou transferir de um lado para
+o outro, eu tenho um buffer.
+O tamanho desse buffer, eu estou setando
+aqui para 1 mega, tá?
+Eu estou aumentando um pouquinho mais do
+buffer.
+Então, quando eu fiz isso, eu saí de 2
+.6 para 2 .4 minutos, o que,
+teoricamente, 2 segundos traz uma
+otimização significativa para o nosso
+ambiente.
+E aí, olhando as atividades aqui, o que
+a gente vê é que houve uma diminuição,
+de fato, na duração das tarefas.
+Ou seja, talvez, se você diminuir ainda
+mais aqui o shuffle partitions, ou
+aumentar, dependendo de como ele está
+fazendo o plano de execução, você possa
+ganhar um pouquinho mais ainda de tempo,
+tá?
+Então, por exemplo, se eu vier aqui e
+consultar aquele método, a gente vê, por
+exemplo, que a gente houve uma redução
+no processo de sorting, tá?
+Que anteriormente era um pouquinho mais
+custoso.
+Então, isso já ajudou, porque a gente
+fez o coalesce dessas operações aqui.
+Beleza?
+Tá.
+Isso é uma forma de você trabalhar com
+esses dois parâmetros para melhorar o
+shuffle.
+Mas existe um esmagador, que seria o
+quê?
+Adicionar a hint do BHJ.
+Então, se eu adicionasse a hint do BHJ,
+eu sairia de 2 .4, para 35 segundos.
+Tá?
+Então, olha só que interessante.
+E aí, por ter feito um BHJ, a gente sabe
+que esse exchange vai ser comparado, ali
+vai ser entregue para todos os
+executores.
+E aí, o que eu adoro nisso aqui, né?
+Eu simplesmente adicionei a hint join.
+Beleza?
+E aí, o que a gente vê aqui?
+Olha só.
+Shuffle remote bytes read to disk.
+Zero.
+Lindo isso aqui, né?
+Então, também a gente vê a quantidade
+dos estágios.
+Inclusive, eles foram reduzidos.
+Eu não tenho mais estágios de 2 e 2
+minutos.
+Ao invés, eu tenho 12 segundos no
+estágio 3.
+Beleza?
+O que vocês acharam?
+E aí, olha só que legal.
+Aqui, a gente está indo além, né?
+Lembra que a gente está indo além do
+query optimizer, além do AQE, né?
+Porque o AQE está habilitado aqui, mas
+em nenhum momento, ele conseguiu fazer
+isso automático para a gente.
+Então, eu quero que vocês entendam,
+saindo desse treinamento, que o AQE é
+maravilhoso.
+Só que ele não faz tudo.
+Ele não faz mágica.
+Ele faz coisas comuns.
+E quando você está lidando com sua
+aplicação, a sua aplicação, às vezes,
+ela é muito única.
+Ela tem pedaços específicos.
+Então, você vai ter que entender o que
+você está fazendo ali.
+Beleza?
+Esse número aqui, eu fiz baseado na
+quantidade de cores que eu tenho.
+Eu reduzi justamente para a quantidade
+de cores.
+Então, eu reduzi para 6 partições ali,
+por causa disso.
+Beleza?
+Olha, que lindo.
+Run out of memory.
+Era exatamente isso que eu queria.
+No space left on device.
+Olha só que legal.
+Estudie espaçamento de memória.
+Adoro.
+Vou mostrar essa demo para vocês.
+Beleza?
+Então, ficamos claro com shuffle.
+100 % claro, crystal clear.
+Claro como cristal.
+Deixa eu pegar as perguntas aqui.
+Porque eu vou ensinar para vocês, até na
+sexta -feira, como que a gente guarda
+essas métricas.
+Então, talvez você esteja perguntando,
+caraca, eu estou printando essas
+informações foda, mas eu queria salvar
+isso em um arquivo.
+Consigo fazer?
+Consegue.
+Você consegue salvar tudo aquilo que
+você está vendo ali, que ele printa, em
+um arquivo, para depois você analisar
+esse cara.
+Então, relaxa que eu vou mostrar isso
+para vocês depois, tá?
+Qual a diferença do tempo de rodar com
+ele ou sem ele?
+É desprevisível.
+Eu já tinha visto ela.
+Então, Luan, vencendo em data vault,
+consigo gerar facilmente meu metric
+vault em cima do spark measure?
+Ou persistir em deltas métricas não é
+trivial?
+Ou não é trivial?
+É, você pode.
+Isso seria uma ótima pedida, se você
+está no seu data vault, capturar essa
+informação e guardar isso ali nas
+métricas, no metric vault para você.
+Cara, isso ficaria maravilhoso, porque
+você teria toda a informação de
+baseline, para você fazer RCA das suas
+aplicações, seria extremamente mais
+fácil.
+Então, você conseguiria saber o
+histórico da aplicação, então a
+aplicação rodava em 2 minutos, foi
+rodando em 7 e tal, e daí você consegue
+pegar o plano de execução, você consegue
+destrinchar ele.
+Então, é uma boa ideia.
+Muito boa ideia.
+Como eu vejo as configurações de sessão
+de uma aplicação Spark?
+Você pode printar as configurações, tá?
+Até sexta -feira eu trago para vocês
+aqui, o que o Eduardo colocou, Spark,
+GetContext, GetAll.
+E aí você outputa todas as configurações
+que você citou para a sessão.
+Tá?
+Então, Paulo, nesse caso é.
+Só que o que eu fiz aqui?
+Eu explicitamente pedi para ele fazer.
+Então, aqui ó, na demo de Shuffle, o que
+eu fiz?
+Eu explicitamente, no modelo de 35
+segundos, falei para ele
+obrigatoriamente fazer o broadcast.
+Por isso que eu tive esse cara sendo
+utilizado.
+E por padrão, o Adaptive Career
+Execution não ia fazer.
+Beleza?
+Show.
+Vamos agora para Spill, tá?
+Então, vimos Shuffle.
+Shuffle vai acontecer.
+Agora a gente tem Spill.
+Spill não vai acontecer.
+Você tem que evitar ele realmente, tá?
+Então, esse é um dos caras que a gente
+tenta evitar daqui para frente.
+Vamos tentar evitar ao máximo fazer
+Spill, porque Spill é extremamente
+custoso.
+E além de ser extremamente custoso, ele
+acarreta em utilizar em utilização de
+disco, em saturação de disco também.
+Inclusive, eu peguei um caso muito legal
+com um dos amigos meus que trabalham com
+Spark, que eles estavam fritando o disco
+a cada seis meses.
+Porque os caras compravam discos,
+estavam trabalhando on -premises, e eles
+utilizavam algumas operações que faziam
+muito Spill.
+E usavam muito SSD.
+Então, a vida útil do disco diminuiu
+consideravelmente.
+Então, isso pode acontecer também.
+Tá?
+Então, o Spill.
+Vamos lá.
+O que é, de fato, o Spill?
+O Spill é derramar.
+Então, aqui como o copinho de chá ou de
+café diz, é derramar.
+Então, você está escrevendo os dados
+para o disco quando você não tem memória
+suficiente.
+Então, vamos supor que você vai fazer um
+Shuffle.
+Você tem um Shuffle acontecendo ali, que
+é uma operação cara.
+E o Spark, cara, não tem espaço em disco
+para esse cara aqui.
+Espaço em memória para esse cara.
+Então, o que ele vai fazer?
+Ele vai despejar esse dado em disco.
+Vai serializar essa informação, botar
+ela lá, fazer algumas outras operações e
+depois que você tiver um espaçamento em
+memória, essa tarefa vai esperar, ela
+vai tentar voltar na memória.
+Ou seja, você tem o tempo de tirar da
+memória e escrever no disco e você tem o
+tempo de tirar do disco e escrever de
+novo na memória.
+Então, por isso é uma operação muito
+cara, porque ele vai fazer os dois.
+Beleza?
+Então, se você tem uma partição que é
+muito grande e não vai caber em memória,
+é o swap do Spark.
+Exatamente isso.
+E a gente tem muitos problemas de out of
+memory.
+Inclusive, o problema que eu mostrei
+para vocês ali, no space left on the
+device, é um out of memory.
+Eu não tenho espaço para poder fazer um
+caching de dados.
+Então, é uma forma clássica de out of
+memory.
+Então, quais são as possíveis causas de
+um spill, que triga um spill?
+Então, uma das causas aqui do spill, por
+exemplo, que você vai ter é um shuffle.
+Então, a gente já sabe, por exemplo,
+cara, toda vez que eu executo um
+shuffle, eu vou ter, por exemplo, uma
+possibilidade de fazer um
+spill, porque o shuffle é uma operação
+wide, ela é custosa e eu preciso agregar
+essas informações, fazer join e assim
+por diante, que vai gerar esse cargo.
+Então, eu vou tentar ao máximo evitar
+com que isso aconteça.
+Beleza?
+E, de novo, como eu falei para vocês, é
+uma operação extremamente cara.
+Então, tomem muito cuidado em vocês.
+Eu diria que esse problema aqui, cara,
+ele é muito importante de vocês
+analisarem constantemente.
+Então, deixo uma recomendação aí para
+vocês sempre estarem olhando e uma das
+formas de você fazer isso é utilizando
+ali, como eu mostrei para vocês, o Spark
+Manager.
+Ele é um ótimo cara para você poder
+fazer isso, para você analisar
+constantemente se você está tendo spill.
+É importante, porque esse cara, ele
+agride bastante o fator do Spark como um
+todo.
+Ele gera muitos stragglers, que são
+tarefas que estão esperando muito tempo,
+por causa disso também.
+Beleza?
+Fechou.
+Só que agora a gente está no internos,
+né?
+Então, irmão, agora a gente vai entender
+memória.
+Então, arregaça aí.
+Já deu os 20 minutos para vocês.
+Agora a gente vai navegar na estrutura
+de memória do Spark.
+Você talvez esteja se perguntando assim,
+mas por que eu preciso saber disso?
+Você vai precisar saber disso muito,
+principalmente quando você estiver
+trabalhando com Spark fora do
+Databricks, que vai acontecer
+possivelmente em algum momento.
+Então, isso aqui é importantíssimo você
+entender.
+Como que funcionam os espaçamentos de
+memória, qual é a responsabilidade de
+cada um e como ela funciona.
+Então, vamos lá.
+Então, você tem aqui o executor.
+O executor tem memória, obviamente.
+Então, internamente, nesse cara, no
+drive, no executor, então, vou botar
+aqui para vocês, o Spark executor.
+Esse é o Spark executor.
+Tudo bem?
+Então, dentro do Spark executor, você
+tem um sistema operacional e você tem um
+disco atachado a ele.
+Então, aqui você pode ter um disco, por
+exemplo, HDD ou SSD, por exemplo.
+Então, vai depender de como você
+configura esse cara.
+A gente vai ver, por exemplo, na sexta
+-feira, como criar esses caras no
+Kubernetes.
+Existe uma parada muito foda no
+Kubernetes, que eu não sei se vocês
+conhecem, mas vocês vão ver isso
+funcionando em produção.
+A gente consegue fazer duas coisas que
+eu amo no Kubernetes.
+Primeiro, você consegue provisionar,
+atachar um SSD para os executores.
+E não somente isso.
+Você consegue fazer com que as operações
+de shuffle sejam reaproveitadas se caso
+um executor morra.
+Então, olha só o que eu estou falando.
+Imagina o seguinte cenário.
+Você estava fazendo um shuffle e aí o
+executor 1 morreu, por exemplo.
+O que vai acontecer é que esse shuffle
+morre.
+Porque, na verdade, esse cara estava
+designado para fazer aquela tarefa e
+essa tarefa é reiniciada.
+No caso do Kubernetes, você consegue
+compartilhar o storage porque ele é
+desacoplado do container.
+Então, na verdade, o container morre,
+mas o novo container entra e endereça
+novamente no mesmo espaçamento de disco.
+Fazendo com que ele continue a operação.
+Sensacional, cara.
+A gente vai ver essa configuração lá.
+Então, é importante você entender isso
+aqui.
+Beleza?
+Então, dentro da memória do executor,
+você tem dois grandes chunks.
+Você tem o on -heap e o off -heap.
+90 % do tempo, 95 % do tempo, a gente
+vai trabalhando na parte de on -heap.
+E a gente também tem o overhead memory.
+Então, você pode configurar utilizando
+spark .executor .memoryoverhead.
+Vamos dar uma olhada em cada um deles.
+Então, lembra que a gente tem esse cara
+chamado shuffle partitions igual a 200,
+que é o padrão que faz a redistribuição
+dos dados entre as partições.
+Dito isso, olha só.
+Como que eu divido essa estrutura na on
+-heap?
+Por que eu preciso saber disso?
+Vou explicar agora.
+Ela é dividida em quatro partes.
+Então, daí começa a entender como que o
+dado e aonde fica cada um deles.
+Então, você tem um espaço reservado, que
+é do sistema operacional, e ele tem, em
+média, 300 megabytes.
+Então, você já começa a saber o
+seguinte.
+Na hora que você provisiona 2 gigas para
+o seu executor, já não são 2 gigas.
+Beleza?
+Já não são 2 gigas de fato.
+Então, se você calcular, por exemplo,
+tem muita gente que faz isso.
+Ah, eu sei que eu vou calcular ali 2
+gigas porque eu tenho de arquivo
+processado.
+Vou colocar o executor com 2 gigas.
+Ele não vai ser 2 gigas.
+A gente vai ver aqui no cálculo.
+Aqui na parte de user, a gente armazena
+as estruturas, os data frames.
+Na parte de storage, nós colocamos tudo
+que é cache e broadcast.
+Então, olha aqui que legal.
+Você já tem um espaçamento que é feito
+para isso.
+Então, isso quer dizer o quê?
+Todas essas áreas eu posso mexer.
+Posso mexer no storage, eu posso mexer
+no execution, eu posso mexer no user,
+por exemplo.
+Então, são coisas que você pode mexer.
+Então, por exemplo, eu tenho uma
+aplicação que eu sei que eu vou utilizar
+cache e broadcast, por exemplo,
+bastante.
+Então, eu vou aumentar o tamanho do
+storage para, por exemplo, não ter
+problemas posteriores.
+Você pode fazer isso.
+E você tem um próprio de tempo de
+execução, de runtime de execução.
+Porque ele vai guardar shuffles, joins,
+ou seja, todas as white consumations
+elas vão, de fato, acontecerem aqui na
+parte de execução.
+E toda essa alocação de recursos ela
+acontece automaticamente.
+O Spark faz isso automaticamente.
+Então, como que ele faz?
+Cara, vamos supor que eu designei 2 GB
+de RAM aqui para ele.
+Beleza?
+Então, internamente no cálculo dele, eu
+falo, beleza, eu tenho 300 MB reservado,
+me sobra 1 .7.
+Então, para o users eu vou ter, sei lá,
+200 MB.
+Para o storage eu vou ter tantos por
+cento do valor final, sei lá, 700 MB.
+E o resto de execução eu vou ter 1 .3 ou
+1 .2, por exemplo.
+Então, ele vai dividir automaticamente e
+ele vai alocando e diminuindo e fazendo
+isso de acordo com as necessidades dele.
+Se ele está vendo que você está
+cacheando dado, ele vai tentar ali
+ajustar e abrir mais espaço no cache,
+enfim.
+Mas lembrando que você está na mesma
+memória, só que existem espaços
+diferentes lá dentro.
+Beleza?
+E isso tudo acontece na um heap que está
+dentro de uma JVM.
+Bem, então, o que a gente precisa
+entender aqui?
+Então, vamos pegar um exemplo de um
+executor que tem 512 MB de RAM, por
+exemplo.
+Então, como que a gente faz?
+Cara, esse cara tem 512 MB de RAM, ele
+tem, por padrão, 300 MB reservado, ou
+seja, a fração de memória dele que ele
+tem ali no espaçamento é calculado por 0
+.7.
+Então, 0 .6.
+E o memory storage fraction é 0 .5.
+Então, essa é a configuração padrão do
+Spark.
+Então, para o memory fraction, a parte
+de execução, ele vai salvar 0 .6 do
+valor total.
+E do storage que contém cachings e
+broadcachings, ele vai guardar 0 .5 em
+cima disso.
+Então, isso são valores padrões.
+Beleza?
+Então, vamos navegar aqui nesse
+interessante cálculo.
+Então, a gente tem o quê?
+Total de memória, 212.
+Beleza?
+Por que 212?
+300 menos 512.
+São 212 de memória que a gente tem, na
+verdade, total.
+De fato, a área de execução e storage,
+ela, na verdade, é somente 172 MB,
+porque a gente pega a quantidade de
+memória utilizável, que é 212, e
+multiplica pelo Spark memory fraction,
+que é 0 .6.
+Então, você vai ter somente 127 MB para
+se trabalhar.
+No storage memory, você vai fazer um
+cálculo parecido.
+Você vai pegar o execution memory
+storage, que é a métrica, que é 0 .5, e
+vai multiplicar, desculpa, você vai
+pegar o valor do memory aqui, do
+execution memory, e você vai multiplicar
+pelo storage fraction para descobrir
+qual é esse cálculo.
+Então, você vai ter 63 e 63 para o
+execution.
+Então, você tem ali no final dos
+cálculos o quê?
+Você tem realmente parte utilizável de
+212 MB para storage de 127, para memória
+de storage 63 e para execução 63.
+Ou seja, se você tentar cachear algo que
+seja maior do que isso, o que vai
+acontecer?
+Se você tentar fazer um broadcast maior
+do que isso, o que vai acontecer?
+Então, é assim que internamente o Spark
+reserva e divide a memória.
+Beleza?
+Ficou claro isso aqui?
+Aluno, para que eu vou usar isso aqui?
+Você vai usar para você já começar a ter
+uma noção.
+Beleza.
+Então, cada pedaço de espaçamento de
+memória recebe uma fração.
+Ou seja, quando eu quero brincar com
+essas frações, eu posso mudar as
+configurações de fração para aplicar
+certas otimizações que eu quero.
+Então, a gente vai trabalhar nisso aqui
+hoje.
+Beleza?
+Ficou claro?
+Só que eu ainda não acabei.
+Ainda tem mais um pouquinho de
+informação.
+Então, vamos lá.
+Vamos adentrar.
+Dentro do espaçamento de memória, lembra
+que a gente tem o execution memory e a
+gente tem o storage memory, que são, de
+fato, as áreas que a gente utiliza.
+Concorda?
+Porque o user armazena a estrutura do
+data frame, mas, de fato, essas são as
+áreas que a gente vai, de fato,
+utilizar.
+Mais fundamentalmente.
+São esses dois caras aqui.
+Que é o storage e o execution.
+Esses caras são os grandes importantes
+realmente.
+Realmente, realmente.
+Então, vou deixar marcado aqui para
+vocês.
+Então, dito isso, vamos dar uma olhada
+como eles se comportam.
+Vou deixar bonitinho aqui, porque eles
+são os mais principais e importantes
+para vocês mexerem.
+Fechou?
+Eu vou mostrar para vocês.
+Fiquem tranquilos.
+Tá.
+Então, olha só.
+O que acontece aqui?
+A gente tem o execution memory e o
+storage memory.
+Beleza?
+Então, no execution memory, o que a
+gente guarda ali?
+Shuffle, sorting, toda a operação
+realmente de wide transformations.
+E no storage memory, a gente tem
+caching, broadcasting e um espaço
+internamente que ele utiliza.
+Beleza?
+Tá.
+Então, se o total do tamanho exceder,
+você tem spill.
+E o spill pode acontecer de duas formas.
+Se você chegar, por exemplo, e ter muito
+caching, você tem uma operação que está
+acontecendo ali, você tem dado em cache,
+está sobrepondo ali uma variável em
+broadcast, assim por diante, você abriu
+mais espaço para o storage e você
+comprimiu o espaço do execution memory.
+Então, o que vai acontecer?
+Ele vai fazer o spill para o disco.
+E pode acontecer o inverso.
+Se você tiver memória demais no
+execution, travando o memory, ele vai,
+pela porcentagem, escrever esse dado em
+disco.
+Ou seja, você tem um spill tanto para a
+memória, do dado existente de memória
+escrita e memória, e você tem um dado
+que saiu do disco e vai ser colocado,
+que saiu da memória e vai ser colocado
+no disco.
+E geralmente, esse valor aqui vai ser
+menor.
+Então, quando você vê, lá no Sparky Y,
+spill memory, você vai ver que não
+existe, que existem duas divisões dele.
+A gente vai ver aqui daqui a pouco.
+Uma com um tamanho e a outra com um
+outro tamanho.
+E daí você vai falar, cara, qual é a
+diferença?
+É porque quando você faz o spill,
+realmente coloca essa informação no
+disco, você tem compressão que acontece
+antes, por causa da serialização antes
+da escrita.
+Então, você salva esse espaço na
+memória.
+Beleza?
+Então, por padrão, a gente tem Sparky
+Files Max Partition Bytes por 128 megas.
+E se eu tiver poucas partições e for
+obrigado a fazer operações como explode,
+cross join, group by, distinct,
+repartition e assim por diante, o que
+vai acontecer?
+A gente está forçando realmente com que
+esses espaçamentos de memória sejam
+prejudicados e escrevam o dado no disco.
+E isso é ruim.
+Quais são as formas que eu posso mitigar
+esse problema?
+Primeiro, vou levar uma dica para vocês.
+Se você encontrar na sua aplicação, de
+fato, um spill, o que eu recomendo vocês
+fazerem?
+Se você puder, de cara, aumente a
+memória.
+Porque, às vezes, o spill pode ser
+simplesmente porque você não tem memória
+suficiente para executar aquele passo
+específico.
+Então, por exemplo, em ambientes de
+Databricks, que você pode facilmente
+fazer isso, ou ambientes de Kubernetes,
+que pode fazer fácil, ou até em clusters
+gerenciados.
+Então, se você tiver spill demais, não
+em uma aplicação, mas em várias, talvez
+aumentar a quantidade de memória já vai
+te dar um respiro.
+E daí, sim, você vai continuar a
+investigação para tunar esse evento.
+Lembra lá que são 70 a 30.
+70 a gente customiza de forma rápida,
+escreve, e 30 a gente trabalha realmente
+entendendo o problema.
+Outro problema, olha só que lindo,
+skill.
+Então, se você tiver skill, você tem o
+quê?
+Stragglers, tarefas que pesam demais,
+que estão na memória, partições grandes,
+e que você vai, de certa forma, forçar o
+espaçamento de execution ou de storage,
+caso você tenha caching ou broadcasting.
+Então, corrigir skill vai resolver o seu
+problema.
+Beleza?
+Trabalhar também com Max Partition Size,
+porque se você tem muitas partições e
+você precisa fazer operações entre essas
+partições, o que vai acontecer é, eu
+tenho muito poder computacional, eu
+tenho muita memória alocada, e daí eu
+estou inferindo, dependendo das
+operações que eu faço ao longo da minha
+aplicação, com que o skill aconteça.
+E operações que são extremamente caras,
+por exemplo, você tem uma operação
+chamada Explode.
+É uma operação que entra em toda a
+estrutura ali de JSON, por exemplo, para
+analisar e assim por diante.
+É uma operação extremamente cara, então
+a gente evita fazer.
+Então, é assim que a gente mitiga spill,
+tá?
+Então, basicamente aumentando memória e
+resolvendo o skill, tá?
+E vendo a quantidade de partições.
+Lembra que eu falei para você desde o
+começo do primeiro dia.
+Partições é o core.
+Você vê que tudo é partição.
+Cara, é o core.
+Então, assim, você entendeu partição?
+Lembra que eu falei isso no primeiro
+dia, né?
+A gente está no terceiro.
+Cara, você entendeu partição?
+Você está, cara, mais que meio caminho
+andado, porque, de fato, se você tiver
+uma estratégia particionada muito boa,
+você vai evitar todos esses problemas
+aqui, cara, de verdade.
+E amanhã a gente vai ver as melhores
+práticas escrevendo, analisando e
+colocando isso num pipeline.
+Então, vai ficar bem legal.
+Fechado.
+Deixa eu pegar as perguntas aqui.
+Que bom que vocês gostaram do Deep Dive.
+Entramos realmente, entendemos memória
+agora, né?
+Claro que você vai ter que revisitar
+isso aqui algumas vezes.
+Normal, eu faço isso constantemente
+quando eu estou calculando certas
+coisas.
+Então, isso é uma coisa normal.
+Eu uso minhas próprias anotações aqui.
+Então, é normal, tá?
+Vocês vão ter esse cara no final do dia.
+Onde eu encontro o Spill no UI?
+Vamos ver se a gente acha esse cara.
+Então, ele faz isso para não perder a
+informação de qualquer forma, né?
+Mas tem uma perda de performance.
+Sim, exatamente.
+Tem uma perda de performance, porque
+você está saindo de nanosegundo para
+milissegundos.
+Não sei se estou entendendo corretamente
+o Spill ou a consequência do Swap.
+É um Swap.
+Em Naut, não.
+Não do SO.
+O Swap aqui é do Spill.
+A gente não chama Swap, a gente chama
+Spill, porque o dado está em memória e
+ele vai para o disco no Spark, que está
+taxado ao Spark.
+Então, ele é independente do SO,
+exatamente.
+Então, SO é uma coisa.
+Aqui, a gente está falando do mecanismo
+interno do Spark.
+Então, quando ele está pressionado, ou a
+meia do Spark está pressionado, o Spark,
+não é o sistema operacional, o Spark faz
+o Spill do dado.
+Beleza?
+É o Spark que faz isso.
+Ele que tem esse controle sobre a
+memória, porque a estrutura interna é
+dele.
+Beleza?
+Então, vamos ver um caso aqui de Spill,
+para vocês verem a dimensão do
+problema que vocês se meteram.
+Então, vamos abrir aqui.
+É esse cara aqui.
+Ah, é ele mesmo.
+Beleza.
+Alguém me perguntou se a gente consegue
+ver Spill no UI.
+Olha só.
+O que esse cara aqui é?
+Olha, Spill.
+Então, olha só que interessante.
+Você consegue, literalmente, ver esse
+cara dentro do Spark UI.
+Fechou?
+A gente vai chegar lá.
+Por teste, sim.
+É um pouco mais chato de ver, mas
+consegue.
+Principalmente, se você estiver
+utilizando o Spark Measure.
+Então, olha só que legal aqui.
+O Spill de diversos estágios.
+Olha só a diferença.
+Grande, não é?
+Você tinha 1 .1 GB em memória e você tem
+161 .1 MB em disco.
+Isso aqui vai exatamente do que eu
+expliquei aqui.
+De você ver o tamanho por ele ser
+diferente.
+Quando você vê o dado em disco, ele é
+menor por causa da compressão, da
+serialização que aconteceu antes de
+escrever.
+Então, isso é bom.
+Então, ele não está com o mesmo size.
+Ele diminui o size.
+Então, se saiu ele de 1 .1 GB, ele vai
+ser de 1 .1 GB para 161 GB.
+Aqui, tá?
+Isso, exatamente.
+Então, quando você vê esse Spill, você
+sabe o quê?
+Que o valor total que eu teria na
+memória seria esse.
+O valor total de Spill no disco foi
+esse.
+1 .6 GB.
+É o que está em disco.
+E depois, consequentemente, ele vai ter
+que voltar ali para a memória.
+Dependendo da operação que você está
+fazendo.
+Então, vamos navegar em cima desse
+exemplo aqui.
+Então, o que eu fiz aqui?
+Tá?
+Então, basicamente, eu gerei tabelas.
+E, no final das contas, o que estava
+acontecendo, nesse caso, tá?
+De Spill, que eu estou fazendo uma outra
+operação.
+O que eu estava fazendo de Spill era...
+O que é que está em Spill Cache aqui?
+Tá.
+Eu estava fazendo Joins.
+Diversos Joins.
+Mais de 4, 5, 6 Joins em tabelas muito
+grandes que tem...
+150 milhões de registros, né?
+Que foi o que o nosso querido colega
+mostrou ali.
+A gente pode fazer isso aqui, né?
+Então, eu fiz 5, 6, 7 Joins diferentes
+com esse cara testando várias coisas ali
+por debaixo dos panos.
+Então, o que você acabou vendo aqui é
+exatamente a gente forçando o
+espaçamento de memória porque eu tenho
+muita coisa acontecendo e eu estou
+forçando a memória.
+Qual o lado legal aqui?
+O lado legal é que com as métricas que
+você tem, do Spark Measure, olha só que
+lindo.
+Você consegue ver esses caras.
+Então, se você chegar aqui, por exemplo,
+e olhar um cara chamado Spill, olha só o
+que você tem aqui.
+Watch this metric.
+Ó.
+Eu tenho um Spill.
+Eu tenho um Spill realmente, tá?
+Então, tem tanto do disco quanto ele
+está em disco e quanto ele está em
+memória.
+Então, você sempre vai ver essas
+informações aqui quando você tiver
+Spill, memória e disco.
+Beleza?
+Eles estão aqui.
+No meu caso aqui, aparentemente, o que
+eu preciso fazer?
+Não existe muita mágica aqui para eu
+fazer, né?
+Mas o que eu poderia fazer aqui era
+tentar aumentar a quantidade de memória
+e trabalhar um pouco nos espaçamentos.
+Mas por eu ter um grande conjunto de
+utilização de data sets aqui para a
+torta e a direita, dificilmente eu não
+vou conseguir eu não vou conseguir
+evitar o shuffle.
+Então, a ideia é ou você resolve a
+lógica do seu código ou você vai ter que
+aumentar a memória para reduzir as
+operações.
+Ou talvez, por exemplo, como pode
+acontecer, em várias partes do seu
+código, você fez um select, por exemplo,
+e você adicionou o quê?
+Um order by.
+Então, também revisitar a lógica, a
+lógica do seu código é extremamente
+importante.
+Porque, cara, isso aqui executa em, sei
+lá, 30 segundos.
+Se você botar um order by aqui, ele vai
+executar em 2 minutos e meio.
+Então, talvez isso também faça grande
+diferença para você reduzir spill.
+Mas o importante é que você consegue
+gerenciar e entender esses spills dentro
+do ambiente.
+Tá?
+Então, está aqui.
+Então, vamos navegar aqui um pouquinho
+antes.
+Vamos no job.
+Então, a gente tem 3 momentos aqui.
+A gente está salvando esse dataset.
+Tem outros datasets sendo salvos aqui,
+mas a gente está salvando esse dataset 3
+vezes aqui.
+Então, se a gente ordenar pela tarefa
+que mais demorou, foi essa tarefa de 3
+minutos, que é o save, de fato.
+Veja que quando eu acesso a query
+associada, eu estou escrevendo os dados
+dentro do disco.
+Então, eu estou fazendo uma escrita de
+dados.
+E aqui, de fato, nesse estágio, eu não
+tenho spill.
+Estou salvando esse dado.
+Eu não tive nenhum shuffle width e
+shuffle width lá.
+Beleza?
+Já dentro do meu stage, eu também não
+tive.
+Está vendo que ele não aparece?
+Está vendo aqui?
+Então, quando você tem...
+Por isso que geralmente é onde eu vejo
+spill.
+É porque quando não tem spill, ele não
+aparece aqui nos detalhes do stage.
+Mas quando ele tem, ele aparece
+exatamente aqui.
+Acho que foi stage 3, né?
+Stage 3 está aqui.
+Ele aparece.
+Esse é o job que está associado a ele.
+Então, é o que ele fez aqui, por
+exemplo.
+Algumas tarefas ele conseguiu, alguns
+estágios ele conseguiu ignorar, mas ele
+teve que fazer aqui a escrita de
+arquivos e isso custou bastante para ele
+fazer.
+Então, aqui a gente teve shuffle widths
+que aconteceram.
+Se a gente entrar aqui, a operação que
+aconteceu juntamente com o spill.
+Beleza?
+Deixa eu pegar as perguntas.
+Quando aparece no SparkWire spill
+memory, quer dizer da memória para o
+disco.
+É, exatamente.
+Então, spill memory...
+Mesma coisa.
+Então, spill memory, disk bytes spilled
+é o dado que está em disco e memory
+bytes spilled é o mesmo dado que está em
+memória.
+Beleza?
+É isso que significa.
+Usar one persist em caso que o data
+frame não seja mais utilizado.
+Pode julgar na mitigação do spill?
+Boa pergunta.
+Se você tiver ali no meio do seu
+processamento e você consegue tirar um
+persist, isso vai de fato remover...
+E a pergunta é boa.
+Porque de fato vai remover o que?
+Espaçamento de memória do storage
+execution, especificamente do storage.
+Isso vai dar mais possibilidade do
+execution abrir e ter mais espaçamento
+de memória.
+Agora você entende isso.
+Por quê?
+Porque o Spark ajusta isso dinamicamente
+para você.
+Então, sim.
+Se você puder fazer, isso pode ajudar
+você sim.
+Outra dúvida.
+Se aumentar o tamanho da memória não for
+uma opção, processar em chunks é uma
+possibilidade?
+Anano, por exemplo?
+Bom ponto, Guilherme.
+Pode ser.
+Então, repensar ali em como você está
+reprocessando o dado pode te ajudar com
+certeza.
+Ótimo ponto, inclusive.
+Boa sacada.
+Você pode fazer isso.
+Você pode dividir o job em duas
+categorias, por exemplo, uma das coisas
+que eu já fiz, inclusive você me trouxe
+uma lembrança muito boa disso,
+Guilherme.
+Eu tinha um job, não lembrei agora, eu
+tinha um
+job no próximo no próximo no próximo
+problema.
+Eu tinha um job que ele era muito grande
+e ele levava muito tempo para processar.
+Mas muito tempo mesmo.
+E aí o que eu identifiquei, eu estava,
+cara, um dia super curioso para
+entender, porque eu não estava olhando
+para o dado, enfim.
+Mas eu perguntei para o cliente, o cara
+falou, cara, é uma tabeladização e a
+gente tem alguns outliers de transação
+quando a gente tem aqui alguns eventos
+específicos, principalmente Black
+Friday.
+O aumento de quantidade de vendas num
+dia, ela equivale a seis meses de
+operação.
+Aí eu falei, ah, interessante, então
+provavelmente eu tenho skill aqui, né?
+Cara, e tinha um que era muito
+discrepante, era tipo assim, o valor
+anterior era 300 mil e o outro era tipo
+7 .5 bilhões de linhas.
+Então a diferença era muito grande.
+Eu falei, cara, tá aí o problema é
+exatamente esse.
+Então o que eu fiz?
+Na época, eu utilizei a lógica de criar
+duas aplicações.
+Uma aplicação que processava os dados
+normais, dos dias normais, e uma outra
+aplicação que processava os dados que
+são atípicos.
+Então isso me ajudou a entregar o dado
+disponível mais rápido e ter tempo de
+processar o dado maior ali, que seria
+até um dado analítico, tá?
+Então vê que pensar por isso já resolveu
+o
+problema.
+Exatamente.
+Exatamente isso, Ronaldo.
+É o dado em disco e o dado em memória.
+Nesse caso, valeria particionar por
+data?
+Cara, na época, sim.
+Na época eu acho que valeria.
+Eu acho que teria um ganho de
+performance em processar em fazer isso,
+mas o problema de processar por data é
+que eles tinham 10 anos de dado, então
+já não seria interessante.
+O dado ficaria muito mexido e porque
+você explicitou um partition by, se você
+não tiver na clause aware, você tá
+lascado, né?
+Então seu plano de execução vai ser
+muito mais prejudicial do que se
+geralmente ele não tivesse com um layout
+estabelecido de partition by, como a
+gente viu na terça -feira.
+Então, mas eu acho que se eu
+particionasse, porque ele utilizava
+também períodos de análise de window,
+dentro dessa grande tabela, então talvez
+particionar da tabela lá ajudaria, mas
+eu não pensaria inicialmente pra fazer e
+aí hoje de novo, nos dias de hoje,
+lembra que a gente desconsidera o máximo
+possível, a gente evita utilizar esse
+cara.
+Eu tive um problema por Spill, eram
+alguns caches no meio do código, que o
+código ficava travado muito tempo em G6
+Spill, tirando os caches em local
+específico, me reduziu de 12 horas de
+tempo pra 5.
+Uau!
+Incrível!
+Parabéns!
+Muito tempo!
+Muito tempo, mesmo!
+Beleza?
+Pegaram a ideia?
+Esse é o nosso famoso Spill.
+Beleza, galera?
+Vamos agora para o próximo da lista, que
+é o nosso Skill.
+Então, o que é o Skill?
+O Skill é, de novo, é o meu pesadelo, o
+pesadelo de quem trabalha com Spark,
+realmente, porque ele gera todos os
+outros problemas, como eu já tinha dito
+anteriormente.
+Então, é basicamente ter dados que não
+estão distribuídos nas partições de
+forma homogênea, totalmente
+desbalanceado.
+Então, tarefas que demoram mais do que
+as outras, mais conhecidas como o quê?
+Que a gente já entendeu, stragglers.
+Beleza?
+Então, uma visão gráfica desse cara, né?
+Quais são os sintomas de uma aplicação
+que possui Skill?
+Isso, talvez, não sei se você já pensou,
+mas qual o sintoma de você olhar e
+falar, cara, eu acho que essa aplicação
+tem Skill?
+Primeiro, você tem grandes execuções de
+tarefas, ou seja, as tarefas não estão
+balanceadas.
+Deixa eu mostrar para vocês isso aqui.
+Quando você entra, por exemplo, nesse
+cara aqui, que, inclusive, acho que ele
+falhou.
+Deixa eu ter certeza que ele falhou
+aqui.
+Não, ele funcionou.
+Ótimo.
+Maravilha.
+Demorou só 29 minutos.
+Um outro Spill que eu testei aqui para
+vocês e a gente vai conseguir ver.
+Mas, nesse caso, nossa, esse ficou
+bonito.
+Eu consegui me superar nesse aqui,
+galera.
+Eu acho.
+Consegui me superar nele aqui,
+provavelmente.
+Ótimo.
+Tá, o que eu queria mostrar?
+Quando eu venho em estágios e eu pego,
+por exemplo, uma tarefa, lembra que o
+estágio possui diversas tarefas, beleza?
+Então, quando eu venho aqui e eu tenho
+umas tarefas, o que vocês conseguem ver
+aqui?
+Está vendo que existem tarefas que estão
+sobrepondo e são muito grandes em
+comparação?
+Então, olha só, esse cara, tarefa zero,
+demorou 4 .4 minutos.
+Essa é a tarefa sete, ela demorou 1 .1
+minutos.
+Essa outra tarefa demorou, por exemplo,
+1 .5
+minutos.
+Exatamente.
+Então, isso aqui é um ótimo indicador de
+você analisar problemas.
+E aqui a gente tem, olha lá que lindo, o
+Spill de disco também sendo gerado aqui.
+Olha que coisa linda.
+Bastante coisa acontecendo em disco
+aqui.
+Beleza?
+Então, aqui a gente tem 6 .8 gigas de
+disco, memória, 6 .8 gigas em memória,
+que equivalem a 1 .6 gigas em disco.
+Beleza?
+É isso.
+Então, o que foi para o que saiu da
+memória e para o disco foi 6 .8 gigas, o
+total do Spill.
+Só que esse dado é comprimido dentro do
+Storage, é serializado, comprimido e
+colocado lá dentro.
+E depois, recomprimido ali, voltado ao
+normal e colocado lá.
+Então, isso aqui é um bom indicativo que
+você tem problemas aparentes de Skills.
+A gente está olhando um problema de,
+teoricamente, Spill, mas que você também
+tenha, de alguma forma, tarefas que
+podem ser somente Strugglers, com
+certeza.
+Tarefas que demoram realmente porque tem
+um processamento.
+Mas quando você começa de novo, ver essa
+situação que eu mostrei para vocês de...
+Deixa eu salvar uma coisa.
+Quando eu começo a mostrar essas
+situações aqui, aonde você tem isso
+aqui, isso aqui é um indicativo que você
+pode ter problemas de Skills.
+Então, tarefas executando muito tempo,
+variação do tempo de tarefa e nós que
+não são utilizados.
+Como que você sabe disso?
+Tarefas que foram executadas
+extremamente rápido e outras que foram
+executadas extremamente devagar.
+Então, você começa a entender que talvez
+o número de partições que você tem não
+está atendendo ao tempo de fato que você
+está utilizando o processador daquela
+máquina específica.
+Mas, como que você identifica isso?
+Tempo.
+O tempo da execução vai te falar e o
+SparkUI vai te ajudar nisso também.
+Então, ele vai te ajudar.
+Então, o que ele cuspiu aqui para mim?
+Nesse outro cara.
+Ele me cuspiu informações do Spark
+Measure.
+Esse cara foi gigantesco.
+Ele teve 59 estágios.
+Deixa eu aumentar aqui.
+E eu tive muito Shuffle.
+Eu tenho aqui vários problemas.
+Olha que legal.
+36 tarefas, 36 estágios, 430 tarefas.
+Aqui eu já sei que a quantidade de
+tarefas lembra que a quantidade de
+tarefas é a quantidade de partições.
+Então, aqui você já sabe que você está
+excedendo demais o seu cluster.
+Já sacou?
+Então, quando você olhar aqui o Spark
+Measure, você já consegue falar, caraca,
+essa tarefa teve, sei lá, 1000 tasks.
+Qual é o meu número ideal de partições?
+24.
+Eu estou, tipo, 10 vezes a menos de
+capacidade.
+Então, você já consegue ter uma visão
+nisso.
+Outro ponto que você consegue ver aqui
+bastante.
+Aqui, ó.
+Disk Spilled e Memory Spilled.
+Tá?
+Estou até agora maravilhado.
+Não, isso aqui, velho, primeira vez que
+eu descobri.
+Bytes Read, Bytes Written.
+E olha o tanto de Shuffle que a gente
+teve, né?
+Shuffle aconteceu de todas as formas
+aqui.
+Remoto para Disks, escrito de Bytes
+Written, Total Bytes Read e assim por
+diante.
+Então, aqui você tem bastante tempo.
+E quais foram os estágios que mais
+duraram?
+Então, de fato, o stage que mais durou
+foi o stage 0 de 4 .6 minutos.
+Não.
+Stage 36 de 4 .9 minutos.
+Então, se a gente for lá nesse stage 36.
+Stage 36.
+Vamos lá nesse stage 36 aqui.
+Stage 36.
+4 .9 minutos.
+Tivemos Spilled Skill, obviamente.
+Tá?
+Tivemos total de tempos de 23 minutos de
+execução.
+E olha só que lindo.
+Tarefas Long Running Tasks.
+São tarefas grandes com muito tempo.
+Somando um tempo total de 4 .5 minutos.
+Tá?
+De 20, não.
+Desculpa, total de 23 minutos.
+Somados, né?
+Tempo de execução que aconteceu em
+diferentes nós.
+E Spilled que a gente teve.
+Outro ponto legal aqui que ainda bem que
+eu vi.
+Olha só isso aqui.
+Para isso.
+Vê que no Executor 0, a gente fez o
+Spilled 768 megas.
+E no Executor 1 e no Executor 2 a gente
+fez o que?
+Spilled 6 .4 e 4 .9.
+Isso aqui também é um bom indicativo da
+gente poder ter problemas de skill, por
+exemplo.
+Então, essa dica é o que a gente olhou
+lá.
+Que é o seguinte.
+Eu olhei para as métricas e eu vi o
+seguinte.
+Eu tive um total de 430 tarefas.
+Você consegue puxar essa informação aqui
+também, tá?
+430 tarefas.
+Beleza?
+Então, eu tive 430 tarefas que
+executaram neste job.
+Esse job demorou 29 minutos e ele tem
+430 tarefas.
+Lembra que task é igual a partitions.
+Ou seja, nós inteiramos em 430
+diferentes partições aqui.
+No total dessa aplicação como um todo.
+Então, o nosso número ideal para o nosso
+cluster aqui é de no máximo 3 a 4 vezes
+de 6.
+Porque eu tenho 3 executores, cada um
+tem 2 cores.
+Ou seja, eu pego esse valor e multiplico
+por 4.
+Eu tenho 14, eu tenho 24 partições
+ideais para o meu processamento.
+E aqui eu trabalhei com 430.
+Então, obviamente você vai ver latência
+já de cara.
+Você já sabe pela configuração do seu
+cluster que você vai ter latência aqui
+olhando, tá?
+Justamente por olhar a quantidade de
+tarefas, por
+exemplo.
+Outra coisa que eu amo, que eu amo de
+coração, o Spark Matrix.
+Vejam que todas as métricas que a gente
+viu aqui, elas estão relacionadas ao
+estágio, tá vendo?
+Mas ele não entra no detalhe da tarefa,
+porque vai ser um pouco mais pesado para
+fazer.
+Só que você consegue fazer.
+Amanhã vou mostrar para vocês como que
+você consegue abrir o stage e conseguir
+ver todas as tarefas e as métricas de
+cada tarefa.
+Então, chegar num job que você precisa
+destrinchar ele, o que você vai fazer?
+Você vai chegar aqui e vai falar o
+seguinte task matrix equals task
+task matrix task matrix spark E aí você
+vai dar um task matrix
+begin e você vai fazer lá no final um
+task matrix end E aí amigão, ele vai
+capturar exatamente todas as tarefas e
+as métricas de todas essas tarefas aqui
+que você pediu, tá?
+Show, né?
+Então você tem nível task, velho.
+Eu amo ele.
+Eu já fiz, cara, já fiz uns
+troubleshooting animais, porque você
+pode salvar isso aqui em CSP, dá para
+fazer uma parada bem legal, gráfica para
+mostrar para o time.
+É muito legal, beleza?
+E eu vou mostrar o...
+Aham, eu vou mostrar.
+Eu falei e nem tinha visto.
+Eu vou mostrar o Excel que eu monto para
+vocês.
+Tem muita coisa para a gente ver ainda.
+Eu estou indo devagar para vocês poderem
+digerir.
+Beleza?
+Tá, vamos lá.
+Respiramos e entendemos esse cara aqui.
+Agora a gente vai para o próximo.
+A gente vai atacar a demo de skill.
+Pergunta.
+Antes disso, todo mundo na mesma página.
+Podemos proceder para skill.
+Ver esse cara e de fato ir para a demo
+de skill.
+Tudo certo?
+Número de tasks igual ao número de
+partição.
+Até o spill é skilled.
+Boa, verdade.
+Faz sentido.
+Mas se essas 430 tasks estivessem com a
+quantidade balanceada não iria gerar
+skill, certo?
+Sim, exatamente.
+Se você entrasse aqui, por exemplo,
+Paulo.
+Uma suposição, porque a gente não
+analisou isso internamente.
+Mas vamos supor que a gente pegou essa
+tarefa, que é uma long running task, e
+dentro dela você tem os estágios que
+foram completados.
+E dentro desses estágios você tem aqui
+as tarefas que foram feitas.
+Olha só como é diferente esse estágio,
+está vendo?
+É um estágio longo, mas você tem tarefas
+que tem tamanhos um pouco mais
+homogêneos.
+Se a gente pegar aqui um outro lado
+desse cara, talvez vai ter um cara que
+vai ser totalmente diferente aqui.
+Olha.
+Cache.
+Aqui eu vou mostrar inclusive essa é a
+demo do cache também.
+Aqui não.
+Vou carregar aqui essa outra se eu
+consigo achar atividades que foram.
+Aqui, olha.
+Está vendo que o histograma aqui é bem
+diferente do histograma daqui?
+Está vendo?
+Então, o que você já consegue entender
+aqui?
+Cara, aqui possivelmente eu tenho
+tarefas que nesse estágio demoraram
+demais para executar e aqui eu tenho uma
+separação mais homogênea.
+Eu quero ver no Spark exatamente esses
+picadinhos aqui, porque entrou, saiu,
+entrou, saiu entrou, saiu, entrou, saiu.
+Então, isso é o que eu quero ver no
+Spark realmente.
+O que eu sempre quero ver é a cor verde.
+Eu não quero ver cor amarela.
+Eu não quero ver cor vermelha.
+Eu não quero ver cor laranja e assim por
+diante.
+Eu quero ver cor verde.
+Isso é muito bom, porque eu não estou
+descerializando demais.
+Eu não estou deixando de comprimir o
+dado e eu não estou tendo shuffles.
+Eu estou executando tarefas.
+Então, aqui você vai ter uma
+homogeneidade muito melhor.
+Deixa eu pegar um job mais rápido, por
+exemplo, e abrir ele.
+É um job mais rápido que falhou.
+Deixa eu abrir um job aqui de 6 .3
+minutos e a gente olhar, por exemplo, um
+stage um pouco mais homogêneo aqui.
+Está vendo?
+Olha que coisa linda.
+Isso é lindo.
+Então, assim, olha só que lindo.
+Eu quero ver isso.
+Isso é lindo.
+Ou seja, vocês têm noção do conhecimento
+que vocês têm hoje do SparkY?
+Olha, eu vou ser muito sincero para
+vocês, de coração.
+Poucas pessoas que eu conheço, que eu
+posso contar no dedo, que trabalham para
+fora.
+Não estou nem considerando que é dentro,
+não.
+Eu trabalho fora com o meu time.
+Poucas pessoas entendem do SparkY
+realmente.
+Vocês vão sair do conhecimento aqui que
+eu entrego para vocês e, cara, eu vou
+dormir sexta -feira como um anjo
+entregando tudo para vocês.
+Porque isso aqui vocês podem rever e,
+cara, muito insight só olhando, tá
+ligado?
+Então, assim, vocês já estão, vocês vão
+estar num nível tão fodido que você vai
+simplesmente abrir o timeline, você vai
+saber o que está acontecendo, você vai
+abrir um stage, vai ordenar e, por
+exemplo, vai pegar aqui as tarefas e
+você vai, tipo, olhar para isso aqui e
+você vai ter insights e os caras, mas
+como você entendeu isso?
+Não, tá.
+Você vai vir aqui no Executors, ver a
+quantidade de tarefas, ver a
+configuração do cluster e ver a relação
+das métricas que você colocou, sabe?
+Então, assim, você vai conseguir fazer
+muita coisa foda, sabe?
+Tipo, andar em todos esses caras aqui e
+identificar, além disso, quando você
+tiver um plano de execução realmente que
+está acontecendo, você vai entender o
+que cada um desses caras fazem aqui.
+Porque a gente aprendeu tudo, né?
+Dissecado ao longo dos dias.
+Filter, Roast Stage Folding, Scan, todos
+os Joins, como funciona o Broadcache,
+enfim.
+Então, cara, isso é um conteúdo muito
+legal.
+Sabe que eu, tipo, me divirto demais
+entregando isso para você.
+Tipo, muito mesmo, tá?
+Estou me divertindo pra cacete.
+Talvez até mais que vocês.
+Sem sacanagem, tá?
+Estou zoando não, estou falando de
+verdade.
+Então, é muito bom.
+Obrigado por vocês estarem aqui.
+Para quem está assistindo, para quem vai
+assistir depois também, muito obrigado
+por assistirem, porque é um conteúdo que
+eu julgo ser muito excitante.
+Tipo, eu gosto bastante disso.
+E vocês estão no momento, no ano em que
+a gente está passando esse conhecimento,
+porque eu já segurei ele durante muito
+tempo, tá?
+Beleza.
+Então, depois disso, disclaimer e do
+chororô, vamos voltar.
+Eu vou entregar a cereja do bolo.
+E aí o John está falando exatamente
+isso.
+Uma das coisas que eu sentia saudade,
+que eu sentia dificuldade no Spark era o
+teu Bullshitting.
+É normal isso, tá?
+Então, que bom que a gente está aqui
+para ajudar você.
+Cara, eu tenho uns Jobs que 50 % do
+tempo do executor é laranja.
+Shuffle.
+São Jobs muito pesados.
+Por onde devo começar?
+Então, se está laranja, por exemplo,
+vamos ver aqui se eu acho
+o de Shuffle.
+Deixa eu listar aqui os 100.
+Deixa eu ver se eu acho o de Shuffle
+aqui.
+Então, de Shuffle, se a gente for no
+Stage, vamos pegar um Stage maior aqui.
+Aqui eu não tive Shuffle.
+Tive muito pouco talvez aqui.
+Não.
+Tem um Long Running Task aqui.
+Onde está você, meu amiguinho?
+Espera para você estar aqui.
+Mas caso você vai ver muito Shuffle
+Right Time aqui amarelo, é porque o que
+você está fazendo?
+Você está escrevendo esse cara.
+Então, isso é um tempo que te diz o que?
+Redução de Shuffle que você tem que
+fazer.
+Para reduzir Shuffle, você tem que
+reduzir suas Wide Transformations.
+E aí você vai ter que rever o código.
+Aqui você vai ter que olhar para o
+código do Spark e identificar o que
+possivelmente pode ser seu problema.
+Está vendo que aqui às vezes para achar
+um pouco chato?
+Claro, se você tiver muitas abas,
+principalmente.
+Mas, cara, se você tem Spark Measure, é
+muito mais legal de ver.
+Né?
+Então, olha só aqui.
+Tempo em Scheduler Delay, porque você
+tem alguma coisa de saturação de
+tarefas.
+Depois, desserialização.
+Você desserializou esse dado.
+E depois, de fato, execução.
+Depois a gente vai passar aqui para
+alguns que tem escrito Shuffle Rights,
+porque não está na minha cabeça aqui
+nesses planos qual que a gente vai
+selecionar.
+Mas eu mostro para você.
+Olhando essas barras verdes ali, quanto
+mais as barras são curtas e assim
+metidas os vetores, parece o melhor
+cenário.
+Exatamente.
+Eu gosto de olhar o resumo ali das
+métricas, que ali é legal.
+Que mostra a quantidade de linhas
+tamanho, min, max, med.
+Eu também gosto de utilizar ele.
+Vou ter que renovar a assinatura mais
+umas duas vezes até secar o conteúdo.
+Porque sempre tem coisa nova.
+A ideia é essa, né gente?
+Treinamento mais super.
+Vocês ficam falando essa porra, velho.
+Eu vou voltar a falar Supa e não me
+remete...
+Eu não tenho boas memórias com Supa não,
+tá?
+Mas...
+Vamos lá.
+Já fiz...
+Que bom, cara.
+Isso é muito bom.
+Que de escutar, muito bom.
+Ainda mais de pessoas que trabalham com
+isso já.
+Se fosse o treinamento mais foda, eu
+fico muito feliz e zungeado.
+Pelo menos a gente está falando muita
+merda aqui.
+Hoje fui chamado por um especialista ao
+cargo dele para falar quais otimizações
+estava pensando e implementando e ao
+final ele curtiu pra caramba.
+Com certeza o conteúdo dessa semana leva
+ainda mais a régua e nos destaca.
+Spark é tão granular que não vejo nada
+tendo capacidade de substituir.
+É...
+Eu...
+Eu concordo com essa afirmação.
+Não só por isso, mas pelo cenário.
+Tipo...
+Quando eu vejo a galera falando de
+DuckDB, Rust, não sei o que, são coisas
+maravilhosas que tem o seu caso de uso,
+enfim.
+Mas quando você fala de uma engine
+madura de processamento escalável,
+cara...
+Nenhuma empresa grande, nenhuma, não
+utiliza Spark.
+Todas elas utilizam Spark.
+Então isso já é um denominador comum
+entre todas, sabe?
+Então, tipo, eu não vejo Spark sendo
+substituído, tá?
+Não brevemente.
+Eu não vejo Lake House saindo muito pelo
+contrário cada vez mais.
+Flink tem ganhado muita atração.
+Todas as partes de streaming.
+Tem outras tecnologias que estão ali por
+volta que vão ter o seu momento e que
+vão construir muito.
+Mas pra uma tecnologia substituir Spark,
+cara, se você olhar pelo próprio Apache
+Software Foundation pelo tempo como um
+todo, vai demorar.
+Sempre vai ter.
+Mas vai demorar bastante.
+Até você ter alguma coisa que seja
+melhor.
+Eu acredito que vai demorar bastante.
+Então eu concordo com você.
+O que eu não entendi é o seguinte.
+Só vai para o próximo estágio se todas
+as tasks do estágio atual finalizarem
+-se.
+Mesmo sendo tarefas pesadas, com verde
+longo, mas se todos os executores
+estiverem com o mesmo tempo, nenhum
+executor vai ficar esperando isso em um
+skill.
+Não necessariamente, porque uma coisa é
+o seguinte.
+Uma coisa é tarefas estarem esperando e
+aí de novo, tarefas podem esperar por
+vários fatores.
+O skill, ele acontece no quê?
+Ele é uma partição no final do dia,
+beleza?
+Só que ele tende a estar desbalanceado
+por quê?
+Porque quando você fez lá um WHERE ID 10
+tem mil registros e depois quando você
+fez WHERE ID 100 mil aí você pegou um
+skill que o cara tem um milhão de
+registros.
+Então você vai ter várias partições
+pequenas, médias, e você vai ter
+partições gigantes ali.
+Então é a distribuição não homogênea da
+sua partição.
+E aí olhando para o tempo de tarefa você
+pode começar a pensar que isso possa ser
+um skill, mas não tem como você falar se
+é ou não, porque às vezes pode ser só
+uma tarefa que está ali demorando para
+executar por outros fatores, como por
+exemplo chafone, tá?
+Não necessariamente é skill, skill,
+skill.
+Eu tenho um job igual com várias barras
+verdes pequenas e eu não conseguia
+entender bem tá entendendo agora.
+Provavelmente ele é lento não acredito
+que seja lento, né?
+Geralmente não pela perspectiva de
+execução.
+Como identificar um problema de
+networking do cluster?
+Cara, eu vou ter que ver se eu consigo
+eu não vou conseguir gerar aqui.
+Eu não vou conseguir gerar aqui.
+Mas é um pouquinho diferente.
+Você começa a ter waiting time nas
+tarefas, tá?
+Porque você precisa comunicar.
+E aí você tem vários part bits
+acontecendo.
+Você tem tempos longos você espera.
+Você tem tarefas que falham tarefas que
+são reinicializadas então por exemplo
+aqui eu mostrei um deles que estava em
+vermelho você vai ver ali jobs que estão
+em vermelho, por exemplo que ditam
+também um possível problema de
+networking.
+E você vai ter métricas que vão te
+mostrar também se você está com problema
+de networking.
+Então você consegue achar sim essa
+informação.
+Melhor utilizando Spark Metric Spark
+Measure agora tá?
+Luan, na análise do skill lembro que
+você falou nas aulas anteriores que
+realiza uma análise histograma de um
+dataset volumoso é inviável.
+Nessa situação poderia ser aplicado
+técnicas como análise amostral, análise
+estatística, direto do Spark Measure?
+Você pode e é exatamente isso.
+Muito bom ponto Euron.
+Se o seu dataset é muito grande e que
+você não vai querer carregar ali um
+terabyte para poder analisar esse cara,
+você vai ter que pensar em sampling
+desse dado, você vai ter que pensar em
+várias coisas antes de tocar nesse cara.
+Então requer muito mais planejamento.
+E aí utilizar, por exemplo, histograma,
+algumas técnicas para você ter uma
+representação do dado vai te ajudar.
+E aí posteriormente quando você execute
+esse job obviamente você vai capturar
+tudo com Spark Metric para que você
+tenha tudo documentado.
+Então isso vai ser um pontapé inicial
+muito bom para
+você.
+Deixa eu ver...
+Cristina, você pode responder aí, ô
+Matheus, como que a gente está com as
+gravações do treinamento?
+Do dia 1, dia 2?
+Como que a gente está com isso?
+Max partition bytes tende a reduzir
+skill, ou seja, reduzindo o tamanho de
+partição fará haver distribuição mais
+uniforme, não vejo a hora de reverter a
+primeira aula para sedimentar algumas
+incertezas.
+Pode ajudar, pode ajudar, porque lembra
+que se você tem partições que possam se
+encaixar mais homogeneamente no seu
+Spark, você vai ter a propensão de ter
+menos skill ao longo do tempo.
+Então sim.
+É uma resposta sim, é uma viável é uma
+viável otimização para que você possa
+reduzir skill.
+Beleza?
+Vamos lá, vamos para o skill.
+A gente falou, falou, falou de skill 20
+minutos e ainda não viu o skill.
+Então vamos ver.
+Então o skill na verdade é isso aqui.
+Então imagina que você tem um job que
+tem várias execuções ali, tem os seus
+stages e ele executa os stages e no
+final do dia, por exemplo, você tem o
+seguinte.
+No executor 1, 2, 3 e 4 você tem 250 MB
+para processar aqui em todos eles.
+Todos levam 5 segundos, logo o seu
+output demora 5 segundos.
+Todos processaram em 5 segundos, ele une
+essa informação e entrega para você.
+Isso aqui é um job que não tem skill.
+A representação gráfica disso aqui é
+muito boa.
+Olha o job que tem skill.
+Então você tem um executor que tem que
+processar 100 MB, um outro executor que
+tem que processar 200 MB, esse outro
+aqui também tem que processar 200 MB e o
+que você tem aqui é esse executor 1
+processando 500 MB.
+Então isso é skill.
+Então é quando você tem a distensão, um
+disparate em relação às atividades que
+precisam ser executadas dentro do seu
+cluster.
+Dito isso, para a gente entender de uma
+vez
+por todas por imagem, que fica muito
+mais claro, isso seria um skill.
+Então imagina o seguinte.
+Você carrega lá no seu storage, carregou
+lá no seu arquivo.
+Vamos pular que seu file format nesse
+caso aqui era a parte parquet.
+Então você foi lá e carregou os arquivos
+parquet para dentro do
+Spark.
+Depois que você fez isso, o que
+aconteceu?
+Ele foi lá e estimou que essa parte não
+tem 50 MB, essa outra tem 50 MB, essa
+outra terceira tem 90 MB e essa outra
+quarta tem 150 MB.
+Então ele foi lá e carregou esses dados
+e essa partição aqui recebeu muito mais
+do que o normal.
+Ou seja, no final das contas você tem
+quantidade de partições é igual a
+quantidade de tasks.
+Então se você tem 4 partições, nesse
+momento aqui você tem 4 tasks para serem
+executadas.
+E aí você tem 4 tarefas para serem
+executadas.
+A questão é, você acha que o core, vamos
+denominar nomes para ele.
+Core 1, core 2, core 3 e coitado do core
+4.
+Eu vou até botar ele em vermelho, que o
+bichinho vai fritar, coitado.
+Ele vai dar uma fritada aqui, gostosa.
+Então esse cara aqui, esse cara aqui vai
+demorar mais.
+E quando você entra no problema do
+porquê esse cara, esse straggler, essa
+tarefa demorou mais tempo, você vai ver
+na verdade, por exemplo, que a
+distribuição do seu dado, quando você
+fez um order by, por exemplo, fez um
+group by, ID, você achou esse dado, a
+sua distribuição é gigantesca.
+E aí você tem, por exemplo, 1 milhão de
+linhas em 2022 e 5 mil linhas em 2021.
+Então isso vai fazer com que você tenha
+o que?
+Skill por causa da distribuição do seu
+dado.
+Ou seja, é um problema que não é na
+perspectiva do Spark, é como o dado é
+distribuído, é o dado que vem.
+Então meio que é um problema que não tem
+como você evitar, sabe?
+Tipo, vai acontecer em algum momento, em
+alguma aplicação que você tem.
+Então a ideia é você tentar mitigar esse
+problema.
+Beleza?
+Quais são as formas de você mitigar esse
+problema?
+Lembra lá que eu dei a dica de quando eu
+isolei o job, né?
+Então essa é uma opção muito viável.
+Você isolar o dado que está skilled e
+você processar ele num outro job, fazer
+ele à parte.
+Então você faz um filtro e um pruning
+nos arquivos.
+Então, cara, lembra que a gente aprendeu
+isso.
+Faz filtro e pruning lá, mandando um
+filter e um select e já seleciona todo
+mundo, exceto a partição ali em 2022,
+que não esteja na partição de 2022, seja
+diferente de 2022.
+Aí você traz todo um montante de dados
+que não está skilled e geralmente a sua
+aplicação vai funcionar muito bem quando
+você fizer as operações de join e assim
+por diante.
+E aí você deixa esse cara para ser
+processado num outro, né?
+E uma das vantagens hoje do Delta Lake,
+por exemplo, é que você pode escrever na
+mesma tabela.
+Então, você pode ter um job lá que
+escreve os dados na tabela e depois você
+tem um outro job que roda somente o ano
+específico que você tem o skill e
+escreve na mesma tabela.
+Logo, você vai ter o mesmo dado chegando
+lá, só que em tempos diferentes e com
+técnicas diferentes.
+Então, separar aqui é um dos casos que a
+gente mais usa,
+tá?
+Outro, claro que dependendo da
+estratégia de join, se você fizer um
+broadcast hash join, você não tem
+shuffle.
+Se você não tem shuffle, teoricamente
+você está compartilhando esse dado em
+memória, você não vai ter possivelmente
+o quê?
+O skill acontecendo ali, porque esse
+dado está em memória e ele vai ser
+computacionado muito mais rápido.
+Eu vou evitar operações ali dentro.
+Terceiro, utilizar salting.
+Essa é uma técnica muito avançada, que
+inclusive vocês vão ver ela hoje, porque
+as outras são tranquilos de fazer.
+A gente falou de isolar em detalhes, a
+gente já viu o broadcast hash join sendo
+usado à torta e à direita.
+A gente já viu o AQE otimizando as
+partições, reduzindo, fazendo coalesce e
+tentando mitigar skill, ele também faz
+isso, tá?
+E a parte mais complexa que você tem que
+trabalhar no código é o salting, que eu
+quero mostrar para vocês agora.
+Vamos lá?
+Deixa eu ver se eu acabei.
+Isso, salting.
+Antes de eu chegar, tá?
+Existe alguma dúvida antes da gente ir?
+Então, Fred, pensa o seguinte, você
+carregou os dados, beleza?
+Eles chegaram lá no parque teoricamente
+balanceados.
+Beleza?
+E aí, imagina que você fez um group by.
+Mentira, você fez um inner join.
+E esse inner join vai fazer uma cláusula
+where desses dois datasets no ano 2022.
+Aí o bagulho vai comer doido, porque ele
+fala, caraca, 2002?
+Calma aí, deixa eu olhar aqui.
+Caraca, tem muita coisa.
+Então é aí que ele vai gerar isso.
+Eu vou mostrar na demo aqui como isso
+funciona.
+Vamos lá.
+Skill.
+Esse exemplo aqui é um dos mais legais.
+Beleza.
+Vamos lá.
+Então, qual o problema que eu tenho
+aqui, tá?
+Então, vou mostrar para vocês o meu
+problema.
+Eu vou abrir o plano inicial e esse
+plano demorou 13 minutos para executar.
+Então, esse foi o job que demorou 13
+minutos para executar.
+Vamos analisar ele em relação ao que a
+gente viu até
+agora.
+Esse job...
+Isso mesmo?
+Por que eu botei 13 minutos?
+Não, 11 minutos.
+Desculpa.
+Demorou 11 minutos para executar.
+Então, vamos ver aqui o que ele fez.
+Então, eu tenho aqui no histograma duas
+transformações, duas ações que
+aconteceram.
+São os dois shows que computacionaram
+todas as outras transformações que
+estavam acontecendo.
+Eu tenho diversas tarefas.
+Eu tenho um total de 497 tarefas que
+foram executadas.
+O tempo total desse job foi de 11
+minutos, nós tivemos quantos estágios?
+Tivemos alguns estágios e se a gente
+ordenar esse cara por duração, a gente
+teve um cara aqui especificamente que
+demorou 10 minutos para ser executado.
+Vamos abrir esse cara e vamos ver o que
+ele fez aqui.
+Então, aqui você tem o escaneamento dos
+dados, você tem o mapeamento desses
+dados junto com o parquet e você tem que
+atingir que é um shuffle foi o que
+aconteceu.
+As tarefas estão relativamente
+interessantes aqui, uma boa
+distribuição, não é a melhor possível,
+mas está em uma boa distribuição e se a
+gente vier aqui na query de 11 minutos,
+o que a gente consegue ver?
+A gente consegue ver o seguinte, desse
+lado aqui a gente tinha uma tabela que
+tinha 7 .3 gigas com 122 milhões, desse
+outro lado aqui a gente tinha um arquivo
+com 586 mil registros, tendo 36 .2 em
+disco.
+Esse dado foi descomprimido, colocado em
+memória, enfim, aqui a gente filtrou 122
+.466 .330 e aqui a gente filtrou 1, tá?
+Beleza?
+Beleza, aí você tem um exchange que
+aconteceu, beleza?
+Por que?
+Agora prestem atenção, prestem atenção
+nisso aqui.
+É aqui que o negócio fica muito legal.
+Então você teve um exchange que foi o
+que?
+Garantia que eu tava fazendo um join, tá
+vendo?
+Eu vou fazer um join lá.
+Então, o que que ele fez aqui?
+Ele vai fazer um hash do business ID
+desta tabela com o hash de business ID
+da outra tabela, beleza?
+Então tá aqui.
+Lembrem que os números de partições que
+ele vai utilizar é 200, porque ele vai
+fazer esse cara aqui.
+Só que pra poder conseguir fazer isso,
+ele escolheu utilizar o sort merge join,
+que você vai ter que fazer um sorting do
+dado primeiro pelo que?
+Pela coluna business ID e business ID
+aqui do outro lado também.
+E daí eu entrego esse dado na ponta.
+Só que vejam que esta operação como um
+todo, foi muito demorada.
+Eu tive 11 minutos e eu executei
+diversos jobs ligados a esta operação
+aqui.
+Então isso aqui é legal também pra você
+ver os jobs que estão relacionados a
+essa query.
+Você consegue navegar no nível dos jobs,
+né?
+Dos stages ali dentro.
+Beleza?
+Então, porque que esse cara demorou
+bastante?
+Então a gente vai começar a ver, cara,
+porque que esse job demorou bastante.
+Esse é o primeiro indicativo.
+Durante o meu tempo aqui de 10 minutos,
+por exemplo, tive dois jobs aqui que
+demoraram 10 minutos eu tenho uma
+latência muito grande no meu exchange e
+no meu sort.
+Tem um grande tempo aqui.
+Então só aqui eu passei 12, 42 segundos
+que é um tempo considerável.
+E aqui 23.
+Então o que está acontecendo aqui neste
+processamento?
+Que query é essa?
+Então agora a gente vai examinar o que?
+A gente vai examinar a query.
+Então o que que a gente fez aqui?
+Vamos lá ver.
+Então esse cara faz o join e aí, irmão,
+olha o problema aqui.
+Eu fiz uma query de agrupamento pela
+data buscando a data de ontem.
+Então na data de ontem eu tinha nada
+mais nada menos do que 122 .466 .000 330
+registros.
+Opa, calma aí.
+122 .466 .000 330 .000 registros.
+Ah, interessante.
+Então se eu tivesse mudado essa lógica
+de query e simplesmente ter selecionado
+um outro campo de data que tivesse 14
+.000 quanto que você acha que esse job
+iria executar?
+Iria executar algumas vezes mais rápido
+do que o de baixo.
+Porque a distribuição do dado está
+completamente heterogênea aqui.
+Você tem uma data de 2026 15 que tem 14
+.000 registros e você tem uma data de
+2024 que tem 122.
+E aí vocês estão perguntando, tá, mas
+por que o skill, como ele acontece?
+Quando você vai fazer uma query que vai
+unir esses caras.
+Então você vai fazer uma query de inner
+join aqui, ó.
+Você vai fazer um select vai fazer um
+join de business ID com business ID.
+Ah, onde a data é?
+2024, 02 e tal.
+Então se a gente vier aqui vamos ver se
+a gente acha esse malvadão
+aí.
+122 .586 deixa eu ver qual filtro que
+ele utilizou date e business ID is not
+new e Nova York, tá vendo?
+Olha esse cara aqui.
+Esse cara demorou 11 minutos.
+Imagina se eu tivesse tido a sorte de em
+vez de consultar o ano 2024 72, eu
+tivesse consultado um outro ano.
+Um outro negócio legal aqui também de
+analisar voltando aqui que eu quero
+mostrar é isso aqui, ó.
+Eu consigo ver?
+Deixa eu ver.
+Estágio.
+Deixa eu ver se eu consigo achar algum
+estágio desses que estão com a propensão
+de tarefas, ó.
+Então a tarefa aqui que está um pouco
+discrepante.
+Aqui possivelmente a gente tem alguma
+coisa também.
+Isso aqui foi muito bom.
+Tá?
+Map partition Modern Z partition
+Caralhozão, Z partition Interessante.
+Beleza.
+Então aqui eu tenho essa query que foi
+completamente né, o cara que fez essa
+query, coitado sofreu bastante, por quê?
+Porque ele acessou a partição que
+simplesmente ou seja, a parte dos dados
+que possuem maior representatividade
+dentro do 2024 -7 -2.
+Então, cara, a query base consultando
+2024 -7 -2 demorou 11 minutos para
+executar.
+E aí vem a grande pergunta.
+Tá, e agora?
+O que a gente faz aqui?
+Então vamos pensar aqui nas formas que a
+gente poderia fazer e agora eu quero
+saber o input de vocês.
+Vocês já estão há 3 dias mastigando isso
+aqui.
+Como que vocês utilizariam, o que vocês
+utilizariam aqui de técnica que a gente
+vem aprendido até agora para poder por
+exemplo, melhorar o tempo dessa pesquisa
+que afeta este ponto aqui.
+Ou seja, o problema é quando você
+consulta por esta data as outras, a
+aplicação funciona muito bem.
+Só que quando você pesquisa por esse
+cara aqui, a gente tem por exemplo um
+job aqui que executa em 1 minuto e você
+tem um job aqui que executa em 13
+minutos.
+Então o ponto é como que a gente resolve
+como
+que a gente resolve esse problema?
+Como que a gente resolve ou me tira esse
+problema?
+Me falem aí, eu quero ler o que vocês
+vão escrever.
+Tira da sua cabeça e coloca aqui.
+Isso vai ajudar você a condensar essa
+informação.
+Com o Windows Functions provável que
+aconteça isso, Luan?
+Eu vou tentar trazer um caso de Windows
+Functions para a gente
+ver.
+Até sexta -feira eu acho que eu consigo
+trazer.
+Deixa eu colocar aqui.
+Só para vocês verem como é delícia.
+Delicinho.
+Uma Windows Functions junto com uma
+query, uma lógica mais
+rebuscada.
+Nada contra.
+A gente só vê o que acontece.
+Luan, já pensou em escrever um livro
+sobre Spark?
+Eu absorvo bastante a leitura.
+Facilmente eu vejo o Once and O 'Reilly.
+Cara, eu já tive convite para escrever
+inclusive, mas escrever um livro eu vou
+falar para vocês.
+A gente já teve experiências, eu e o
+Matheus escrevendo livros.
+Livro, na verdade de Big Data no
+Kubernetes, enfim.
+Cara, é uma dor de cabeça muito grande.
+Tem que realmente parar para fazer.
+Mas eu tenho vontade sim de escrever.
+Se fosse um livro que eu escreveria
+hoje, seria o de Kubernetes para dados
+ou Spark.
+Eu acho que daria para criar um cookbook
+de performance stunning.
+Tipo Distilled Performance
+Troubleshooting on Apache Spark, por
+exemplo.
+Algo assim.
+Ficaria legal realmente.
+Mostraria todas as técnicas de como
+resolver os problemas mais comuns.
+Seria um livro interessante.
+Explicando cada detalhe desse aqui que
+eu já tenho desenhado com o SkyDraw.
+Ficaria bem legal.
+Eu realmente acho que ficaria bem legal.
+Filtrava na extração.
+Legal.
+O trabalho da direita era pequeno, então
+o Broadcast já poderia ajudar.
+Concordo.
+Ajudaria.
+Primeiro separa as datas.
+Essa é a tua query de cara.
+Eu já tiraria o groupby porque você está
+filtrando data.
+Boa.
+Faz sentido.
+Estou analisando, mas faz sentido.
+Beleza.
+O que que eu resolvi fazer aqui?
+Eu vim trazer uma coisa completamente
+não alternativa.
+Essa é a última.
+É o The Last Resource, eu vou dizer.
+A gente vai tentar algumas coisas antes,
+mas eu gosto disso aqui porque eu já
+usei isso aqui algumas vezes.
+Beleza?
+Então vamos lá.
+É uma boa ideia.
+Se você tiver muita memória, por
+exemplo, talvez, mas cachear aqui seria
+muita coisa para cachear.
+Não sei se ajudaria.
+Tem muito dado.
+A não ser que você tivesse um cluster
+gigantesco, realmente poderia te ajudar
+aqui.
+Você poderia utilizar talvez um persist.
+Ajudaria um pouco.
+De diminuir um pouco do tempo total.
+Você pagaria um pouco mais de
+serialização e desterialização, mas eu
+acredito que você teria uma aparente
+melhoria de performance.
+Então olha só.
+O que que a gente faz aqui?
+Eu vou aplicar uma tecnologia, uma
+técnica chamada salting.
+Então na criptografia o salting nada
+mais é do que randomizar input.
+Então ele pega e cria buckets, cria
+números e coloca os dados ordenados ali
+por dentro desses hashes.
+E isso faz com que o dado fique
+homogêneo, porque agora você não está
+pesquisando de fato a data.
+Esse dado na verdade vai ter uma
+representatividade diferente no dataset.
+Então olha só que lindo isso aqui.
+Então no salting, o que que eu vou
+fazer?
+Eu vou até aumentar aqui para a gente ir
+devagar.
+Então eu vou pegar um dataframe.
+Eu vou pegar o dataframe de reviews.
+E aí eu vou selecionar uma coluna.
+Eu vou criar uma coluna chamada salt
+date.
+E eu vou concatenar o campo data, que é
+o nosso culprit, que é o nosso cara com
+problema.
+Eu vou adicionar underscore.
+E eu vou criar um valor randômico para
+ele baseado num fator 400.
+Que número é esse, Luan?
+Essa é a quantidade de números saltings
+que eu quero ter.
+Então eu vou ordenar de 1 a 400.
+Eu vou colocar os dados dentro desses
+buckets, esses hashes, de 1 a 400.
+Então eu vou pegar um número randômico,
+vou multiplicar pelo salt para poder
+fazer com que todos os dados sejam
+armazenados em 400 buckets, mas eles
+estejam ordenados pela numeração ao
+invés de você ter feito simplesmente
+pela data.
+Como que eu chego nesse número?
+Literalmente é um número que você pode
+tentar calcular, mas aqui é mais por
+amostra.
+Tipo, eu tenho tantos milhões de
+registros.
+Então como que seria uma
+representatividade de você conseguir
+colocar isso?
+Começa com 400, 1000, 3000 e você vai
+medindo performance em relação a isso.
+Mas existem formas de você tentar achar
+um número perto.
+Esse número perto, no final das contas,
+é o quê?
+Esses buckets vão ser colocados em
+partições.
+Então você vai ter que fazer um cálculo
+para entender o tamanho das partições,
+quantidade de registros e quantos esses
+registros representam em relação ao
+tamanho de memória.
+Se você tiver essa informação, você
+consegue acertar em cheio qual é o fator
+de salting que você quer utilizar.
+Eu fiz o salting da data.
+Lembra que eu estou utilizando aqui a
+tabela reviews.
+E fiz o salting do business ID também.
+Por que eu tenho que fazer do business
+ID?
+Porque eu vou fazer o quê?
+O business ID eu vou usar aqui para
+fazer o join.
+Então eu preciso garantir também que a
+chave está organizada no nível bucket,
+ou seja, pelo número randômico do
+salting.
+E claro, eu fiz isso do lado do reviews,
+eu vou ter que fazer isso do lado do
+business.
+Então eu vou fazer um salting da coluna
+de business ID.
+Eu vou pegar a coluna de business ID,
+adicionar um underscore e adicionar um
+número em cima dela.
+Ou seja, na técnica de salting, o que
+vai acontecer aqui?
+Ele vai basicamente falar o seguinte,
+olha só, você tem 2024 underscore 1.
+Ah, os registros estão colocados aqui.
+Underscore 2 estão colocados aqui.
+Então os dados vão ficar organizados
+pelo salting, em vez de serem
+organizados e distribuídos pela data.
+Depois disso, eu vou salvar esses caras
+como views temporários, para que o SQL
+possa pegar.
+E agora gente, olha que lindo, eu vou
+fazer um
+join e eu vou fazer um join da salting
+business ID com a salting business ID
+aonde o salting date é igual a data.
+Só que eu tenho que colocar um
+precedente aqui no final.
+Porque automaticamente ele vai entender
+que eu estou buscando isso com o valor
+do salting que foi acrescentado.
+Para que ele traga todo mundo que esteja
+em relação na esquerda, 2024 72.
+Eu vou ter algum problema de performance
+aqui?
+Não.
+Por quê?
+Porque essa minha porcentagem está no
+final e não no início.
+Beleza?
+Por isso.
+Então eu vou estar pegando todo mundo
+que está 2024 072 underscore 3 2007
+underscore 1 e assim por diante.
+Então um rejects que vai puxar esse
+cara.
+E aí galerinha, o que vocês acham que
+aconteceu aqui?
+No primeira query olha só o que eu
+tinha.
+Eu tive um shuffle de 7 .4 eu tive
+vários shuffles que aconteceram aqui.
+Beleza?
+E eu demorei aproximadamente 10 minutos
+no estágio 6
+e 10 minutos no estágio 7.
+Quando eu adicionei o salting a gente
+fez em 6 .6 minutos.
+Olha que lindo isso aqui.
+Então a gente reduziu de 11 minutos para
+6 .6 tá?
+Se a gente olhar aqui por exemplo o que
+que a gente consegue ver?
+146 mil de um lado os 586 do outro, né?
+Lembra lá?
+Mesmo número de inputs só que pela essa
+tabela ser muito menor ele optou em
+fazer um broadcast.
+Por que?
+Porque todos esses filtros aqui foram
+colocados em consideração em relação ao
+salting que a gente fez.
+Então olha só o tanto de whole state
+code gen que ele fez aqui uma, duas,
+três quatro, cinco, seis.
+Então vamos ver aqui em detalhes.
+Ele pegou 146 milhões, ele projetou de
+coluna para linha super foda.
+Beleza?
+Foram batchs de 35 mil aí ele aplicou
+uma projeção.
+Tá vendo ali?
+O cálculo de hand para ele achar o
+salting ele entende isso.
+Então ele fez o primeiro, fez a segunda,
+filtrou pela coluna que eu pedi salt
+date igual a 2024 02 percentage e ele já
+filtrou bruscamente esse dado porque
+agora ele tá ordenado o que?
+Ele tá ordenado pelo salt, ele não tá
+ordenado pela data.
+E aí pelo tempo e pelo o espaçamento de
+registros que a gente tem agora, a gente
+consegue automaticamente fazer um
+broadcast pra esse cara.
+Logo eu reduzo o meu tempo absurdamente
+na entrega desse cara.
+Então a gente saiu ali de 11 pra 6, né?
+E o que que a gente vê aqui nas
+métricas?
+Então olha só a gente saiu de Shuffle
+Total Reds 7
+.4 para 11 .7 Kbytes É considerável, né?
+Redução considerável de Shuffle, bem
+considerável né?
+Beleza.
+Outro ponto muito foda o Stage 6 saiu de
+10 minutos pra 4 segundos Caraca, que
+absurdo Quantos minutos aqui?
+Deixa eu ver já Saiu de 10 minutos pra 4
+segundos E o Stage 7 né?
+Saiu ali de 10 minutos pra 6 .4 minutos
+E a gente resolveu um problema
+extremamente complexo sem ter que
+dividir o dataset E aí, o que vocês
+acharam?
+Me falem nos comentários o que vocês
+acharam Só uma dúvida que tenho Como
+fica a inteligência a integridade das
+chaves nos joins?
+Quando você concatena um número
+randômico, como você mantém a
+integridade entre as chaves dos joins?
+Acho que não entendi Ah tá, você tá
+falando aqui Então,
+exatamente Porque aqui ó Eu entendi o
+que você tá perguntando Porque eu fiz
+isso do lado do review e eu fiz isso do
+lado também do business E esse número
+randômico ele é controlado porque ele
+vai organizar em 400, então ele vai
+estar dentro desse range de 400 os dois
+dados salteados Então isso é uma das
+coisas que a galera às vezes errava que
+ele vai e faz um salting aqui por
+exemplo da coluna reviews mas ele não
+faz um salting do outro cara que ele vai
+fazer a query porque ele tem exatamente
+esse problema de não conseguir achar a
+chave Beleza, boa O salting é pensando
+por uma
+partição ou posso aplicar se eu tenho
+várias partições que destoam da média?
+Nunca usei salting só tinha visto na
+live gratuita mas ainda nem deu tempo
+pra entender pra aplicar A ideia do
+salting é pra você resolver uma query
+específica que rege em várias partições
+Então vai seguir a mesma lógica que a
+anterior Beleza?
+Produza um só Por isso perguntei se ia
+tentar É
+interessante ele dar o salting e forçar
+o broadcast join Então veja que eu nem
+forcei o broadcast join aqui nesse caso
+ele automaticamente fez pela
+distribuição do dado pra mim Por isso
+que ele fez Mas eu nem precisei forçar
+aqui não Você poderia fazer também se
+ele não fizesse Bem, o Alan usou em case
+real uma vez que reduziu de umas 22
+horas pra 1 a 2 horas o salting na hora
+do join O dataset tinha uns 90 % dos
+dados em uma única chave tipo por
+exemplo Caraca, reduzir de 22 horas pra
+2 horas é agressivo Tentei fazer, mas
+acho que errei no fator porque muitos
+dados perderam a referência no join Ah
+legal, depois faça pra mim pra eu dar
+uma olhada no que está acontecendo E
+aí, curtiram essa aí?
+Top né?
+Vamos lá que a gente não acabou Vamos
+agora pro storage O storage nada
+mais é do que a gente já tinha visto
+anteriormente que é como você armazena
+esses dados ali como você trabalha com
+eles É basicamente isso Então não vou me
+adentrar demais a não ser que explicar
+um pouquinho a diferença desses dois
+caras aqui e mais detalhes Então você
+tem aqui a opção de cachear o dado e o
+padrão vai ser memory only e aí você vai
+colocar esse dado ou na verdade está
+errado aqui Desculpa, aqui é cache e
+aqui é persist E
+aí Beleza E cachear essas informações
+Então você tem duas formas de fazer isso
+Lembrando que no Spark depois do 1 .6 a
+gente tem o que?
+execução, gerenciamento dinâmico do
+espaçamento de memória Unified Memory
+Manager Mechanism Então a partir do
+Spark 1 .6 Antes você tinha que fazer
+isso meio que na mão Então lembra que
+você tem a área de execução e que você
+tem a área de storage E você tem o
+cálculo da heap memory Então quando você
+faz o caching e quando você faz o
+persist você está utilizando a área de
+storage E nesse caso naquela
+configuração que a gente fez você tem 63
+.6 MB disponíveis aqui para que você
+consiga fazer isso Caso contrário, se
+você forçar demais isso você vai fazer o
+que?
+Spill O dado vai ser serializado e
+colocado em disco Beleza?
+Então vamos navegar numa num plano de
+execução com esse cara Então deixa eu
+abrir ele aqui Vamos olhar o storage
+cache
+Deixa eu abrir o tempo de execução dele
+Mas basicamente
+o que eu fiz aqui Só para vocês verem a
+lógica que a gente explicou
+anteriormente sendo consolidadas aqui A
+gente está lendo o estado em parquet E
+aí o que eu estou fazendo aqui?
+Eu estou fazendo um filtro no campo
+cidade trazendo tudo referente a Las
+Vegas E depois disso eu estou fazendo um
+join desse valor com reviews Então
+basicamente estou trazendo somente o que
+está em Las Vegas E o que eu fiz aqui?
+Eu medi o tempo do count inicial Depois
+eu cacheei o resultado desse join E aí
+eu basicamente fiz o que?
+Operei Fiz a operação secundária Então a
+gente vai ver que vai ser muito mais
+rápido qualquer operação que derive do
+dataset ou do dataframe df .join
+Então tudo que toque esse cara df .join
+vai ser extremamente mais rápido porque
+esse cara está de fato em cache Deixa eu
+pegar aqui a execução dele
+Aqui Olha só o que eu quis mostrar aqui
+para vocês Eu quis mostrar o caso onde
+você não consegue cachear o dado de fato
+Então você na verdade por ter utilizado
+caching de forma errada ou pensando que
+é uma melhor prática e esqueceu de
+pensar no espaçamento de memória em tudo
+isso, o que você fez?
+Você utilizou demais, você fez um over
+utilization, uma super utilização de
+caching Então o que você vai ter é a sua
+aplicação inteira falhando Então eu quis
+trazer esse caso para você A aplicação
+demorou 21 minutos e ela falhou E aí
+Quando eu entro aqui Eu tenho um
+problema claro de espaçamento em memória
+Eu gerei um produto cartesiano em cima
+deste meu
+job E aí cara, o negócio ficou muito
+feio aqui Muito
+mesmo Então o que eu acabei vendo aqui
+Job aborted E aí eu tive stack 3 falando
+no space left on device O que significa
+isso aqui gente?
+Quem chuta?
+O que é esse no space left on device?
+Exatamente Lembra dos espaçamentos de
+memória que a gente
+falou?
+Então a gente não tem espaço para jogar
+esse dado Então acabou falhando Tem uma
+outra viés desse cara Demorou 6 .3
+minutos E que também
+falhou Esse foi shutdown de fato E eu
+quero pegar um outro caso bem
+interessante Deixa eu lembrar esse cara
+aqui Como que ele vai aparecer no plano
+de execução?
+Para vocês conseguirem entender Deixa eu
+ver se ele está
+aqui Deixa eu ver se eu acho Só um
+minutinho Deixa eu ver se eu acho ele
+aqui Não foi nesse job
+Duration Ele está ordenando aqui Mas o
+que ele vai aparecer Acho que a gente
+viu enquanto a gente estava Debugando um
+outro job O que ele fez Ele fala para
+você que o dado está em cache Deixa eu
+ver se eu acho aqui Me dá só um segundo
+Será que foi esse cara aqui?
+Não, esse não Esse cara aqui também Mas
+não, ele tem
+sido ele Será que foi um skill?
+Acho que foi um skill Que a gente estava
+vendo
+agora Nossa, queria mostrar para vocês
+Daqui a pouco quando a gente não
+estiver mais olhando Eu vou conseguir
+achar Mas basicamente ele vai aparecer
+aqui Cached Ele sabe que aquele
+DataFrame Foi cacheado Então tome muito
+cuidado Quando você faz isso Porque você
+pode o que?
+Habilitar mais Spill E mais operações
+Porque você está fazendo o que?
+Agora a gente entendeu Você está
+comprimindo O dado Você está tirando os
+espaçamentos de memória Então tome
+cuidado quando vocês estão fazendo isso
+Além de gerar muito shuffle Obviamente,
+tá?
+Beleza?
+Nesse caso ele não tinha tamanho total
+Para poder colocar esse dado Bom,
+explodiu Beleza?
+E agora, por último Nós iremos ver
+Serialização Esse aqui é muito legal
+Também, beleza?
+Então serialização É a ideia de você
+converter Os objetos E transmitir eles
+na rede Ou seja, de um executor para
+outro executor Então essa é a ideia
+Então o que a gente pode fazer Em
+relação a esse problema A gente pode
+evitar esse problema Basicamente
+trabalhando Utilizando as melhores
+práticas Então a gente tem quatro
+vertentes aí Do grande problema de
+serialização Primeiro, você tem
+comunicação de rede Que é extremamente
+cara Você está transferindo o dado de um
+lado para o outro Então você tem que
+garantir que esse dado está serializado
+O melhor possível Persistência de dado
+Quando você está fazendo cache Ou quando
+acontece um spill O que acontece?
+O dado está sendo serializado Então é
+muito eficiente É muito importante que
+esse processo de persistência Seja feito
+Então lembre que toda vez que você
+atreve um cache Ou você tem spill Você
+está serializando e deserializando o
+dado Mais do que no normal Gerenciamento
+de memória O dado é
+armazenado em memória Justamente para
+reduzir É a utilização Do uso total De
+memória, obviamente E serialização Você
+pode e tem A obrigação De brincar com
+CRIO serialization Alguém aqui já
+brincou com CRIO serialization?
+Então o padrão de serialização É Java
+Mas a recomendação para o PySpark É que
+você use CRIO Vamos dar uma olhada nisso
+aqui Então o que a gente tem aqui?
+Quando a gente pensa em serialização Dos
+objetos Nós temos dois tipos Nós temos o
+Java Serializer E nós temos o CRIO
+Serializer Então ele vai fazer isso em
+tempo de execução Então o Java
+Serializer é Beauty Está baseado na JVM
+Então ele vai funcionar para basicamente
+tudo Basicamente não Funciona para tudo
+que você tem dentro da JVM E se integra
+muito bem Por que o CRIO é mais
+interessante?
+Porque o CRIO Ele é muito mais rápido
+Ele é muito menor E ele tem um overhead
+muito pequeno Durante serialização e
+deserialização Ou seja, de fato ele é
+mais interessante Do que o CRIO E aí
+talvez você pergunte assim Luan, então
+se você está falando tão bem do CRIO Ou
+do CRIO Por que você na verdade Por que
+o PySpark não utiliza o CRIO Tipo como
+padrão Então vamos ver aqui Aonde esse
+processo acontece De serialização e
+deserialização Então quando você faz um
+join ou uma agregação Você está
+serializando Por que?
+Você está fazendo shuffle Você está
+organizando os dados E você está
+passando de um executor para o outro
+Então você está serializando e
+deserializando o dado Cache Spill Ou
+quando você está utilizando o que a
+gente viu hoje O Persiste Que é
+persistindo esse dado lá Então o
+DataFrame utiliza um encoder Que é um
+serializador um pouco diferente Mas
+É O que ele usa aqui por debaixo dos
+panos É bytes Para poder transferir
+Então você tem um objeto Ele vira um
+stream de bytes E aí ele vai ou para o
+disco Ou ele vai para um arquivo Ou ele
+vai para uma memória E depois esse dado
+é de bytes Convertido, deserializado
+para um objeto Então toda vez que
+acontece shuffle Você tem isso aqui
+acontecendo Então objeto vira byte É
+colocado em algum local Desse byte ele é
+deserializado Para um objeto novamente
+Então essa troca acontece Para você
+poder transmitir os dados pela
+rede Então para quem se perguntou O
+Spark por debaixo dos panos Utiliza o
+CRIU Para algumas operações Não utiliza
+para todas Porque você não consegue ter
+padronização de todas as tipagens de
+dados E todas as operações Mas isso está
+na documentação Por debaixo dos panos o
+Spark utiliza o CRIU internamente Para
+algumas operações que ele tem Então
+quando a gente olha Os dados de
+deserialização Esse é o nosso engine do
+Spark como um todo Olha que lindo Então
+a gente tem o Spark SQL O Catalyst
+Optimizer Todas as execuções e melhorias
+que o Tux tem E os RDDs Beleza E agora a
+gente vai ver Uma das coisas que eu
+adoro Olha só Todo mundo pergunta Luan
+Por que escrever uma escala UDF É mais
+rápido de você escrever uma Python UDF
+Então saca só Vem comigo aqui Então
+dentro da JVM Dentro da função como um
+todo Se você escreve uma função escala O
+que acontece aqui Você tem um driver
+Você tem um programa do driver aqui Que
+aqui na verdade é Python Como assim Você
+vai utilizar as
+funções nativas do Spark Que são
+escritas em escala Então vou botar aqui
+para vocês Native Spark Eu quero dizer
+exatamente
+Nas funções nativas do Spark Que a gente
+vai ver logo mais Então eu tenho uma
+sessão no driver E quando eu estou no
+worker E quando eu crio uma UDF Vejam
+que dentro do worker Eu tenho uma JVM
+Lembra como eu falei para vocês E vejam
+que a UDF O código da UDF E o bytecode
+dela É executado dentro De um DataFrame
+Na mesma JVM E isso acontece distribuído
+Então quando você tem um código escala
+UDF O DataFrame vai lá E intera sobre
+essa UDF E trabalha dentro da JVM Por
+que que escrever Funções em Python Você
+destrói esse comportamento Pelo simples
+fato De que você está fazendo isso aqui
+Você tem O Spark DataFrame Na JVM Você
+criou uma função em Python Então o que
+vai acontecer Você precisa do PI4J Que é
+o cara que vai transmitir As instruções
+da JVM Para um Python Instance E lá ele
+vai fazer essa troca aqui E isso
+acontece linha a linha Então ele pega o
+registro Em DataFrame Transforma ele em
+serializado Para mandar para o Python DF
+O Python pega esse cara Processa e
+retorna para o Py4J Que retorna para a
+sessão Isso linha a linha Então só de
+você fazer isso Você tem uma puta
+latência em relação a isso Por que que o
+Pandas UDF Melhora um pouquinho isso ai
+Porque em vez De ele utilizar o PI4J
+Para serializar e materializar Esse dado
+entre a JVM E o Python Você utiliza o
+Aron Que é o espaçamento em memória Que
+é um framework em memória Então
+basicamente o DataFrame Por mais que ele
+esteja na JVM Ou seja em Python Eles
+compartilham espaços de memória
+similares Então ele tem uma performance
+melhor Mas mesmo assim Existe degradação
+considerável aqui Então A gente evita
+usar esses dois Evita Mas se você tiver
+que usar Não tiver formas realmente Você
+vai utilizar o Aron Vai ser um pouco
+mais eficiente Vai ser mais eficiente
+Vai ser muito mais eficiente Mas vai ser
+mais eficiente Então Por que que o Spark
+não
+utiliza o CRIO Como padrão Alan Porque o
+CRIO você precisa de uma É porque é o
+seguinte O CRIO e o Java Serializer São
+classes de serialização Então ele vai
+serializar todo o seu código ali O que
+que acontece O Java JVM tem todas as
+serializações Disponíveis de todos os
+objetos E tipagens de dados que você
+pensar O CRIO não possui essa
+extensibilidade Então o Spark não pode
+colocar isso Como padrão por que?
+Porque você não consegue entender todos
+os casos de uso Mas para algumas
+operações Que ele serializa Ele utiliza
+o CRIO por debaixo dos panos Porque ele
+tem controle em cima da serialização
+Beleza?
+Mas de fato ele é bem mais Eficiente do
+que o Java Então vamos dar uma olhada
+aqui Eu adoro essa demo Demo do demo
+Então vamos lá Eu vou iniciar uma sessão
+Normalmente Vou adicionar o Sparkmetrics
+É claro que agora a gente está
+apaixonado Pelo Sparkmetrics Vou passar
+aonde os meus dados estão Vou ler Esses
+caras E aí amiguinho o que que eu vou
+fazer Eu tenho um campo chamado
+LicenseNum Que é um campo de
+licenciamento de placas Que diz qual é O
+tipo da companhia Que eu estou
+utilizando E vejam aqui que simplesmente
+Eu fui lá e declarei um DEF E fiz um
+LicenseNum recebendo um número E eu fiz
+um IF ELSE aqui Só isso, simples E você
+vê isso em todos os lugares Isso aqui é
+uma coisa que você vê em todo lugar Quem
+já viu isso aqui bota aqui
+Função Python escrita em PySpark Você
+tem a turta direito Acho que todo mundo
+já passou Muita gente aqui já passou com
+certeza Então
+beleza Tenho esse cara aqui Então eu vou
+Registrar Uma ODF É Fred muito cientista
+de dados faz isso Mas é muito mesmo
+Então o que que rolou aqui Eu peguei uma
+ODF para registrar Então ele Registra
+uma função Esse método Então eu estou
+pegando aqui e falando Olha eu tenho uma
+ODF Chamada LicenseNum Que é o nome
+desse cara aqui E ele é do tipo String E
+agora eu registro Essa função no Spark
+falando Que o nome dela é LicenseNum Que
+herda dessa função aqui E aí agora que
+eu tenho Essa função registrada O que
+que eu faço Eu chamo a coluna Que eu
+quero E na função eu passo a coluna Para
+eu fazer a comparação Beleza Então o que
+que eu vou fazer aqui Eu vou selecionar
+essa coluna Ou seja toda linha que
+passar aqui Eu vou fazer Eu vou acessar
+essa função Para fazer essa validação
+aqui Se for 02 é Juno Se for 03 é Uber
+Se for 04 é Via Se for 05 é
+Lift Aí eu estou usando Essa coluna aqui
+No meu Join E estou utilizando também
+Essa coluna no meu Join É isso que eu
+estou fazendo Bem eu executei Essa
+maravilha Essa maravilha demorou 3 .3
+minutos para executar Nada fim do mundo
+Mas a gente consegue ver Algumas coisas
+aqui que doem bastante Então toda vez
+que você vê Um cara chamado BatEvol Pode
+chorar Que é exatamente o problema Então
+BatEvol Está falando exatamente o que
+Isso aqui
+É choro Então BatEvol é choro Então você
+tem BatEvol aqui Você tem BatEvol aqui
+Você tem BatEvol aqui Você tem BatEvol à
+torta e à direita Olhando as métricas O
+que a gente tem aqui também Muito
+shuffle Por causa disso Eu estou
+transmitindo o dado de um lado para o
+outro Olha só o que eu tenho aqui Vocês
+nunca tinham visto Vocês nunca tinham
+visto Esse tempo de
+Garbage Collector Time Porque o Garbage
+Collector Precisa operar na memória
+Garantir que os espaçamentos estão
+entrando e saindo Da forma esperada
+Então em algum momento aqui A gente vai
+ver mais operações Utilizando o GC Time
+A gente pega aqui algumas Que utilizam o
+GC
+Time O tempo total foi bem alto De
+Garbage Collector Tivemos aí 26 segundos
+Para 3 minutos de execução Muito tempo
+Muito tempo de Garbage Collector Isso aí
+tem bastante mesmo Nos códigos, porque
+geral Faz par como se fosse Python puro
+E não o sistema distribuído Que por
+sorte dá para fazer em Python Exatamente
+isso Beleza E aí o que eu fiz aqui Eu
+criei uma outra aplicação Será que a
+gente vai receber um foda Para fechar as
+11 horas Então eu criei uma outra
+aplicação Que ela não faz Nada de
+diferente A não ser Chamar uma função
+Que opera dentro do DataFrame Ou seja
+Ela é uma operação Scala Porque ela usa
+o que?
+Spark Native Então alguém tinha
+perguntado ali Ah então seria que
+escrever em Scala Não é porque no final
+das contas O código é escrito em Java,
+Scala e Compilado Lá dentro, beleza?
+Então o que eu fiz aqui Eu recebo o
+DataFrame Seleciono a coluna que eu
+quero E faço um Case1 utilizando o
+PySpark normal Ou seja a mesma função só
+que utilizando o PySpark Nada diferente
+disso Beleza?
+É só isso que eu fiz gente Eu não mudei
+nada no código Eu só literalmente mudei
+essa linha Criando essa função que opera
+no DataFrame Como um todo Ao invés de
+operar nesse cara Então a gente saiu de
+Nós saímos de 3 .3 minutos Para 1 .7
+Temos o foda da noite Só por mudar a
+função Tá Então a gente tem Uma queda de
+50 % Só para fazer isso E a gente pode
+ir um pouco mais além Então a gente tem
+agora Olha só, o Garbage Collector Time
+Saiu de 26 para 9 segundos A gente tem O
+Shuffle Total Byte Thread Que saiu de
+Vamos ver aqui Acho que foi o mesmo É os
+Shuffles não melhoraram Mas o Garbage
+Collector Que eu tinha falado para vocês
+Esse cara aqui realmente É importante
+Muito E você ainda tem um outro problema
+nessa aplicação Você tem Shuffles Aqui
+que aconteceram E são grandes E me dizem
+que eu tenho alguma coisa Que eu posso
+investigar nessa aplicação Se a gente
+for um pouquinho mais adentro Olha só
+que legal Eu identifiquei Que nessa
+query que o Animal de Teta fez O Animal
+de Teta Adicionou o Order Byte Então Se
+eu tirar o Order Byte Será que tem
+diferença?
+Então a gente saiu de 3 .3 Para 1 .7 E
+agora Executando com o Order Byte 18
+segundos Um pouquinho melhor né Vai ser
+um pouquinho melhor Então Saímos de 3 .3
+Para 1 .7 Para 18 segundos Isso é uma
+otimização legal Muito bom Também curti
+E terminamos hoje Terminamos a tempo
+Hoje foi o primeiro dia que a gente
+terminou Antes de 11 horas Que legal
+Perguntas Dúvidas Alguma coisa antes de
+vocês dormirem Para compilar o dado na
+cabeça Agora a gente tem 10 minutos aqui
+Para poder tirar as dúvidas Então assim
+Sei que vocês já estão cansados Sei que
+vocês já escutaram demais Mas se tem
+alguma dúvida que está martelando na sua
+cabeça Tenta responder ela hoje Para
+você dormir E ali amanhã um dia novo
+Então coloca aí no chat Que eu vou ficar
+aqui Para a gente poder responder todas
+as perguntas Sem exceção Então aqui Que
+custo absurdo do
+Order Byte?
+E é legal você ter falado isso aqui
+Vamos pegar aqui 1 .7 Vamos aqui no
+DataFrame Vamos pegar essa operação aqui
+Esse show que demorou 1 .1 minutos Para
+o show aqui Que também teve Que demorou
+10 segundos Então vamos ver a diferença
+deles Então aqui eu tenho scan E scan
+acontecendo Eu tenho um Broadcast
+Rolando E eu tenho Um Exchange de 212
+milhões de registros O que a gente tem
+aqui?
+A mesma estrutura Só que um Exchange De
+24 Ao invés De 212 milhões Então é aí
+que a cabeça Frita realmente Beleza?
+Ou seja, o Exchange é o Shampoo Então é
+o nosso culpado aí É o Shampoo Então
+vamos lá Relaxa gente, toda pergunta é
+pergunta Vamos dissecar isso aí Luan,
+desculpa voltar no Spill Não, não
+precisa pedir desculpa Para ver se eu
+entendi direito O arquivo tendo 1GB de
+tamanho no Storage O nodo cluster com
+512 de memória Quando o Spark faz a
+leitura Do dado em partição de 128 Se
+passa desse tamanho Aí sim ele faz o
+Spill É isso?
+Vamos voltar aqui na imagem Cara, minha
+boca está secada Não tem nenhuma água
+aqui Então olha só Vamos pegar aqui o
+que você falou Então ó Se você tem
+Baseado nas frações de espaço Se você
+tem o dado Sempre vai começar da
+seguinte forma inicialmente Você tem o
+dado em memória Então em memória ali Ele
+tem, vamos ver aqui Vamos pegar o Spill
+A operação de Spill aqui
+Esse cara aqui, não pode ter sido Um,
+dois minutos Deixa eu abrir aqui Deixa
+eu ver detalhadamente Cadê ele?
+Spill, esse Esse aqui
+Então aqui ó O que a gente tem?
+Nesse estágio, que tem várias tarefas
+aqui Esse É o dado que estava em memória
+Que foi Colocado Então assim, ele
+excedeu Do espaçamento de memória que a
+gente tem 6 .8GB Então 6 .8GB Fazer o
+Exchange ou a operação Que tinha que ser
+Esses 6 .8GB estão divididos em Diversas
+partições dentro lá do seu Spark Então
+se você pegar ali Por exemplo, a ideia
+De conta rápida 6 .800 divididos Se você
+tivesse 128 Igualitárias partições Você
+teria ali 53 partições Então 53
+partições tiveram que escrever Indício,
+porque elas não tiveram Espaço para
+fazer operação No espaçamento de memória
+Que é ou Execution Memory ou Storage
+Memory Então eles foram lá e cuspiram
+Esse dado Então eles cuspiram da memória
+para o disco 6 .8GB, então na memória
+ele era 6 .8GB Quando ele foi para o
+disco Antes dele cair no disco, ele
+passa por um processo De serialização,
+ele é serializado E aí ele é Colocado em
+disco Então você saiu de 6 .8GB Para 1
+.6GB Beleza?
+Mas é o mesmo dado E depois eu preciso
+fazer o inverso Eu preciso tirar esse
+dado do disco E voltar com ele para a
+memória Para poder fazer essa
+operação Vamos lá, beleza Então acho que
+agora Veja para mim, fale para mim se
+ficou agora claro Beleza?
+Deu para entender agora, né?
+Melhor dia hoje Aumentei bastante Meu
+backlog hoje, abraço Lula, tenho uma
+dúvida sobre skill Pegando aqui que foi
+o exemplo do arquivo de 150MB e um outro
+de 150MB Vamos lá Acho que A gente fez
+aqui Algo nessa ideia aqui Na minha
+cabeça Se eu usasse um max partition
+para 50MB Eu resolveria o skill, mas
+pelo jeito Não é bem assim, queria
+entender Exatamente, então Você utilizar
+um max partition byte Para melhorar O
+seu dado sendo carregado Está tudo certo
+O que o Spark faz, lembra?
+Quando eu vou lá e faço um Spark read
+Ele vai ler os arquivos, certo?
+Ele vai dividir nas partições De até 128
+e vai carregar Ele não sabe da
+distribuição Ele não entende que você
+tem um skill De cara, porque ele não
+está lendo De fato o dado, ele está
+trazendo o dado para a memória Ele não
+está analisando o dado Então quando você
+usa o max partition byte Você pode
+chegar Num número que você tenha
+partições igualitárias Beleza, está tudo
+certo Mas na hora que você rodar Uma
+execução De join Por exemplo, você vai
+cair No problema do que?
+De fazer um join Que vai utilizar a
+coluna Que na verdade O skill vai ser
+descoberto exatamente nesse momento
+Porque ele vai Fazer o que?
+Ele vai fazer A query numa coluna Que
+você pediu agora Porque antigamente Era
+ordenado ali Pela ordem de chegada Com
+as partições bonitinhas ali Mas aí no
+meio aqui Quando você foi transformar o
+dado Você fez o que?
+Um join e pediu Para ordenar id por id
+Aonde o dado é esse E esse dado aqui é
+um skill Mas o skill não está referente
+A partição A partição maior e menor A
+partição não está alinhada Nesse caso
+aqui Não tem situações não alinhadas Mas
+numa query de negócio Está vendo?
+Então a query de negócio gerou O
+problema do skill Porque este campo tem
+milhões de registros Então por isso que
+aconteceria Então max partition bytes te
+ajudaria A ter homogeneidade Mas não
+resolveria o problema do skill O
+problema do skill você vai ter que
+Literalmente trabalhar na ideia De
+resolver ele em si E aí para resolver o
+problema de skill A gente viu
+que Faz ou a gente isola Ou a gente
+tenta reduzir shuffle O máximo possível
+Mas ainda vai ter skill Ou você utiliza
+um salting Para em vez de você fazer uma
+query Ordenada pelo campo Você utilizar
+uma técnica de hashing Para hashear
+esses valores Iguais ali E conseguir
+distribuir o dado Mais homogêneo Então
+se você usar um salting aqui O que vai
+acontecer É que você vai
+acabar Colocar os dados Mais dessa forma
+aqui Entendeu?
+Então os dados vão ficar mais assim Do
+que dessa forma Utilizando o salting
+No lance da serialização No final que
+estávamos falando Tem alguma diferença
+entre o Kubernetes e outros?
+Dado que um roda no JVM E no Kubernetes
+não Ou estou viajando aqui?
+Não, nesse caso aqui Como é dentro do
+realme do Spark Não tem muito o que você
+tem que fazer Ali mesmo não O que faz
+diferença sim É o container Então quando
+a gente ver na sexta -feira Como o
+container é buildado Aí vai ter as
+otimizações do Kubernetes Para rodar lá
+dentro Porque o Spark por mais que ele
+rode no JVM Controle tudo isso Enfim,
+ele tem otimizações por debaixo dos
+capuz Para poder rodar muito
+eficientemente No Kubernetes, mas ainda
+em JVM No final do dia A questão do CRIO
+Então se eu tiver só tempos primitivos
+Eu poderia ativar o padrão CRIO para
+tudo E ter um ganho de performance
+considerável Se já teve algum case de
+ativar Teve ganho?
+Sim, já tive vários cases De utilizar
+tempos primitivos E fazer isso,
+inclusive Se você pegar um TAPO de MNI
+Ou do chat de EPT Como converter suas
+classes para CRIO Ele te entrega isso
+Então vale uma demo bem legal Para vocês
+poderem ver Inclusive eu vejo se eu
+consigo trazer para
+vocês Uma diferença interessante Até
+sexta -feira Como eu já tenho todas as
+outras demos feitas Eu só preciso
+Realinhar os conteúdos E aí eu vou ver
+se eu consigo trazer isso para vocês Não
+consegui fazer cache De um
+DataFrame tirado pelo JDBC Ou eu não
+consegui verificar Se o cache estava
+sendo feito Essa dificuldade existe?
+Então você trouxe o dado para um
+DataFrame E aí você O que você tem que
+fazer posteriormente?
+Você tem que usar uma ação Para ativar
+este caching Então tem que ver o que
+aconteceu Talvez você não teve Espaço
+suficiente E você não conseguiu colocar
+Esse dado em memória Se quiser depois
+mandar isso Para mim no Slack Da
+comunidade Se você tiver ou mandar No
+meu LinkedIn Eu posso dar uma olhada
+rapidinha Nisso Pode ser algo simples O
+código Porque você não fez Deixa eu
+consertar minha câmera Até para dar
+tchau para vocês Porque a câmera está
+muito doida Botou né filho?
+Não sei se entendia muito bem No exemplo
+que deu da UDF Que utilizando o Pandas
+Seria mais rápido que o PySpark Certo?
+Não É o inverso Então aqui é o inverso
+Aqui vai ser extremamente mais rápido
+Utilizar as funções nativas Do que
+utilizar o Pandas Porque o Pandas Você
+tem uma JVM E uma instância de Python
+Rodando no mesmo worker Para fazer a
+tradução do código Que você fez Enquanto
+na escala function Seja na função nativa
+do Spark Você está compartilhando O
+mesmo espaçamento em memória Então
+Olhando aqui Isso aqui é uma função
+Python Python puro Que inteira numa
+coluna E isso aqui É uma função escala
+Quando eu falo escala Porque de novo As
+funções nativas do Spark São escritas em
+escala Por isso que eu falo isso Mas
+você pode chamar de native function
+Então vou colocar aqui This is a native
+Spark function É uma função nativa do
+Spark Que opera num data frame E aí eu
+seleciono A coluna do data frame que eu
+quero E faço a minha lógica Isso é
+PySpark Então isso aqui vai executar
+Extremamente mais rápido que o outro E
+aí você está perguntando Se o PySpark
+.pandas teria algum efeito Legal você
+ter falado isso Sim, é aí que você teria
+O Pandas dentro do PySpark E eu quero
+ver se eu consigo trazer para vocês isso
+O que eu ainda fiquei em dúvida É sobre
+salting Pois por conta do Handi Como ele
+fez o join
+depois Exatamente Data underscore
+Exatamente Perfeito, ótima explicação
+Imagina que eu estou fazendo join com um
+nome E eu tenho o valor batata Se eu
+fizer o salting em 3 Eu vou ter batata
+1, batata 2 e batata 3 E eu vou ter
+esses 3 novos valores Nas duas tabelas
+Então na hora do join As novas chaves
+vão ser as mesmas Parabéns, ótima
+explicação Acho que eu poderia até usar
+essa aqui da batata Porque é o
+salting Luan, sobre o sorting No final
+da query ali Teria alguma estratégia de
+fazer um write Ordenado por uma chave da
+tabela Que seria usada pelo join Isso
+reduziria de alguma forma O tempo de
+sorting que aconteceria Antes do sorting
+match join Na verdade se você
+conseguisse mudar A estratégia do join
+Você talvez não teria o sorting match
+join Então seria a ideia de tentar Fazer
+um repartition Coalesce e ordenar o dado
+De uma forma anteriormente Se você
+quisesse fazer isso E fazer com que o
+Spark escolhesse fazer isso E aí claro,
+se você for escrever Daí você utilizar o
+partition batch
+O problema somente se for o def Ou se
+for uma def normal Também dá ruim, dá
+demais A função também normal Dá show
+Uma boa notícia Hoje recebi um bom
+aumento Graças aos conteúdos que aprendi
+e aplico Olha só que
+interessante Então fico feliz Acabou,
+caraca já são 11h12 Tempo voa Então
+beleza gente Amanhã nós iremos navegar
+nos padrões Desenvolvimento, melhores
+práticas e streaming Mateuzinho vai
+estar aí comigo amanhã Porque não tem
+como falar de streaming Sem falar com o
+Mateus Porque ele é o nosso especialista
+aqui A gente vai falar de Kafka Vai
+fazer umas coisas bem legais aí E eu
+aguardo vocês amanhã Boa noite e até

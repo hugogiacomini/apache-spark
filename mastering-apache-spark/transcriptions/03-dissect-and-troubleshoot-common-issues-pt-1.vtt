@@ -1,0 +1,2241 @@
+Beleza gente, então vamos para o
+terceiro dia do nosso treinamento de
+Mastering e hoje a gente vai abordar
+como dissecar e resolver os problemas
+que nós vimos anteriormente.
+Bem, hoje a gente vai começar falando
+das demos anteriores que a gente não
+terminou, então a gente vai terminar
+elas e aí a gente cai direto nos 5S, que
+são os problemas mais comuns que nós
+temos aí no Spark.
+Então basicamente todos os problemas que
+a gente tem, a gente consegue colocar
+dentro dessa umbrella de Spill, Skill,
+Shuffle, Storage e Serialization, a
+gente consegue fazer isso.
+Então isso é bom porque meio que dá uma
+visão de como você pode setar sua mente
+para entender como resolver esses caras.
+E aí na sexta -feira a gente vai falar
+do Use Case que a gente vai construir,
+mas na sexta -feira a gente vai pegar
+tudo isso que a gente fez juntamente com
+o conteúdo de amanhã.
+Ou seja, a gente vai aplicar as melhores
+práticas, a gente vai escrever uma
+aplicação.
+A aplicação de Production Ready, então
+aplicando todas as regras, removendo
+todos os problemas que a gente conhece e
+assim por diante para ter um sistema
+distribuído escalável.
+Então eu vou deixar isso para sexta
+-feira porque a gente consegue ver tudo
+junto em Kubernetes e hoje a gente foca
+nos 5S.
+Beleza, dito isso, o que eu quero a
+ajuda de vocês hoje?
+Comentem, postem, perguntem, tá?
+Importantíssimo que vocês façam isso.
+Eu já pego as dúvidas.
+As dúvidas de vocês, pode deixar aí que
+eu já vejo, tá?
+Fiquem tranquilos.
+Beleza, então hoje a gente vai trabalhar
+esses 5S
+aqui.
+Mas antes, o que nós tínhamos prometido
+é que nós iríamos ver primeiramente onde
+nós estávamos.
+Então, do último momento que nós
+paramos, nós vimos as operações de
+Coalesce e a operação de Repartition.
+Então eu quero...
+Lembra que a gente rodou o script, mas a
+gente não teve tempo muito para navegar.
+Já eram 11 horas da noite.
+Então aqui eu quero passar com vocês
+sobre esse cara aqui para a gente poder
+ter certeza do que a gente está vendo.
+Beleza?
+Então vamos lá.
+Deixa eu abrir ele aqui.
+O script que a gente está procurando é o
+script de Repartition Coalesce.
+Está aqui.
+Repartition Coalesce.
+Repartition Coalesce.
+Aqui.
+Beleza?
+Então o que a gente viu na aula?
+A gente viu que o Coalesce é uma
+operação que envolve muito menos
+Shuffle.
+Ele envolve quase nada de Shuffle,
+porque ele opera, por mais que ele opere
+em várias partições, por isso que ele é
+considerado uma Narrow Transformation,
+ele, no final das contas, o que ele vai
+fazer?
+Ele vai trabalhar no mesmo executor.
+Então lembrem que essa diferença é muito
+grande.
+Esse cara vai trabalhar no executor,
+enquanto o Repartition vai trabalhar em
+todo Shuffle, em todos os executores.
+Então ele vai tentar aumentar ou
+diminuir.
+Outro ponto.
+No Coalesce você não consegue aumentar
+partições.
+Você só consegue diminuir partições.
+Por quê?
+Para eu aumentar partições, eu preciso
+envolver Shuffle.
+Full Shuffle.
+Então isso é o que o Repartition faz ao
+invés do Coalesce.
+Então vamos dar uma olhada aqui nesse
+código.
+Então o que a gente está fazendo aqui?
+A gente está medindo o tempo gasto para
+tanto fazer um Repartition quanto fazer,
+por exemplo, um Coalesce.
+Então aqui, no tempo inicial, quando eu
+rodei essa query, essa query basicamente
+o que ela vai fazer?
+Ela vai chamar essa função e aí ela vai
+acionar uma nova função.
+É o método count.
+Ou seja, ela vai fazer um count, que é
+uma wide transformation.
+E aí ele vai iniciar para ver o
+seguinte.
+Cara, o dataset, o data frame inicial,
+ele tem o quê?
+Ele tem 16 partições e o meu count
+demorou 7 segundos.
+Beleza?
+E aí o que a gente fez?
+Lembrando o cálculo mágico.
+Então vamos brincar com o cálculo mágico
+aqui para o meu ambiente.
+Qual é?
+Três vetores versus dois cores cada,
+vezes quatro vezes a quantidade de
+partições.
+A gente vai acabar com...
+24 partições.
+Esse é o nosso número ideal para
+processar, para a gente processar de
+forma efetiva no nosso cluster.
+Então é exatamente isso que eu segui
+aqui.
+Então eu pedi para ele reparticionar
+para 24.
+Está vendo?
+Então ele demorou 4 segundos para fazer
+isso.
+É uma operação bem custosa.
+Aqui a gente não está num dataset muito
+grande.
+Por mais que não é um dataset pequeno,
+mas também não é um dataset extremamente
+gigante.
+Aqui a gente está com meio bilhão de
+linhas.
+E no coalesce, olha só que interessante.
+Eu tentei botar ele para 24 partições.
+Então eu cheguei aqui e coloquei 24
+partições, por exemplo.
+O que aconteceu?
+Se eu colocar 24 partições e ele tem
+partições iniciais como 16, ele não vai
+conseguir reduzir.
+Ele vai continuar como 16.
+Está vendo?
+Por quê?
+Porque como eu disse para vocês, o
+coalesce não aumenta, ele só diminui.
+E aí quando eu vim e pedi para que ele
+fizesse 12 partições, ou seja, ele
+diminuiu, ele diminuiu ainda mais, aí
+sim ele fez com efetividade e ele
+demorou basicamente um tempo aproximado
+do que o tempo do repartitioning.
+E claro que ao longo dos dias hoje,
+principalmente falando de skill, spill,
+shuffle, serialization, storage, a gente
+vai ver em mais detalhes esse cara aqui.
+Alguma dúvida antes da gente ir como
+repartitioning com o coalesce?
+Eu quero ter certeza que vocês
+entenderam os dois.
+E a gente vai aplicar essas melhores
+práticas durante o nosso desenvolvimento
+de aplicação production ready também.
+Né?
+Então, por exemplo, uma das coisas que a
+gente vai fazer, a gente vai
+reparticionar o dado antes de escrever.
+E aí a gente vai ver qual é a melhor
+prática em cima disso.
+Beleza?
+Então me falem aí, enquanto eu vou pegar
+as perguntas,
+tá?
+Aproveitar o momento para uma dúvida que
+eu sempre tive.
+É mais performático fazer um DF Select
+Filter ou um DF Filter Select?
+Boa pergunta.
+Lucas, nesse caso você não vai ter
+diferença.
+Porque o Optimizer vai entender que o
+Select é para que você selecione a
+quantidade de colunas e o Filter é para
+que você, de fato, filtre o que você
+quer daqueles resultados.
+Então não é para você ver nenhuma
+diferença no query plan, tá?
+É para você ver a mesma coisa
+acontecendo aí, tá?
+Estranharia se eu visse algo diferente
+disso, tá?
+Beleza?
+Vamos lá.
+A minha câmera, Ronan, é uma...
+Qual o nome da minha câmera?
+Deixa eu pegar aqui.
+O nome da minha câmera é Insta360 Link.
+Ela é 4K e ela tem, tipo, IA nela.
+Então quando eu faço isso aqui, por
+exemplo, ela começa meio que a me
+seguir, sabe?
+Era para eu fazer isso.
+Isso é quando ela quer, né?
+Isso, é.
+Quando ela quer.
+Aí, ó.
+Beleza, ela está afim.
+Ela está afim.
+Às vezes ela vai meio rogue, ela fica
+doidona, mostra um lado no seguinte.
+Mas é legal.
+Tem umas features legais dela.
+A imagem dela é bem boa.
+Na ingestão da bronze, gera um data
+frame da pasta.
+E em seguida, faça um loop para ler cada
+pasta.
+São muitas tabelas.
+O loop é com collection.
+E onde aprendemos que não é bom.
+Qual a melhor abordagem?
+Aí, Deline, eu vou ter que ver o seu
+cenário, como que você pode fazer isso,
+tá?
+Sem utilizar ali o collect mesmo, porque
+vai ser muito pesado para você.
+Depois, me passe o código detalhado num
+GitHub ou algum lugar para eu analisar o
+código.
+E aí eu consigo te dar alguns insights.
+Então, André, para rodar as
+configurações, eu sugiro que, no mínimo,
+você tenha 6 GB de RAM e 4 CPUs.
+Porque aí você pode ter 2 executores ao
+invés de 3, né?
+Cada executor com um mínimo de 2 cores.
+E aí seria legal você ter 3 GB ou 2 GB
+de RAM.
+Mas vai funcionar com 2 GB de RAM,
+tranquilo.
+Então, 4 GB de RAM e 4 CPUs.
+Você vai conseguir rodar os ambientes
+sem nenhum problema.
+Dúvida antes da aula.
+Quando usarmos colas?
+Para reduzir centenas de arquivos
+pequenos, por exemplo, 32 arquivos
+parquet maiores, com o engine distribuir
+os dados entre os 32 parquet, usa hash e
+round robin para distribuir as linhas de
+forma even.
+Aí, internamente, como ele vai fazer?
+Ele vai escolher baseado nas heurísticas
+e no plano de execução o que vai ser
+melhor para ele fazer.
+Como que ele vai escolher?
+Se ele vai fazer um round robin, se ele
+vai fazer um shuffle, ou se ele vai
+fazer algo secundicial.
+Então, depende de como ele vai fazer.
+Se ele vai fazer um hash distribuído em
+memória.
+Então, isso aí ele escolhe.
+Seguindo a dúvida do TheWilliam, para
+algumas bases também afetamos a ingestão
+na lente com Spark no EMR.
+Geramos uma lista com todas as tabelas e
+depois um loop para a carga de todas as
+tabelas.
+Faz sentido?
+Faz sentido.
+E aí, de novo, depende.
+Eu tenho que analisar para ver se você
+está tendo problema de performance em
+relação a isso.
+Guilherme perguntou o seguinte.
+Qual S Compartition By funcionaria?
+Exemplo, quero que minha partição na
+data de hoje tenha X arquivos.
+Beleza, eu vou mostrar isso.
+Então, lá na frente, se tem como fazer,
+se não tem, como divide, como que a
+gente calcula o sizing para poder
+escrever esse dado, por exemplo,
+arquivos de 32, 64 MB, eu vou passar
+sobre isso nos próximos dias.
+Fica tranquilo.
+O único recurso para aumentar o número
+de partições é o Repartition?
+Então, boa pergunta.
+Sim, e você pode fazer também, trabalhar
+no Max Partition Bytes.
+Que aí é o Max Partition Bytes, é aquele
+parâmetro que a gente sabe que padrão é
+128.
+E aí, se você mexer nele...
+Você consegue resolver alguns problemas,
+lembrando que a gente precisa entender
+que o input dos dados é sempre
+constante, que tem ali mais ou menos o
+mesmo sizing e assim por diante.
+Então, se você tem essa previsibilidade,
+aí você poderia utilizar o Max Partition
+Sizes para poder brincar com esse
+tamanho e daí sim aumentar ou diminuir.
+Tá?
+Beleza.
+Acho bom dar uma repassada na diferença
+entre as partições geradas por um
+Partition Byte, que tem mais a ver com
+os folders, e as partições que o Spark
+realmente usa nos cores para o
+processamento.
+Tá, eu vou passando por aqui, Paulo, mas
+acho que a gente amassou demais já esse
+conteúdo, tá?
+Mas eu vou explicando aqui ao longo do
+treinamento.
+Basicamente, Partition Byte, quando você
+escreve, é totalmente diferente, né, na
+perspectiva de entender, do que de fato
+o Partition.
+Partition é a unidade paralelismo do
+Spark, ponto.
+E o Partition Byte, quando você quer
+escrever no storage particionado, você
+vai usar...
+As partições que estão ali dentro, né,
+do Spark, vai escrevê -las no storage.
+E aí você vai pedir qual é o ID que você
+quer, ou qual é a chave que você quer
+armazenar esses dados.
+E aí no storage vai ser organizado pela
+coluna que você pediu, tá?
+E aí a gente viu também a relação desse
+problema, por exemplo, com o restante
+das coisas.
+Como, por exemplo, o problema de...
+O problema de...
+É...
+O problema de você ter exaustão de
+acesso em Cloud Storage, tá?
+Por exemplo.
+Mas Partition Byte seja um número que
+aumente ou que diminua as partições, em
+geral vai ser mais performante do que
+Repartition, certo?
+É, por quê?
+Porque se você conseguir utilizar o Max
+Partition Bytes, você não vai precisar
+ler e depois de ler, aplicar um
+Repartition ou um Coalesce, né?
+Se você, principalmente, quiser aumentar
+ou diminuir.
+Mas se você utilizar o Max Partition
+Bytes, você já vai ter um número ideal
+ou perto do ideal carregando ele.
+Então, vai ser mais performante porque
+vai ser uma operação ao invés de duas,
+tá?
+Beleza?
+A gente vai ver algo relacionado à
+estrutura de arquivos de código.
+Tem algum padrão que você recomenda?
+É...
+Acho que não.
+Eu acho que não entendi a sua pergunta.
+É...
+Estrutura de arquivo de código.
+Se a gente tá falando de como escrever o
+código, a gente vai ver as melhores
+práticas para aplicar código, né?
+Então, patterns, design patterns,
+melhores práticas de como modular a
+função, como escrever nos repositórios.
+A gente vai ver tudo isso em detalhe
+amanhã, tá?
+Então, vamos focar aqui, gente, no
+conteúdo, que a gente tem muita coisa
+para poder falar.
+Beleza?
+Vamos lá.
+Beleza?
+Aqui.
+Então, o que a gente ficou de ver, tá?
+Foi o caching, né?
+Então, para que a gente usa caching?
+Bem, eu já começo falando que caching eu
+utilizo com muito cuidado, tá?
+E existem várias ressalvas para isso.
+Principalmente em ambientes de Spark que
+você não esteja trabalhando ali, como
+Databricks, por exemplo.
+O Databricks tem muita coisa legal,
+como, por exemplo, ele tem um cache
+intermediário dependendo do tipo de
+cluster que você seleciona.
+Então, se você selecionar um cluster
+Delta Optimized, ele vai ter cache.
+Então, ele basicamente faz isso aqui,
+né?
+Só que de forma automática para você.
+Então, eu utilizo ele, mas com muito
+cuidado.
+Depende muito das operações que eu faço.
+Então, o que é o caching, né?
+Primeiramente, imagina o seguinte
+cenário.
+A gente vai ler arquivos, né?
+A gente vai carregar esse arquivo, né?
+Esse dado para o DataFrame dentro do
+Spark.
+Daí, a gente vai aplicar uma
+transformação nesse DataFrame, né?
+E aí, vamos supor que o resultado desse
+DataFrame, ele seja um dataset que vai
+ser utilizado pelos seus downstreams.
+O que são os downstreams?
+São as pessoas que consomem desse cara.
+E os upstreams são os caras que consomem
+do lado esquerdo, né?
+Os caras que estão relacionados para
+cima e os downstreams são os caras que
+estão relacionados para baixo.
+Então, veja, por exemplo, que nesse caso
+aqui, esse dataset, tá?
+Vamos chamar esse dataset aqui, por
+exemplo, de writes, tá?
+Vamos supor que esse dataset writes,
+quando você utiliza a criação desses
+outros datasets aqui na sua aplicação de
+Spark, você está referenciando esse
+outro DataFrame.
+Então, veja o que acontece aqui, né?
+E aí, eventualmente, você está
+escrevendo essas informações.
+Então, veja que é importante que se eu
+tiver uma forma de deixar isso em
+memória, então, a questão de
+serialização e desserialização e mais
+outras coisas que acontecem para você
+realmente juntar e trabalhar e parte
+computacional não vai precisar ser feita
+porque você vai cachear esse cara para a
+memória.
+Então, o que o caching faz?
+Você pega um dataset e você cacheia,
+desculpa, um DataFrame e você faz um
+cache dele.
+Você pina ele na memória.
+Então, você deixa ele socado lá na
+memória.
+A gente vai ver hoje aonde esse cara
+fica em toda a estrutura de memória do
+Spark.
+A gente vai ver isso hoje, beleza?
+Só que, às vezes, você quer reduzir o
+tempo
+desses datasets consumirem esse cara,
+colocando ele em cache, mas, às vezes,
+você não possui memória suficiente para
+isso.
+Então, o que acontece?
+Você pode utilizar um cara chamado
+Persiste, tá?
+E aí, quando você utiliza esse cara
+chamado Persiste, o que acontece, na
+verdade, é que o Persiste, por si, já
+tem sua própria ciência, né?
+Ele tem, cara, acho que seis métodos,
+um, dois, três, quatro, cinco, seis.
+Ele tem seis tipos de como você quer
+persistir o dado, beleza?
+Então, por padrão cache, ele vai,
+literalmente, ver o dado e vai colocar
+isso para cima.
+O Persiste, você pode escolher.
+O mais utilizado, que eu vejo as pessoas
+utilizando quando não utilizam cache, é
+o Memory and Desk.
+Então, eu coloquei aqui uma descrição e
+o caso de uso de cada um deles, tá?
+Então, o Memory Only é exatamente o
+cache, né?
+Basicamente, você vai ter esse dado
+computacionado em memória.
+Você vai ter um Memory and Desk, ou
+seja, você vai chamar o DF e colocar
+Storage Level Memory and Desk.
+E aí, o que ele vai fazer?
+Ele vai armazenar o RDD desserializado
+na JVM, tá?
+Se ele não tiver memória suficiente para
+fazer isso, todas as partições vão ser
+armazenadas no disco, tá?
+E aí, evita a recomputação.
+Então, você ainda tem um benefício
+interessante aqui, e aí muita gente
+pergunta, Luan, mas se eu for usar o
+Memory Disk, talvez não valha a pena.
+Vale pela serialização e
+desserialização.
+O dado já vai estar desserializado para
+você e guardado em uma outra área.
+Então, relativamente, vai ser mais
+rápido você computacionar esse dado, tá?
+Do que se ele não estivesse ali em
+Memory and Desk.
+Existem outras opções aqui, como
+serializado, desserializado, Disk Only
+ou Off Heap.
+Off Heap eu já usei uma vez, tá?
+O que é o Off Heap?
+A gente vai ver hoje o Off Heap em
+detalhe, mas o Off Heap é uma área cinza
+no Spark.
+Isso quer dizer que você vai ter que
+controlar o que você coloca e o que você
+tira de lá.
+É uma área extra que você tem, que você
+pode explorar.
+O lado positivo dessa área é que, por
+exemplo, ele não tem Garbage Collector.
+Então, você não paga algumas penalidades
+ali se você tiver um dataset gigantesco
+e você queira colocar ele em memória,
+por exemplo.
+Então, a ideia é você utilizar um Off
+Heap.
+Então, no caso, quando eu utilizei, foi
+utilizar essa Off Heap Storage Level,
+configurando o Off Heap Size maior e
+pedindo para que o meu dataset fosse
+escrito nesse caso.
+Então, é uma das formas, mas isso vai
+para casos bem atípicos, tá?
+Então, quando que você usa um e quando
+que você usa outro?
+Claro que a gente vai sempre pensar em
+utilizar o cache, mas lembrando que você
+tem memória suficiente para poder fazer
+isso.
+Precisa ter memória suficiente para
+fazer isso.
+E aí, claro que a ideia é você persistir
+e remover.
+Então, fazer um cache e um persist para
+remover esse cara do cache.
+Às vezes, existem...
+Eu já vi casos, por exemplo, em
+aplicação que o cara coloca um cache e
+aí o cara não utiliza um persist.
+E aí, aquele dado fica hanging na
+memória por um certo tempo ali.
+Então, tem que tomar bastante cuidado
+com isso.
+E quando você não tem espaço suficiente
+na memória, então, a ideia é você
+colocar um pedaço em memória e um pedaço
+em disco, beleza?
+Eduardo, respondendo a sua pergunta
+sobre o Broadcast Size Limit, tá?
+Então, eu dei uma pesquisada mais a
+fundo realmente e para confirmar,
+perguntei lá na comunidade de Spark para
+um dos caras que eu conheço, que é um
+dos PMs do Spark, que é o seguinte.
+O Auto Broadcast Join que a gente estava
+falando hoje, ou seja, o número do
+Broadcasting, ele é 10 megas, mas você
+pode colocar 100 gigas se você quiser,
+beleza?
+10 teras se você quiser.
+Não existe um limite para ele, tá?
+O que tem é, se ele não tiver memória,
+né?
+Obviamente, se ele não tiver memória
+suficiente, ele não vai subir pedaço do
+dataset ou não.
+Ele vai tentar persistir exatamente o
+quê?
+A tabela inteira, o Broadcast inteiro no
+driver ali e compartilhar com os
+executores.
+Então, se você ceder o espaço em
+memória, você vai ter Out of Memory,
+beleza?
+Então, basicamente isso.
+Você pode utilizar o limite que você
+quiser.
+Não tem um Hard Limit no Spark, beleza?
+Beleza, o Persist é uma Action, né?
+Ou preciso chamar algo depois para ele
+executar.
+O Cache, assim como o Persist, são
+transformações.
+Então, geralmente, o que a gente faz?
+A gente faz um Cache e a gente usa uma
+transformação para ativar esse cara, tá?
+Então, vamos dar uma olhadinha nessa
+demonstração aqui.
+Yelp Cache Persist.
+Acho que ainda estou executando isso
+aqui.
+Deixa eu ver.
+Ai, que legal.
+Vou botar em você.
+Yelp Cache Persist.
+Yelp, queria mostrar uma outra coisa
+para vocês aqui.
+Beleza.
+Então, Yelp Cache Persist.
+O que eu fiz aqui?
+Qual é a demo que a gente vai olhar?
+Eu estou lendo dois DataFrames, um de
+Reviews e um de Business.
+E, basicamente, o que eu estou fazendo é
+eu estou juntando esses caras, fazendo
+um Join, e calculando o tamanho da
+coluna Category.
+Então, bem simples.
+Estou só medindo o tamanho dessa coluna.
+E aí, isso é uma operação, certo?
+Então, aqui eu fiz um Join.
+Eu acionei uma ação.
+Aqui eu tenho uma outra transformação
+acontecendo.
+E eu quis mostrar para vocês uma coisa
+muito legal aqui, que é o seguinte.
+Quando eu executo essa transformação no
+DataFrame que não possui cache, olha só
+o que acontece.
+Então, quando eu chamo essa
+transformação, quando eu ativo essa
+transformação desse DF Transformate, mas
+ele não está em cache, olha quanto tempo
+ele demora para poder fazer esse cara.
+69 segundos.
+Tá?
+Beleza?
+E aí, o que acontece?
+O que eu fiz depois?
+Então, aqui eu vou chamar o cache.
+Eu vou cachear esse cara.
+E aí, eu vou chamar a primeira execução
+e a segunda execução.
+Ou seja, cara, eu vou executar a
+operação uma vez.
+E da próxima vez, eu vou executar e vou
+ver quanto tempo vai demorar.
+Então, olha só.
+Na primeira vez, eu tive 167 segundos.
+E aqui, cara, 0 .6 segundos na segunda
+operação.
+Ou seja, eu não tive que fazer todo o
+processo, como eu mostrei
+aqui, de recomputacionar a ação, porque
+ela já foi feita e ela está cacheada na
+memória.
+Então, eu não recomputo o processo
+intermediário.
+E utilizei o persist aqui.
+Está vendo?
+Então, utilizei o cache e utilizei o
+persist para mostrar para vocês.
+Vejam que a execução inicial demorou um
+pouquinho mais e também a sequência, a
+segunda sequência demorou um pouquinho
+mais.
+Provavelmente, esse cara colocou um
+pedaço dessas informações em disco.
+Poucas, basicamente.
+Ou nenhumas.
+Dependendo da quantidade de
+milissegundos aqui, eu acredito que não
+aconteceu nada.
+Só foi o método realmente que é um pouco
+mais cheio, porque ele tem que verificar
+espaçamento de memória, ele tem que
+verificar disco e assim por diante.
+Então, basicamente, você vai ter ali as
+outras operações subsequentes do seu
+dataset funcionando extremamente rápido.
+Beleza?
+Dúvidas sobre cache e persist?
+Lembra que a gente está vendo o problema
+de...
+Hoje a gente vai navegar internamente em
+cada um deles, tá?
+Beleza?
+Pode falar.
+Não sei se vai vir depois, mas uma
+dúvida que tive hoje é entender se cache
+persiste na memória e disco do executor,
+driver ou ram bus.
+Bem, quando você faz um cache, você está
+persistindo isso no executor, que é onde
+realmente o processo e onde o dado está.
+Então, acontece no lado do executor.
+E outro é o caso de broadcast join.
+Caso o cache persiste seja na memória do
+executor, entendo que essa ação seria
+exatamente o que o broadcast faz.
+Não, não é exatamente o que o broadcast
+faz.
+O broadcast é diferente.
+O que o broadcast faz?
+Você tem que primeiro compartilhar essa
+informação dentro do driver.
+Diferentemente de um cache, onde você
+cacheia nos executores, o broadcast é
+uma operação um pouquinho diferente.
+Ele é uma operação de entrega, porém
+você tem um hospedeiro, você tem um
+host.
+Então, quando você faz um broadcast, por
+exemplo, de uma TV, você está aqui e
+você está transmitindo para milhares de
+pessoas.
+É a mesma coisa no Spark.
+Então, o que o broadcast faz?
+Ele pega o dado, coloca no driver e ele
+compartilha essa informação com todos os
+executores.
+E aí, uma hora que esse broadcast acaba,
+todos os executores possuem essa tabela
+dentro dele para poder acessá -lo.
+Beleza?
+Então, são coisas diferentes.
+Qual a melhor action para ativar o def
+cacheado?
+Cara, sempre a gente usa count, porque o
+count é uma operação wide, mas ele é um
+wide e não é wide.
+Você pode ver, por exemplo, que quando
+você dá um show e quando você dá um
+count, as operações são um pouquinho
+diferentes.
+Demora muito menos.
+Obviamente, você está contando.
+Mas ele se baseia um pouco mais em
+estatísticas.
+Ele tem uma forma mais eficiente de
+calcular o count.
+Então, geralmente, count é a operação
+que mais é utilizada para poder fazer
+isso.
+Em ambiente compartilhado Databricks,
+onde não tem o gerenciamento do cluster,
+consigo fazer o cache persistente de
+notebooks diferentes ou ele pertence à
+sessão?
+Cara, boa pergunta.
+Eu não lembro se isso pertence à sessão
+ou não.
+Acredito que não.
+Esteja no cluster, tá?
+Esteja no cluster isso.
+Mas eu vou verificar como que no
+Databricks esse cara funciona.
+Ele não vai estar atrelado, acho que, na
+função.
+Ele vai estar atrelado...
+Vou ver aqui.
+Coisa para uma pesquisada?
+Eu acredito que não, mas quero só ter
+certeza aqui que eu não estou falando
+besteira, tá?
+Se eu carregar o DataFrame com um cache
+e realizar um count, depois realizar
+transformações nele e realizar um outro
+count, a velocidade será similar?
+Já que, nesse caso, estamos utilizando o
+mesmo DataFrame em tempos diferentes?
+Então, como está aqui na demonstração, o
+Yuri.
+Por quê?
+O que a gente fez aqui?
+Primeiro, a gente executou esse cara sem
+nenhum cache.
+Depois, a gente executou ele
+inicialmente novamente, né?
+Ou seja, só que com ele cacheado agora.
+Está vendo?
+Eu acionei o count.
+Ou seja, ele gerou a primeira execução
+que demorou 167.
+Ou seja, veja que ele demorou bem mais
+do que esse outro carinha aqui, né?
+Então, assim, aqui eu executei sem nada
+e demorou 69 segundos.
+A primeira execução desse cara que eu
+coloquei em cache e ativei o count, ele
+demorou, cara, basicamente o dobro do
+tempo para poder fazer.
+Entretanto, a operação posterior a essa
+foi instantânea.
+A mesma coisa que aconteceu aqui para o
+persist.
+Então, o que vai acontecer?
+Você vai ter uma latência maior na
+primeira operação, obviamente, porque
+você está cacheando esse cara em
+memória, mas os processos posteriores a
+ele irão executar mais rápido.
+Beleza?
+Então, show.
+Alguma dúvida aqui antes da gente
+continuar?
+Eu estou intrigado com o cache aqui.
+Me dá só um minutinho.
+Session, nível session, tá?
+Beleza.
+Então, você não consegue reutilizar esse
+cara, não.
+Só queria ter certeza mesmo.
+Ele é nível sessão, session lived, né?
+Então, se você literalmente parar de
+utilizar esse cara, né?
+Ou desligar ele, essa sua aplicação, ele
+vai remover esse cara de memória.
+O que faz sentido, na verdade, né?
+Senão, a gente teria diversos problemas.
+Mas, só para confirmar, né?
+Better safe than sorry.
+Beleza.
+Tudo bem aqui?
+Vamos para o próximo.
+Ontem a gente viu o Broadcast.
+O Broadcast é uma ótima pedida para a
+gente, né?
+Nós amamos o Broadcast.
+Por que nós amamos o Broadcast, Luan?
+Porque a gente consegue, na verdade,
+compartilhar informações do driver para
+os executores de forma extremamente
+eficiente e minimizar o shuffle entre os
+executores.
+Então, o que eu posso fazer?
+Eu posso utilizar hints, como a gente já
+viu, para poder otimizar o acesso do meu
+dado.
+Então, de novo, o que o Broadcast faz?
+Você tem esse dado no driver, em
+memória, e você compartilha essa
+informação.
+Você faz um Broadcast para todos os
+executores.
+Logo, você não precisa de shuffle para
+eles.
+Ou seja, o executor C pergunta para o
+driver, o executor B pergunta para o
+driver, e o executor A pergunta para o
+driver, tá?
+Então, esse dado é passado para eles.
+Por isso, também, que você tem esse
+threshold de 10 MB, por quê?
+Você também quer ter certeza que você
+não está transicionando, né?
+E fazendo contenção de rede ao longo
+disso.
+Então, basicamente, a hint que você vai
+passar é Broadcast, né?
+E você vai simplesmente selecionar a
+chave que você quer fazer isso.
+Bem, quais são os pontos aqui?
+Como que a gente utiliza esse cara?
+Para reparticionamento de datasets, para
+otimizar joins, para lidar com skill, e
+para reotimizar shuffle, né?
+Então, quando eu utilizo o Broadcast
+Hash Join, eu começo a ter diversos
+benefícios em relação à otimização.
+Então, eu reduzo demais skill, eu
+melhoro a minha otimização, eu,
+possivelmente, não vou ter que fazer
+mais shuffles que a gente tinha que
+fazer anteriormente, a gente evita ter
+que ficar reparticionando o dado.
+Então, é muito interessante e é, né?
+Como a gente viu, o BHJ, que é o
+Broadcast Hash Join, ele também é o mais
+eficiente para a gente trabalhar.
+E, no Spark 3 .0, a gente tem o Adaptive
+Credit Execution, que tenta fazer o
+Broadcast.
+Ou seja, ele tem a estratégia de Join, o
+máximo que ele tenta, ele tenta forçar
+ali que você faça o Broadcast.
+E você faça um Broadcast baseado na
+configuração que você tem lá dentro.
+Então, vamos dar uma olhada na demo de
+Broadcast.
+Então, a demo de Broadcast é a Broadcast
+Variable.
+Vamos acessá -la.
+Broadcast Variable.
+Legal.
+Então, no Broadcast Variable aqui, o que
+a gente fez, né?
+A gente está contando aqui, a gente está
+fazendo um Join de dois datasets, de
+novo Yelp.
+E aqui, a gente está calculando o tempo
+que vai levar sem o Broadcast.
+Ou seja, eu não passei uma hint para ele
+aqui.
+E, depois, eu vou calcular o tempo que
+se demorou com a hint.
+E aí, tem um caso bem interessante e
+curioso aqui, que é o seguinte.
+Lembrem que o que a gente poderia ter
+feito, ao invés de passar a hint aqui,
+seria utilizar o álcool Shuffle
+Partition 2.
+Ou seja, um Threshold lá para poder já
+setar um número mágico, por exemplo.
+Eu poderia setar na seção ali, vamos
+supor, 100 megas.
+E se o Business tivesse menos de 6
+megas, você automaticamente já faria um
+Broadcast Hash Join nesse cara aqui.
+Então, você tem duas formas de fazer
+isso.
+Ou você pode setar isso no nível Sessão,
+setar a configuração, ou seja, fica
+válido para toda a sessão.
+Ou você pode vir na query específica e
+embutir o Broadcast.
+A pergunta é, Luan, qual é a melhor
+prática?
+Cara, eu vou te dizer que 90 % das vezes
+que eu ouvi o Broadcast, ele sempre está
+embedado como uma hint.
+Dificilmente ele está setado aqui como
+configuração.
+Então, depende.
+Depende, mas eu acredito que se é mais
+utilizado aqui.
+Acho que você tem uma flexibilidade mais
+interessante, sendo que se você, por
+exemplo, colocar aqui no nível Sessão,
+pode ter tabelas, por exemplo, que você
+não queira.
+Colocar elas em Broadcast, por exemplo,
+por algum motivo, para que você não
+cause contenção no seu driver ou assim
+por diante.
+Então, eu recomendo que você faça essa
+adição dentro aqui da query que você
+quer utilizar, ao invés de botar no
+nível Sessão.
+O nível Sessão pode ser um pouquinho
+mais perigoso.
+Beleza?
+Então, olha só que legal isso aqui.
+Cara, isso aqui ficou show.
+Vamos dar uma olhada no plano de
+execução deles.
+E aí, gente, já temos o nosso primeiro
+foda do dia, né?
+Olha só, a primeira execução demorou 2
+.3 minutos, enquanto a segunda execução
+demorou 19 segundos.
+E é absurdo a diferença de performance
+realmente, né?
+Pela hint desse cara, o que a gente
+teve?
+Em vez de ter que fazer um exchange, e
+aqui a gente ainda teve o adaptive query
+execution reduzindo a quantidade de
+shuffles com coalesce, está vendo?
+Então, o que vocês acham que é mais
+rápido?
+Então, prestem atenção.
+O que vocês acham que é mais rápido?
+Vocês acham que é mais rápido comparar
+200 com 1 .000 ou você comparar 200 com
+200?
+Então, uma das estratégias do adaptive
+query execution é garantir que quando
+você faz uma tabela hash, você tenha
+números iguais de partições entre os
+executores, porque isso vai ficar muito
+mais fácil de você fazer a relação,
+porque você pode ordenar pela categoria
+específica e simplesmente comparar,
+porque eles são teoricamente a mesma
+lista de um lado para o outro.
+Por isso que o adaptive query execution,
+que antes de fazer o sort desse dado e
+escolher um sort merge join, sort merge
+join, ele faz o sort, faz o merge e faz
+o join, lembra?
+Então, lembra que eu falei para você que
+toda vez que você ver um sort merge
+join, você vai ver exatamente, olha esse
+da última aula aí, o SMJ.
+Muito bom, muito bom, Thiago.
+Então, a gente sempre toma cuidado em
+tentar evitar o SMJ, porque ele é muito
+caro.
+Você vai ter que fazer o sort e você vai
+ter que fazer o merge em cima disso.
+Shuffle, sort, merge join.
+Ele é um shuffle também.
+Então, ele aconteceu um shuffle,
+aconteceu um sort, e eu faço o merge
+desses dados em hash para entregar o
+resultado.
+Então, vejam aqui que o que...
+Isso porque o adaptive query execution
+está ligado.
+Então, aqui o adaptive query execution
+ligado, ele fez o coalesce das
+partições.
+Então, aqui a gente tinha quantas
+partições?
+Aqui, nós tínhamos 200 partições aqui, e
+aí ele fez o coalesce para 33.
+E aqui desse lado, a gente também
+tinha...
+Não, esse número aqui é o número fixo de
+partições.
+Cadê meus números de partições aqui?
+Partitions, partitions.
+Deixa eu ver, ele está aqui em cima.
+E aí, o que ele fez?
+Reduziu as duas para 36, fez o sort e
+entregou esse dado.
+Do outro lado da moeda, quando a gente
+simplesmente adicionou a hint, o que
+aconteceu aqui?
+Ele pegou esse dado, que são 586 mil
+registros, e ele colocou este cara em
+memória e entregou esse cara para os
+executores.
+Logo agora, não preciso fazer o quê?
+Um SMJ, eu faço um BHJ, que é um
+Broadcast Hash Joint.
+Esse dado já está no executor e eu
+simplesmente entrego.
+Então, vejam que o disparate de
+performance é absurdo.
+A gente saiu de 2 .3 minutos para 19
+segundos com uma hint.
+Beleza?
+Alguma dúvida?
+Para a gente ir para uma das partes mais
+legais?
+Gente, deixa eu só perguntar uma coisa
+para vocês aqui, antes da gente entrar
+aqui, porque eu gosto muito dessa parte.
+Vamos tirar todas as dúvidas daqui para
+cima, porque isso aqui vai ser um tópico
+limpo antes da gente começar a aula de
+hoje.
+Acho que esse Hash Joint também
+diferencia o Broadcast do Cache, com
+certeza que é uma operação específica
+para ele.
+Então, gente, tem alguma dúvida antes?
+Existem 55 guerreiros aí, eu quero ver
+quantos chegam vivos até sexta -feira,
+né?
+Começamos com 80, né?
+Às vezes tem pessoas que não conseguem
+realmente participar, acontece.
+Mas o que eu quero saber de você, está
+tudo certo também se você está
+assistindo agora, mas o que eu quero
+saber de vocês é o seguinte.
+Existe alguma dúvida daqui para cima?
+Porque agora a gente vai começar a
+derreter cabeça daqui até o final do
+dia.
+O Broadcast serve para qualquer operação
+que você queira, né?
+Nesse caso, a gente vai fazer ele no
+Join aqui,
+tá?
+O Cache ajuda também em Joins e também
+para Devs que irão derivar do Dev
+cacheado, exatamente, tá?
+Exatamente isso.
+Então, ele deriva de lá.
+No Windows, ontem ouvi falar que era
+muito zoado.
+Tudo ok?
+Como contornar?
+Eu não entendi o que você perguntou,
+Gabriel, no
+Windows.
+No Windows Function.
+É, o que o Windows Function faz?
+Ele é um sort, né?
+Então, toda vez que você vê o Windows
+Function, você começa a chorar, porque o
+Windows Function é um sort do sort.
+Então, por exemplo, se você já vai ter
+um Shuffle automaticamente por ter uma
+troca, um Join, ou uma operação de
+agrupamento, ou assim por diante, quando
+você coloca uma Windows Function na sua
+função, você vai ter um outro Join, uma
+outra ordenação acontecendo, porque o
+que ele faz, na verdade, é reordenar
+nível coluna.
+Então, dependendo da quantidade que você
+tem, você vai pagando sortes a mais.
+Então, é uma operação bem cara.
+Então, a gente tenta, a gente utiliza,
+obviamente, o Windows Functions, porque
+tem muitos casos legais, mas a gente
+também utiliza com muito cuidado para
+ter certeza o tamanho do dataset e como
+a gente está colocando esses dados ali
+para serem acessados.
+Beleza?
+Tá, agora que eu tenho 55 pessoas aqui
+na sala, minha pergunta para vocês, para
+vocês 55, é a seguinte, 54, que eu conto
+também.
+Vocês acham que a ordem do fator altera
+o produto no Spark?
+Vocês acham, por exemplo, que em algum
+momento, se eu trocar a ordem do meu
+Join, eu posso ter alguma diferença no
+meu plano de
+execução?
+Hum, então, legal.
+Então, eu acho que sim.
+Então, vamos ver se isso é uma verdade
+pura.
+E vamos ver isso na prática, né?
+Beleza.
+Se a gente pensar rapidamente, tá?
+Vamos pensar aqui rapidamente.
+Quando a gente tem um banco de dados
+relacional, por exemplo, porque toda
+essa parte de Spark que a gente vê com o
+Query Optimizer, nada mais é do que,
+literalmente, trazendo nuances de banco
+de dados relacionais.
+Mas, pensa comigo o seguinte.
+Quando você faz o Join de uma tabela de
+transação com uma tabela de produto, com
+uma tabela de dimensão e assim por
+diante, o executor de um plano de
+execução de um banco de dados relacional
+sabe como que ele vai fazer esse Join?
+Sim ou não?
+Responde aí para mim.
+Você acha que ele leva em consideração
+as estatísticas e entende, na verdade, o
+que ele vai fazer primeiro?
+Sim.
+Então, por exemplo, você já fez um Join
+no SQL de usuário com produto e depois
+com fato?
+E depois você fez o inverso?
+Existe diferença de performance?
+Não, não existe.
+Certo?
+Para quem trabalha com banco de dados
+relacional sabe que não vai existir
+diferença no Join na ordem porque o
+Query Optimizer vai conseguir fazer
+isso, beleza?
+Só que tem um porém, só tem um pequeno
+detalhe.
+Quando você fala de um banco de dados
+relacional, você está falando de um
+sistema onde você tem acoplamento e esse
+dado não está distribuído em vários
+lugares.
+Quando você adiciona o saborzinho à
+pitada de sal distribuído, aí a gente
+começa a ter muitos problemas, porque eu
+não consigo te garantir que a ordem vai
+ser correta por vários fatores aqui.
+Então, a ordem faz diferença no Spark,
+tá?
+E a gente vai ver uma demo que faz
+realmente diferença, beleza?
+Mas vamos lá, como que a gente otimiza
+Joins, beleza?
+Então, lembrem o seguinte, que de fato a
+operação mais cara que existe nesse cara
+se chama Shuffle.
+Shuffle é a mais cara operação do Spark,
+porque ele tem que fazer, e se memória,
+ele tem que organizar os resultados,
+beleza?
+Dito isso, a gente viu que o Shuffle,
+ele acontece aonde?
+Ele acontece entre os estágios dos
+executores.
+Então, quando você faz um movimento de
+dados, ou seja, uma Wide Transformation,
+quando você aplica um Group By, um
+Reduce By Key, Join, assim por diante,
+você implica numa Wide Transformation
+que vai organizar esses registros nos
+executores ali, tá?
+E isso é caro, porque ele utiliza I .O.
+de disco, serialização e desserialização
+para passar esse dado, então ele tem que
+tirar do executor, serializar, depois
+enviar, desserializar.
+Então, existe também a serialização e a
+desserialização, e você tem troca de
+Network I .O., então você tem saturação
+de I .O.
+aí, tá?
+Só que, vamos pegar um caso legal aqui.
+Vamos pensar o seguinte, ó, você tem uma
+tabela de usuários de 5 .7 gigas, você
+tem uma tabela de Business de 1 giga, e
+você tem uma tabela de transação de 30
+gigas, tá?
+Imaginem que isso são arquivos parquês
+lá, são pastas dentro do I .O., dentro
+do Data Lake, e você tem ali essa
+distribuição.
+Então, vocês acreditam, por exemplo, que
+essa sequência de transação, usuário e
+Business, é a mesma coisa de uma
+sequência de transação, Business e
+usuário?
+No SQL Server seria, tá?
+Seria a mesma coisa, the same old thing.
+E aqui, vocês acreditam que seja
+diferente ou não?
+Me diz aí.
+Curioso.
+Acredita que sim o quê?
+Que faz diferença ou que não faz
+diferença?
+Faz diferença, perfeito.
+Então, para quem falou que faz
+diferença, está completamente enganado.
+Estou brincando, tá certo, tá?
+E aí, por quê?
+É bem óbvio aqui, tá?
+Olhando agora, né, parece bem óbvio.
+Olha só que legal.
+Se você pega a tabela de transação com a
+tabela de usuário, você está comparando
+1 trilhão com 1 bilhão, por exemplo, de
+linhas.
+Dificilmente isso vai ser um Broadcast,
+certo?
+O que ele vai fazer aqui?
+Ele vai fazer um Shuffle.
+E depois desse Shuffle, você vai juntar
+o resultado dessa outra tabela com a
+tabela menor.
+E daí sim, você vai conseguir fazer um
+Broadcast.
+Mas olha só legal.
+Se você invertesse a sequência, olha que
+coisa linda.
+Você compraria 1 trilhão com 1 milhão e
+o resultado dessa informação você
+compararia com a outra tabela grande.
+Ou seja, você teria 2 Broadcasts em vez
+de um Full Shuffle e de um Broadcast.
+Então sim, amigão.
+A ordem faz diferença, tome muito
+cuidado, tá?
+Já teve casos, por exemplo, em
+aplicação, de eu mudar somente a ordem
+do Join e ganhar, tipo, minutos de
+execução.
+Porque isso vai influenciar no Join, que
+é uma operação Wide que é extremamente
+cara, beleza?
+Então prestem atenção, tá?
+Então pronto.
+Faça essa otimização e mande para cá.
+Só que a gente vai ver uma demo muito
+foda disso aqui, tá?
+Depois.
+Gostaram?
+Interessante?
+A gente vai ver isso na prática então.
+Vamos lá.
+Porque aqui a gente é amostradinho, como
+vocês dizem, né?
+A gente faz e mostra.
+Até porque eu estou lidando com um
+bocado de gente foda aqui, né?
+Então eu quero ter certeza que está todo
+mundo na mesma página e que eu não estou
+fazendo besteira.
+Join Section 4.
+Beleza, vamos lá.
+Então, como eu falei para vocês.
+O Chef é um mecanismo de redistribuir os
+dados em diferentes partições.
+Tipicamente envolve copiar os dados
+entre os executores e máquinas.
+E, cara, às vezes isso incorre em
+operações extremamente caras, beleza?
+O que o Broadcast Join faz?
+Ele tenta reduzir isso compartilhando
+essas informações para os executores,
+como a gente viu.
+Então o que a gente vai fazer aqui?
+Essa demo é muito legal, tá?
+Então o que a gente fez aqui?
+Prestem atenção.
+Eu criei um dataset de transação, vejam
+aqui, com 150
+milhões.
+É, 150 milhões.
+Deixa eu botar aqui.
+Então 150 milhões de linhas aqui,
+beleza?
+Então eu criei um dataset de transação
+que traz montante, Country e ID.
+Tá?
+Beleza?
+Ah, tá.
+Assim, né?
+Boa.
+Vou deixar aqui.
+Você tinha falado ontem, né, Igor?
+Legal.
+Top.
+Obrigado.
+Viu?
+Aprendendo com os meus alunos.
+Que foda, legal.
+Não sabia, tá?
+Falar que eu sabia, eu estou mentindo.
+Não sabia.
+Eu usava o número inteiro como um todo.
+Legal.
+Boa dica, realmente boa dica.
+Ajuda bastante na leitura.
+Beleza?
+Então aqui eu gerei esse dataset,
+escrevi ele em transaction.
+Depois fiz a mesma coisa, só que uma
+tabela muito menor em tamanho.
+Escrevi esse cara em...
+O que é que essa expressão está aqui?
+Escrevi esse cara em stores e gerei uma
+tabela menor ainda, tá?
+E escrevi essa tabela literalmente no
+S3.
+Então eu tenho a tabela de transação que
+tem 150 milhões.
+Tenho uma tabela de stores que tem 90
+milhões.
+E tenho 100 valores e tenho uma coluna
+aqui de 10, de 0 a 11 nos countries.
+Então o que eu vou fazer aqui?
+A primeira coisa que eu fiz foi
+explicitamente desligar o broadcast
+join.
+Então vamos supor, cara, não vou fazer
+broadcast join.
+Então vamos pegar ali o caso que é
+exatamente esse, né?
+Eu estou simulando este caso aqui.
+Eu não vou conseguir fazer um broadcast,
+por exemplo, a limitação do data size.
+E aí o que eu vou fazer?
+Eu vou fazer um join entre essas
+tabelas.
+Então vejam que a gente vai ter
+aproximadamente 1 .4 gigas de shuffle
+reads para cada join.
+Então, cara, a gente está falando de ter
+que carregar um dataset menos de 300
+megas, 400 megas para memória, mas na
+verdade o nosso shuffle read é
+extremamente grande.
+Por quê?
+Porque a gente está embaralhando o dado
+múltiplas vezes, beleza?
+E aí eu vou escrever esse dado dentro de
+transact countries e vou calcular esse
+tempo total aqui, beleza?
+Depois disso eu vou remover, então aqui
+eu vou tirar as características do
+broadcast, eu vou desabilitar esse cara,
+na verdade habilitar novamente, e eu vou
+executar ele com um broadcast hash join
+para a gente ver o que o Spark fez.
+Então quando eu executo o primeiro job,
+o que ele fez para mim aqui?
+Ele basicamente fez com que a tabela que
+é a tabela de produto fosse um broadcast
+hash join e essa outra tabela que a
+gente criou também pequena de 12 linhas
+fosse também um broadcast hash join,
+beleza?
+Só que vejam que existe uma operação de
+exchange aqui, tá?
+E esse cara demorou 4 .3 minutos para
+acontecer.
+O que a gente fez?
+Nesse caso aqui eu simplesmente
+habilitei o AQE e aí o que ele faz?
+Ao invés de você ter literalmente o join
+grande acontecendo, o que ele fez aqui?
+Ele pegou a de 150 milhões e comparou
+com a de 99, e depois comparou a de 99,
+a de 150 milhões com a de 12.
+Veja o que ele fez, ele foi bem
+inteligente aqui, ele setou a ordem
+desse produto para a gente.
+E aí talvez você esteja se falando o
+seguinte, uai Luan, mas você falou que
+ele não entende isso, o AQE entende o
+máximo possível disso baseado nas
+estatísticas.
+Mas hoje eu vou mostrar para vocês como
+você pode ser mais inteligente do AQE.
+Então, por exemplo, aqui ele determinou
+um pouco da lógica porque ele tem o
+Adaptive Query Execution habilitado.
+A gente vai ver na prática, por exemplo,
+que quando ele não consegue fazer um
+broadcast hash join de todas as tabelas,
+ele se confunde um pouco.
+Não que ele se confunde, como ele não
+pode fazer o broadcast hash join, ele
+vai fazer um sort mesh join ou ele vai
+fazer o sort hash mesh join.
+E isso vai demorar muito mais tempo.
+Então a gente vai ver na demonstração de
+hoje, quando a gente for falar de
+Shuffle logo mais, que esse caso aqui é
+bem interessante.
+Que a gente vai ver como otimizar esse
+carinha aqui.
+Beleza?
+Então, no final das contas, a ordem do
+fator sim altera o produto,
+principalmente quando você não consegue
+fazer broadcast ou se você não tem o
+Adaptive Query Execution habilitado.
+Tá?
+Beleza?
+Fechado, gente?
+E aí a gente termina o conteúdo de ontem
+e a gente começa o conteúdo de hoje.
+Beleza?
+Então, o que a gente vai ver hoje?
+Nós iremos atacar os cinco S's, tá?
+Que são problemas comuns que podem ser
+encaixotados ali, como eu falei, na
+umbrela de cada um deles.
+O primeiro vai ser exatamente o que a
+gente acabou de ver anteriormente.
+O que é o Shuffle, né?
+De novo, a gente já está cansado de
+saber que o Shuffle é uma operação wide.
+Beleza?
+Dito isso, o que acontece?
+Olha só, agora a gente vai navegar
+dentro da operação.
+Agora a gente vai, de fato, entender com
+muito mais detalhe, vai destilar isso
+aqui.
+Por quê?
+Porque eu quero ter certeza que vocês
+entendam aonde acontece o Shuffle, tá?
+E como que a gente pode utilizar
+mecanismos para poder utilizar esse
+cara.
+Então, o Shuffle, de novo, é a operação
+mais comum do Spark.
+Ele vai ter em todos os lugares.
+Toda vez que você faz uma Wide
+Transformation, você vai ter um Shuffle.
+Então, não tem como não ter Shuffle.
+Tem como você reduzir a quantidade de
+Shuffles.
+Dito isso, nós vimos logo mais essa
+ideia.
+E essa imagem, basicamente, mostra o
+quê?
+Os dados sendo organizados, ou Shuffled.
+E aí, lá no plano de execução, você vai
+ver um cara chamado Exchange.
+Ele não vai estar escrito Shuffle.
+Ele vai estar escrito Exchange.
+Só para a gente ter certeza aqui.
+Só que, se eu der um zoom nesta operação
+aqui, o que acontece é o seguinte.
+Lembra que a gente tem os estágios.
+Stage, Job, Stage.
+Então, cada estágio tem a sua execução.
+Então, imagina aqui que esse estágio,
+ele está fazendo um filtro e ele está
+fazendo uma projeção de coluna.
+E nesse outro estágio, ele está fazendo
+um filtro e uma projeção de coluna
+também.
+E daí, você vai pedir um Join, por
+exemplo, para acontecer.
+E aí, o que aconteceu?
+Vai acontecer um Exchange do lado deste
+cara e um Exchange do lado desse cara.
+Possivelmente, dependendo de Join, como
+é um Sort Match Join, de novo, ele vai
+ter um Sort.
+Um Exchange, um Sort e o Merge.
+E ele vai escrever essas informações
+para você.
+Então, o Shuffle é uma operação que vai
+acontecer em processos do quê?
+Quando você tem mudanças de estágio.
+Então, isso é uma das coisas que caem em
+prova, por exemplo.
+Cara, onde o Shuffle acontece?
+O Shuffle acontece entre os Stages.
+Então, quando você está saindo de um
+Stage para o outro, que você completou
+um estágio que você precisa ir para um
+outro estágio que tem várias tarefas,
+você precisa organizar essas informações
+pelas operações que você pediu para
+serem feitas.
+Um artigo legal para vocês lerem é o
+seguinte, tá?
+Vocês não vão precisar utilizar isso
+talvez nunca na vida de vocês, mas vale
+a leitura.
+É um artigo muito interessante do time
+da Uber, que o time da Uber criou um
+External Shuffle Service.
+Então, toda a parte de Shuffle do Spark
+não é mais lidada com o Spark.
+Eles criaram um serviço por fora.
+Existem outras empresas também que
+fizeram isso para acelerar o Shuffle.
+Eles implementaram diversas técnicas
+para melhorar o sistema de Shuffle.
+Então, a gente chama de External Shuffle
+Service, tá?
+O que é bem interessante.
+Vale a leitura, mas você não vai
+utilizar.
+Por quê?
+A gente vai começar a ter problema
+quando a gente enfrenta petabytes de
+processamento dia, tá?
+Teras e petas.
+Então, dificilmente você vai chegar
+nesse patamar.
+Se acontecer, isso aqui seria uma...
+Uma possibilidade de você adentrar.
+Se você tem um sistema extremamente
+crítico, de alta criticidade, né?
+Aí sim, utilizar, por exemplo, um
+External Shuffle Service seja
+interessante.
+Beleza?
+Então, o estágio agrupa tarefas que
+rodam na mesma partição ou não é bem
+isso?
+O estágio possui diversas tarefas.
+Então, você pode ter filter, você pode
+ter group e você pode, enfim, mapping,
+reduce.
+Você vai ter várias operações.
+Beleza?
+Existe, sim, Tiago, serviços open source
+de External Shuffle Service, tá?
+Para você dar uma olhada depois.
+Só que, de novo, a gente está no
+mastering, né?
+Beleza?
+Então, a gente precisa ir mais do que
+isso.
+Olha que lindo.
+Agora, vocês vão entender o que o
+Shuffle é de uma vez por todas.
+Once and for all.
+Beleza?
+Então, vamos lá.
+Vamos mastigar.
+Vamos espremer esse limão.
+Então, internamente, pensa no seguinte.
+Você está fazendo a leitura de um
+arquivo.
+Vamos supor que você está fazendo a
+leitura de um file format, de um
+arquivo, né?
+Nesse caso, a gente vai utilizar,
+obviamente, Parquet, né?
+Porque a gente já aprendeu que Parquet é
+um dos melhores, se não o melhor formato
+para se trabalhar com Spark.
+O melhor formato para se trabalhar com
+Spark.
+Então, imagina que eu estou lendo
+arquivos.
+E aí, o que ele vai fazer?
+O plano de execução vai identificar e
+falar, cara, eu vou criar aqui os
+arquivos.
+Eu vou criar aqui os estágios, porque
+existem, por exemplo, o que seria o
+estágio, por exemplo?
+É um boundary, né?
+É um limitador.
+Por quê?
+Você consegue, por exemplo, agrupar o
+dado sem ter lido ele anteriormente?
+Não.
+Então, você tem que ler o dado
+anteriormente para depois agrupar esse
+dado.
+Então, os estágios, eles se referem
+exatamente à ideia de boundaries de
+limitação, aonde você está ordenando as
+informações.
+Então, o que ele faz aqui?
+Ele cria estágios e esses estágios
+possuem tarefas ali dentro.
+Então, vamos pegar o caso da seguinte
+forma.
+Vamos supor que eu li um arquivo, né?
+Então, eu li aqui seis partições.
+Na verdade, nove, desculpa, três, seis,
+nove partições.
+E aí, eu mapeei esse arquivo.
+Eu fiz um mapper desse arquivo.
+Fui lá e falei, ah, legal, olha só,
+esses dados vão vir para nove partições
+aqui para dentro desse estágio.
+E daí, o que a gente fez?
+Eu fui lá e falei, cara, preciso saber a
+relação desses caras.
+Então, na verdade, se a gente ver, a
+gente tem, né?
+Você pode pensar aqui como uma coluna,
+por exemplo, né?
+Ah, eu tenho uma coluna roxa aqui, eu
+tenho outra coluna roxa aqui.
+Eu tenho uma coluna amarela aqui e aqui
+também.
+E vermelho, consequentemente, aqui.
+Então, quando eu faço uma operação de
+join, group by ou assim por diante, eu
+falo, cara, eu quero ordenar todo mundo
+pela cor.
+O que vai acontecer aqui?
+Olha só onde o chofó acontece.
+O chofó acontece exatamente entre a
+saída do estado e a entrada do outro
+estágio.
+Ou seja, você está mapeando em um
+estágio e está reduzindo em outro
+estágio.
+Então, você tem uma operação de
+ordenação pela coluna que você
+explicitou.
+E após isso, esse dado vai ser escrito
+no final num, por exemplo, num delta
+lake.
+Ficou clara a visão aqui?
+Só para ter certeza.
+Ficou claro que aonde o chofó acontece,
+finalmente, o chofó acontece?
+Entre os estágios.
+Beleza?
+Crystal clear, né?
+Fechado.
+Então, o que a gente tem aí?
+Quando a gente tem datasets pequenos, o
+que você pode acabar tendo?
+Você pode ter overhead.
+Quando você tem datasets grandes, você
+acaba tendo muitas partições e isso gera
+contenção.
+Então, por isso que a gente sempre tem
+que pensar no número de partições ideal
+para o seu ambiente.
+É sempre interessante pensar.
+Lembra que, cara, como a gente está
+vendo aqui, o Spark é uma arte,
+literalmente.
+Existem várias coisas para acontecer.
+Então, é importante que você entenda que
+o princípio do Spark é a partição.
+Então, a gente já vê que tudo está
+influenciando a partição aqui.
+Ou seja, você carregou a partição
+demais, pode ter um problema.
+Você carregou a partição de menos, você
+pode ter problema.
+Então, a ideia é tentar sempre manter a
+quantidade de partições razoavelmente ao
+nível do seu cluster para ter uma ideia
+de que o processamento vai funcionar bem
+ao longo do tempo.
+O que a gente tem aqui de coisas
+interessantes sobre o Shuffle?
+Então, por padrão, o Spark utiliza uma
+configuração chamada Spark SQL Shuffle
+Partition igual a 200.
+Esse é o padrão, ou seja, ele utiliza
+até 200 partições para fazer o Shuffle.
+Pergunta para vocês.
+Vocês acham que isso é suficiente para
+todos os ambientes?
+Você acha que quando você faz, por
+exemplo, um Shuffle entre duas tabelas
+gigantescas, você está capado por 200 ou
+você deveria aumentar essa informação?
+Legal, não é?
+Talvez sim.
+Então, a minha recomendação, às vezes,
+quando você tem...
+Exatamente, depende do seu cluster.
+O que seria um cluster que ultrapassaria
+200 partições?
+Por exemplo.
+Um cluster, talvez, com 12 cores, 3 nós,
+já ultrapassaria ali esse cara.
+Vamos ver pelo cálculo aqui.
+Então, se a gente pegar...
+O que é normal?
+Você tem uma VM com 12 cores, aí você
+tem esse cara, 3 máquinas dela.
+Então, você tem 12 cores vezes 3.
+Então, você tem 36 cores.
+E agora eu vou multiplicar por 4.
+144 ainda.
+Então, eu teria que ter um pouquinho
+mais.
+Só que aqui a gente está olhando na
+perspectiva do quê?
+A gente está olhando na perspectiva do
+cluster.
+Só que aqui eu estou falando de
+partições.
+Isso quer dizer o quê?
+Se você ler Small Files, o que vai
+acontecer quando você fizer um Shuffle?
+Você vai ter centenas de partições.
+Centenas de partições.
+E daí, quando você tentar fazer um
+Shuffle entre elas, ele vai reduzir para
+200.
+E será que 200 vai ser o número ideal
+para aquele seu Small Files Problem?
+Certamente não.
+Por isso que o Databricks tem uma flag,
+e isso só está dentro do Databricks,
+proprietário deles, que se chama Spark
+.Circle .Shuffle .PartitionEqualsAuto.
+Então, o que ele faz aqui?
+Muito legal essa feature.
+É entre os estágios, entre os Shuffles.
+Ou seja, de um estágio para o outro vai
+haver Shuffle.
+Então, ele calcula nível estágio.
+Então, por exemplo, ele saiu do estágio
+aqui.
+Vamos supor que a gente está chamando de
+estágio 1 para o estágio 2.
+No estágio 1 para o estágio 2, ele
+calculou, por exemplo, que o resultado
+dessa operação caberia muito bem em 100
+partições.
+Então, ele vai lá e automaticamente seta
+isso para 100.
+Depois que ele tiver o estágio 3, por
+exemplo, ele fala, cara, isso aqui a
+gente vai ter que fazer um Mapper e um
+Reducer muito maior.
+Então, eu vou colocar esse cara para
+300.
+E ele seta isso automaticamente.
+Bem legal, tá?
+Então, isso ajuda bastante.
+Eu acho que hoje é o default do
+Databricks.
+Você não precisa se preocupar com isso,
+beleza?
+E lembrem que o que eu posso fazer com
+Shuffle é entender que eu posso ter
+dados que estão teoricamente homogêneos
+aqui e eu vou comprimi -los de uma forma
+com que eu possa reduzir esses caras.
+Então, eu também posso utilizar o
+Repartition ou eu posso utilizar o
+Coalesce para me ajudar na quantidade de
+números de partições que,
+consequentemente, vão estar ali para o
+Shuffle que vai acontecer.
+Beleza?
+Bem, quais são as estratégias aqui para
+diminuir Shuffle?
+O que a gente faz para reduzir Shuffle?
+Primeiro, a gente vai optar, e essa é
+uma dica bem legal, tá?
+A gente vai optar em usar menos Workers,
+tá?
+Mais Bifs, né?
+Com mais configurações.
+Ou seja, se você quer evitar Shuffle,
+né?
+Ou pelo menos a contenção do Shuffle na
+perspectiva de networking, diminuir a
+quantidade de executores faz sentido.
+Ou seja, você aumenta, você faz o
+provisionamento vertical da sua
+configuração em vez de você fazer a
+configuração horizontal.
+Ou seja, ter mais nós pode fazer com que
+você processe mais rápido, entretanto,
+pode te trazer mais saturação de rede.
+E, na verdade, lembrem que saturação de
+rede é uma grande coisa para o Spark,
+porque tudo é Shuffle.
+Então, tudo acontece com Shuffle.
+Então, se você minimiza Network, você
+vai ter melhorias em cima disso.
+Por isso que um número bom de você ter
+máquinas e Workers é de 3 a 5, por
+exemplo.
+Eu sempre tento manter esse número, tá?
+É um número mágico.
+É muito de experiência, mas eu
+geralmente tento não provisionar mais do
+que 5 Workers.
+E aí eu prefiro brincar com esses
+números de aumentar vertical e manter 3
+a 5 Workers.
+Eu não gosto de ter, por exemplo, como
+eu já vi em ambientes com 27 Workers, 35
+Workers.
+Enfim, eu prefiro aumentar esses caras
+de configuração do que ter saturação de
+rede.
+Fora da Databricks, só é possível setar
+números fixos no Spark.
+Exatamente, você tem 100, 200 e assim
+por
+diante.
+Então, eu recomendo vocês trabalharem
+inicialmente com Ballpark.
+Então, o que é um Ballpark?
+É um número inicial.
+Bota de 3 a 5, beleza?
+Deixa ele escalar de 3 a 5.
+E, claro, se você tiver que fazer menos,
+faz menos, 1 a 3.
+Mas, em um ambiente de produção, seria
+interessante ter de 3 a 5,
+tá?
+Sim, eu sei.
+Então, tem que tomar bastante cuidado.
+No Kubernetes é um pouquinho diferente,
+eu vou explicar lá na sexta, Paolo.
+Mas, dentro de cada nó do Kubernetes,
+você pode ter diversos containers.
+Porque você vai ter alguns modos de
+alocação diferentes, beleza?
+Fechou.
+Deu para entender Shuffle em detalhes?
+Gente, por favor, colaborem.
+Trabalhem comigo, não me deixem sozinho
+aqui.
+Por quê?
+Porque essa parte do treinamento é vital
+para o que vai vir para amanhã e para
+vir para sexta.
+Por quê?
+Amanhã a gente vai ver melhores
+práticas.
+E streaming.
+E, na sexta -feira, a gente vai
+implementar tudo isso dentro de um
+ambiente produtivo no Kubernetes para
+processar gigas e gigas e terabytes de
+dados.
+E a gente vai ver melhores práticas,
+configurações.
+E a gente também vai ver...
+O que a gente fez na sexta?
+Fugiu uma memória aqui.
+Além disso, nós iremos ver a Delta Lake,
+com milhares de recursos que eu vou
+mostrar para vocês novos.
+Inclusive, eu vou tentar trazer alguma
+coisa do novo Delta Lake para vocês.
+Então, que eu já comecei a trabalhar
+hoje nisso.
+Então, eu acho que sexta termina um
+pouco mais tarde mesmo, na minha humilde
+opinião.
+Não, Delta Live Tables é só Databricks,
+infelizmente.
+Quem não gosta de Delta é maluco, eu
+concordo.
+Beleza?
+Mas, de novo, vamos lá.
+Temos 55 pessoas em sala.
+Por favor, coloquem no chat.
+Participem comigo, tá?
+É importante que vocês me digam isso,
+porque eu tenho que ter certeza que
+vocês entenderam.
+Esse conteúdo foi desenhado com muito
+carinho, com muito detalhe, bem
+minucioso.
+Justamente para não restar dúvida das
+operações básicas.
+Ou seja, depois do dia de hoje, a gente
+vai passar por todos os cinco problemas,
+cara.
+E vai ficar muito claro na nossa cabeça
+como que a gente resolve cada um
+deles.
+Beleza?
+Então, todo mundo entendeu aqui?
+Shuffle.
+Onde o Shuffle acontece e o que o
+Shuffle é.
+A gente já está vendo Shuffle desde o
+primeiro dia.
+Mas, e aí hoje é o terceiro dia, queria
+também que vocês me falassem como que
+vocês se sentem no History Server hoje.
+Vocês já estão deitando no History
+Server?
+Lembra que talvez para quem iniciou o
+treinamento olhou e falou Cara, eu
+conheço aqui, beleza.
+Mas será que você tinha esse nível de
+intimidade com o Spark Y?
+Não sei, talvez não.
+Então, me coloque aí que eu quero saber
+também.
+Se agora ficou mais claro.
+A gente viu operadores, a gente viu
+whole state code gen, a gente aprendeu,
+cara.
+Hoje você consegue abrir um plano ali e
+você consegue navegar e entender o que
+está acontecendo.
+Por que que acontece?
+Por que que você tem um sort e depois um
+merge?
+Por que que ele fez um sort e um merge,
+por exemplo?
+Pelo tipo de join que você escolheu, por
+exemplo.
+Então, você vai conseguir ter essa
+visão.
+Beleza?
+Então, me coloquem aí se todo mundo
+entendeu.
+Alguém colocou aqui, vai ser difícil
+convencer a patroa que está meia noite
+no curso.
+Eu falei isso para minha esposa hoje.
+Eu falei, a galera, as mulheres das
+pessoas que estão fazendo treinamento,
+provavelmente elas me odeiam, né?
+Porque, cara, ontem eu cheguei na cama,
+era 11h20 mais ou menos.
+E minha esposa estava dormindo.
+Eu não conseguia esperar por você.
+E aí, acontece.
+E aí, dormi sozinho.
+Estou brincando.
+Mas aí, até eu desligar, até eu
+conseguir desligar, eu vou dormir duas,
+três horas da manhã.
+Porque é difícil conseguir simplesmente
+desligar, sair daquele treinamento,
+deitar e dormir, né?
+Beleza.
+Vai ter o HH de sexta depois do fim do
+treinamento para refrescar a cabeça
+depois de vários fodas.
+Legal, legal.
+Está muito foda o treinamento.
+Manda bala.
+Valeu.
+Pergunta grande.
+Sherwin -Bob diz que I .O .R.
+ser D, que é serialization,
+deserialization, e network I .O .R.
+Mas existe uma ordem de custo entre
+essas
+três?
+Isso vai depender muito do ambiente que
+você está.
+Por exemplo, o I .O .R.
+de disco vai depender do subsistema que
+você está acessando.
+Ele pode ser rápido, ele pode ser lento.
+O ser D também.
+Você pode utilizar, por exemplo, um CRIO
+serializer, um CRIO serializer, ou um
+outro serializer customizado, que
+melhore esse acesso dos dados.
+Então, vai ter interferência também.
+E network I .O .R.
+é o bandwidth da sua banda.
+Então, todos eles vão ter fatores, mas
+em relação a como o Spark enxerga isso,
+não.
+Porque isso são coisas que estão fora do
+escopo do Spark, né?
+O Spark não tem esse conhecimento.
+Ele não consegue entender se o seu disco
+ali, por exemplo, é um SSD.
+Claro que você pode configurar um SSD,
+mas ele não vai saber todas as
+intricidades ali da configuração dele.
+Então, em relação à ordem, não existe.
+Depende de você ter a configuração para
+cada um deles, tá?
+Se eu fosse trabalhar em minimizar, tá?
+E essa é uma pergunta muito boa, tá,
+Eduardo?
+Essa é uma pergunta muito boa.
+Se eu fosse pensar em minimizar, qual
+que eu minimizaria primeiro?
+Qual a ordem, né?
+Eu minimizaria primeiro o networking,
+sem sombra de dúvidas.
+Depois, eu partiria para o disk I .O .R.
+E, por último, serialização e
+deserialização.
+Então, meu top 1 seria Network I .O .R.
+Por isso que eu sempre gosto de reduzir
+o Network I .O .R.
+porque, geralmente, eu tenho uma boa
+melhoria de performance e uma
+estabilidade mais interessante.
+Beleza?
+Então, vão adorar quando a galera
+estiver ganhando em dólar na gringa.
+Estou usando mais o Spark UI, com
+certeza.
+Inclusive, dando uma pesquisada, tem o
+Spark History Passer feitinho em GitHub
+da vida.
+Estou querendo pegar o JSON de prod para
+poder passear esses logs.
+Ah, no treinamento precisamos ir
+ruminando os socos.
+No meu caso, o que é difícil explicar
+para o patrão, é verdade, né, Amanda?
+Que nem tem de tecnologia.
+Muito foda esse curso.
+Ainda não estou no nível top de vocês,
+mas chegarei lá.
+Ande com pessoas boas logo.
+E, assim, eu adoro esse ditado e eu
+sempre levo isso muito a sério na minha
+carreira profissional.
+Eu gosto de ser o mais burro da sala.
+Sempre gosto.
+Vocês olham para o instrutor e falam,
+Caralho, esse cara sabe pra caralho, né?
+Aí eu pego o meu grupo de pessoas que eu
+vou conversar e me sinto um merda, né?
+Então, a gente sempre está aprendendo,
+né?
+Chega um aluno e te dá um super insight
+legal, discussões aqui.
+Então, foi escrito no LinkedIn hoje, faz
+total sentido.
+Tipo, o treinamento se torna muito foda
+para mim, tá?
+E para vocês também, né?
+Porque eu estou aqui do outro lado
+aprendendo pra cacete também.
+Mas, o que é legal?
+Você tem uma galera que trabalha com
+isso e está fazendo perguntas.
+Você esfatiza a gente compartilhar,
+colaborar.
+Então, isso é uma energia muito legal,
+tá?
+Então...
+Não, Matheus, você já está acostumado,
+né?
+Eu nem trabalho tanto com isso como
+você, infelizmente.
+A gente está um pouquinho separados.
+Então, ser burro faz parte do processo,
+tá?
+Interessante.
+Depois eu vou dar uma olhada, Eduardo,
+nisso aqui,
+tá?
+Você é a média das cinco pessoas que
+convivem.
+Eu levo isso bem a sério.
+Posso dizer que desde a live que
+promoveu esses dias aqui, já subiu muito
+o nível das discussões.
+Do meu trabalho.
+Que bom.
+Isso é muito bom.
+Bom saber.
+Então, Amanda, vamos lá.
+Beleza.
+Entendemos Shuffle, tá?
+Mas não acabou por aqui, porque a gente
+vai ver uma demo foda de Shuffle para
+falar.
+Caraca!
+Shuffle é muito doido.
+Então, vamos lá.
+Vamos dissecar esse cara chamado
+Shuffle.
+Então, a gente vai ver um caso bem legal
+de
+Shuffle.
+Complexo.
+E aí, eu vou começar a adicionar aqui
+algumas coisas para vocês trazerem mais
+fodas para o treinamento.
+Cada foda que vocês falam, eu me amarro.
+Então, agora, a gente vai rasgar no
+Spark Measure.
+Lembra que eu prometi para vocês?
+Vocês acham que a gente vai ficar...
+Gente, nós estamos se tornando a nata de
+quem se trabalha com Spark.
+De verdade.
+Não estou de calma.
+Se você assistir esse treinamento duas,
+três vezes, coletar todos os insights
+que a gente tem aqui, cara, com o
+background que você já tem, é impossível
+você não escrever aplicações boas.
+Impossível você não impressionar, tá?
+Impossível.
+Isso é impossível realmente.
+Então, dito isso, você acha que nós
+estamos ainda no momento de ficar
+analisando Spark Live?
+Não.
+Vamos evoluir.
+Vamos evoluir juntos.
+Vamos para um outro cara muito mais
+tesão da gente analisar esses caras
+aqui.
+Então, vamos começar.
+O negócio vai ser doido agora, viu?
+Antes da gente começar, vocês querem 20
+minutos de break?
+E a gente voltar às 8h50 com tudo?
+Ou vocês querem fazer o chafom?
+Vamos descansar?
+Vamos tirar um break para jantar,
+talvez?
+Tomar alguma coisa?
+Respira, porque a gente volta direto já
+na demo.
+Beleza?
+Então, volto daqui 20 minutos com vocês
+às 8h50 em ponto para a gente
+destrinchar isso aqui.
+Isso aqui vai ser foda.
+Beleza?
+Então, já é.
+Abraço.
+Já é.
+Eu estou aí.
+Cachorro.
+Eu passei um pouco antes com os meus.
+Então, estou de boa.
+Vai lá.
+Passei a comissão.
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?
+Falou, gente?

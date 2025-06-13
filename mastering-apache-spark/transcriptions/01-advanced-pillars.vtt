@@ -1,0 +1,5891 @@
+Gente, então vamos começar, são 7h13 e a 
+gente está começando agora, beleza? 
+Bem, sejam muito bem -vindos ao 
+treinamento de Mastering, é um prazer 
+ter vocês aqui. 
+Eu particularmente estou bem animado 
+para esse treinamento, é um treinamento 
+que eu tenho trabalhado nele há muito 
+tempo, há muito tempo mesmo, mais do que 
+eu posso pensar, com vontade de trazer 
+isso, e foi um processo de organização 
+bem legal trazer esse conteúdo para 
+vocês. 
+Para quem está aqui, eu prometo para 
+vocês que eu vou tentar entregar o 
+máximo de detalhes possível, então para 
+quem já fez meus treinamentos sabem que 
+eu sou muito chato com os detalhes, e aí 
+a gente vai ver ao longo desse 
+treinamento por que os detalhes são 
+importantes. 
+A gente fala, the devil is on the 
+details, o diabo está nos detalhes, e 
+realmente é verdade. 
+Porque, por exemplo, quando a gente fala 
+de problemas no Spark, se eu falar, 
+cara, eu tenho um problema na minha 
+aplicação, sou muito genérico, e aí, por 
+exemplo, ah, mas eu sei, por exemplo, 
+que eu tenho Spir, Spir, Shuffle, 
+Storage e Serialization, beleza, eu 
+tenho cinco S's. 
+E você consegue, trabalhando com Spark 
+normalmente, já tem uma certa 
+experiência, você consegue entrar ali na 
+UI, por exemplo, aqui, navegar nos 
+planos de execução e talvez identificar 
+que você tem um probleminha. 
+Isso pode acontecer sem problema nenhum. 
+Agora, a minha pergunta sempre é a 
+seguinte, tudo bem, você vê isso 
+acontecer, mas será que você entende por 
+que isso está acontecendo? 
+É, o que que é um Shuffle, realmente, é 
+a água, eu sei que o Shuffle é 
+embaralhar, beleza, mas onde ele 
+acontece? 
+Você sabe onde ele acontece? 
+Ele acontece num local específico. 
+Ah, mas por que que eu preciso saber 
+desse local específico? 
+Porque entendendo esse local específico, 
+vai ficar muito mais claro quando você 
+for fazer troubleshooting, porque você 
+sabe exatamente onde é, e por aí vai. 
+Então, ao longo desse treinamento, a 
+gente vai brincar com esses pontos, 
+sabe? 
+O que que eu quero fazer pra vocês? 
+A gente vai ter, acho que tiveram mais 
+de 200 pessoas que adquiriram o 
+treinamento, eu acredito que muitas 
+delas vão fazer posteriormente, não vão 
+fazer online. 
+Bom pra vocês, vocês podem fazer 
+perguntas à vontade, então essa é a 
+vontade de vocês estarem live aqui. 
+Mas, o que que eu quero que vocês me 
+ajudem aqui? 
+Nós temos 65 pessoas que eu acredito que 
+já tem um conhecimento muito bom em 
+Spark, então a gente, né, já tem pessoas 
+muito boas aqui. 
+E eu quero que vocês me ajudem a 
+conseguir entregar o conteúdo como um 
+todo. 
+O que que é isso? 
+Então, toda vez que eu estiver 
+explicando um conceito, espera eu 
+acabar, e aí você pode fazer sua 
+pergunta. 
+Mas espera, e aí de blocos em blocos, eu 
+vou falar, gente, vamos parar aqui, 
+vamos tirar dúvida. 
+Porque se eu for parar todas as dúvidas 
+pra vocês no tempo do treinamento de 
+mastering, eu não vou conseguir entregar 
+o conteúdo, beleza? 
+Então, vou entregar um pedaço, paro, 
+pergunto, aí vocês perguntam. 
+Vou explicar outro pedaço, paro, vocês 
+perguntam, e aí a gente vai sanando 
+essas dúvidas. 
+Tentem, tá? 
+Tudo que vocês colocaram ali nos 
+comentários, a gente vai cobrir eles. 
+Então, tentem não fazer perguntas que 
+não estejam relacionadas ao tópico que 
+eu estou explicando. 
+Porque, de fato, eu vou cobrir todos os 
+tópicos de Spark em relação à 
+profundidade que a gente viu, beleza? 
+Tá, então, quero começar falando um 
+pouquinho, antes da gente navegar ali 
+no, realmente, no conteúdo programático. 
+No conteúdo. 
+Como que a gente dividiu esses 
+conteúdos, né? 
+Vocês possivelmente já tenham visto a 
+inventa do curso, com certeza. 
+Dividimos em cinco dias. 
+E aí, o que que a gente vai cobrir hoje, 
+né? 
+Hoje, a gente vai já começar com pilares 
+avançados. 
+E aqui tem uma parte legal, que é a 
+gente entender fundação. 
+Quando eu falo fundação, não é entender 
+o básico de Spark, não. 
+A gente vai começar a entender os 
+internos do Spark. 
+Esse conceito, de novo, todo treinamento 
+que eu faço, se você é a primeira vez 
+que está fazendo treinamento comigo, ele 
+é um treinamento baseado em 
+storytelling. 
+Então, o que que seria isso? 
+Tem toda uma lógica, né? 
+Cronológica. 
+E um pensamento ligado. 
+Ligado entre os capítulos, entre os 
+dias, enfim. 
+Então, o que que eu estou falando isso? 
+É um conteúdo progressivo. 
+Então, muitas das vezes, no dia 2 e dia 
+3, eu vou estar falando, ah, lembra lá 
+quando a gente viu que o shuffle 
+acontece, por exemplo, entre as stages? 
+Entre processos de stages, somente? 
+Ah, legal. 
+Então, isso aqui... 
+Então, eu sempre vou trazer essas 
+referências para vocês lembrarem. 
+Então, é importante que vocês consigam 
+tirar todas as suas dúvidas, para que, 
+enquanto a gente vai evoluindo e 
+construindo esses pilares aí, ao longo 
+dos dias, vocês consigam estar 
+tranquilamente confortáveis com isso. 
+Beleza? 
+Então, hoje a gente vai navegar nos 
+fundamentos, tá? 
+E nos internos. 
+Em relação ao Spark como um todo. 
+Desde o ponto da arquitetura dele, mais 
+detalhado, e eu vou explicar do porquê. 
+De novo, existem mais níveis de detalhe 
+que eu poderia entrar aqui, tá? 
+Eu já vou dizer isso para vocês. 
+Eu poderia chegar, por exemplo, na 
+classe do Scala que chamam Spark 
+Session. 
+Mas, quando eu fui construir esse 
+treinamento, uma das coisas que eu me 
+atentei foi falar o seguinte, beleza. 
+Qual o nível de internos que eu tenho 
+que entregar que faça... 
+Que dê a visão que eles precisam, mas, 
+ao mesmo tempo, que eu não preciso 
+explicar coisas que vocês... 
+Cara, e assim, você vai olhar e nunca 
+você vai utilizar. 
+Porque isso é uma coisa que é mecanismo 
+interno e que não vai fazer diferença se 
+você aprender esse nível para baixo. 
+Então, eu tentei me atentar muito nisso. 
+O meu viés para que eu pudesse entregar 
+esse treinamento para vocês foi pensando 
+sempre nisso, beleza? 
+Vou entrar no nível de detalhe, mas até 
+onde é importante para vocês, tá? 
+E aí, aqui, eu cobri o que eu acho que 
+é, cara, mais do que suficiente para 
+vocês entenderem como funciona de 
+verdade, beleza? 
+Então, vamos lá. 
+A gente, então, vai falar dos pilares 
+fundamentais ali do Spark e como que ele 
+funciona internamente. 
+Então, a primeira figura que a gente vai 
+olhar aqui é a execução do Spark, né? 
+E olhando... 
+E aí, olhando em 360. 
+A gente vai fazer um zoom agora, né? 
+Se você já fez algum treinamento Spark 
+Series ou um treinamento de 
+Specialization, enfim, você já viu essa 
+imagem aqui minha, provavelmente, né? 
+E também você sabe que nos meus 
+treinamentos eu não copio e colo 
+conteúdos. 
+A gente sempre cria conteúdos novos. 
+Então, a gente vai ver, na verdade, que 
+tem uma sequência disso aqui. 
+Mas por que esse gráfico aqui é 
+importante? 
+Por que essa visualização é importante? 
+Porque olhando de longe, o Spark não é 
+uma tecnologia complexa distribuída, tá? 
+Eu já começo por aí. 
+Ah, Luan, por que você está falando 
+isso? 
+Porque existem sistemas distribuídos que 
+são complexos por natureza. 
+Quer ver? 
+Eu vou falar alguns para vocês. 
+Por exemplo, o HBase é uma tecnologia 
+relativamente complexa. 
+O Cassandra, um pouquinho. 
+Se você pensar ali numa parte pulsar, 
+também que existem vários componentes. 
+Boa noite, Giuseppe. 
+Seja bem -vindo. 
+Também é complexo. 
+A gente começou agora. 
+Então, chegou no tempo bom. 
+Então, assim, existem coisas aqui 
+importantes. 
+Sobre essa arquitetura que facilita o 
+seu entendimento. 
+Então, a arquitetura do Spark em si é, 
+basicamente, você tem um driver, né? 
+E você tem os executores. 
+Basicamente, é entender o seguinte. 
+Quando você escreve uma aplicação, 
+quando você submete uma aplicação aqui 
+para o Spark, você submete ele sempre 
+para o driver. 
+Não existe você submeter ele para o 
+executor. 
+Ele submete para o driver. 
+O driver tira vários pedaços ali. 
+Ele faz diversas coisas. 
+Inclusive, criar um plano de execução 
+lógico e físico posteriormente para ser 
+utilizado. 
+E ele gera tarefas, estágios e tarefas. 
+E a gente vai ver isso aqui bem em 
+detalhe. 
+Então, basicamente, você escreve uma 
+aplicação. 
+Ele analisa essa aplicação. 
+E ele cria estágios que possuem várias 
+tarefas. 
+Então, várias tarefas para serem 
+executadas. 
+Quem gerencia tudo isso, né? 
+Quem gerencia os recursos de execução é 
+o gerenciador de cluster. 
+É o cluster manager. 
+E a gente vai ver os diferentes tipos. 
+Que tem hoje. 
+Eu coloquei aqui o Kubernetes. 
+Mas a gente tem o Yarn. 
+A gente tem o Kubernetes. 
+A gente tem o Mesos, que não é muito 
+utilizado. 
+E a gente tem Spark e Standalone. 
+Inclusive, eu quero saber se vocês 
+realmente sabem o que cada um é e o que 
+representa. 
+Então, aqui a gente vai entender em 
+detalhes. 
+E depois que esse cara aqui recebe quais 
+são os recursos para serem alocados, ele 
+conversa com o driver e fala ao driver. 
+Eu vou alocar esses recursos. 
+E essas são as tarefas que vão ser 
+executadas. 
+Você pode ali, você pode ali, é, startar 
+essas atividades. 
+E aí, os executores vão executar essa 
+atividade, essas atividades. 
+Tá? 
+E durante o processo de execução, não só 
+o cluster manager vai estar assistindo 
+essa execução referente ao ponto de 
+alocação de recursos, quanto o driver 
+vai estar olhando o status dessa 
+aplicação. 
+Então ele vai estar em constante loop 
+ali entre o cluster manager e os 
+próprios executores para saber como está 
+acontecendo essa execução e o que está 
+acontecendo. 
+Vamos lá. 
+Então, olhando de uma figura um pouco 
+mais para cima, o que a gente tem? 
+A gente tem as CPUs, que são onde, de 
+fato, as unidades de trabalho acontecem. 
+Então, aqui eu estou falando que eu 
+tenho um executor com quatro CPUs e eu 
+tenho um outro executor com quatro CPUs. 
+Ou seja, se a gente pensar na quantidade 
+de CPUs total, nós temos aqui quatro. 
+Nós temos aqui oito, desculpa, que são 
+quatro em um e quatro em outro. 
+Então, a gente tem um total de oito 
+cores. 
+Alô, por que você precisa saber essa 
+quantidade? 
+A gente vai ver que isso é um cálculo 
+muito importante para a gente gerar 
+algumas informações necessárias para 
+processamento distribuído crítico. 
+Então, quando a gente está processando 
+data intensive, quando a gente está 
+processando grandes montantes de dados, 
+isso aqui é extremamente importante, 
+você saber fazer alocação de recursos de 
+forma apropriada. 
+E aqui, a gente tem o driver e a sessão. 
+A sessão é, basicamente, quando você 
+fala com o Spark e ele tem o driver ali 
+que recebe, ele cria uma sessão. 
+E nessa sessão, ele encapsula todas as 
+informações que você enviou para ele. 
+Beleza? 
+Então, olhando aqui, é muito simples. 
+É bem tranquilo. 
+Agora, a gente vai para um nível abaixo 
+e entender realmente a distribuição do 
+que é o driver e do que é o executor e 
+como eles funcionam por debaixo dos 
+panos. 
+E aí, a gente vai ver por que é 
+importante vocês aprenderem esse 
+conceito. 
+O que é interessante já olhar aqui? 
+O interessante olhar aqui é que, pensa 
+comigo, o Spark driver recebe essa 
+requisição e o Spark executor executa 
+essas aplicações. 
+Então, no final das contas, você tem 
+cores e você tem tarefas que executam no 
+core. 
+Então, aqui você já começa a saber o 
+seguinte, que a unidade de trabalho do 
+Spark se chama task. 
+Beleza? 
+É isso. 
+Essa é o smallest unit of execution. 
+É o processo elementar do Spark onde ele 
+executa. 
+Ele executa dentro de um core, dentro do 
+CPU, dentro desse cara. 
+E ele tem uma tarefa que, que está ali 
+atralaçada a esse CPU, a esse core. 
+Então, nesse caso aqui, o que eu quero 
+demonstrar é, por exemplo, esse 
+executor, ele tem dois cores, mas tem 
+uma tarefa somente nesse core. 
+Esse outro cara tem duas tarefas sendo 
+executadas simultaneamente. 
+E esse cara está idle. 
+Isso aqui é um cenário que acontece 
+muito. 
+Se você não provisionar os seus clusters 
+de forma correta, você pode ter clusters 
+que têm executores idles. 
+Ou seja, executores que não estão 
+executando absolutamente nada. 
+Isso não é interessante. 
+Tá? 
+Não é interessante que a gente utilize 
+isso com todo o poder de processamento. 
+Beleza. 
+Agora a gente vai dar um zoom no driver. 
+Entender como que o driver age por 
+debaixo dos panos. 
+Olha só que legal. 
+Então, aqui já começa a ficar bem nerd, 
+né? 
+O nosso, o nosso processo aqui. 
+Então, o que que a gente, o que que a 
+gente já faz, né? 
+O que que o Spark faz? 
+O Spark driver recebe essa informação, 
+né? 
+Essa, essa aplicação. 
+Ele faz diversos passos ali de parse, 
+binding, verificar a estrutura do seu 
+código e por aí vai, que a gente vai ver 
+ainda hoje, lá no final da, da aula de 
+hoje, do Catalyst Optimizer, como que 
+ele faz. 
+E dito isso, o que que ele, o que que 
+ele, o que que ele cria? 
+Na hora que você cria o seu, a sua 
+aplicação, o seu código, então isso aqui 
+é importante você já saber, tá? 
+Quando você cria um código no Spark, 
+utilizando o DataFrame ou o DataSet, que 
+a gente vai ver em detalhe aqui, que são 
+as APIs de topo, que são as High -Level 
+APIs. 
+No final das contas, o Spark sempre 
+executa RDDs. 
+E RDDs, é, o nome se chama Resilient 
+Distributed DataSet, que é, na verdade, 
+um código em escala e Java escrito ali 
+por debaixo das panas. 
+Então, essa é a linguagem baixa do 
+Spark. 
+Então, toda vez que você escreve uma 
+aplicação, que seja em PySpark, que seja 
+em SQL, que seja em escala, utilizando o 
+DataFrame, ele vai convergir, ele vai 
+converter essa informação pra RDD. 
+Então, já pra responder você, Marcos, 
+sobre a diferença de velocidade de um 
+PySpark e de uma escala, não é pra você 
+ter diferença. 
+Por quê? 
+Porque ambos vão ser colocados dentro do 
+Catalyst Optimizer, que está dentro do 
+DataFrame, tá? 
+E o DataFrame é Spark SQL. 
+Então, você tem um engine que vai fazer 
+a transmutação desse cara de código 
+escrito em escala ou em PySpark. 
+Ele vai traduzir esse código pra você em 
+RDDs, tá? 
+E ele vai mandar executar. 
+Então, olha só que legal. 
+Quando você recebe essa requisição de 
+Resilient Distributed DataSets, o que eu 
+falei que o driver faz é, ele gera uma 
+sequência de transformações, né? 
+São as DAGs, Directed Acyclicly Graph. 
+É um gráfico acíclico de atividades. 
+E aí, o que que ele divide aqui? 
+Isso que é legal. 
+Então, o que que ele faz? 
+Na hora que esse cara é quebrado nas 
+DAGs, você tem um cara chamado DAG 
+Scheduler. 
+E aí, a gente vai ver, por exemplo, 
+quando você coloca um info, talvez vocês 
+já viram isso. 
+Quando vocês colocam um info lá na sua 
+aplicação, você fala, ah, eu quero ver 
+login detalhado info. 
+Você vai ver que aparece esse cara 
+bastante, esse DAG Scheduler. 
+Por quê? 
+Porque esse cara tem a responsabilidade 
+de verificar todas as ações que foram 
+executadas e de agendá -las em relação à 
+geração do seu plano de execução. 
+Então, aqui, o que que ele vai fazer? 
+Ele vai dividir as atividades em 
+estágios. 
+E dentro desses estágios, ele vai linkar 
+esses estágios com tarefas. 
+Tá? 
+E a gente vai ver como que essas tarefas 
+são ligadas. 
+Então, imagina que você tem aqui um 
+Join, por exemplo, com o grupo By. 
+E aí, ele determinou que você vai ter... 
+Aqui, quatro estágios, né? 
+Um, dois, três, quatro. 
+E nesse estágio, eu tenho duas 
+atividades. 
+Nesse outro estágio, eu tenho duas 
+atividades. 
+Aqui, eu tenho três. 
+E aqui, eu tenho três. 
+Então, a sequência de atividades que vão 
+sendo executadas e entrelaçadas. 
+Beleza? 
+Beleza. 
+Aí, o que que acontece? 
+Depois disso, a gente tem o Task 
+Scheduler. 
+Então, daqui desse DAG Scheduler, que 
+vai ser quebrado em estágios e tasks, a 
+gente vai ter um set de tarefas, né? 
+E esse set de tarefas, pelo Drive, eu 
+falo, olha, eu tenho essas atividades 
+para serem executadas. 
+E aí, é uma parte muito importante aqui. 
+O que que ele vai fazer? 
+Ele vai enviar essa informação para o 
+Cluster Manager. 
+O Cluster Manager vai olhar e falar, ah, 
+entendi. 
+Então, na verdade, você tem essa coleção 
+de tarefas para serem executadas, né? 
+Então, o Cluster Manager, ele não 
+entende esse conceito de Stages, né? 
+Até porque ele sabe que ele vai ter que 
+executar tarefas de uma determinada 
+sequência. 
+Mas toda essa DAG Scheduler é feita no 
+Spark. 
+Quando você tem um set de tarefas, esse 
+set é encaminhado para o Cluster 
+Manager, que vai alocar os recursos 
+necessários para você executar dentro do 
+seu executor. 
+Só que tem uma coisa interessante aqui. 
+Uma das coisas que o Cluster Manager faz 
+é olhar muito para Strugglers, tá? 
+Isso aqui é uma coisa importante que a 
+gente vai identificar em várias 
+aplicações nossas. 
+O que que é um Struggler? 
+São tarefas que têm um alto tempo de 
+atividade. 
+O que que quer dizer? 
+Cara, você tem 100 atividades e aí você 
+identificou que a média delas foram 1 
+minuto. 
+Só que você tem uma tarefa específica 
+ali de estudante que demorou 7 minutos. 
+Ela é um Struggler. 
+Isso é importante porque quando você 
+identifica o Struggler, você consegue 
+resolver a causa raiz de vários outros 
+problemas. 
+Por exemplo, o Skill. 
+Então, um Struggler pode indicar um 
+problema de Skill right away. 
+Você pode identificar na hora que você 
+tem um problema de Skill. 
+Se você conseguir ver que na média de 
+tempo, né? 
+Das execuções na cadência de tarefas, 
+você tem uma tarefa que está demorando 
+demais e uma outra tarefa que está 
+demorando de menos. 
+Então, é importante que você entenda que 
+essas tarefas consomem bastante 
+recursos. 
+Não só de processamento, mas também de 
+sincronismo entre os recursos, entre o 
+DAG Scheduler e assim por diante. 
+E no final do dia, tudo isso vai ser 
+executado aonde? 
+No executor, tá? 
+E aí, um outro ponto importante. 
+Que muita gente já me perguntou isso. 
+Luan, quando eu executo uma atividade 
+dentro... 
+Uma instrução dentro do executor, para 
+cada instrução eu tenho uma JVM? 
+Não, a JVM é por executor. 
+Beleza? 
+Então, isso é importante que vocês 
+entenderem. 
+Isso cai em prova também. 
+A JVM é por executor. 
+Então, se eu tenho três executores, você 
+tem três JVMs. 
+Uma para cada, tá? 
+Então, ele vai ter uma JVM e ele vai 
+processar todas as suas entidades ali 
+dentro da JVM. 
+Beleza? 
+Vou parar aqui, porque agora a gente vai 
+descer no executor. 
+E o executor, ele tem mais pormenores 
+aqui. 
+Beleza? 
+Então, perguntem para mim aí o que vocês 
+querem. 
+Enquanto isso, eu vou respondendo aqui 
+algumas perguntas do chat, tá? 
+Para ter certeza que a gente está 
+cobrindo 
+tudo. 
+Luan, sou novo na comunidade. 
+Afinal do treinamento, vocês 
+disponibilizam o material também ou só 
+os vídeos? 
+A gente vai disponibilizar tudo, tá? 
+Tanto os Scaled Draws quanto os 
+desenhos, tudo. 
+Na verdade, todos os dias eu vou 
+publicando para vocês esses conteúdos. 
+No final ali, como é um repositório 
+privado, o Matheus vai me ajudar ali a 
+coletar. 
+A gente vai fazer um informe para vocês 
+poderem colocar os seus handles do 
+GitHub. 
+E a gente vai adicionar vocês ali para 
+vocês terem acesso imediato a esse card. 
+Beleza? 
+Em questão de velocidade, se eu 
+trabalhar direto com RDD e depois 
+transformar em um dataset acaba por ser 
+mais rápido? 
+Ótima pergunta. 
+Vai ser mais lento. 
+E aí, cara. 
+Isso é uma coisa meio contra intuitiva, 
+né, Pedro? 
+E é legal isso, né? 
+É legal entender que isso, na verdade, é 
+o pior recomendado hoje. 
+Então, antigamente, até a fusão e 
+realmente o Spark colocar o RDD como 
+deprecated. 
+Eu não sei se vocês viram isso, mas o 
+low level API é deprecated. 
+Por quê? 
+Porque ela funciona muito bem para low 
+level API. 
+Mas ela não funciona nada bem com 
+diversos fatores. 
+E aí eu vou explicar ao longo do 
+treinamento do porquê executar. 
+Na verdade, hoje você vai ver. 
+Por que um RDD, se você escrever em RDD 
+e você escrever em DataFrame, vai ser 
+mais rápido o DataFrame? 
+E aí você vai falar, cara, mas não pode 
+ser. 
+Por quê? 
+Porque se você tem o RDD que é low 
+level. 
+A pergunta foi muito boa. 
+Você tem o RDD que é low level e você 
+tem um cara em cima dele, como que ele 
+pode ser melhor? 
+E aí eu só vou fazer você pensar no 
+seguinte. 
+Um dos pontos que fazem o DataFrame ser 
+extremamente rápido é o quê? 
+Um CBO. 
+Um Cost Based Optimizer. 
+Então o RDD não possui diversos fatores 
+de otimização porque ele é um código 
+puro. 
+Ele é um código não estruturado. 
+Ele é um código que não consegue inferir 
+esquema. 
+Ele é um código que não é tipado. 
+Ele tem vários pormenores ali que não 
+fazem com que ele seja ágil. 
+Quando você coloca o DataFrame em cima, 
+você tem um plano de execução. 
+Você tem um Catalyst Optimizer. 
+Você tem um projeto TugStank. 
+Foram mais de 3 mil mudanças em CPU e 
+memória para fazer com que o Spark fosse 
+mais otimizado para executar instruções. 
+Que eu vou explicar aqui. 
+Então existe uma mirilha de coisas além 
+dos planos de execuções, EQI e assim por 
+diante. 
+Que faz com que o DataFrame seja 
+infinitamente mais eficiente que o RDD. 
+Porque o RDD não faz todo esse processo 
+complexo de plano e assim por diante. 
+Então no final das contas é escrever em 
+DataFrame e DataSet. 
+Beleza? 
+Cada instância é um executor? 
+Bem, se você pensar na instância, um 
+servidor sim. 
+Então cada servidor é um executor. 
+Beleza? 
+Então se você tem uma VM ali ou uma 
+máquina física, ela vai ser um 
+executor. 
+Ao gerar a DAG, esse passo ainda é no 
+driver? 
+Boa pergunta. 
+Sim, ele acontece aqui no driver. 
+A gente está falando ainda do driver 
+aqui. 
+Então esse DAG Scheduler está do lado do 
+driver. 
+Até ele mandar essa informação para o 
+executor. 
+Então aqui ele está no executor 
+realmente. 
+Aqui ele está no executor. 
+Mas antes disso, ele está no driver. 
+Beleza? 
+Existe um número máximo de cores para o 
+executor? 
+Boa pergunta, Lilian. 
+A diferença entre ter dois executores 
+com quatro cores cada ou quatro 
+executores com dois cores? 
+Ótima pergunta. 
+Fica tranquilo que a gente vai ver isso 
+hoje ainda em Allocation Resources. 
+Então a gente vai ver um caso. 
+A gente vai ver vários casos reais 
+mesmo, criaturas para vocês desenhados e 
+demonstrações para vocês entenderem 
+quando o quê? 
+Mais CPU? 
+Menos CPU? 
+Ou seja, escalonamento horizontal ou 
+vertical? 
+Quando cada um deles? 
+Então eu vou desmistificar isso aqui 
+hoje para vocês. 
+Beleza? 
+Tem um lab no DP que tem que ler CSV, 
+onde a primeira linha tem todas as 
+funas, faltou LFCR e não cabe num 
+dataframe por ultrapassar as 2 .400 
+funas de um dataframe. 
+E só resta jogar conteúdo em um RDD. 
+Você pode utilizar o dataset nesse caso. 
+Ou você pode utilizar off -heap também, 
+Marcos. 
+Então não existe só RDD para você fazer. 
+Você pode utilizar o dataset. 
+Que deixa você ter um controle muito 
+maior em relação a isso. 
+Ou você utilizar um off -heap memory. 
+Size memory para você fazer isso. 
+O Dagnodriver ainda não é o plano final 
+de execução. 
+Não. 
+Veja que eu ainda não estou falando de 
+plano de execução. 
+Então vamos olhar aqui os componentes. 
+Depois a gente vai juntar tudo isso com 
+o plano de execução para entender a 
+visão toda. 
+Porque na verdade pensa o seguinte. 
+A gente está abrindo aqui. 
+A gente está dando dois cliques e 
+abrindo. 
+E a gente vai fazendo zoom de pouco em 
+pouco. 
+Até você conseguir ver toda essa figura 
+entrelaçada com o plano de execução. 
+Então aqui na verdade são os estágios. 
+Então primeiro estágio você gera o 
+código. 
+Segundo estágio o DAG Scheduler olha 
+isso e quebra isso em estágios e 
+tarefas. 
+E envia para o Task Scheduler. 
+Que vai falar, cara eu tenho essas 
+tarefas para serem executadas. 
+E esse Task Scheduler na verdade ele 
+está ali no Allocation Resource. 
+Que é o Cluster Manager. 
+E aí ele vai falar, beleza eu tenho 
+essas tarefas para executar. 
+Eu tenho recursos. 
+Vai ser feito assim. 
+Ele volta essa informação para o DAG 
+Scheduler. 
+Que vai ali eventualmente gerar um plano 
+de execução driver. 
+E vai executar dentro da JVM do 
+executor. 
+Beleza? 
+Levanta a mãozinha. 
+Está todo mundo comigo aí gente. 
+Beleza. 
+Boa. 
+Obrigado. 
+Vamos lá. 
+Agora a gente vai entrar no executor. 
+O executor é bem mais complexo e bem 
+mais beefy. 
+Bem mais volumoso. 
+Então vamos destrinchar essa imagem aqui 
+que ela é muito importante. 
+Ela que é o core principal para vocês 
+entenderem de uma vez por todas como o 
+Spark funciona. 
+E vai ser muito mais fácil de vocês 
+ligarem os pontos. 
+Ah, então é por isso. 
+Então a gente vai ver que coisas muito 
+legais. 
+Que deixa muito claro como a execução do 
+Spark é simples. 
+E porque ele faz ser tão interessante? 
+Pelo seu modo simplório. 
+Veja, quando eu falo simplório. 
+Eu não estou falando que é extremamente 
+fácil de entender. 
+Mas o que eu estou falando para vocês é 
+que poderia ser muito mais complexo do 
+que aparenta. 
+Beleza? 
+É basicamente isso. 
+Então vamos lá. 
+Lembra que o driver se comunica com o 
+cluster manager. 
+Então se a gente olhar na perspectiva de 
+alocação de recursos. 
+Quando você gera o RDD. 
+Lembra que você escreveu o código. 
+Esse RDD na verdade ele vai ser quebrado 
+em que? 
+Em partições. 
+Então já começa a prestar bastante 
+atenção nisso. 
+Porque cara, isso é muito importante. 
+Por mais que você fale que você sabe o 
+que é partição. 
+O que é core. 
+O que é task. 
+O que é thread. 
+O que é slot. 
+Muita gente se embaralha nisso. 
+E é uma coisa chata e complexa de 
+entender. 
+E é importantíssimo para quando a gente 
+for debugar. 
+Quando a gente for fazer provisionamento 
+de máquina. 
+Isso é muito importante que vocês 
+entendam. 
+Então esses conteúdos aqui para baixo. 
+Que são os fundamentos de execução. 
+É extremamente importante que vocês 
+entendam. 
+Então eu vou parar aqui daqui a pouco. 
+E vocês podem perguntar até deixar a 
+dúvida de vocês completamente sanadas. 
+Então no final das contas gente. 
+Tudo que acontece no Spark acontece 
+dentro de uma partição. 
+Pronto. 
+Então o Spark carrega essas informações. 
+Quando ele vai processar. 
+Em partições. 
+Esse conceito de slot. 
+É onde de fato o trabalho é executado. 
+Onde a tarefa é executada. 
+A tarefa é executada dentro de um core. 
+Num componente chamado slot. 
+Então é só para vocês entenderem. 
+Em prova existe uma pergunta que fala. 
+Onde as tarefas do Spark são executadas? 
+Nos slots? 
+Sim, nos slots. 
+Então o que acontece. 
+Os cluster managers de mercado. 
+Que nós temos hoje. 
+São basicamente. 
+Eu diria três. 
+Mas aqui eu vou listar os quatro. 
+Você tem o Standalone do Spark. 
+Que aí você vai se perguntar já. 
+Luan. 
+Standalone. 
+Só quem usa. 
+É não distribuído. 
+Não. 
+Você está enganado. 
+A gente vai ver na verdade. 
+Que tem um cara muito importante. 
+Que usa o Standalone. 
+Que usa o próprio scheduler do Spark. 
+Beleza. 
+A gente tem o YARN. 
+Que é um dos mais utilizados. 
+A gente vai ver aqui. 
+A gente tem o Mesos. 
+Que não é tão utilizado. 
+E a gente tem o Kubernetes. 
+Que é extremamente utilizado. 
+Então esses são os cluster managers. 
+Que a gente tem. 
+Fica tranquilo. 
+Que eu vou explicar cada um em detalhe. 
+Nas próximas sessões aqui. 
+Então. 
+Na perspectiva de alocação. 
+Aquele código escrito que você fez. 
+Ele vai gerar partições. 
+Então imagina que nesse caso. 
+Ele gerou quatro partições aqui. 
+Beleza. 
+Então quando o cara aqui. 
+Faz alocação de recurso. 
+Por exemplo. 
+Vamos pegar aqui o Kubernetes. 
+Kubernetes Identical. 
+Ele tem quatro partições. 
+Agora a gente vai enviar esse cara. 
+Para o Task Scheduling. 
+A gente vai agendar esse trabalho. 
+Que vai ser executado. 
+E aqui vem um ponto muito importante. 
+Que não sei se todo mundo sabe. 
+A quantidade de partições. 
+É igual a quantidade de tarefas. 
+Que você tem. 
+Olha que coisa interessante. 
+Então. 
+Nesse caso aqui. 
+Como a unidade de trabalho. 
+É a tarefa. 
+Então veja o que vai acontecer. 
+É que cada partição dessa aqui. 
+Ela vai entrar em uma task. 
+Está vendo. 
+Por que? 
+Porque você. 
+Só processa. 
+Uma tarefa. 
+Por vez. 
+Então. 
+Não existe. 
+Você processar. 
+Duas partições. 
+Ao mesmo tempo. 
+Dentro de uma tarefa. 
+É uma tarefa. 
+Uma partição. 
+Beleza. 
+Então. 
+Uma tarefa. 
+Sempre está olhando. 
+Para uma partição. 
+Só que a gente vai ver. 
+Na verdade. 
+Que ele faz isso. 
+De forma muito utilizada. 
+Por que? 
+Porque ele utiliza um recurso. 
+Chamado. 
+Credpool. 
+E aí. 
+A gente vai ver aqui. 
+Agora. 
+Em detalhes. 
+O que acontece. 
+Então. 
+Imagina que. 
+Nesse caso. 
+Eu tenho quatro partições. 
+Eu tenho quatro partições. 
+Entrelaçadas. 
+Para quatro tarefas. 
+Vamos pensar. 
+No mundo perfeito. 
+Vamos pensar. 
+Que a gente tem um executor. 
+Com quatro cores. 
+Então. 
+O que eu vou poder fazer. 
+Eu vou poder executar. 
+Essas tarefas. 
+Aqui. 
+Que são as partições. 
+Onde os dados. 
+De fato. 
+Estão dentro das tarefas. 
+E esse processo. 
+Executa. 
+Em paralelo. 
+Em vários executores. 
+Só que tem uma coisa interessante. 
+Aqui. 
+Eu não sei. 
+Se vocês já viram. 
+E a gente vai falar. 
+Aqui. 
+Em detalhes. 
+Que é. 
+O recomendado. 
+Do Spark. 
+Que você tem. 
+Entre três. 
+A quatro. 
+Vezes. 
+A quantidade. 
+De. 
+Multiplicação. 
+De CPUs. 
+Para tarefas. 
+Por quê. 
+Justamente. 
+Por causa. 
+Do Credpool. 
+O que o Credpool faz. 
+Ele controla. 
+As threads. 
+Que estão executando. 
+Então. 
+No final das contas. 
+O que acontece. 
+Aqui. 
+Vamos supor. 
+Que nesse caso. 
+O nosso. 
+Aqui. 
+Nós temos. 
+Quatro tarefas. 
+Logo. 
+Quatro partições. 
+Mas vamos supor. 
+Que a gente tem ali. 
+Vinte tarefas. 
+Só que a gente tem. 
+Quatro cores. 
+Somente. 
+Então. 
+Todas as outras tarefas. 
+Vão estar assinaladas. 
+Esperando. 
+No Credpool. 
+Então. 
+Na hora. 
+Que essa. 
+Que essa. 
+Partição. 
+Dois. 
+Aqui. 
+Ela parar. 
+De processar. 
+Vai ter. 
+Uma. 
+Uma. 
+Uma. 
+Um carinha. 
+Ali do lado. 
+Esperando. 
+Para ser processado. 
+Então. 
+Na verdade. 
+O Spark. 
+Vai funcionar. 
+Muito bem. 
+Exatamente. 
+Dessa forma. 
+Conseguindo. 
+Que você. 
+Tenha. 
+Uma linha. 
+Saudável. 
+De tarefas. 
+Que esperem. 
+De três. 
+A quatro. 
+Vezes. 
+Mais. 
+Ou seja. 
+Para cada. 
+Core. 
+Desse. 
+O recomendado. 
+Que você. 
+Tenha. 
+De três. 
+A quatro. 
+Para que. 
+Você. 
+Possa. 
+Fazer. 
+Isso. 
+Tá. 
+Então. 
+As. 
+As. 
+Tarefas. 
+Elas. 
+Interagem. 
+Com. 
+Uma. 
+Partição. 
+Por. 
+Vez. 
+Ou. 
+Seja. 
+Tarefa. 
+É. 
+Igual. 
+Número. 
+De. 
+Partições. 
+Então. 
+Se. 
+Você. 
+Teve. 
+Cinco. 
+Mil. 
+Tarefas. 
+Você. 
+Teve. 
+Cinco. 
+Mil. 
+Partições. 
+Que. 
+Foram. 
+Divididas. 
+Ali. 
+De. 
+Certa. 
+Forma. 
+Pelo. 
+Repartição. 
+Ou. 
+Um. 
+Processo. 
+De. 
+Grupo. 
+Em. 
+Ou. 
+Enfim. 
+Tá. 
+Esse. 
+Dado. 
+Foi. 
+Reparticionado. 
+Diversas. 
+Vezes. 
+Beleza. 
+Vou. 
+Parar. 
+Aqui. 
+Perguntem. 
+Tá. 
+O. 
+Felipe. 
+Perguntou. 
+O. 
+Seguinte. 
+Sobre. 
+Quantidade. 
+De. 
+Partições. 
+E. 
+Significa. 
+Depois. 
+Que. 
+Spark. 
+Já. 
+Leu. 
+O. 
+Arquivo. 
+Por. 
+Exemplo. 
+Se. 
+Eu. 
+Tenho. 
+Um. 
+Small. 
+File. 
+Problems. 
+Dez. 
+Gigas. 
+De. 
+Dados. 
+Em. 
+Dez. 
+Mil. 
+Arquivos. 
+Sim. 
+Dependendo. 
+De. 
+Como. 
+Você. 
+Vai. 
+Ler. 
+Esse. 
+Arquivo. 
+Sim. 
+Isso. 
+Vai. 
+Acabar. 
+Com. 
+Dez. 
+Mil. 
+Tarefas. 
+Exatamente. 
+Isso. 
+Então. 
+Se. 
+Por. 
+Algum. 
+Problema. 
+É. 
+Muito. 
+Bom. 
+Ponto. 
+Se. 
+Por. 
+Algum. 
+Caso. 
+Vamos. 
+Supor. 
+Que. 
+Vale. 
+Um. 
+Arquivo. 
+Um. 
+Folder. 
+Que. 
+Tem. 
+Small. 
+Files. 
+E. 
+Ele. 
+Tem. 
+Dez. 
+Mil. 
+E. 
+Você. 
+Setou. 
+Seu. 
+Max. 
+Partition. 
+Bites. 
+Ali. 
+Por. 
+Padrão. 
+Enfim. 
+E. 
+O. 
+Spark. 
+Leu. 
+Para. 
+Cada. 
+Partição. 
+Ele. 
+Deu. 
+Um. 
+Arquivo. 
+Você. 
+Vai. 
+Acabar. 
+Com. 
+Dez. 
+Mil. 
+Partições. 
+Que. 
+Vão. 
+Ser. 
+Dez. 
+Mil. 
+Tarefas. 
+Para. 
+Serem. 
+Executadas. 
+Exatamente. 
+Está. 
+Luan. 
+Tudo. 
+Isso. 
+Que. 
+Você. 
+Está. 
+Falando. 
+A. 
+Gente. 
+Consegue. 
+Visualizar. 
+Nos. 
+Logs. 
+Plano. 
+De. 
+Execução. 
+Etc. 
+Provavelmente. 
+Uma. 
+Pergunta. 
+Meio. 
+Básica. 
+Na. 
+Verdade. 
+Não. 
+Nem. 
+Tudo. 
+Você. 
+Consegue. 
+Ver. 
+Está. 
+Em. 
+Tudo. 
+Você. 
+Consegue. 
+No. 
+Logs. 
+Está. 
+E. 
+Também. 
+Em. 
+Outro. 
+Lugar. 
+Eu. 
+Isso. 
+É. 
+Mais. 
+Fechado. 
+No. 
+Mecanismo. 
+Do. 
+Spark. 
+Mesmo. 
+Eu. 
+Não. 
+Sei. 
+Está. 
+Relacionado. 
+A. 
+Isso. 
+Mas. 
+É. 
+Um. 
+Grande. 
+Encadeamento. 
+Eu. 
+Diria. 
+A. 
+Parte. 
+Né. 
+Ele. 
+É. 
+Uma. 
+Ação. 
+No. 
+Final. 
+Das. 
+Contas. 
+Eu. 
+Vou. 
+Colocar. 
+Para. 
+Você. 
+Que. 
+Ele. 
+É. 
+Uma. 
+Ação. 
+Mais. 
+Computada. 
+Um. 
+Pouco. 
+Mais. 
+Simples. 
+Então. 
+Claro. 
+Que. 
+Você. 
+Tiver. 
+Vamos. 
+Supor. 
+Trinta. 
+Quarenta. 
+Cinquenta. 
+Instruções. 
+Interiores. 
+Você. 
+Vai. 
+Ter. 
+Uma. 
+Criação. 
+De. 
+Plano. 
+De. 
+Execução. 
+E. 
+Uma. 
+Execução. 
+Em. 
+Cima. 
+Diz. 
+Mas. 
+Isso. 
+Ver. 
+Que. 
+Sua. 
+Execução. 
+Vai. 
+Ser. 
+Lenta. 
+Por. 
+Que. 
+Está. 
+Tudo. 
+Entrelaçado. 
+Ao. 
+Que. 
+Configuração. 
+De. 
+Cluster. 
+Está. 
+Entrelaçado. 
+A. 
+Velocidade. 
+De. 
+Resposta. 
+Então. 
+Está. 
+Entrelaçado. 
+Ao. 
+Cluster. 
+De. 
+Fato. 
+Não. 
+Que. 
+Você. 
+Vai. 
+Ter. 
+Problemas. 
+De. 
+Contenção. 
+De. 
+Nenhuma. 
+Forma. 
+Trabalhando. 
+Com. 
+Grandes. 
+Dados. 
+Isso. 
+É. 
+Ponto. 
+Que. 
+Muita. 
+Gente. 
+Faz. 
+A gente. 
+Vai. 
+Ver. 
+Caso. 
+Muito. 
+Legal. 
+Hoje. 
+Sobre. 
+Isso. 
+Então. 
+Ideal. 
+É. 
+O. 
+Dado. 
+Já. 
+Reparticionar. 
+Isso. 
+É. 
+Uma. 
+Forma. 
+De. 
+Lidar. 
+Com. 
+Problema. 
+Existem. 
+Outras. 
+Formas. 
+Eu. 
+Traz. 
+Uma. 
+Forma. 
+Mais. 
+Inteligente. 
+Para. 
+Vocês. 
+Muito. 
+Melhor. 
+Vocês. 
+Vão. 
+Ficar. 
+De. 
+Cara. 
+Então. 
+Sim. 
+Você. 
+Pode. 
+Fazer. 
+Mas. 
+Existem. 
+Formas. 
+Mais. 
+Interessantes. 
+De. 
+Você. 
+Fazer. 
+Quando. 
+Fazer. 
+Esporte. 
+Confirme. 
+Seja. 
+De. 
+Cento. 
+E. 
+Oito. 
+Em. 
+Partição. 
+O. 
+Vai. 
+Adorar. 
+Os. 
+Esmaltes. 
+Em. 
+Passões. 
+De. 
+Cento. 
+E. 
+De. 
+Oito. 
+Pode. 
+Se. 
+Dizer. 
+Que. 
+isso é feito no driver então para o DAG? 
+Então, tá vendo que legal? 
+Essa é uma pergunta clássica que ninguém 
+consegue responder geralmente, porque é 
+complexa. 
+Alô, então você tá me dizendo, por 
+exemplo, que se você tiver um arquivo de 
+1 MB e na verdade o seu partition size é 
+de 128, o que que eu penso que ele vai 
+fazer? 
+Ele vai carregar esse partition size até 
+dar 128, né? 
+E depois ele pula pros outros. 
+Errado. 
+Não, ele não faz isso. 
+Ele não faz nem esse de 100 mil e nem 
+também de puxar tudo. 
+A gente vai ver na verdade como que ele 
+faz aqui internamente. 
+E vai depender. 
+Depende de algumas coisas. 
+Por exemplo, depende do tipo de arquivo, 
+depende do tamanho do arquivo, depende 
+da segmentação do arquivo. 
+Então depende de alguns fatores pra você 
+saber como que ele vai fazer isso. 
+Isso é mais complexo do que parece. 
+Por vias de entendimento, o que você vai 
+ter, na verdade, muitas das vezes é, 
+quando você pede pra ler, né? 
+Você vai ver que é uma operação 
+extremamente cara. 
+A gente vai ver amanhã, por exemplo, o 
+processo de particionar dado, né? 
+Eu vou pedir pra vocês nunca mais 
+particionarem dados, tá? 
+Então, se vocês estão me escutando aqui 
+no dia 1, não particione do seu dado. 
+Não escreva dado particionado mais. 
+Se você faz isso, você pode parar de 
+fazer. 
+Não escreva. 
+Beleza? 
+Não. 
+A não ser que você tenha uma tabela de 1 
+tera. 
+Eu acho muito difícil você ter uma 
+tabela delta de 1 tera, tá? 
+Se você tiver, na verdade, você vai ser 
+uma exceção. 
+Normalmente você vai ter tabelas 
+grandes, mas 1 tera não. 
+Então, em menos de 1 tera, não 
+particione do seu dado. 
+E eu vou trazer opções pra vocês muito 
+mais interessantes disso. 
+E eu vou explicar pra vocês porque. 
+Vocês vão ficar de cara com o que eu vou 
+mostrar pra vocês amanhã sobre isso, tá? 
+De cara mesmo. 
+Aí vocês vão entender porque que a gente 
+dá... 
+porque que o custo de storage do S3 às 
+vezes vai lá pra casa do chapéu. 
+Vocês vão entender porque amanhã em 
+detalhes. 
+Mas, enfim. 
+Então, o Guilherme, a gente vai ver 
+hoje, né? 
+Trabalhando com partições em detalhe. 
+Então, eu não vou entrar muito em 
+detalhe aqui com vocês. 
+Não vou gastar muito tempo. 
+Mas isso vai ser endereçado pra vocês 
+daqui a pouco sobre isso, tá? 
+É... 
+Sim, você pode, Pedro, organizar os 
+arquivos depois do Small Files, né? 
+Que é utilizar um processo pra você 
+poder deixar eles mais even, né? 
+Deixar eles mais even. 
+Que é deixar eles mais bem distribuídos. 
+A gente vai ver isso também. 
+Se eu tenho vários arquivos de 1 MB mais 
+um Max Partition Size é 128 e ele não 
+junta mais de um arquivo na mesma 
+partição, achei que juntasse na mesma, 
+sim. 
+Sim e não. 
+Depende. 
+A gente vai ver aqui numa demonstração, 
+que é muito melhor pra você ver a 
+realidade. 
+Mas não. 
+Ele não vai fazer isso sempre, tá? 
+Sobre não particionar de tabelas, vale 
+apenas pra Delta? 
+Não. 
+Principalmente pra Parquet. 
+A ideia é não particionar. 
+Mas aí, como você tá falando de 
+particionamento hoje, dificilmente você 
+não vai usar Delta, né? 
+Se você estiver usando só Parquet, 
+talvez ainda particionar, dependendo da 
+sua ocasião, seja interessante. 
+Mas se você tá utilizando Delta, Iceberg 
+ou Hood, não particione. 
+Não particione. 
+E a gente vai ver, por exemplo, por que 
+eu tô falando isso? 
+Lá no dia 5, né? 
+No último dia, você vai ver por que, de 
+fato, com as novas features que são 
+entregues no Delta, open source, mas ao 
+longo do treinamento, você vai entender 
+por que a gente não pode particionar. 
+Amanhã, cara, é um caso que eu tive, 
+assim, que, sério, vocês vão ficar 
+loucos com o que eu vou mostrar pra 
+vocês internamente. 
+Qual a diferença de você fazer um 
+partition by e escrever e você não 
+fazer? 
+O que isso implica no plano de execução 
+e exaustão de de QoS dentro do S3? 
+Eu tive um caso muito legal disso, que 
+foi super simples de resolver, porque eu 
+entendi qual era a causa raiz. 
+Então, vocês vão entender aqui também. 
+Beleza? 
+Bear with me. 
+Continuem comigo aqui, que a gente vai 
+chegar lá. 
+Beleza? 
+Tudo bem, Cássio, independente, tá? 
+Se você tá usando no final das contas, 
+Hood, Delta e Iceberg escreve ou 
+Parquet, ou RC ou Avro, né? 
+Mas a ideia é que você esteja 
+utilizando. 
+Se você tá utilizando qualquer um deles, 
+tá tudo bem. 
+Beleza? 
+Vamos lá. 
+Então, nessa execução aqui, o que que a 
+gente tem? 
+A gente tem duas formas de inicializar o 
+Spark, tá? 
+A primeira forma de inicializar o Spark 
+é você utilizar ali o Client Mode, 
+tá? 
+Não, Eduardo. 
+Se você estiver utilizando Delta, não. 
+Não particione. 
+Então, aqui. 
+Client Mode. 
+Eu sei que a recomendação soa muito 
+genérica hoje, no primeiro dia. 
+Mas, no final do dia, você vai entender. 
+Por que realmente não particionar? 
+De forma alguma. 
+Evitar o máximo que você pode 
+particionar. 
+Essa é uma das coisas do treinamento. 
+É que vocês fiquem curiosos com o que 
+vai acontecer realmente. 
+Então, o Spark tem duas formas de 
+execução. 
+Isso aqui é importante. 
+O Cluster Mode e o Client Mode. 
+O que que eu quis deixar claro aqui pra 
+vocês? 
+É como que eles funcionam, tá? 
+Então, o que que a gente faz em ambiente 
+de desenvolvimento? 
+Quando você sobe ali o Spark na sua 
+máquina, por exemplo, assim por diante. 
+Claro que o Spark na sua máquina é um 
+pouquinho diferente, porque ele executa 
+tudo dentro de uma JVM. 
+Então, você não consegue fazer 
+troubleshooting direito, né? 
+Por isso que eu tive que criar o Docker 
+Composer com o Spark distribuído. 
+Pra poder fazer isso. 
+Pra vocês poderem, de fato, testar isso 
+separado. 
+Mas, nesse caso aqui, quando você gera 
+um Spark Submit, o que que acontece, na 
+verdade, é o driver está dentro do 
+cliente. 
+Está do lado do cliente. 
+E os executores estão no Cluster. 
+Então, você tem ali o desacompanhamento. 
+O driver está fora do Cluster e os 
+executores estão dentro do Cluster. 
+Esse é o modo Client. 
+E, geralmente, a gente não usa isso pra 
+produção, obviamente. 
+Então, pra gente já traduzir aí pra vias 
+mais interessantes, se você tem um 
+Cluster gerenciado de Spark, por 
+exemplo, você não precisa se preocupar, 
+porque ele não vai estar em Client Mode, 
+obviamente. 
+Ele vai estar em Cluster Mode. 
+Porque ele funciona justamente pra 
+ambientes produtivos. 
+Então, se você está falando de Amazon e 
+EMR, Google Data Proc, Microsoft Fabric, 
+Azure Synapse Analytics, Spark Pulse e 
+assim por diante, qualquer serviço 
+gerenciado de Spark, ele vai utilizar 
+Cluster Mode. 
+Então, qual a diferença do Cluster Mode? 
+Olha só que legal. 
+Vejam que dentro do Cluster de máquinas, 
+o driver está dentro de uma delas. 
+Então, a diferença é que você tem o que? 
+Tolerância a falha aqui. 
+Por quê? 
+Você está dentro de um Cluster, o driver 
+é um dos mecanismos dentro desse 
+Cluster, logo ele pode ser controlado. 
+Então, quando você faz um Spark Submit 
+em um ambiente de Cluster Mode, a 
+informação de alocação vai vir para o 
+Cluster Manager, que vai estar instalado 
+juntamente. 
+Então, vou dar um exemplo pra vocês. 
+Quando vocês instalam o Databricks, qual 
+é o Cluster Manager que vem? 
+Vocês sabem? 
+Eu vou falar aqui embaixo, mas é só 
+curiosidade. 
+Vocês sabem qual é o Cluster Manager do 
+Databricks que vocês mais usam? 
+O mais famoso é o Yarn, obviamente, e 
+depois o Kubernetes. 
+Que são os mais utilizados. 
+Vamos ver quem acertou daqui a pouco. 
+Beleza? 
+Então, funciona essa execução e esse 
+cara é para ambientes de produção. 
+Então, vamos dar uma olhada aqui, 
+rapidinha, nesse carinha chamado Spark 
+Basic. 
+Então, aqui no Spark Basic, o que a 
+gente tem? 
+Fica tranquilo que eu vou explicar com 
+detalhes no final da aula sobre o 
+repositório. 
+Fiquem tranquilos. 
+Eu vou passar aqui no final da aula, eu 
+vou explicar para vocês, cada uma desses 
+caras, vai estar documentado isso e como 
+que vocês vão utilizar isso no ambiente 
+de vocês. 
+Mas prestem atenção primeiro aqui. 
+Então, basicamente, quando eu vou 
+submeter a minha 
+aplicação, quando eu vou submeter a 
+minha aplicação para executar, 
+obviamente, eu vou utilizar o Spark 
+Submit por debaixo dos fans, para 
+submeter aquele meu job. 
+E aqui eu trouxe os exemplos, por 
+exemplo, de um Cluster de Sanjalone, de 
+um Cluster Spark, de um Cluster Yarn e 
+de um Submit no K8S. 
+Então, vejam aqui que, no final das 
+contas, a única coisa que vai mudar são 
+as URLs de chamada e como você chama. 
+Então, aqui no Yarn, você chama Master 
+Yarn, Deploy Mode Cluster, e aí o nome 
+do seu script. 
+Aqui você chama Spark, dois pontos, o IP 
+do Master, 7077 e o seu script. 
+E aqui você chama a API do Kubernetes, o 
+Master do Kubernetes que a gente vai 
+ver, o Deploy Mode Cluster e o seu 
+script. 
+No nosso caso aqui, a gente tem uma 
+instância distribuída dentro do Docker. 
+Então, a gente vai chamar como Spark 
+Master, Spark Submit, Master Spark. 
+Então, vejam que o meu Spark aqui, o meu 
+Master, ele é o quê? 
+Ele é Sanjalone. 
+Está vendo? 
+Por quê? 
+Porque eu sei que é Spark, dois pontos, 
+barra, barra, Spark Master, 7077. 
+Então, ele é um Spark Submit Sanjalone. 
+Então, se eu pegar esse comando aqui, e 
+executar esse 
+cara, eu vou estar executando uma 
+instrução, uma aplicação, que é a 
+aplicação Spark Basic, que é essa que 
+você está vendo aqui agora, uma 
+aplicação simples, que vai fazer o quê? 
+O processamento desse dado. 
+E olha só que legal que eu mostrei para 
+vocês. 
+Talvez vocês nunca pararam para ler de 
+fato aqui, mas essas informações dizem 
+muita coisa. 
+Olha só que legal. 
+Vou pegar uma das coisas para vocês já 
+começarem a ficar com a intent, para 
+ficarem, ali, conhecidas com vocês. 
+Spark Scheduler, DAG Scheduler, está 
+vendo? 
+Então, o que o DAG Scheduler fez aqui? 
+Então, se a gente pegar aqui, olha só 
+que legal. 
+Primeira instância do DAG Scheduler, eu 
+acho que é onde? 
+É aqui. 
+Então, olha só. 
+Primeira instância do DAG Scheduler é 
+basicamente aqui. 
+DAG Scheduler Event Loop. 
+Por que é um loop? 
+Ele é um loop porque ele tem que ficar 
+constantemente verificando a atividade 
+do cluster, do cluster manager e também 
+dos executores, o que está acontecendo. 
+Então, ele está falando o seguinte. 
+Olha, peguei o job zero com um output 
+partition. 
+Gerou um stage e submeteu esse cara. 
+Está vendo? 
+Que legal. 
+Então, você consegue ver, por exemplo, o 
+que o DAG Scheduler faz aqui. 
+E depois, você tem um set, 
+TaskSetManager, que finalizou essas 
+atividades. 
+Olha o Task Scheduler aqui. 
+Executou literalmente uma tarefa. 
+Então, vocês daí já conseguem saber. 
+Ah, entendi. 
+Então, o DAG Scheduler, foi gerado. 
+O Task Scheduler processou. 
+Esse cara voltou. 
+Legal. 
+E eu tenho aqui um outro, uma outra 
+execução acontecendo e assim por diante. 
+Então, aqui os logs já começam a te dar 
+uma visãozinha um pouquinho mais clara 
+de como funciona o mecanismo interno do 
+Spark, mas não em muitos detalhes. 
+Por isso que a gente tem um treinamento 
+de mastering para navegar em cima deles. 
+Beleza? 
+Vou continuar aqui para a gente não 
+perder tempo. 
+Quando a gente fala dos componentes do 
+Spark, o que a gente tem? 
+Se a gente for olhar o Spark de longe, a 
+gente pode quebrar ele ali em cinco 
+categorias, eu diria. 
+Então, pensa ali na categoria de cima. 
+Então, você tem as linguagens de 
+programação que você pode utilizar com o 
+Spark. 
+Então, você tem Scala, Java, Python e R. 
+São linguagens. 
+Ordens de prioridade. 
+Scala, Python e depois R. 
+Por quê? 
+Porque tudo é criado normalmente na 
+linguagem mais baixa e depois cedido 
+isso. 
+Isso foi verdade durante muito tempo. 
+A gente vai ver, por exemplo, na terça 
+ou na quarta, que existe um relatório 
+atual da Databricks que eles fizeram, 
+para vocês terem ideia da quantidade de 
+código que existe Scala hoje e a 
+quantidade de código PySpark que existe 
+hoje. 
+Vocês conseguem saber, mais ou menos, a 
+dimensão de quantos por cento PySpark e 
+quantos por cento Scala? 
+Dá um chute aí para mim, para ver se 
+vocês estão errando muito ou 
+não. 
+Hoje em dia deve ser 80 % Scala, 90%, 
+Scala 5%, 80%. 
+A gente vai ver, na verdade, que o 
+número é muito alto, contra um número 
+muito baixo. 
+Vocês pegaram a ideia. 
+Então, você tem as linguagens, você tem 
+as bibliotecas. 
+A gente vai na parte de engenharia de 
+dados, eu diria com muita segurança que 
+vocês vão ver muito Spark SQL Streaming. 
+Vocês vão trabalhar muito com esses dois 
+caras aqui. 
+A gente vai analisar eles dois. 
+O MLlib e o GraphX. 
+O GraphX, ele teve um momentum legal. 
+Eu pensei que ele ia explodir. 
+Na verdade, eu pensei que grafos iriam 
+explodir para não só os use cases de 
+gráficos que são aparentes, como redes 
+sociais e Anomaly Detection e alguns 
+outros casos bem legais. 
+Mas eu pensei que o GraphX, ele iria ter 
+uma abrangência maior, na minha opinião. 
+Não acabou acontecendo. 
+Mas o GraphX, eu não vi mais uma 
+atualização realmente pertinente para o 
+GraphX. 
+Então, eu diria que as três bem 
+consolidadas são Spark SQL Streaming e 
+MLlib. 
+Então, todos esses códigos aqui que 
+vocês estão vendo, eles são executados 
+dentro da engine SQL. 
+Eu já começo falando isso para vocês. 
+No core do Spark, no core dele, então 
+aqui são as bibliotecas que ele oferece, 
+as abstrações que ele tem, mas no core 
+dele, o foundation do Spark é RDD. 
+Então, isso não vai mudar. 
+Resilient Distributed Dataset. 
+Isso não vai mudar. 
+Isso é a classe low level dele ali que 
+ele trabalha tudo isso. 
+Então, todas as vezes que você interage 
+com as linguagens e eventualmente com as 
+bibliotecas, isso tudo é executado em 
+forma de RDD. 
+E aqui dentro do core, você vai ter o 
+que? 
+Você vai ter o task scheduling, você vai 
+ter gerenciamento de memórias, você vai 
+ter recuperação a falha, você vai ter 
+interação com storage. 
+Então, você tem todos os wrappers de 
+interação do Spark. 
+Em questão de gerenciamento, você vai 
+ter os classes managers que se integram 
+com o Spark. 
+No caso, Standalone, YARN, Mesos e 
+Kubernetes. 
+E no final das contas, as engines de 
+storage que ele interage. 
+A gente sabe que o Spark interage com 
+diversas fontes. 
+Mas a gente sabe também que a fonte que 
+ele mais possui afinidade é um data 
+lake. 
+Ponto. 
+Ou um lake house. 
+Então, se você realmente quer 
+desabilitar o grande processamento 
+massivo do Spark, coloque os seus dados 
+dentro do data lake. 
+Em vez de um SQL Server, em vez de um 
+MongoDB, em vez do que seja. 
+Para batch. 
+Para streaming a gente tem um cara 
+chamado Kafka, que definitivamente vai 
+ser o cara que você vai estar olhando 
+para streaming ou qualquer coisa 
+relacionada ao Kafka. 
+Event Hubs, Google Pub Sub, Amazon 
+Kinesis. 
+Enfim, ambos eles vão funcionar para 
+você muito bem. 
+Mas, em dias normais, o data lake é um 
+ambiente mais operacional e mais 
+eficiente para vocês trabalharem com o 
+Spark. 
+E a gente vai ver porque nesses dias. 
+Vocês vão entender porque. 
+É mais eficiente consultar de um data 
+lake ou de um lake house do que de 
+consultar, por exemplo, de um banco de 
+dados relacional. 
+A gente vai ver porque isso é mais 
+interessante. 
+Essa questão do RDD ter deprecado é só 
+para uso direto nosso. 
+Exatamente. 
+Mas ele ainda não vai rodar tudo por 
+trás. 
+Exatamente, João. 
+Então, o marcado como deprecated não é 
+porque... 
+Isso aconteceu uns três anos atrás. 
+Isso não é porque ele vai deixar 
+desistir ou não. 
+Enfim, é porque eles literalmente 
+conseguiram deixar claro para você. 
+Você tem a low level API, que é o RDD. 
+E a gente não recomenda vocês usarem 
+RDD. 
+Tanto é que se você for para qualquer 
+conferência de Spark, se for em qualquer 
+ativo, não é recomendado você usar RDD 
+hoje. 
+Em SED, ao invés disso, você vai usar o 
+quê? 
+DataFrame ou DataSet. 
+Então, ela não vai deixar de existir. 
+Muito pelo contrário. 
+Ela é a fundação do Spark. 
+Mas ela é uma low level API. 
+O engraçado é que se vocês já leram um 
+pouquinho sobre Flink, vocês vão saber, 
+por exemplo, que o Flink, na verdade, 
+que teve essa ideia inicial de low level 
+API e high level API. 
+E o Spark meio que copiou isso para 
+eles. 
+Então, aqui você tem essa segregação bem 
+estabelecida. 
+A gente vai ver aqui em detalhes. 
+Então, vamos lá. 
+Vamos dar uma olhada nos gerenciadores 
+de cluster um pouquinho para ver como 
+eles funcionam ali por debaixo do capu. 
+Rapidamente. 
+Então, vamos dar uma olhada aqui no 
+standalone. 
+E aí, de novo, você vai olhar o 
+standalone e vai falar, cara, o 
+standalone literalmente é para um 
+ambiente de desenvolvimento e testing. 
+Então, basicamente, é o Spark 
+gerenciando os recursos dele. 
+E um dos motivos da gente não ter o 
+Spark gerenciando os próprios recursos 
+dele, e aí vocês vão ver uma coisa 
+legal, é porque quando a gente tem a 
+instalação do Cloudera Data Platform, se 
+você tem aí as instalações gerenciadas 
+de Kubernetes, desculpa, de Spark, o que 
+a galera começou a fazer é o seguinte, 
+cara, eu vou ter um gerenciador de 
+cluster de recursos para fazer isso. 
+E sim, existem fatos muito bons do 
+porquê eu tenho colocado isso, mas são 
+mais máquinas para gerenciar o que custa 
+mais caro para o seu cluster em geral. 
+Então, quando você faz o provisionamento 
+de um HD Insight, quando você faz o 
+provisionamento de alguns outros 
+clusters gerenciados, você vai ver que 
+você tem ali o Yarn embedado, ou você 
+tem ali o Mesos, ou você tem algum 
+cluster manager desses aqui embedado ali 
+dentro. 
+Dificilmente você vai ver o Spark 
+standalone. 
+O Spark standalone é usado por exemplo, 
+para um ambiente de teste. 
+E já vê que isso não é verdade, mas, a 
+priori, ele é para um ambiente de teste. 
+Bem, quando a gente olha o Yarn, o Yarn 
+de fato é o mais robusto até a entrada 
+do Kubernetes. 
+Então, assim, eu quero que vocês 
+entendam uma coisa muito importante 
+aqui. 
+Quando a gente fala de Yarn, a gente 
+está falando de uma tecnologia que tem 
+aproximadamente 17, 18 anos. 
+Então, eu quero que vocês entendam isso. 
+E dito isso, existem pontos positivos e 
+pontos negativos dela ser tão anciã e, 
+ao mesmo tempo, está até hoje sendo 
+trabalhado. 
+O primeiro ponto é que há 16 anos atrás, 
+a figura de tecnologia era completamente 
+diferente da figura de hoje. 
+Então, isso quer dizer o quê? 
+Isso quer dizer que o Spark, o Yarn, ele 
+é um gerenciador de recursos muito 
+interessante para ambientes Hadoop. 
+Não tão interessante mais para ambientes 
+de alta 
+escala dos casos de uso e dos problemas 
+que nós temos hoje atualmente. 
+Por quê? 
+Porque, no final das contas, utiliza uma 
+JVM para fazer isso e aí a gente sabe, 
+por exemplo, que existem várias 
+limitações inclusive eu vou apontar para 
+vocês aqui do porquê o Spark ainda 
+continua utilizando a JVM. 
+Em vez de utilizar ali, por exemplo, uma 
+outra forma de se processar dados, como 
+o Rust utiliza ou outras engines de 
+processamento para poder substituir a 
+JVM. 
+Então, o que a gente tem aqui no final 
+das contas? 
+Quando a gente faz um Spark Submit, 
+pensa no Cluster, então a gente tem aqui 
+o RM que é o Resource Manager e esse 
+cara aqui é o Master ele vai enviar as 
+instruções para os containers. 
+Cada container é um Worker Node que, no 
+caso, uma instância ou um Spark 
+Executor. 
+Então, olha só aqui, nesse caso você tem 
+um Worker Node e dentro desse Worker 
+Node você tem um Spark Executor que, por 
+vez, é um container que está executando 
+o quê? 
+Uma tarefa e uma tarefa sempre vai ter o 
+quê? 
+Uma partição entrelaçada a ela, 
+basicamente isso. 
+E aqui você tem o Gerenciador de 
+Recursos que vai comunicar com o Master, 
+assim também como aqui e a diferença é 
+que o Master do Spark vai estar também 
+entrelaçado dentro de um Worker Node e 
+lá nesse Node Spark de Master ele vai 
+ter uma outra perninha que é um serviço 
+chamado Node Manager que vai ser como o 
+Yarn vai controlar os recursos 
+juntamente com o Master. 
+Então veja que o Yarn vai estar presente 
+em todas as instâncias ou servidores ou 
+máquinas ali. 
+Então você tem um extra utilização de 
+recursos e aqui é uma coisa importante 
+também quando você está provisionando 
+memória e assim por diante dependendo de 
+como o seu cluster é configurado isso 
+afeta. 
+Por quê? 
+Porque você está compartilhando recursos 
+do seu Worker Node com o Yarn, por mais 
+que ele seja eficiente mas ele consome 
+quantidades de memória e de CPU. 
+Você está compartilhando esse cargo com 
+o executor. 
+Beleza? 
+E o Kubernetes. 
+E o Kubernetes é legal porque quando a 
+gente fala no Kubernetes hoje hoje o 
+Kubernetes é o de facto para 
+microserviços. 
+Está se tornando cada dia mais no 
+conceito de engenharia de plataforma, 
+platform engineering ou criação de 
+plataformas de dados cada vez mais o de 
+facto. 
+Cada vez mais clientes utilizando dados 
+no Kubernetes. 
+Então de fato o que a gente começou a 
+ver é o Spark em 2017, 2018 começou a 
+jornada dele em realmente se tornar um 
+produto production ready para 
+Kubernetes. 
+E um dos grandes desafios ao longo desse 
+tempo foi o seguinte para quem conhece 
+um pouco o Kubernetes sabe que o 
+Kubernetes é escrito em Go. 
+E a forma com que o Kubernetes gerencia 
+memória é totalmente diferente de como 
+uma JVM gerencia memória. 
+Então dito isso, imagina o seguinte 
+imagina você ter um ambiente produtivo 
+de Spark com um YARN socado dentro do 
+Kubernetes. 
+Nunca deu bom. 
+Porque a forma com que o Spark, o 
+garbage collector da JVM interage com um 
+container é diferente de como em um 
+ambiente externo o Kubernetes interage 
+com esse container. 
+Então existem vários pormenores que 
+fazem com que a performance seja muito 
+degradada por causa disso. 
+Então uma das coisas que a gente começou 
+a ver ao longo de 2017, 2018 e 2019 é a 
+galera implementando o Kubernetes como 
+scheduler do Spark. 
+Então agora quando o Spark ia pedir 
+recursos ele não utilizava o YARN porque 
+a JVM based e assim por diante. 
+Ele simplesmente requisitava para o 
+Kubernetes. 
+Isso é um ponto muito legal gente. 
+Porque de novo eu falei para vocês que o 
+YARN é uma tecnologia de 17 anos 
+aproximadamente. 
+O Kubernetes realmente para dados ali, 
+para Spark se eu não me engano, o Spark 
+se tornou production ready para 
+Kubernetes em 2019 e 2018, se eu não me 
+engano. 
+Então fazem o que? 
+5, 6 anos? 
+E hoje se você colocar inclusive a 
+Google tem um talk um dos Seniors Data 
+Engineers da Google tem um talk dentro 
+de uma conferência dessa que ele fala da 
+performance do YARN contra a performance 
+do Kubernetes. 
+E hoje a performance de escalonamento de 
+utilização de recursos além de ser mais 
+eficiente no Kubernetes bate de frente 
+com o YARN em relação a escalonamento. 
+Então hoje facilmente você pode utilizar 
+aplicações Spark dentro do Kubernetes 
+inclusive é o que a gente recomenda. 
+Independentemente se você tem um 
+ambiente Databricks. 
+Databricks é excelente é um pedaço de 
+tecnologia maravilhoso sem discussão, 
+ponto. 
+Só que você primeiro, você não vai ter 
+isso em todos os clientes fora do país 
+nem dentro do país. 
+Você pode ter mas nem sempre você vai 
+ter. 
+Existem muitos clientes que tem, existem 
+muitos clientes que não tem e outro 
+ponto agora. 
+Tem muito cliente que vai ter o 
+Databricks mas não são todos os jobs que 
+vão rodar dentro do Databricks. 
+Porque se você for uma empresa que 
+utiliza realmente Spark no dia a dia 
+realmente como core ele não vai estar 
+inteiro no Databricks. 
+Os jobs vão estar sendo executados em 
+outros lugares. 
+Você não vai querer pagar DBU você vai 
+querer ter uma utilização de recursos 
+muito mais interessante se você estiver 
+utilizando streaming você vai ter um 
+cluster de Kubernetes que você paga 
+mensalmente você vai ter diversas 
+aplicações rodando em streaming você vai 
+ter uma utilização de recursos muito 
+mais eficiente no Kubernetes você vai 
+ter uma velocidade de processamento 
+dependendo de como você faz, muito mais 
+eficiente do que no Databricks inclusive 
+então depende muito do seu cenário se 
+você utiliza o Spark no dia a dia 
+realmente o que eu recomendo? 
+Só para a gente desmistificar um 
+pouquinho do Databricks versus Spark o 
+Databricks é excelente para um usuário 
+final para você colaborar com times e 
+assim por diante mas não são todos os 
+jobs de produção por exemplo que você 
+vai colocar ali dentro porque você vai 
+estar utilizando recursos que você não 
+precisaria por exemplo então hoje nos 
+ambientes grandes que eu trabalho por 
+exemplo dificilmente tem Databricks ou 
+tem Databricks para um pedaço ah você 
+tem um pipeline certo aqui para fazer 
+isso mas onde estão seus jobs produtivos 
+realmente de production ready grade eles 
+geralmente estão no Kubernetes ou eles 
+estão ali em VMs ou eles estão em algum 
+outro local sendo executados então eu 
+quero que vocês tenham essa visão ah 
+Databricks all the way Kubernetes all 
+the way não, você tem uma mistura disso 
+um blend disso o que eu diria é 
+independentemente se você está 
+utilizando o Databricks ou não o 
+Databricks eu nem diria mais que é um 
+sistema de Spark que está virando algo 
+muito mais do que isso mas no final das 
+contas se você aprende a escrever Spark 
+você consegue escrever bem em qualquer 
+lugar então como que e eu já paro para 
+vocês tirarem dúvidas porque o refute é 
+assim inclusive minha ideia é assim 
+eu acredito eles tem muito Kubernetes, 
+eles tem muito Databricks é uma mescla 
+então na arquitetura do Kubernetes de 
+novo segue como uma arquitetura 
+distribuída na mesma ideia de driver e 
+executor aqui você tem um cabeça e você 
+tem os executores então como que o 
+Kubernetes divide isso ele divide isso 
+em master e os nós aqui dentro ele chama 
+de control 
+plane e aqui embaixo ele chama de data 
+plane onde literalmente é a mesma ideia 
+aqui você tem toda a parte de 
+gerenciamento de recursos do Kubernetes 
+e aqui você tem todos os componentes 
+para executar os seus containers dentro 
+do Kubernetes porque eu estou trazendo 
+isso para vocês porque esse cara aqui a 
+gente vai ver em detalhes ao longo do 
+treinamento a gente vai utilizar por 
+exemplo o Kubernetes para entender cara 
+que a gente consegue unificar 
+gerenciamento de recursos então imagina 
+só que legal imagina eu tenho uma 
+aplicação em Spark que executa dentro do 
+Kubernetes e eu não precisar ter um YARG 
+por exemplo eu tenho somente o Spark 
+porque eu sei que por debaixo dos panos 
+o Spark vai estar se comunicando com o 
+próprio scheduler do Kubernetes para te 
+entregar alocação de recursos outro 
+ponto escalabilidade e elasticidade 
+então se você tiver uma configuração 
+inteligente no Kubernetes Cluster você 
+vai poder crescer ou diminuir de acordo 
+com a sua necessidade sem problema algum 
+você vai ter uma ótima isolação e isso 
+aqui é uma das coisas que o Kubernetes 
+faz como ninguém e é uma das coisas que 
+eu amo isso ao invés de você ter um 
+cluster compartilhado por exemplo em 
+Databricks você escreve sua aplicação 
+você contemniza sua aplicação você 
+shippa sua aplicação para o Kubernetes e 
+cara ela vai rodar a sua aplicação com 
+os recursos que você mandou dela além 
+disso não só isso ela vai executar com 
+muito menos recursos do que você de fato 
+utilizaria em uma máquina virtual mas 
+muito menos mesmo a gente vai ver por 
+exemplo a velocidade de você utilizar um 
+nó de 2 gigas por exemplo é absurdo o 
+que você consegue fazer com 2 gigas ou 4 
+cores por exemplo é realmente absurdo o 
+que você consegue fazer com o Kubernetes 
+porque o Kubernetes nasceu com isso 
+utilização de recursos e assim por 
+diante além de ter 
+portabilidade você não vai ter nenhum 
+problema em relação a isso então são 
+clusters gerenciados logo você tem esse 
+cara disponível em qualquer nuvem então 
+você não vai ter nenhum problema em 
+relação a 
+isso e aqui vem o que o Spock que é o 
+Spark no Kubernetes então a gente vai 
+ver ao longo do treinamento como que a 
+gente utiliza o Spock que é o Spark on 
+Kubernetes e o Spark on Kubernetes é 
+legal porque aqui a gente está falando 
+de uma integração transparente do Spark 
+e a gente vai ver o conceito de operador 
+e como ele trabalha para se comunicar 
+com o engine do Kubernetes então quando 
+você faz um Spark Submit ali tudo que 
+você interage com Kubernetes você nunca 
+interage com Kubernetes diferente do que 
+no API Server você bate no API Server 
+que é o seu cabeça você tem esse cara 
+que recebe essa requisição trata essa 
+requisição salva as informações de 
+metadados no banco de dados chamado etcd 
+do Kubernetes e agenda o que vai ser 
+executado no scheduler o API depois de 
+compilar tudo isso que ele recebeu do 
+Spark Submit fala olha é uma aplicação 
+Spark você precisa executar esse cara na 
+hora que ele entende isso ele inicia o 
+driver então você vai ver que vai nascer 
+um container ali driver Spark Driver 
+então ele começa o que? 
+a estartar esse driver esse driver 
+começa a pedir recursos para o 
+Kubernetes porque ele vai criar um plano 
+de execução ele vai passar pelo DAG 
+Scheduler, Task Scheduler e depois de 
+pedir a alocação 
+de recursos ele vai enviar o plano 
+lógico e posteriormente o plano físico 
+para ser executado e daí depois que ele 
+faz essa alocação de recursos aqui ele 
+agenda a execução aí você vê outros nós 
+nascendo ali instantaneamente de 
+executores então você pode pedir 3, 5, 
+10, 15 executores quantos vocês quiserem 
+e ele vai agendar essas atividades e vai 
+executar esse cara então a gente vai ver 
+em detalhe em demonstrações ao longo 
+desses dias como você pode fazer isso 
+aqui funcionar e como você pode rodar 
+jobs né? 
+com esses contextos e críticos dentro 
+desse ambiente aqui deixa eu pegar a 
+pergunta do Eduardo aqui em qual uma 
+stack que substitui o Databricks a 
+altura não só com relação a custo, 
+performance, segurança, catálogo que 
+possa ser usado no dia a dia tanto por 
+engenho de dados que vão efetivamente 
+fazer Spark Submit quanto analistas de 
+dados que vão apesar consumir com SQL 
+por exemplo Eduardo eu diria que em viés 
+de plataforma de dados acho que não 
+teria nenhuma hoje que consegue entregar 
+tudo que o Databricks consegue entregar 
+dito isso se você for para uma vertente 
+um pouco mais open source por exemplo um 
+pouco mais aberta e aí existem prós e 
+contras de qualquer approach o 
+Databricks não é o melhor cenário para 
+todos os casos obviamente ponto e nem 
+Kubernetes com Spark é o melhor cenário 
+depende muito do cenário eu acredito que 
+se você utilizar uma stack um storage um 
+storage igual que você utilizaria você 
+teria o que eu teria o que a gente tem 
+em vários clientes um Spark cluster 
+dentro do Kubernetes o Kubernetes como 
+um todo e a gente tem por exemplo o 
+Trino que é um engine de consulta SQL 
+então você teria esses dois trabalhando 
+muito bem o Spark fazendo processamento 
+e gravando essas informações no Lake 
+House e instantaneamente você consumindo 
+essas informações pelo Trino e podendo 
+utilizar o Trino para conectar porque 
+ele é um engine de SQL e vai ser 
+transparente para o usuário final ele 
+consegue acessar na UI executar as 
+queries dele bonitinho, tudo bem ele vai 
+ter uma ideia e consegue fazer isso e aí 
+você pode adicionar algumas coisas em 
+cima disso você vem por exemplo com um 
+produto de governança de dados open 
+source que seria interessante e o NG 
+Catalog ainda é muito ancião é muito 
+recente ele tem muita coisa hardcore ele 
+funciona para alguns casos específicos 
+mas o NG Catalog é open source agora e 
+pode ajudar ao longo prazo então 
+dependendo e outra coisa, mudar para uma 
+stack mais open source não quer dizer 
+também que você vai gastar menos às 
+vezes você vai gastar mais então depende 
+muito depende muito do seu caso mas o 
+que eu quero que você tenha em mente é 
+que Databricks não é a melhor solução 
+para tudo então isso é fato ela é uma 
+ótima solução é uma solução extremamente 
+robusta cada dia mais entrega mais valor 
+realmente eu estava lá na conferência 
+posso falar para vocês é incrível a 
+diferença do Snowflake para o Databricks 
+hoje é gigantesca mas existem formas e 
+formas por exemplo eu já presenciei 
+ambientes de Databricks que gastam 
+bilhões por mês como eu também já vi 
+esses caras mudando para Kubernetes e 
+também gastando bastante porque não 
+sabiam utilizar como também já vi vice 
+-versa já vi muita gente utilizando o 
+Databricks muito bem das formas mais 
+corretas possíveis mas mesmo assim ao 
+longo prazo vai gastar um pouco mais por 
+causa dos DBUs por causa das Photons 
+Engine por causa de algumas coisas que 
+você vai adicionando ali que no final 
+das contas faz bastante diferença então 
+depende muito do background do seu time 
+e assim por diante mas para responder a 
+sua pergunta sendo mais simples se hoje 
+eu for pensar se hoje eu puder ter uma 
+plataforma completa pensando na 
+perspectiva de conectar o usuário final 
+com um time de dados configurar toda 
+essa informação ter catálogo, 
+inteligência artificial em cima disso 
+tudo definitivamente eu iria para o 
+Databricks mas possivelmente não 
+utilizaria tudo para o Databricks 
+utilizaria um pedaço para o que ele faz 
+muito bem mas certos jobs de produção e 
+que eu preciso de streaming e assim por 
+diante eu utilizaria o Kubernetes sim 
+Lucas o Trino tem uma função 
+relativamente parecida com o Dremel ele 
+faz uma coisa muito legal ele tem um 
+conceito de Open Lake House então ele 
+deixa você se conectar com diversos 
+tipos de formatos de Lake House e não 
+somente isso ele tem uma interface legal 
+então você pode por exemplo acessar UIs 
+ele tem usuário e senha ele faz esse 
+controle para você só que a diferença de 
+modelo de execução dele é totalmente 
+diferente então na execução do Trino ele 
+é um Engine de SQL virtualizado então 
+ele faz a query na fonte e traz esse 
+dado para você ele faz isso também ele 
+tem uma reflexão de queries mas ele tem 
+uma coisa chamada reflection que ele 
+cacheia essa informação em memória então 
+você precisa de grandes máquinas com 
+grandes quantidades de memória mas ambos 
+funcionam muito bem são ótimas 
+tecnologias para você trabalhar outro 
+ponto importantíssimo para vocês saberem 
+é que o Spark tem modelos de agendamento 
+isso mesmo então você tem duas formas de 
+agendamento no Spark você tem o FIFO e 
+você tem o 
+FAIR mas por que eu preciso saber disso? 
+você precisa saber disso porque é 
+importante dependendo das atividades que 
+você está fazendo e como você está 
+processando o seu dado vou dar um 
+exemplo para vocês aqui então vamos 
+pensar aqui no mais básico que é o 
+padrão, que é o FIFO First In, First Out 
+então a gente sabe por exemplo que numa 
+ideia de agendamento FIFO a gente tem 
+por exemplo imagina que a gente submeter 
+um job aqui nesse horário e a gente 
+submeter um segundo job nesse outro 
+horário aqui vejam que independentemente 
+da quantidade de jobs que eu for 
+colocando aqui para executar, eles vão 
+ser colocados em fila por que? 
+porque cada tarefa executa numa 
+sequência então primeiro você vai 
+executar a tarefa do job 1 depois a 
+segunda tarefa do job 2 do job 1 depois 
+a terceira tarefa do job 1 mesmo sendo 
+que eu submeti ele antes da execução 
+depois opa, terminei essa tarefa do job 
+1 eu tenho o job 2 para ser executado 
+essa tarefa eu tenho o job 3 para ser 
+executado eu tenho a tarefa 3 do job 2 
+para ser executado e assim por diante 
+então ele vai respeitando um ciclo de 
+vida ele vai respeitando um ciclo então 
+quais são as vantagens aqui desse cara 
+simplicidade, esse é o modelo mais 
+simples de execução isso não quer dizer 
+que as tarefas não executem em paralelo 
+é só que uma forma com que ele agenda a 
+execução dos processos é baseado em fila 
+entra, processa, sai entra, processa, 
+sai e você tem uma execução meio que 
+preditiva porque você sabe que se cada 
+passo demora certo tempo, você sempre 
+vai ter um outcoming bem parecido porque 
+todas as tarefas executam no seu tempo 
+determinado quais são as desvantagens 
+ele é ineficiente para o conceito de 
+small e big jobs se você tiver um 
+straggler por exemplo lascou né porque 
+esse straggler vai parar todo mundo 
+então vamos supor que você tenha uma 
+tarefa desse tamanho aqui o que vai 
+acontecer vai tudo parar você não vai 
+executar nada porque esse cara está 
+executando essa tarefa grande então essa 
+é a forma padrão do spark trabalhar e 
+funciona muito bem realmente ele é bem 
+eficiente fazer isso só que você tem uma 
+outra forma que é chamada fair e aí é 
+legal porque a ideia do fair é você 
+utilizar o que é você utilizar um 
+compartilhamento de recursos justo e o 
+que é justo ele vai basear em algumas 
+características para executar esse cara 
+ele usa um conceito de pools então 
+dentro da execução do spark ele tem 
+pools de conexões de slots de 
+espaçamento e ele vai colocando essas 
+tarefas em conjunto nesses slots para 
+executar separadas então você tem uma 
+distribuição de tarefas bem mais 
+homogênea bem mais leve e que geralmente 
+vai ser mais eficiente ou seja, o que a 
+gente está vendo é cada vez mais os 
+clusters gerenciados estão saindo do 
+modelo FIFO para um modelo fair 
+scheduling então cada vez mais você vai 
+ver esse cara então o que você tem aqui 
+você tem melhor alocação de recursos 
+você tem jobs que normalmente são 
+menores e eles começam mais cedo os 
+grandes começam um pouquinho depois você 
+pode compartilhar recursos de vários 
+pools diferentes e você pode as 
+desvantagens aqui é que você tem 
+configuração intânea um pouquinho mais 
+se você está gerenciando isso só que 
+qual o lado legal aqui o lado legal é 
+que eu trouxe uma imagem muito legal 
+para vocês que é a imagem tá de todos os 
+clusters gerenciados olha que legal e 
+quais são os modos de cluster manager 
+dele de scheduling mode olha que coisa 
+linda olha só, dá uma olhada para quem 
+achou que o Databricks utilizava Yarn e 
+o Kubernetes se lascou, ele utiliza 
+Standalone sinistro né é um Standalone 
+com esteroides 
+o scheduler do Databricks é Standalone 
+por essa não esperava eu também durante 
+muito tempo fiquei bem surpreso nossa, 
+caraca os caras usam Standalone legal e 
+faz sentido na perspectiva do Databricks 
+utilizar Standalone realmente faz muito 
+sentido mas olha só se você olhar aqui 
+por exemplo os clusters mais antigos 
+mais novos por exemplo aqui no Azure 
+eles utilizam Yarn e aí faz sentido eles 
+utilizaram Yarn realmente até para o 
+Fabric pelo menos é o que está na 
+documentação porque? 
+porque na verdade o Yarn e a Microsoft 
+andam de mãos atadas a Microsoft tem uma 
+grande história com Yarn inclusive ela 
+foi uma das grandes empresas que 
+investiu no Yarn muito, muito, muito 
+massivamente Yarn lá é um grande tópico 
+no Microsoft e eles utilizam first in 
+first out mas olha só que legal aqui no 
+Dataproc você tem Yarn e FIFO mas olha 
+só nos serverless o que você tem 
+Kubernetes e FAIR vejam que o que você 
+vai ver geralmente é que quando você 
+utiliza o scheduler Kubernetes você vai 
+ter quando você usa um cluster manager 
+Kubernetes o seu scheduler por exemplo 
+vai ser mais eficiente o FAIR porque 
+cara o Kubernetes é mestre em fazer isso 
+o Kubernetes em si faz muito bem o 
+trabalho de você gerenciar recursos de 
+como eles vão ser executados em vez de 
+botar em uma fila que é bem old school o 
+que ele vai tentar fazer é compartilhar 
+pools criar pools e compartilhar tarefas 
+e conseguir executar tarefas de forma 
+mais balanceada então vejam que o 
+Dataproc Serverless utiliza FAIR o 
+Amazon EMR utiliza FAIR o Databricks 
+utiliza FAIR então realmente queria 
+mostrar isso para vocês utiliza mesmo? 
+sim utiliza vou mostrar para vocês aqui 
+do cluster de Kubernetes do cluster de 
+Databricks eu tenho um cluster de 
+Databricks se eu vier aqui em Spark UI a 
+primeira coisa que eu vou ver aqui na 
+entrada dele são as blades de 
+configuração do do meu cluster vocês vão 
+ver por exemplo que logo aqui está 
+escrito scheduling mode FAIR aqui que 
+você sabe qual o método de 
+scheduler do seu do seu cluster de Spark 
+beleza? 
+alguma dúvida até aqui? 
+agora a gente vai começar a navegar em 
+outros tópicos aqui bem interessantes 
+então e aí? 
+podem perguntar, eu vou responder 
+algumas coisas que vieram ali o Gabriel 
+falou o Unions Catalog está open source 
+legal, imagino que agora com o Unions 
+Catalog open source também aumente o 
+poder de fogo e o Paulo fez um 
+comentário bem legal também que eu 
+concordo bastante mequetrefe esse OSC 
+que deixaram open source a gente ainda 
+está bem em excepção então vamos ver 
+assim posso falar para vocês com muita 
+propriedade que a Databricks ela é muito 
+open source na veia então eu olhando 
+para os projetos anteriores se a gente 
+olhar para o Spark se a gente olhar para 
+o Delta Lake se a gente olhar para o 
+MLflow se a gente olhar para esses 
+projetos os caras entregaram tudo então 
+assim, eu não acho que vai ser diferente 
+aqui eles vão entregar tudo mas eu acho 
+que falta muita coisa que ainda está 
+sendo desenvolvido por eles realmente 
+ainda um modelo de Unions Catalog agora 
+está entrando cada vez mais features 
+recursos, enfim então vamos ver como 
+isso vai acontecer de fato 
+tá o que achei muito legal do Drem não é 
+bem ele que é o projeto Nessie que tem 
+uma experiência do branch commit com 
+Iceberg pena não ter isso em Databricks 
+é bem legal essa parte de branch commit 
+como gerenciador o scheduling mode em 
+Databricks mas vou gerir o scheduling 
+mode dele é FAIR essa eu não esperava 
+sabe se o Glue também usa FAIR? 
+não, não sei não sei te falar pesquisa 
+aí pergunta qual é o scheduling mode do 
+Glue vamos perguntar aqui Amazon Glue 
+Spark scheduling 
+mode não sei se vai ter essa informação 
+por ele ser encapsulado não sei se ele 
+vai ter mas dificilmente se ele estiver 
+em VM ele não vai ser também não dá para 
+saber é difícil não sei se tem aqui de 
+frente não porque o scheduling faz 
+sentido para Databricks porque o que 
+eles querem te entregar eles querem te 
+entregar um ambiente o mais otimizado 
+possível e para eles também, porque 
+pensa no seguinte imagina que para cada 
+cluster Databricks que você criar você 
+tem que ter uma instância a mais ou você 
+tem que ter outro pedaço de máquina a 
+mais para ter o YARN na verdade o que 
+eles fazem é o que? 
+otimizar o standalone como um todo para 
+que o próprio standalone consiga dar 
+conta do processamento e por eles 
+utilizarem FAIR scheduling isso ajuda 
+mais ainda então por isso que faz 
+sentido eles utilizarem porque ao longo 
+do tempo eles vão reduzir tons e tons de 
+máquina o Lucas falou que o Databricks 
+na GCP utilizava o GKE é então no GCP 
+especificamente o fleet de máquinas vem 
+do GKE então ele utiliza realmente o GKE 
+que utiliza ali o cluster manager Spark 
+e ele ainda utiliza ai eu não sei te 
+falar se ele utiliza o próprio scheduler 
+do Kubernetes ou se ele utiliza o 
+scheduler do do do standalone ai eu não 
+vou saber o que ele faz mas se eu fosse 
+chutar eu acreditaria que pela camada de 
+segregação que a gente tem no próprio 
+plane do Databricks ele continuaria 
+utilizando o standalone é o meu takeaway 
+porque se ele não for utilizar isso as 
+APIs e toda a parte de segregação do 
+Databricks tem que ser mudada então eu 
+acredito que poderia ser mais óbvio 
+utilizar o standalone mas se ele 
+utilizar o Kubernetes também não vai me 
+fazer nenhuma dúvida porque é 
+extremamente utilizado beleza? 
+bem a gente está chegando agora em um 
+ponto de partição daqui a pouco então se 
+atentem ai que a gente vai ter a 
+partição comendo vivo ai vai ser muito 
+importante para vocês entenderem esse 
+cara então vamos ver aqui olhando agora 
+um pouco mais para fora a gente entrou 
+em detalhe agora vamos dar um passinho 
+para trás e vamos nos perguntar o 
+seguinte primeiro porque eu preciso 
+aprender isso? 
+porque algumas coisas aqui que a gente 
+viu ali o task scheduler a gente viu a 
+parte de alocação de recursos a gente 
+viu os modos de scheduling enfim é mais 
+que você tem uma visão justa dos planos 
+de execução que você consiga entender 
+como navegar na UI para aprender a 
+debugar para entender se você tiver 
+alguns problemas off topics por exemplo 
+alguns problemas bem eu diria diferentes 
+da massa de problemas você vai precisar 
+ter um entendimento mais fino e agora 
+vamos entrar em uma coisa um pouco mais 
+prática antes da gente entrar nesse 
+processo mais prático eu quero rever 
+para vocês o ciclo de vida agora olhando 
+na perspectiva maior então olha só 
+cliente nós clientes submetemos uma 
+aplicação para o que? 
+para o Spark então o que acontece o 
+cliente envia uma requisição ai eu estou 
+pensando no ciclo de vida da aplicação 
+do Spark e do conceito de JVM eu quis 
+trazer isso com muito carinho para vocês 
+porque eu tive uma discussão muito foda 
+com um dos meus melhores amigos que ele 
+falou cara mas assim vamos lá sempre uma 
+dúvida que eu tive o Spark usa JVM para 
+executar o JVM não é otimizado para 
+processamento de dados não é uma coisa 
+interessante para fazer não sei o que e 
+ai ele falou cara existem várias outras 
+formas inclusive o Java utiliza várias 
+outras formas de processamento para 
+poder fazer isso não tem só JVM e ai foi 
+uma discussão legal porque ele falou 
+cara então porque que ele utiliza JVM e 
+ai eu quis trazer isso para vocês porque 
+isso é uma das dúvidas na verdade bem 
+constantes da galera não é mas executa 
+realmente JVM porque muita gente 
+acredita por exemplo que a instrução que 
+é executada ela é executada fora da JVM 
+então o bytecode por exemplo no final 
+das contas o bytecode é gerado pela JVM 
+mas o processamento desse bytecode 
+acontece fora da JVM porque JVM não é 
+eficiente para que você possa processar 
+dados e ai foi uma discussão legal no 
+final das contas sim o Spark utiliza JVM 
+all the way through utiliza JVM para 
+tudo desde do plano de execução para 
+execução, criação do bytecode 
+processamento disso a gente vai ver em 
+detalhes aqui hoje até a entrega desse 
+dado, mas ai a gente vai ver porque que 
+ele faz isso e ai outra coisa 
+importante, o que que teve que acontecer 
+de mudanças no projeto de Spark para 
+fazer com que a JVM pudesse ser 
+eficiente, então isso é importante então 
+aqui eu submeto essa requisição para um 
+cluster manager ele vai criar juntamente 
+com o driver, ele vai criar um plano 
+lógico que é uma série de tarefas para 
+serem executadas, então o deck scheduler 
+vai criar ali e vai mandar para o task 
+scheduler que vai agendar essas 
+atividades para serem colocadas dentro 
+dos nós logo mais essa execução vai 
+acontecer dentro de uma JVM e vai ser 
+paralelizada tudo isso dentro de uma JVM 
+então aqui você tem um executor, você 
+tem uma JVM que está sendo executada 
+você tem as tarefas e lá dentro das 
+tarefas você sempre tem o que? 
+uma partição sendo executada naquele 
+tempo então as tarefas interagem simples 
+com uma partição de dados, ou seja 
+quantidade de tarefas é igual quantidade 
+a número de partições você não tem por 
+exemplo uma tarefa com duas partições ao 
+mesmo tempo sendo executada isso não 
+acontece isso é importante que você 
+entenda isso não acontece, só acontece 
+esse cenário aqui e claro que vai 
+acontecer na verdade é que você vai ter 
+várias tarefinhas aqui talvez esperando 
+no seu thread pool então tem ali as 
+tarefinhas esperando no thread pool 
+então quando esse cara termina eu tenho 
+uma outra tarefinha que vem deixa eu 
+fazer melhor esses dois carinhas aqui e 
+aqui vem uma nova tarefinha e essa 
+tarefinha tem vinculado assim para o 
+que? 
+uma partição então é isso que vai 
+acontecendo fechou show então eu quis 
+trazer para vocês aqui porque o Spark 
+escolheu o JVM claro que isso foi uma 
+decisão que aconteceu em 2014 2015 e 
+assim por diante 2013 e 14 e foi 
+perdurado até hoje primeiro cara o core 
+do Spark está dentro de uma JVM então 
+realmente refatorar tudo isso é 
+literalmente reescrever o software 
+inteiro então o que que o time o que que 
+o Spark como um todo preferiu fazer 
+preferiu otimizar a JVM e fazer o máximo 
+possível na JVM para que ele não 
+precisasse reescrever isso numa outra 
+forma porque de fato o JVM não é uma 
+forma mais eficiente de você processar 
+esse dado então algumas coisas legais 
+aqui você tem interoperabilidade e 
+ecossistema em todos os produtos 
+portabilidade você escreve esse cara ele 
+vai jogar dentro de uma JVM e aqui ele 
+tem algumas coisas legais de otimização 
+como garbage collector esse git 
+compilation que o Spark utiliza que é o 
+just in time compilation para que ele 
+possa fazer instruções de compilação 
+muito mais rápidas e eficientes executar 
+bytecode que é código máquina então ele 
+vai gerar no final do dia ele é 
+101000001 então ele vai executar um 
+bytecode uma instrução de byte ali por 
+debaixo dos planos você pode gerenciar 
+multitradings você tem toda a segurança 
+de utilizar espaçamento de memória e 
+assim por diante inclusive a gente vai 
+ver como mexer nesses espaçamentos de 
+memória aqui então vocês vão entender de 
+uma vez por todas por exemplo nem sempre 
+utilize cache muita gente por exemplo 
+perde muito em não utilizar caching 
+porque na verdade utilizou caching da 
+forma errada o que seria isso ah eu dei 
+um caching eu não tenho espaço no meu 
+cluster para fazer caching logo não 
+farei caching tudo bem mas você pode 
+fazer persist e aí você pode ter várias 
+formas de persist esse dado estagiário e 
+ter uma uma significativa utilização de 
+performance melhor ao longo do tempo 
+porque se você não utilizasse existem 
+técnicas para vocês fazerem e vocês vão 
+aprender aqui profiling debug múltiplas 
+linguagens e aí vem a grande sacada olha 
+só isso aqui quais são as otimizações 
+que aconteceram logo no tempo da JVM com 
+Spark o projeto Tungsten é um dos mais 
+importantes de tudo isso aqui o projeto 
+Tungsten foi um projeto criado pela 
+comunidade Spark que sanou mais de 300 
+tipos de diferentes problemas dentro da 
+engine então na verdade focado em CPU e 
+memória então esse foi o foco do projeto 
+Tungsten foi olhar para as execuções do 
+Spark no conceito de JVM enfim e ver 
+como que ele poderia utilizar essa 
+execução para realmente funcionar 
+entendeu então foi realmente olhar para 
+isso e falar cara como que a gente vai 
+utilizar toda essa execução aqui de 
+processo e quais são as características 
+referentes a CPU e memória então esse 
+projeto é muito importante ele está 
+embedado dentro do CBO que a gente vai 
+ver e aí galera antes de eu entrar em 
+partição porque agora a gente vai descer 
+porque isso aqui é a parte mais 
+importante eu sempre falo isso em todos 
+os meus vídeos eu falo nos meus 
+treinamentos eu falo nas minhas lives 
+enfim você tem que entender paralelismo 
+e assim paralelismo vinculado ao Spark é 
+partição e você tem que tirar todas as 
+suas dúvidas hoje de partição que é 
+aquela lá ah eu tenho 10 arquivos eu 
+tenho 10 partições eu tenho 5 arquivos 
+eu tenho 5 partições então isso você tem 
+que tirar sua dúvida hoje e deixar isso 
+claro porque isso aqui é a base de toda 
+parte de performance stunning que a 
+gente vai ver toda parte de skill, spill 
+shuffle, story, serialization os 
+problemas do Spark em comum eles estão 
+vinculados a muitas partições poucas 
+partições, repartition e assim por 
+diante como você utiliza isso então aqui 
+o segredo para você dominar o Spark 
+começa em partição absolutamente começa 
+em partição então são 8h40 eu vou dar 
+uma folga para vocês que é até umas 9 
+horas o que vocês acham 20 minutinhos e 
+aí a gente vai de 9 eu diria até umas 10 
+e 40 11 horas pode 
+ser beleza então a gente volta às 9 
+horas em ponto beleza aí a gente volta 
+falando de partitions fechou vou ali 
+pegar uma coisa para comer rapidinho e 
+volto obrigado Matheus e aí galera todo 
+mundo de volta 
+aí meu áudio está bom Matheus está né tá 
+sim 
+beleza alguma pergunta antes da gente ir 
+para a parte de Mind Blowing porque eu 
+digo isso porque a gente vai ver agora 
+finalmente em detalhes partições como 
+elas são divididas e assim por diante 
+isso vai ser muito bom para vocês terem 
+um fundamento muito forte o Fred 
+perguntou se o Threadpool 
+existe em cada executor ou se é único 
+para todo cluster Fred nesse caso o 
+Threadpool é puro executor então você 
+tem um pool de threads ali que estão 
+esperando para serem executados ou que 
+estão ali para serem executados dentro 
+de cada executor o que sobrou de meu fim 
+do dia está aqui 
+é verdade muita coisa um dia inteiro de 
+coisas mais em treinamento assim 
+realmente são para os fortes viu eu digo 
+para vocês só os fortes sobrevivem 
+beleza então vamos lá vamos destilar 
+partições de uma vez por todas para a 
+gente não ter dúvida de como elas 
+funcionam beleza 
+eu vou trazer algumas dicas muito 
+importantes para 
+vocês vamos lá então então partição é a 
+unidade principal de paralelismo no 
+Spark dito isso você já começa a pensar 
+o seguinte imagina que você tem 12 cores 
+total ou 16 vamos supor que você tem 3 
+executores cada executor tem 4 cores e 
+vamos supor que você está lendo um 
+arquivo de 1 giga e você setou e você 
+não trabalhou nada com partição bem nas 
+vias normais se você pegar 1024 que é 1 
+giga dividido por 128 você tem 8 
+partições já vamos começar a pensar 
+nisso aí eu te digo o que você acha que 
+vai ser mais rápido essas 8 por 128 ou 
+se eu pegar os mesmos 1024 e dividir por 
+64 em vez 
+de 128 o que você acha que possivelmente 
+vai ser mais rápido no Spark a primeira 
+opção ou a segunda opção bem vamos lá 
+vamos recapitular eu tenho um arquivo de 
+1 giga por padrão o Spark a gente sabe 
+que uma unidade que o max partition 
+bytes do Spark é 128 megas ele carrega 
+em chunks por 128 então vamos dividir 
+isso aqui por 128 a gente vai acabar com 
+8 partições só que a gente tem 12 cores 
+a gente vai ter cores que estão idle 
+para esse processamento agora se eu 
+pegar pensando nesse caso e eu pegar 
+1024 mas ao invés agora de utilizar 128 
+megas utilizar 64 que é a metade eu 
+tenho 16 partições e eu tenho 12 
+cores o que você acha que vai executar 
+mais rápido a primeira ou a segunda qual 
+possivelmente vai executar possivelmente 
+vai executar mais rápido essa é a forma 
+correta de colocar me coloca ai no chat 
+vamos lá gente primeira 
+opção vamos lá vou recapitular com vocês 
+vamos lá de novo imagina que você tem um 
+arquivo esse arquivo tem 1001 gigas 
+partição no Spark a gente vai ver que é 
+igual a 128 beleza se a gente dividir 
+isso aqui vai dar quantas partições se a 
+gente pegar aqui a gente vai pegar 1024 
+megas e dividir por 128 vão ser 8 
+partições só que nesse caso imagina que 
+eu tenho 3 executores com 4 cores ou 
+seja eu tenho um total de cores de 4 
+vezes 3 12 cores e aqui eu tenho quantas 
+atividades que vão ser executadas nesse 
+exemplo aqui quantas atividades quantas 
+tasks vamos ver se vocês estão bem opa a 
+galera está certa Murilo, Gabriel, Ronan 
+já foi direto perfeito 8 tarefas porque 
+tarefa é igual a partition beleza ai a 
+gente tem o que 12 cores para 8 tarefas 
+é a melhor forma de aproveitar o Spark 
+ou a gente tem essa segunda opção que 
+agora eu mexo no meu partition size 
+coloco 64 megas e agora eu vou ter o que 
+16 que é o dobro então 1024 ou 64 e ai 
+eu vou ter o que 16 tarefas para serem 
+executadas e eu tenho 12 cores então 
+exatamente então é melhor ter testes 
+aguardando do que executores parados 
+muito bom Lucas então possivelmente essa 
+vai ser mais performática e ai você fala 
+uai mas por que você está falando 
+possivelmente porque não é uma teoria 
+exata porque depende do arquivo depende 
+de algumas outras características mas a 
+possibilidade desse cara executar muito 
+mais rápido é de 80 ou 90 % do que esse 
+cara aqui porque como o Lucas falou e 
+colocou ali muito bem é melhor você ter 
+tarefas aguardando de 3 a 4 tarefas 
+aguardando do que você ter executores 
+que estão Idols então muito bom também 
+Paulo a 
+explicação beleza então já pensando 
+nisso vamos destrinchar o paralelismo 
+aqui que o negócio é legal isso aqui 
+para mim é uma teoria excitante quando 
+eu consigo saber algumas coisas eu falo 
+cliente eu consigo saber disso disso 
+disso e o cliente fala consegue cara eu 
+fico muito feliz eu tenho um código SPAC 
+ele vai ser certeiro para o que eu quero 
+fazer então eu vou ensinar para vocês 
+como que eu faço no meu dia a dia e eu 
+uso isso aqui constantemente 
+principalmente quando você está com 
+ambientes de grande escala porque 
+ambientes de grande escala ele 
+geralmente é um pouco mais preditivo na 
+questão de cara eu tenho tantos gigas 
+para processar por dia eu tenho uma 
+cadência de tantos aqui eu recebo 
+arquivos de 5 em 5 minutos que tem um 
+tamanho tanto então no final do dia eu 
+tenho tanto e tanto a gente vai calcular 
+tudo isso aqui por isso é importante que 
+você esteja muito bem aqui porque isso 
+aqui vai ser primordial vamos lá então 
+dito que partição é a unidade de 
+paralelismo do SPAC a gente já começa a 
+falar aqui por padrão na documentação o 
+que o SPAC recomenda que você tenha de 3 
+a 4 vezes está vendo partitions set to 3 
+or 4 times the number of CPU cores então 
+é para ter entre 3 a 4 vezes mais do que 
+cores de CPU no seu cluster para que 
+isso possa ser distribuído de 
+forma equilibrada entre os cores 
+disponíveis beleza o que a gente 
+aprendeu até agora as tarefas são 
+executadas dentro do executor e 
+processam uma partição por vez então de 
+novo uma tarefa processa uma partição e 
+o que essa partição é nada mais é do que 
+a distribuição dos dados que estão lá 
+que é um conjunto de informações que 
+você tem e esse cara é a unidade de 
+paralelismo de tolerância e de 
+localidade é onde realmente acontece o 
+dado onde o dado realmente está colocado 
+o Evandro perguntou eu vou responder 
+Evandro esse parâmetro de partição ele é 
+por cluster ou por processo você pode 
+ter a configuração nível cluster e você 
+pode ter a configuração nível aplicação 
+então você pode mudar nesses dois níveis 
+beleza por padrão 128 a gente vai ver 
+aqui como brincar com eles agora a gente 
+vai para uma das imagens mais legais que 
+eu já fiz eu gosto muito dessa imagem 
+que eu desenhei para vocês ela está 
+muito bem explicativa então a gente vai 
+destrinchar ela aqui eu gostei muito 
+dela mesmo me digam também se vocês 
+gostaram depois da explicação foi feito 
+com muito carinho vamos lá então por 
+padrão as partições são divididas em que 
+em chunks de 128 por padrão então 
+partition size default de 128 dito isso 
+vamos num caso aqui a gente vai entrar 
+num caso prático mas vamos olhar aqui o 
+caso que está acontecendo aqui a gente 
+tem um data lake que é onde a gente tem 
+o melhor tipo de performance no Spark e 
+vamos pensar aqui eu estou destrinchando 
+para vocês aqui galera você tem um 
+arquivo imagina que você tem uma pasta e 
+você tem um arquivo parquet esse cara 
+tem 50 megas esse outro parquet tem 200 
+esse outro tem 600 esse outro aqui tem 
+120 a gente tem arquivos aí de 
+diferentes tamanhos beleza lembrem e a 
+gente vai ver mais em detalhes amanhã 
+como que internamente o parquet organiza 
+essas informações mas por padrão olha só 
+porque que o parquet se dá muito bem com 
+o Spark a gente vai entrar em detalhes 
+amanhã porque isso acontece mas para 
+vocês saberem o parquet divide as 
+informações nele em grupos de 128 rings 
+and bells tipo o que que o Spark faz é a 
+mesma coisa ele divide o nível de 
+particionamento nele por particões de 
+128 então dependendo de como o parquet 
+foi escrito ele está alinhado a 128 
+megas um chunk de informação inteira 
+aonde o Spark também utiliza 128 megas 
+para carregar uma unidade inteira de 
+dados então por isso que eles funcionam 
+muito bem porque ambos são colunares e 
+ambos utilizam grupos de 128 megas por 
+padrão com encabeçamentos de metadados 
+de megas então você tem um arquivo de 
+megas de um arquivo de megas que você 
+pega ali geralmente para os grupos que 
+você tem de dados armazenados no parquet 
+então por isso que funciona muito bem eu 
+vou entrar mais em detalhes mais amanhã 
+então imagina o seguinte vamos agora 
+converter isso para a partição 
+considerando que a partição é 128 então 
+olha só nesse arquivo aqui você vai ter 
+50 megas você vai ter uma partição isso 
+vai responder as perguntas de vocês 
+anteriormente sobre partição então esse 
+cara vai salvar em uma partição esse 
+outro arquivo ele vai ser quebrado 
+possivelmente em duas partições porque 
+vai ultrapassar 128 então ele vai 
+calcular que ele vai fazer um splitter e 
+ele vai ver cara eu vou dividir esse 
+cara em duas então duas partições esse 
+cara que são 600 megas ele vai dividir 
+em 5 e o que ele vai fazer 128, 128, 
+128, 128 e vai ter um restante de 88 
+megas opa o que é isso aqui alguém sabe 
+o que é isso aqui o que é isso aqui está 
+vendo que a gente já não tem uma 
+distribuição even do dado 128, 128, 128, 
+88 então o que a gente vai ver aqui um 
+possível skill dependendo do que tem 
+nesses 88 megas mas o que você consegue 
+entender aqui também é que essas tarefas 
+aqui irão demorar mais do que essa aqui 
+porque essa contém mais informação então 
+o dado não está distribuído da melhor 
+forma possível porque ele foi lido não 
+da melhor forma possível beleza e a 
+gente tem aqui um outro arquivo de 120 
+que vai ser feito em uma partição vamos 
+ver agora como isso funciona por debaixo 
+dos panos então quantas partições a 
+gente tem nós acabamos com 9 partições 
+então 1, 2, 3, 4, 5, 6, 7, 8, 9 9 
+partições são igual a o que 9 tarefas e 
+igual a 6 slots agora a gente vai ver o 
+conceito de slot uai Luan, porque 6 
+slots de execução o Cristal fez uma 
+pergunta legal é possível forçar não, 
+você não consegue esse é o algoritmo do 
+Spark mas você consegue fazer algumas 
+coisas você consegue intervir de algumas 
+formas aqui então vamos lá ele vai olhar 
+isso, o driver vai olhar vai puxar essas 
+informações, vai criar um plano lógico e 
+vai submeter isso para a execução e vai 
+executar essas informações então o que 
+vai acontecer vai acontecer o seguinte 
+primeiro, porque eu tenho 6 slots Luan 
+então vocês já vão entender que slot na 
+verdade é a quantidade de cores que você 
+tem total, que é a sua unidade de 
+processamento então nesse caso aqui cada 
+executor, nós temos 3 executores cada 
+executor tem 2 cores ou seja, eu tenho o 
+que 2 cores aqui, 2 slots 2 cores aqui 2 
+slots totalizando 6 slots de 
+processamento e 9 tarefas então de fato 
+o que vai acontecer aqui bem, nós temos 
+9 partições para serem processadas então 
+o que vai acontecer aqui é que as 4 
+primeiras partições vão entrar então 
+executor 1 no slot 1 vai ter a tarefa 1 
+e no slot 2 vai ter a tarefa 2 só pode 
+executar 2 simultaneamente, porque cada 
+um em um core executa em um core só 
+executor 2, no slot 1 dele ele tem a 
+tarefa 3, no slot 2 dele tem a tarefa 2 
+ele tem a tarefa 4 e no executor 3, no 
+slot 1 dele ele tem a tarefa 5 e no slot 
+2 ele tem a tarefa 6 o que vai acontecer 
+com essas outras tarefas elas vão estar 
+esperando elas estão esperando aonde 
+gente? 
+aonde essas tarefas estão esperando? 
+no thread pool então elas estão ali 
+esperando para serem executadas beleza, 
+essa partição acabou aí vem uma outra 
+partição aqui que vai estar, outra 
+tarefa então tem a partição que vai 
+entrar ali e vai ser processada e ele 
+vai seguir nesse ciclo até você concluir 
+as suas atividades ficou alguma dúvida 
+aqui? 
+por favor é importante que a gente vá 
+para a demonstração agora quero ter 
+certeza que vocês entenderam perguntem 
+antes da gente ir para a demonstração 
+porque a demonstração acho que vai gerar 
+mais algumas outras perguntas também 
+ficou alguma dúvida? 
+o thread pool é compartilhado? 
+sim, ele está dentro do executor dentro 
+de um executor, cada executor tem um 
+thread pool o que acontece quando usa 
+somente algumas colunas dos arquivos das 
+tabelas? 
+você diminui a quantidade de megas que 
+são carregados para a partição a gente 
+vai ver isso também como que você faz 
+pruning? 
+e o quão importante é você fazer 
+pruning? 
+na verdade é uma das coisas que poucas 
+pessoas fazem pelo menos das dezenas de 
+aplicação de Spark que eu já revisei na 
+minha vida e que eu já trabalhei poucos 
+utilizam pruning, inclusive eu às vezes 
+não utilizo pruning, mas assim ter isso 
+em mente é muito importante isso diminui 
+a quantidade isso aumenta a quantidade 
+de informação que você consegue carregar 
+para dentro de uma partição, de dados 
+que você consegue colocar dentro de uma 
+partição que você está selecionando 
+somente as colunas então isso ajuda para 
+você ao longo prazo ele já aloca as 
+tarefas wait no executor, mas provável 
+de acabar primeiro? 
+não, ele vai esperar as atividades essa 
+pergunta é boa Paulo porque ela depende 
+também muito do que? 
+do scheduling mode se ele está usando o 
+fer ou se ele está utilizando o fifo se 
+ele está utilizando o fifo você vai ter 
+uma sequência de quando as tarefas foram 
+colocadas no thread pool vai ser a 
+sequência em que elas vão ser executadas 
+ou se você estiver no fer ele vai olhar 
+o que tem no pool vai alocar os recursos 
+e compartilhar e vai tentar executar 
+isso de forma mais distribuída e 
+harmoniosa mas lembra que uma tarefa 
+está processando uma partição por vez, 
+não acontece diferente disso as 789 vão 
+estar em todos os 
+executores ou são previamente alocados 
+em algum executor então as tarefas elas 
+já estão o plano de execução foi feito 
+as alocações já foram colocadas então 
+você já sabe quais atividades vão ser 
+executadas em quais executores então 
+elas estão esperando ali no pool no 
+thread pool do executor aquelas tarefas 
+esperando ali ela está em comunicação 
+com o task scheduler para executar essa 
+informação então você tem, ah beleza 
+terminou a thread pode entrar, enfim 
+assim por diante mas isso já está dentro 
+do realm do executor já o thread pool 
+tem limite de tasks? 
+não, não tem limite de tasks na 
+perspectiva de quantidade de tarefas que 
+você tem agora o que você tem é de novo, 
+a melhor prática é de 3 a 4 vezes se 
+você tiver muito mais do que isso você 
+vai ter uma latência alta de 
+processamento porque você vai ter muita 
+gente ali no thread pool mas não existe 
+um limite não faça a ingestão dos dados 
+no data lake com parquet se já 
+particionar em 128 será mais performante 
+com a ingestão da bronze? 
+opa, né indo para o cenário agora o que 
+você acha? 
+exatamente, ótimo ponto então se você 
+tivesse os arquivos no mundo perfeito 
+por 128 megas cada você possivelmente 
+vai ter um ambiente muito mais rápido 
+pensei que a partição teria o tamanho 
+mínimo que independe do arquivo então 
+não existia existiria partições de 120 
+ou 50 mas somente de 128 eu sei, normal 
+a gente pensar isso é completamente 
+normal você pensar assim, mas não é 
+verdade elas são divididas de forma de 
+como o dado é acessado e de como ele 
+distribui isso e aí o limite de corte 
+dele é o que? 
+é o max por isso que se chama max 
+partition bytes que é o máximo que 
+aquela partição pode ter aí ela quebra 
+se ela não tiver o mecanismo de 
+armazenar menos, o limite dela é o 128 
+ainda o thread pool nesse exemplo se as 
+tasks 789 ficarem guardando executor 1 e 
+ele demore mais que os dois executores e 
+3 não seria esperar ao invés de ficar 
+num então, não, por que? 
+porque o plano já foi feito e já foi 
+dado para as atividades por isso que nós 
+temos stragglers porque o Spark não 
+consegue saber em exatidão quanto tempo 
+vai demorar aquela tarefa mas ele faz um 
+balanceamento e fala cara, eu tenho 50 
+tarefas eu vou distribuir essas tarefas 
+para você essas para você, essas para 
+você ok, beleza, então as coisas estão 
+executando você já está no thread pool 
+você não vai ter que ter o gasto de novo 
+de criar esse plano de execução para 
+saber realmente, e aí o que vai 
+acontecer se você tem uma puta tarefa 
+grande um tarefão grandão e uma 
+tarefinha pequena, o que vai acontecer 
+ela é um straggler porque ela vai 
+impactar as outras por isso que a gente 
+tem alguns problemas de performance 
+relacionados a isso que ela vai de fato 
+impactar o processamento dos outros ou 
+seja, o seu executor 2 e 3 já terminou 
+de processar, mas o seu executor 1 está 
+se lascando, por que? 
+porque ele pegou tarefas que são 
+extremamente maiores do que no core ou 
+seja, no tempo que ele pode processar 
+comparadas as outras isso em straggler 
+isso se resume em ter 10 arquivos de 128 
+ou 1 de 1280 no caso 10 arquivos de 128 
+seria mais performático com certeza se a 
+tarefa trocar de executor deve ocorrer 
+shuffle? 
+não, não necessariamente o shuffle está 
+relacionado aos estágios entre estágios 
+o shuffle acontece entre a gente vai ver 
+uma figura que vai valer mil essas 
+figuras que valem mil palavras aqui a 
+gente vai ter uma para shuffle que vai 
+deixar claro onde o shuffle acontece 
+aonde é que o shuffle acontece? 
+o shuffle acontece no processamento 
+entre estágios e a gente vai ver porque 
+acontece aí vocês vão ver em detalhe 
+podem ficar 
+tranquilos Luan, dito isso porque o 
+optimizer do delta não necessariamente 
+gera arquivos de 128? 
+porque Jonathan, você leu dados e 
+escreveu e em nenhum momento você disse 
+como você quer escrever então na verdade 
+você vai escrever do jeito que o dado 
+está particionado lá e aconteceram 
+várias coisas na sua aplicação ao longo 
+do tempo que podem determinar que você 
+possa escrever em 128 ou não dependendo 
+da quantidade de particiões que você tem 
+de saída por isso que é importante o 
+controle das particiões tanto na entrada 
+quanto na saída porque você pode 
+distribuir esse dado correto ou não, a 
+gente vai ver um caso amanhã por 
+exemplo, que quando você dá um partition 
+by por exemplo, você gera cara, um 
+overhead brutal no sistema de storage e 
+eu vou mostrar para vocês porque e vocês 
+vão entender por exemplo o que acontece 
+o que você pode fazer é ter rotinas de 
+manutenção, de otimização que 
+constantemente olha ali a sua tabela 
+delta e tenta distribuir o dado de uma 
+forma melhor mas você pode tentar chegar 
+a um número mágico de 128 MB sim mas nem 
+sempre você consegue mas esses números 
+travados tendem a ser mais performáticos 
+não não necessariamente depende do caso 
+o número mágico 128 é porque ele 
+funciona muito bem com todas as 
+requisições do HDFS em relação ao 
+tamanho de espaçamento de um arquivo 
+parquet como o dado é colocado colunar 
+128 é o sweet spot é o número 
+que vai para 90 % das aplicações de 
+Spark possivelmente é um número mágico 
+que vai funcionar muito bem mas não vai 
+ser performático se você não mexer nele 
+mexer nele vai fazer com que sua 
+aplicação seja muito mais performática 
+dependendo do que você faça em caso de 
+small files e número de partição elevado 
+e com poucos MB o ThreadPool ficaria com 
+bastante latência que não valeria um 
+novo particionamento então, mas aí ele 
+não em caso de small files o número de 
+partições elevados beleza, então vamos 
+supor 10 mil arquivos 10 mil partições 
+com poucos MB o ThreadPool ficaria com 
+bastante latência sim, nesse caso o que 
+você deveria fazer é você ler esses 
+arquivos ou você faz o que eu vou 
+mostrar aqui e daí você diminui a 
+quantidade desse problema de small files 
+mas aí o que você vai ter que fazer no 
+meio da sua aplicação ou no início ou no 
+fim, por exemplo um repartition que é 
+você olhar a quantidade de cores que 
+você tem para executar especificar a 
+quantidade de partições que você tem 
+baseado no cálculo que eu vou mostrar 
+para você e determinar qual seria o 
+melhor número disso por isso que não é 
+eficiente você só carregar small files e 
+processar o dado vai ficar lento, demais 
+as vezes e se você fizer um tweak 
+pequenininho que vai pagar um pouco mais 
+mas ao longo do tempo você vai ter uma 
+execução muito mais homogênea e muito 
+melhor ou você fazer uma das técnicas 
+que eu vou trazer aqui que eu utilizo 
+que é para você já endereçar o problema 
+de cara no caso de arquivo com 600 MB a 
+distribuição não poderia ser em 5 
+arquivos com 128 MB distribuição sempre 
+por igual? 
+não porque? 
+porque você especifica os 128 MB então o 
+que ele vai fazer? 
+ele vai preencher os 128 MB para depois 
+literalmente preencher os outros 128 MB 
+então ele vai optar com que você 
+preencha os 128 MB e o final vai ficar 
+uma partição só do que ele ter em todas 
+essas partições um pedaço a menos do que 
+não o estipulado com o Max Partition 
+Size então o que o Spark vai preferir é 
+carregar tudo até 128 MB e o que sobrar 
+ele carrega em uma partição separada 
+você tem esse dado somente no lugar mas 
+um de 200 MB não deveria ter preenchido 
+com 128 MB e então 72 MB? 
+depende do algoritmo de como ele fez 
+porque depende de como esse arquivo é 
+armazenado com o metadado dele vou dar 
+um exemplo para você vamos supor que o 
+arquivo tem 200 MB certo? 
+e aí na hora da gravação desse arquivo 
+no parquet o layout de metadado dele 
+está falando o seguinte olha, você tem 
+uma partição de parquet 100 MB e você 
+tem uma outra partição de parquet 100 MB 
+então o que o Spark vai respeitar é 
+exatamente essa metaconfiguração do 
+parquet juntamente com o partition size 
+e a gente vai ver isso daqui a pouco ou 
+não se você por exemplo pegar um arquivo 
+que tem sei lá, 273 MB por exemplo e aí 
+o parquet na hora de escrever ele pode 
+escolher que a sua área de metadado vai 
+ser o seguinte olha, 128 MB está esse 
+pedaço e o restante desses caras estão 
+aqui o que o Spark vai fazer? 
+vai fazer exatamente isso, vai colocar 
+128 MB em um e depois vai distribuir o 
+restante para o outro então depende 
+muito de como o arquivo está colocado no 
+layout por isso que é uma ciência 
+entendeu? 
+não é exato não tem como você falar por 
+exemplo eu vou mostrar para vocês aqui 
+agora na prática eu tenho um arquivo de 
+300 e tantos MB ah, então ele vai salvar 
+em tantas partições Luan não, não vai a 
+gente vai ver que na verdade vai ser um 
+número diferente tá? 
+tudo certo? 
+beleza? 
+podemos seguir? 
+então a função do ThreadPool vai 
+controlar e guardar as próximas tarefas 
+se quiser é gerenciar as tarefas que 
+estão acontecendo dentro dos slots então 
+basicamente vê, acabou? 
+beleza acabou, então dá o sign -on ah, 
+vem outra, coloca, então ele faz toda a 
+organização disso alguma outra dúvida 
+antes da gente entrar 
+aqui? 
+vamos lá gente, me responde que eu quero 
+partir aqui para a demonstração disso 
+aqui que a gente está vendo de boa? 
+vamos lá então tá, então aqui ó a gente 
+tem uma aplicação relativamente simples 
+né? 
+olha só que legal isso então dessa minha 
+aplicação o que a 
+gente tem? 
+a gente está inicializando uma aplicação 
+aqui eu estou passando o nome dela aqui 
+eu estou passando a configuração de 3GB 
+de memória para o executor e aqui eu 
+estou passando o que? 
+max partition bytes por isso que a 
+configuração se chama max partition 
+bytes não é min partition bytes, é max é 
+o máximo que aquela partição tem ela é 
+inferida em megas, beleza? 
+então agora vamos tirar aqui um 
+pouquinho disso então eu tenho aqui 128 
+megas beleza? 
+então é o padrão esse é o padrão do spy, 
+128 megas então o que eu vou fazer? 
+eu vou carregar esse arquivo chamado 
+fhvh tripdata 222 .01 .q beleza? 
+eu vou carregar esse arquivo aqui e aqui 
+eu vou falar com a quantidade de 
+partições que eu tenho em cima dele e 
+posteriormente eu vou fazer um 
+repartition dessa informação, mas o que 
+eu quero fazer para vocês aqui é mostrar 
+o seguinte esse arquivo ele tem 374 .6 
+megas dito ao que eu expliquei para 
+vocês agora, o que vai acontecer? 
+então vamos lá, vamos fazer o cálculo de 
+padaria 374 .6 
+dividido 374 .6 dividido por 128, certo? 
+porque é o padrão de partição então, 
+teoricamente ele deveria armazenar isso 
+em 3 partições vamos executar o código? 
+eu já trouxe logo é o caso que buga a 
+mente logo, 
+entendeu? 
+beleza o que eu tenho de configuração no 
+meu spark? 
+então vamos ver a configuração eu tenho 
+3 executores cada executor tem 2 cores 
+eu tenho 3 gigas de ram, ou seja, eu 
+tenho 6 cores ou 6 slots certo? 
+que é a mesma coisa e eu tenho 9 gigas 
+de ram então, eu tenho 6 cores para 
+executar aqui, correto? 
+está certo? 
+6 cores para executar beleza? 
+então, a gente já consegue saber de cara 
+o que? 
+que cara não seria legal esse arquivo 
+ter, por exemplo, 3 partições porque? 
+porque eu tenho 6 slots e eu vou ter 
+processamento idle, ao invés eu quero 
+nesse caso, mais partições você já vê, 
+por exemplo, nesse caso aqui que 128 por 
+padrão já não é um bom número vocês 
+concordam? 
+gente, interagem comigo porque isso aqui 
+é muito importante vocês concordam? 
+que aqui já não é o número perfeito? 
+sim faz bastante sentido, faz, por quê? 
+porque eu tenho 6 cores ou 6 slots para 
+processar e teoricamente eu tenho 
+somente 3 eu poderia ainda processar 
+mais rápido esse cara se eu conseguisse 
+distribuir isso em outros slots, só que 
+eu quero mostrar para vocês uma parada 
+bugamente vamos pesquisar aqui o número 
+de partitions olha que legal, olha que 
+sexy 6 olha que legal o IL1, mas o que 
+que o 
+Spark fez 6? 
+ele não é burro, né? 
+você está falando com o arquivo parquet, 
+então o que que ele entendeu aqui, desse 
+número de partição? 
+ele pegou 364 e ele dividiu em 6 
+partições e aí você pergunta cara, mas 
+como que ele fez isso, se na verdade o 
+esperado era que ele fizesse isso com 3, 
+porque o número certo seria 3 dividido 
+por 128, eu estou setando aqui 128 como 
+padrão então olha só o que ele fala aqui 
+deixa eu mostrar para 
+vocês logo aqui a gente vai ter uma 
+operação que ele vai ler o metadado do 
+parquet ele vai entender quais são os 
+blocos que existem lá dentro do arquivo 
+parquet e ele vai optar em armazenar 
+isso de acordo com o metadado armazenado 
+no parquet, então olha ele fez um 
+binpack aqui de quantos megas, 
+considerado em quantos bytes e ele 
+estimou aqui 6 partições para esse cara 
+ele não fez isso pensando nas CPUs, 
+porque ele não sabe disso relativamente, 
+não vai usar isso agora em consideração, 
+porque ele está lendo os arquivos mas 
+ele fez isso aqui em 6, porque? 
+porque esse dado do jeito que ele está 
+colocado dentro do parquet ele está 
+colocado de uma forma que possibilite 
+que você leia em 6 blocos, porque você 
+tem os pedaços do metadado, ou seja você 
+não tem um bloco de 128 outro bloco de 
+128, outro bloco de 128 então o que ele 
+preferiu fazer foi quebrar esse cara em 
+6 por exemplo, ao invés do número ali 3 
+por isso que nem sempre vai ser uma 
+ciência exata, entendeu? 
+nem sempre vai ser o seguinte eu tenho 
+um arquivo de 128 megas e eu 
+tenho 128, dificilmente ele não vai 
+carregar em uma partição só carregar em 
+uma partição só, mas quando você tem 
+números quebrados, ele vai fazer um 
+cálculo e tentar distribuir esse dado às 
+vezes, ou dessa 
+forma ou dessa forma então o algoritmo 
+de distribuição dele vai falar o 
+seguinte, cara nesse caso aqui eu 
+prefiro quebrar em 2 de 100 ah não, 
+nesse caso aqui eu prefiro jogar 128, 
+128 e no final deixar 88, então depende 
+de como ele lê o metadado, depende de 
+como o dado está estruturado, depende do 
+tipo de arquivo que está feito e depende 
+da distribuição do metadado e das 
+estatísticas que ele tem isso é muito 
+importante também falar que a gente vai 
+ver sobre isso depende muito das 
+estatísticas que ele tem em cima dessa 
+informação que ele vai utilizar então é 
+uma ciência bem interessante o partition 
+estimator dele é bem sofisticado na 
+relação de tentar fazer isso aqui ou 
+deixar uma partição só ou dividir essa 
+partição em menores e criar mais, então 
+depende não é uma ciência exata, já vou 
+dizer para vocês por isso que cada 
+aplicação tem o seu próprio processo de 
+você dividir e de você trabalhar com ele 
+vamos lá, vou tirando as dúvidas por 
+conta se não mexesse na config de max 
+partition ele ainda dividiria em 6, boa 
+pergunta, eu deixei o padrão vou tirar 
+essa config aqui e eu vou executar aqui 
+de novo vamos ver quantas partições ele 
+vai escrever 6, porque é o padrão então 
+128, 6 
+beleza? 
+é por isso que a configuração é max 
+partition exatamente, se tiver slots 
+sobrando ele vai otimizar e ocupar os 
+slots ao invés de a gente ter partições 
+então o slot ele é justamente para 
+gerenciar as threads é isso que ele faz 
+mas nesse caso do seu, se chama max 
+partition byte porque é até 128 MB uma 
+partição, pode ser menos mas não pode 
+ser mais do que 128 e se você colocasse 
+o máximo como 32, exatamente que a gente 
+vai brincar com isso vamos nesse caso 
+que tem 6 tasks para os 6 slots seria 
+necessário reconfigurar para atender a 
+regrinha de 3 a 4 o número de CPU cores 
+muito bom Guilherme ou por ser 300 MB 
+não seria necessário ótimo ponto, a 
+gente vai brincar agora com isso ficaram 
+100 partições porque dividiu por 64 ao 
+invés de 128? 
+não, então a gente vai ver isso aqui 
+também, tá? 
+isso dá certo só com formato parquet? 
+isso dá certo com formatos de big data 
+então é ORC, parquet, Avro por isso que 
+aqui eu estou falando para vocês, não 
+usem JSON JSON não é arquivo para ser 
+processado com Spark se você quer matar 
+o seu processamento destruir o seu 
+Spark, você processa com JSON é só essa 
+a minha dica que eu tenho, porque o JSON 
+a gente vai ver amanhã ele não é 
+serializado, ele não é strong typed ele 
+não é otimizado ele não é armazenado de 
+forma colunar então ele não tem essas 
+otimizações o Spark não consegue fazer 
+mágica em relação a ler esse cara então 
+cara se você tem aplicações que leem 
+Spark JSON, evita o máximo que você 
+puder converta primeiro para parquet e 
+posteriormente processe isso de 
+preferência divida seus arquivos em 64 
+MB ou 128 MB a gente está vendo 
+aqui onde eu trabalho eu acabo deixando 
+a tabela com 200 partições o que poderia 
+ser isso uma grande dor de cabeça ao 
+longo da vida mas é o partition shuffle 
+size que você tem por padrão ou seja, 
+setar manualmente o número de partições 
+não é uma boa ideia visto que existe uma 
+inteligência por trás que depende não só 
+do max partition byte mas do metadata 
+então, na verdade sim e não a gente vai 
+ver qual o cenário que você tem que 
+setar que é importante você setar e 
+cenários que não vamos ver esses 
+cenários agora vamos entender aqui a 
+segunda parte do problema então a gente 
+viu que por padrão ele escolheu aqui 6 
+partitions by default ele dividiu isso 
+aqui em 6 partições beleza? 
+então no Spark Configuration no final 
+das contas a gente tem 6 slots e 9 GB de 
+memória só que como eu expliquei para 
+vocês o número desejado de partições é 3 
+a 4 vezes o número de CPUs então vamos 
+fazer esse cálculo então vamos lá, 
+mínimo eu tenho 6 cores então vou 
+multiplicar vezes 3 então vai dar 
+quanto? 
+18 partições beleza? 
+então eu estou pensando aqui em 3 vezes 
+um número perfeito um número recomendado 
+seria o que? 
+ter 18 partições para processar nesse 
+caso vamos pensar aqui no máximo vamos 
+colocar 4 vezes tem gente que utiliza 
+até 5 ou 6 depende muito do processador 
+quando a gente, de novo dá uma métrica 
+desse jeito de 3 ou 4 vezes isso está 
+escrito inclusive na documentação do 
+Spark está no livro do Spark quem 
+escreveu foi o Matei Zahari então é a 
+recomendação que a gente usa como rule 
+of thumb mas ela não é uma configuração 
+perfeita porque? 
+porque hoje você tem processadores 
+Skylane você tem várias outras coisas 
+hoje que aceleram isso então dependendo 
+do seu cenário dependendo da CPU que 
+você tem você pode aumentar esse número 
+mas 3 a 4 é um número perfeito então 
+você tem um split spot cara, eu não vou 
+ter nem pouca nem muita e eu vou 
+conseguir controlar então vamos pensar o 
+seguinte 18 partições ou 24 no total 
+executariam muito bem agora a gente vai 
+mais eu vou pegar o tamanho do arquivo e 
+eu vou dividir pela quantidade de 
+partições que eu gostaria ou seja eu 
+teria 15 .6 MB por partição ou seja cada 
+partição dessas 24 teria 15 .6 MB 
+porque? 
+eu peguei o tamanho do arquivo vamos lá 
+374 .6 MB e eu dividi megas e eu 
+dividi pela quantidade de partições que 
+eu quero ter então 24 partições que é 4 
+vezes a quantidade ou seja, isso no 
+final me deu o que? 
+24 partições de 15 .6 MB então para o 
+nosso cenário aqui seria o que? 
+24 partições o que a maioria das pessoas 
+faz? 
+vamos lá agora pirar faz isso aqui 
+certo? 
+então eu vou resolver aqui para ter um 
+número perfeito como que eu vou fazer? 
+eu vou ler esse arquivo esse arquivo ele 
+vai estar deixa eu botar para executar 
+aqui só para vocês verem a mágica adoro 
+essa 
+demo vamos executar ele aqui então o que 
+ele vai fazer? 
+ele vai ler esse cara vai carregar em 6 
+partições como a gente já viu e aqui eu 
+vou fazer o que basicamente a gente 
+faria não dá para fazer um coalesce 
+porque coalesce só diminui e inclusive é 
+uma narrow ele faz dentro do executor o 
+repartition é uma wide transformation e 
+eu estou falando o seguinte pegue esses 
+6 e aumenta em 24 porque aí sim eu tenho 
+meu número perfeito meu sweet spot e aí 
+eu falo número de partições depois do 
+reparticionamento vai aparecer 24 então 
+tinha 6 foi para 24 legal? 
+lindo né? 
+é o que geralmente a gente faz só que 
+esse cara vai demorar bastante fica 
+tranquilo Fred coalesce e repartition é 
+um tópico complexo que a gente vai 
+destrinchar tudo isso que eu estou 
+falando com vocês a gente vai 
+destrinchar tudo em detalhe mas 
+repartition o que ele faz? 
+eu tenho 6 partições grandes porque de 
+novo essas partições estão com o que? 
+se elas estão divididas por 6 dentro 
+delas vamos ver aqui se eu 
+pegar 374 .6 e dividir por 6 que foi o 
+que ele fez cada partição tem caralho 
+olha só o inteligencia 62 .4 eu tenho 
+medo desse inteligencia desse github do 
+complete dele é 62 megas porque tem 6 
+para dar 
+374 mas na verdade a gente já viu que 
+para esse cenário nosso de 9 cores de 9 
+gigas e 6 slots o número perfeito nosso 
+seria em torno de 15 megas então o que a 
+gente está fazendo o repartition vai 
+fazer o seguinte você quer 24 partições 
+beleza então ele vai pegar isso aqui e 
+vai aplicar 24 partições só que qual o 
+problema aqui bem eu quero ver a mente 
+explodindo agora eu 
+quero ver o primeiro eu quero ver o 
+primeiro foda do dia vocês não falaram 
+nem um foda ainda do dia olha só essa 
+aplicação demorou 1 .4 minutos ela saiu 
+de 3 segundos para 1 .4 minutos e aí 
+você clica na aplicação e 
+fala caraca porque que aconteceu esse 
+cara né porque você tem uma operação de 
+exchange porque eu pedi o que eu pedi 
+com que esses dados sejam quebrados em 
+partições de 24 eu tinha 6 partições e 
+eu pedi para serem feitas em 24 isso é 
+um embaralhamento a gente vai ver que é 
+um shuffle a gente vai entender esse 
+shuffle em detalhes fiquem tranquilos 
+agora olha só que lindo isso aqui beleza 
+então vamos ver aqui número de partições 
+6 que a gente já sabia né 6 aqui e 
+número de partições depois do 
+repartition 24 então daqui para frente 
+amigão dependendo das transformações que 
+você fizer e a ação que você vai ter 
+possivelmente o seu código vai executar 
+muito mais harmoniosamente você não vai 
+ter stragglers você não vai ter 
+problemas ao longo do seu 
+desenvolvimento beleza agora se você 
+parou para pensar e falou cara em vez de 
+eu fazer o partition repartition aqui ó 
+por que que a gente não chega aqui na 
+maldade e faz o seguinte adoro essa 
+parte bem se o total file size é 374 e o 
+número desejado de partições é 24 e eu 
+tenho 15 .6 como número perfeito sweet 
+spot porque que eu não venho e meto 17 
+megas aqui no tamanho do max partition 
+size porque aí eu vou forçar o que que o 
+dado seja carregado no número 
+perfeito ou seja vamos ver quanto tempo 
+vai demorar obrigado pelo foda se você 
+entendeu obrigado obrigado muito legal 
+isso aqui isso vai para a vida de vocês 
+cara eu vou explicar agora quando e 
+quando não vamos ver quanto tempo vai 
+demorar foi um pouco mais rápido não foi 
+gente a gente saiu de uma de um cara que 
+demorou 1 .4 minutos para 3 segundos e a 
+gente acabou com quantas partições vamos 
+ver vamos ver com quantas partições nós 
+acabamos 22 quase perto do que a gente 
+queria legal né isso quer dizer o que e 
+aí tá isso beleza Luan legal quer dizer 
+o que quer dizer que é foda porque eu 
+acho que você entendeu que você não 
+precisa meter um repartition muito 
+sempre vocês já tinham pensado nisso me 
+fala aí vamos lá gente compartilhem 
+comigo foram meses criando isso para 
+poder chegar nesse momento aqui 
+tá mas é uma casca de banana deixar 
+acertado assim e depender do padrão de 
+tamanho dos dados a serem lidos 
+futuramente ótima pergunta vou mostrar 
+agora quando sim e quando não se eu 
+meter o repartition 22 vai executar em 3 
+segundos não se eu chegar aqui e falar 
+cara 22 né fazendo o que carregando por 
+padrão claro que isso aqui vai ter que 
+ser o padrão porque se não for o padrão 
+não tem porque eu fazer um repartition 
+porque o dado já foi reparticionado se 
+eu botar o 128 megas aqui que é o padrão 
+da partição e executar esse cara aqui 
+ele vai demorar minutos para executar 
+porque eu tenho que fazer o que eu tenho 
+que carregar esse dado e depois eu tenho 
+que fazer o que um repartition em cima 
+dele então vai ser custoso você evita o 
+shuffle para forçar tamanho na hora da 
+serialização uma pergunta que não quer 
+calar porque o tempo é tão diferente 
+então Jonathan é porque você ainda não 
+viu internos do shuffle o shuffle é a 
+operação mais cara não é cara, é a mais 
+cara do Spark então quando você faz um 
+repartition repartition é igual a 
+shuffle até as horas então ele vai ter 
+que desembaralhar o dado inteiro para 
+conseguir quebrar esse dado em 22 
+partições por isso que é muito caro ele 
+vai ter trânsito de networking ele vai 
+ter saturação de tarefa ele vai ter que 
+transitar esses sortes ele vai ter que 
+criar uma tabela de memória para 
+comparar, ou seja é muito caro essa 
+operação olha lá, ele está fazendo ainda 
+então é uma operação muito cara que a 
+gente já vê muito em detalhe ao longo do 
+treinamento dúvida se eu fizer isso, mas 
+na escrita quiser deixar próximo de 128 
+consigo resetar o máximo de partition? 
+consegue Luciano lá no final você fala 
+cara, eu quero gravar em 128 eu quero 
+gravar em tantas partições ele vai fazer 
+esse cálculo para você escrever lá em 
+baixo vai demorar um pouco de novo 
+talvez o seu processo de execução demore 
+um pouco mais só que todos os upstream 
+os downstream consumers ou seja, as 
+pessoas que consomem esse seu dado eles 
+vão ser happy campers vão ser pessoas 
+felizes, porque? 
+porque eles vão consumir o dado da 
+melhor forma possível ou seja se você 
+tem a incumbência de pegar dados JSON, 
+pegar dados da ingestão e convertê -los 
+para bronze essa é a melhor prática você 
+paga um pouquinho mais e aí vai tá? 
+e repartition sempre envolve shuffle 
+sempre não existe um repartition sem 
+shuffle o repartition é um shuffle 
+porque ele é uma wide transformation 
+então você nunca vai fugir de um de um 
+shuffle com repartition só que você pode 
+utilizar o coalesce em alguns casos a 
+gente vai ver esse rack vale para 
+leituras em delta? 
+para qualquer leitura de dado porque 
+aqui é uma forma de como eu estou 
+carregando o dado para dentro do Spark 
+beleza? 
+agora as perguntas gente estou com um 
+problema que é o contrário tem alguns 
+jobs que estão escrevendo milhares de 
+arquivos pequenos como faço para 
+resolver? 
+boa vou explicar para você ao longo do 
+treinamento mas o que você vai fazer? 
+escreveu? 
+escreveu? 
+bagaço aconteceu no final do dia você 
+vai o que? 
+compactar e otimizar esses caras cara, 
+pega essas trilhas esses 10 mil arquivos 
+small files aqui e divide eles em 
+partições de 64 megas ou 128 então vai 
+ser uma operação que você vai fazer no 
+final do dia ali ou de tempos em tempos 
+beleza? 
+tá, então como eu falei Eduardo sempre, 
+não existe repartition sem shampoo para 
+resolver o problema anterior de diversos 
+arquivos essa configuração vale? 
+então vamos lá agora eu vou explicar 
+para vocês de novo lembra que a gente 
+está trabalhando o que gente? 
+o treinamento é mastering então aqui 
+velho, vocês vão sair fodas mais do que 
+vocês já são vocês trabalham com Spark, 
+já desenvolvem aqui vocês vão sair cara, 
+fino no negócio e para cada otimização 
+que eu vou mostrar, vai ter um lado 
+positivo e um lado negativo então eu 
+trouxe aqui uma cola para vocês de 
+quando vocês usam o repartition e de 
+quando vocês usam o max partition bytes 
+tem caso para os dois então vamos ver 
+aqui, eu deixei anotado para vocês você 
+vai usar o max partition bytes você vai 
+brincar com o max partition bytes ou 
+seja, alterar a forma com que o Spark 
+carrega as partições quando você souber 
+o tamanho do seu dataset beleza? 
+ou seja é suitable para todos os 
+datasets processados com o mesmo tamanho 
+quer ver que eu dei um exemplo para você 
+para explodir a mente de vocês? 
+aonde você pode usar isso aqui? 
+você pode usar na camada silver eu faço 
+isso porque que você pode utilizar na 
+camada silver? 
+porque se o seu amigão da camada bronze, 
+escreveu os arquivos em 128 megas ou 64 
+megas, ou 32 megas porque depende, nem 
+sempre 128 vai ser o ideal do seu 
+ambiente por exemplo, eu tenho arquivos 
+de parquet, que são arquivos de IOT 
+escritos, por exemplo e aí no meu número 
+aqui da frequência de arquivos que eu 
+tenho atualização eu tenho arquivos de 
+25 megas parquet ou seja, eu sei que a 
+minha bronze cospe dados em 25 megas que 
+é um número geral de quantidade de 
+tempo, SLA e assim por diante, ou seja 
+eu posso brincar com o max partition 
+bytes aqui nesse caso, porque eu sei que 
+todo mundo que vem da bronze vem com 25 
+megas, então eu tenho um número seguro 
+para trabalhar, ou eu quero fazer 
+backfilling de dados, que que é isso 
+Luan? 
+beleza, vou dar um exemplo para vocês 
+outro muito importante que eu faço aqui 
+e que é constante, galera tem que 
+reprocessar 2022 beleza? 
+é fixo 2022 tem, sei lá, 5 teras aí você 
+vai brincar de cálculo ah, vai falar, 
+caraca, então 5 teras é legal fazer isso 
+5 teras, quantidade de slots quantidade 
+de memória dividida, não sei o que 
+precisa de mil partições, beleza, então 
+mil partições que vai ser, e aí você vai 
+o que? 
+brincar com o max partition bytes, 
+porque você já sabe qual é o final, os 
+dados já tem um tempo é, já tem um size 
+que você quer valeu pelos fodas galera, 
+porque isso aqui é muito legal, de novo, 
+entendeu isso aqui vocês vão ficar fodas 
+em Spark porque agora que você dominou 
+partition tudo que eu vou explicar daqui 
+pra frente vai ser tipo, ah tá, não boto 
+fé faz isso, faz isso, vai ser vai ter 
+uma lógica pra você, porque você 
+entendeu partition de verdade, porque se 
+você não entender isso aqui, quando eu 
+chegar lá no meio do treinamento tem 
+coisa que não vai fazer sentido mas você 
+sabendo disso aqui vai fazer sentido pra 
+você, então, de novo quando que eu uso 
+esse parâmetro? 
+eu uso pra certos casos de uso entendeu? 
+outros eu uso pra outros casos de uso, 
+então cada brincadeira aqui a gente vai 
+ganhar de um lado e vai perder de outro, 
+e cada caso vai ser perfeito pra uma 
+solução específica, vou dar um exemplo 
+pra vocês meu, caso real, tá eu tinha um 
+uma tarefa a fazer que era processar, 
+acho que era 2 
+.7 teras de um cliente, graças a Deus 
+esses arquivos estavam em parquet só que 
+boa, boa Felipe, valeu tô me sentindo a 
+prender na forma de Bhaskara boa, boa, 
+boa então o que que eu fiz? 
+acho que tinha 2 .4 gigas, carga inicial 
+também boa Victor, teras ali eu falei, 
+cara, esse número é fixo e aí eu fui 
+entrar dentro do Data Lake e ver e aí eu 
+vi que em média os arquivos tinham 50 
+megas em média, tá nem sempre era 50, 
+mas em média era 50, 50 era um número 
+que geralmente interpolava a maioria 
+deles e aí eu falei, cara se eu deixar 
+partition size com 128 eu não vou ter a 
+quantidade de partições perfeitas para 
+poder gerar essa carga então o que que 
+eu já fiz? 
+eu já vim cara, e setei o max partition 
+bytes para 50, e o legal é que eu fiz 
+uma demonstração para o cliente 
+mostrando o max partition bytes com 128 
+e depois eu fiz uma demonstração 
+mostrando que o max partition bytes para 
+50 megas, ou seja, eu mudei no parâmetro 
+eu ganhei 45 minutos a mais por fazer 
+essa mudança o job executava em 2 horas 
+e alguma coisa e quando eu mexi o 
+partition bytes ele desceu para, eu 
+ganhei 40 minutos a mais então é muito 
+tempo, cara, a diferença é muito 
+gritante principalmente para grandes 
+cargas então aqui no mastering você está 
+aprendendo a processar mega, giga e tera 
+quando você está indo para a família de 
+vários gigas 400 gigas, 700 gigas o 
+negócio já fica mais sensível um erro 
+aqui de partição, você tem straggler 
+você tem repartition, você tem out of 
+memory, você tem um bocado de problema 
+que a gente vai ver ao longo do 
+treinamento então é importante que você 
+entenda como otimizar esse cara aqui, 
+beleza? 
+deixei aqui outros para vocês brincarem 
+também, ah, Luan, tudo bem mas nem 
+sempre vai ser o caso tá, por exemplo o 
+que o Lucas falou ali, para fazer 
+backfill é o, é o, é o é mara, 
+exatamente Lucas, boa ah, tem que 
+reprocessar os dados não sei o que, 
+beleza, qual o meu padrão ali de 
+arquivos é tanto, legal seta, o max 
+partition bytes, se for diferente de 128 
+você vai ter uma performance muito mais 
+homogênea, tá beleza, sempre isso aqui é 
+regra para todos os casos? 
+claro que não, quando você vai usar o 
+repartition, você vai pagar um pouco 
+mais de processamento né, porque aí não 
+tem como, o repartition é uma operação 
+cara, só que aí o que você vai fazer? 
+quando você não tem controle do número 
+de partições no seu dataset, ou seja 
+tamanho ou seja você não sabe o que 
+esperar desse cara, mas você sabe por 
+exemplo, que baseado na quantidade de 
+slots que você tem de processamento, 
+você sabe que o número perfeito de 
+partições para serem processadas totais 
+é 24 então aí você pode brincar com 
+repartition porque, você vai ler esse 
+dado e você vai falar, cara o meu sweet 
+spot aqui é 22, por exemplo ou 24, né 24 
+e daí eu tenho esse dado sendo 
+reparticionado, lido e reparticionado e 
+aí é muito importante aplicar outras 
+regras aqui antes de fazer isso, eu vou 
+mostrar para vocês ao longo do 
+treinamento, beleza então antes de sair 
+verificando modificando o código do 
+Spark em si, melhor ainda entender a 
+distribuição no HDFS porque de cara dá 
+para fazer otimização assim, nem precisa 
+saber o quão código foi implementado, 
+nossa muito bom muito boa vista Eduardo 
+sim, hoje eu escrevi um negócio no 
+Linkedin, teve alguém que falou cara, eu 
+olho o código para verificar tal, é uma 
+forma de fazer mas eu geralmente não 
+faço isso, eu não olho o código de 
+aplicação Spark que não é minha, a 
+primeira coisa que eu faço, eu vou no 
+torne de execução eu vou nos arquivos, 
+eu vou entender ali eu abro a aplicação, 
+dou uma olhada mais ou menos, mas eu não 
+fico ali debugando a aplicação, porque 
+você consegue identificar exatamente 
+isso aí, partition size, se você tem 
+stragglers se tem muito shuffle se tem 
+muito skill e assim por diante então no 
+final dos cinco dias de treinamento você 
+vai saber olhar para uma aplicação que 
+aconteceu e falar quais são os problemas 
+dela e ir ali direto no ponto cirúrgico 
+e alterar, entendeu? 
+é isso que o treinamento vai te trazer 
+beleza? 
+então o seu ponto aí é completamente 
+relevante, beleza? 
+então desmistificamos um pouco desse 
+cara não foi? 
+fala aí para mim se deu uma 
+desmistificada, porque eu falo tem muita 
+gente que fala que entende de fato 
+partição, mas partição é mais, na minha 
+opinião é mais complexo do que parece 
+olhando de longe e falar beleza, é 
+simples, 128 MB carregou aqui mas na 
+verdade não é muito assim, tá? 
+eu fiz um total file size de 5 anos de 
+dados por dia, o valor médio ficou em 50 
+MB mas com uma variação considerável 
+entre os arquivos, qual técnica seria 
+melhor? 
+Fred olha o max olha o max, ou seja vê 
+qual é o maior arquivo e aí se você tem 
+uma variação muito sabe, que acontece 
+bastante seca um pouco mais, tipo vou 
+dar um exemplo aqui, 770 MB por exemplo 
+que é uma safety zone é melhor você ter 
+um pouquinho mais que o max partition 
+bytes, ele pode armazenar menos mas ele 
+não pode armazenar mais do que 50 MB, 
+então é importante que você faça esse 
+cálculo esse cálculo beleza? 
+beleza, show já tenho um caso aqui para 
+experimentar antes estava usando o max 
+para fazer partition, caraca Lucas, se 
+você conseguir fazer essa modificação 
+velho, e trazer aqui puta velho, vai ser 
+lindo porque de fato, se você tem um 
+repartition e você conseguir tirar o 
+repartition para colocar um fazer um 
+shovel colocar o valor padrão de max 
+partition bytesize para qualquer número 
+ali cara seria até engraçado ver o tempo 
+de execução dessa aplicação, aqui a 
+gente saiu de 1 minuto para 3 segundos 
+tipo de 1 minuto para 3 olha só, absurdo 
+é absurdo isso aqui se você parar para 
+ver quantos porcento que você ganhou eu 
+nem sei calcular quantos porcento a 
+gente ganhou 
+beleza? 
+acabou? 
+não, não acabou não, respirem aí que tem 
+mais coisa, tem muito mais coisa então 
+vamos lá agora vamos aumentar o escopo 
+do que a gente está vendo beleza? 
+então aumentar o escopo do que a gente 
+está vendo é agora ver, não fica triste 
+não Paulo, a gente vai desenbrulhando 
+aqui o presente de pouco em pouco, então 
+lembra que eu falei para vocês que o 
+driver ele, o DAG scheduler passa para o 
+task scheduler que gera literalmente as 
+atividades que precisam ser executadas 
+pelo allocation pelo cluster manager o 
+que que o Spark vai fazer? 
+ele vai criar uma DAG de tarefas para 
+serem executadas, e como que o Spark 
+divide isso? 
+ele utiliza o conceito de 3 níveis, job 
+stage e task então o que que ele faz? 
+ele cria vários jobs baseados olha que 
+legal os jobs, gente, são quebrados a 
+partir das ações que vocês fazem o que 
+que é uma ação, Luan? 
+uma ação são comandos por exemplo, como 
+take, show collect save, write que é o 
+write, por exemplo count, essas são 
+ações no Spark e transformações 
+transformações elas são lazy evaluated 
+elas não acontecem nada, então você dá 
+um Spark read, ele executou em um 
+segundo ele processou o dado? 
+não, mas ele guardou essa informação 
+depois você fez um select dos campos aí 
+ele guardou isso aqui aí você fez um 
+filtro, ele guardou isso ou seja, ele 
+juntou tudo isso num lazy evaluation num 
+boundary de lazy evaluation que a gente 
+vai ver aqui em detalhes quando ele vai 
+fazer e depois lá na frente, você falou 
+ah, dá um count nesse arquivo aí ele 
+falou, opa, o count é o que? 
+uma ação então eu tenho que executar 
+todos o que? 
+todas as operações anteriores a essa 
+ação que são relacionadas a esse 
+dataframe aqui, aí ele vai lá, pega o 
+read, o filter e o select e executa tudo 
+isso, aí ele cria o que? 
+ele cria os jobs, vamos supor que aqui 
+no job ele criou o read depois você tem 
+um outro job que é filter e depois você 
+tem um outro job que é select beleza? 
+dentro dos jobs, ele gera estágios por 
+quê? 
+porque existem certas execuções que tem 
+que ser processadas ou seriais, ou 
+distribuídas mas tem algumas tarefas que 
+dependem das outras, por exemplo pra 
+essa tarefa ser executada de escrever eu 
+tenho que ordenar o dado primeiro então 
+ele não consegue escrever sem ordenar o 
+dado primeiro, a gente vai ver isso em 
+detalhe então aqui eu tenho uma tarefa 
+que vai ordenar, que está no estágio 2A, 
+por exemplo mas a tarefa de escrever 
+está no estágio 2B, então ele divide 
+isso em estágios, por quê? 
+aí daqui a pouco a gente vai entender o 
+quê como que ele determina os limites de 
+staging olha o shuffle o shuffle que faz 
+na verdade a característica de divisão 
+dos estágios então o boundary de divisão 
+entre os estágios é o shuffle logo, 
+aonde o shuffle acontece, Luan? 
+olha só o que o shuffle é, seu safado 
+entre estágios o shuffle acontece entre 
+estágios, então você precisa 
+transicionar de um estágio para um outro 
+estágio, a gente vai entender em 
+detalhes isso aqui, porque acontece mas 
+esse é o shuffle o safado do shuffle 
+acontece aqui, ou seja ele está em todo 
+lugar, porque por incepção primária job, 
+stage, task, vai ter transição de 
+estágios você vai ter several stages 
+acontecendo, e essas tarefas são 
+executadas aonde? 
+dentro do executor dentro do slot, o 
+core então se eu tenho dois cores aqui 
+eu tenho dois slots, eu tenho duas 
+tarefas que podem ser executadas de 
+forma paralela, só que cada tarefa dela 
+olha somente uma partição a gente já 
+sabe disso, tá? 
+então nessa primeira fase eu submeti o 
+job nessa segunda fase eu criei os 
+estágios dividi as tarefas entre os 
+estágios e agendei elas para serem 
+executadas aonde? 
+no executor, então nesse processo é a 
+comunicação do driver com a execução 
+depois que é gerado todos os estágios e 
+as tarefas, esses caras são executados 
+aqui dentro, beleza? 
+vamos ver como isso funciona? 
+então vamos pegar um plano de execução 
+aqui realmente de 14 minutos então vamos 
+pegar aqui um plano de execução de 28 
+minutos e vamos brincar com esse cara 
+aqui, então vamos aqui em executors e 
+vamos ver o seguinte ó, eu não sei se 
+vocês já, agora vocês vão começar a 
+entender muita coisa desses caras aqui, 
+tá? 
+muita coisa dos planos de execução vocês 
+vão ficar foda aqui, vai por mim olha só 
+o que que a gente tem de total? 
+6 cores e se a gente olhar realmente é 
+verdade, porque eu tenho 3 workers cada 
+worker tem 2 cores então eu tenho 6 
+cores quantas atividades eu tive pra 
+essa atividade pra esse plano executado 
+como um todo 969 qual foi o tempo de 
+serialização e desserialização, tá? 
+e de coleção e de coleta de memória que 
+é o garbage collector, a gente vai ver, 
+tudo isso aqui a gente vai ver em 
+detalhes, fica tranquilo, tá? 
+1 minuto e meio qual foi o input de 
+dados? 
+nós fizemos um input de dados de 37 
+gigas, mas a gente embaralhou 49 de 
+leitura e 49 de escrita, vocês vão 
+entender em detalhes o que que é um 
+Shuffle Medium Shuffle Writes tá, mas 
+basicamente é memória pra disco disco 
+novamente pra memória, ou seja você 
+trabalhou com 37 gigas, mas na verdade 
+você embaralhou 100 você mexeu em 100 
+então cara, bem pesado isso aqui, tá? 
+beleza, vamos voltar aqui pra esse job e 
+a gente consegue ver, jobs stages e 
+tests, então o que que o job é? 
+quantos jobs foram gerados aqui? 
+ele fala foram gerados 28 jobs pra essa 
+execução, então vocês nem sabem qual a 
+aplicação que rodou beleza? 
+vocês não sabem a aplicação que rodou 
+mas vocês vão aprender a olhar isso aqui 
+e saber onde tem alguns problemas 
+aparentes aqui, tá? 
+primeira coisa, event timeline cliquei 
+cara, eu já consigo saber o seguinte o 
+event timeline é perfeito, eu adoro usar 
+esse cara porque ele fala, olha irmão 
+aqui pelo timeline de tempo essa tarefa 
+aqui foi a que mais causou tempo que é a 
+tarefa 9, job 9 então vamos ordenar 
+aqui, por duração 
+e aí a gente tem aqui de fato, o job 9 o 
+job 9 foi o cara que demorou 3 .5 
+minutos ele executou todos os stages e 
+executou o total de que? 
+de 200 tarefas 43 foram skipped, foram 
+desconsideradas eu vou falar pra vocês 
+ao longo do treinamento como que ele faz 
+isso, então se eu clicar aqui na 
+descrição eu consigo ver o que? 
+o job e eu consigo ver os stages que 
+foram feitos então aqui ó, o stage 10 
+foi desconsiderado porque em vez dele 
+fazer isso aqui ele optou talvez, 
+dependendo do que aconteceu nos stages 
+anteriores ele falou, cara não faz isso 
+aqui, não precisa ser feito na verdade 
+você pode pular esse passo e eu posso 
+simplesmente fazer essa operação aqui, 
+que é ordenar gerar um código byte code 
+pra processar os meus, as minhas 
+transformações e escrever esses arquivos 
+no disco tá, então eu tive aqui o que? 
+um output de 5 .7 gigas, mas na verdade 
+eu embaralhei 22 gigas, ou seja, eu tive 
+que ordenar esse dado que me custou 22 
+gigas e eu escrevi somente 5 .7 desses 
+22 aqui que estavam em memória né, que 
+estavam em disco nesse caso se eu clicar 
+aqui dentro, eu consigo entrar no 
+estágio, então job e stage, então dentro 
+do estágio eu tenho as tarefas que foram 
+executadas, tá vendo então o que eu 
+consigo ver aqui eu consigo ver, por 
+exemplo, que nessa tarefa 11, eu tive um 
+total de 20 minutos de execução uai 
+Luan, mas demorou 14 minutos na verdade 
+aqui essa total execução, é a total 
+execução entre os nós, por exemplo o 
+executor demorou 7 o outro demorou 5 e 
+tal, ele junta tudo isso pra te dar o 
+tempo total sobre todas as tarefas né, 
+aqui a quantidade de gigas gravados e a 
+quantidade de leitura que a gente teve e 
+aqui você tem uma outra, dentro de stage 
+você tem uma outra aba muito legal aqui, 
+que te mostra algumas informações que a 
+gente vai explorar bastante ao longo do 
+treinamento por exemplo, serialização 
+shuffle e assim por diante, a gente vai 
+conseguir ver aqui, vejam que as 
+atividades que estão sendo executadas 
+basicamente, elas foram somente 
+computação, tempo de computação então 
+aqui você consegue fazer tá, é, nível de 
+computação geral, valeu Lucas, obrigado 
+mastering né irmão se eu não fizer isso, 
+até algo não chega na minha cabeça é, 
+aqui a gente tem as durações dos 
+registros, quanto tempo demorou, a gente 
+vai ver isso em detalhe também e a 
+quantidade de tarefas, olha só que legal 
+não tá feio aqui não, tá olha só gente, 
+vocês vão conseguir entender essas 
+paradas fodinhas, acho muito legal, 
+porque, você vai vir aqui e falar, cara 
+eu tive alguma tipo, o meu balanceamento 
+de tarefas em geral foi ruim, você vai 
+vir aqui e vai falar, cara, não porque, 
+ele executou 68 tarefas aqui, executou 
+68 tarefas aqui e executou 64 tarefas 
+aqui, tá bom tá bem distribuído, vai ter 
+casos que você vai ver, tipo assim 68, 
+94 32, aí você vai falar, opa, calma aí, 
+esse cara aqui tem um straggler, você já 
+consegue de fato, vocês nem olharam a 
+aplicação vocês já estão conseguindo 
+entender como que você vai debugar aqui 
+tá então, a gente vai entrar em mais 
+detalhes ao longo dos dias, mas o que eu 
+quero que vocês entendam job, stage e 
+task então eu tenho os jobs que geram 
+estágios então olha só, quando eu venho 
+no estágio, por exemplo é, 37 ele tá 
+vendo aqui que você tem associação de um 
+job, tá vendo então ó, esse estágio 37 
+está associado ao job 27, que é esse job 
+aqui que porventura pode estar vinculado 
+a uma execução de query, que é um plano 
+de execução aqui, tá e o que esse plano 
+de execução fez toda vez que você vê 
+isso aqui, dói todas as vezes, tá 
+obrigado pelos fodas aí galera todas as 
+vezes que vocês verem exchange ou sorte, 
+dói sempre, então o que que a gente 
+tenta fazer, a gente tenta evitar isso o 
+máximo possível, tem como ter uma 
+aplicação escrita complexa de pipeline 
+de engenharia de dados sem nenhum 
+exchange não, não vai ter, tá mas tem 
+como eu reduzir tem, vamos reduzir 
+beleza, bem alguma dúvida pra gente 
+começar a parte a parte 2 do treinamento 
+de hoje parte 2 do treinamento de hoje 
+prefiro responder tudo pra vocês do 
+que deixar acumular então fiquem comigo 
+aí beleza então vamos ver um caso aqui 
+de que eu prometi pra vocês de 
+allocation units, aí eu vou dar 5 
+minutos de break pra gente ir pra 
+segunda parte, a segunda parte é um 
+pouco mais rapidinho a gente precisa de 
+40 minutos mais ou menos, a gente 
+termina umas 11 horas, tá vou prometer 
+conseguir terminar 11 horas pra vocês 
+vamos lá, vamos rapidinho aqui então 
+allocation units tá Luan, e como que a 
+gente brinca com isso, né, como que a 
+gente faz a arte de conseguir ter um 
+número perfeito de execução pra um job 
+específico, gente, vocês vão fazer isso 
+no dia a dia, não eu não faço isso no 
+dia a dia é bonito, mas eu não faço isso 
+no dia a dia não, tá, no dia a dia eu tô 
+preocupado em atender problemas do 
+negócio então eu não vou ficar toda vez, 
+ah tem um job, pô beleza, agora deixa eu 
+calcular o número perfeito de 
+participantes deixa eu calcular o número 
+perfeito de cores, qual o melhor cluster 
+enfim, não, mas por exemplo, quando você 
+tá num ambiente de alta criticidade 
+quando você tá num ambiente em que você 
+tem que ter um SLA muito reduzido quando 
+você tem uma atividade específica que 
+você sabe que é um processamento 
+crítico, aí você tem que fazer isso 
+aqui, aí você fala não, calma aí, isso 
+aqui é crítico, velho, então esse job 
+aqui é crítico então eu vou olhar o 
+crítico, então de novo usa o padrão 70 
+-30 cara em priori escreve suas 
+aplicações usando as melhores práticas 
+que você vai aprender nesse treinamento, 
+como escrever aplicações com as melhores 
+práticas e beleza, 70 % vai tá ok, só 
+que vai ter os 30 % ali que você vai ter 
+que sentar e falar não, calma aí, esse 
+cara aqui eu preciso literalmente 
+navegar distribuir, alocar e realmente 
+entender, tá, então vou pegar um caso 
+real aqui pra vocês que eu trouxe pra 
+gente olhar a location unit se alguém 
+perguntou, quem perguntou fala aí, acho 
+que eu vou explicar com bastante detalhe 
+pra vocês aqui, tá então o primeiro 
+ponto aqui da nossa explicação você tem 
+um arquivo de 900, você tem um arquivo 
+não você tem um tamanho total de 970 
+megas de processamento pra fazer ou 
+seja, vamos supor que lá no folder da 
+tabela users você tem 970 megas, beleza 
+total o default partition é 128 então se 
+eu pegar aqui de cara e dividir 970 
+megas por 128 a gente vai ter o que, 8 
+partições vão ser 8 partições a partir 
+disso a gente vai determinar a alocação 
+dos meus recursos, como eu tenho duas 
+formas, eu tenho horizonte e vertical ou 
+seja, eu quero aumentar CPU e memória 
+vertical ou eu quero aumentar a 
+quantidade de executores então vamos ver 
+quando que cada um aqui é bom, então 
+vamos lá aumentar horizontal ou seja, 
+aumentar a quantidade de máquinas 
+tá, boa Guilherme então depois no final 
+você me fala se ficou claro, crystal 
+clear se ficou cristal então se eu quero 
+aumentar horizonte não cara, eu vou 
+aumentar mais 3 executores aqui, beleza, 
+vou aumentar mais 3 executores aqui, 
+legal o que que você vai ter, você vai 
+ter aparentemente de cara melhor 
+paralelismo, com certeza, porque você 
+vai ter mais tasks e mais slots com 
+partições, então você vai ter mais 
+paralelismo, o que é bom e você vai ter 
+uma distribuição do dado teoricamente 
+melhor porque o dado vai estar 
+distribuindo em mais partições, em mais 
+servidores que você vai processar então 
+geralmente quando a gente tem uma 
+capacidade que a gente pode trabalhar a 
+gente opta em fazer esse escalonamento 
+horizontal, quando que a gente utiliza o 
+escalonamento vertical quando você tem 
+que trabalhar com tarefas que nesse caso 
+você tem alocação reduzida, o que que 
+seria isso vamos supor que você tem uma 
+atividade que precisa ser executada, 
+você está limitado a quantidade de cores 
+mas qual é a vantagem de você ter menos 
+executores, normalmente alocações de 
+tarefas extremamente caras vão ser menos 
+afetadas porque você tem menos transição 
+de network você tem menos saturação 
+então dependendo das operações que você 
+faça, vai ser mais interessante ter um 
+escalonamento vertical e adicionar mais 
+recursos do que isso só que você reduz a 
+quantidade de paralelismo, então se você 
+tem um ambiente que processa muitos 
+arquivos e que processa isso 
+distribuidamente e assim por diante, 
+talvez horizontal seja um pouco mais 
+interessante se você tem trabalhos ou 
+seja jobs que precisam ser trabalhados 
+aumentando a máquina e com um 
+paralelismo que te atenda, ou seja 
+menor, aí você vai optar pelo vertical, 
+mas geralmente o que a gente faz é 
+horizontal, mas não é uma regra, de 
+novo, não é uma regra então vamos pegar 
+aqui número de executores e de 
+paralelismo tem que ser 3 a 4 vezes as 
+partições, isso é um outro ponto, então 
+lembra lá que eu vou pegar esse número e 
+multiplicar por 3 e 4 e vou saber a 
+quantidade de execuções que eu tenho ali 
+perfeito sem eu e aqui é uma dica muito 
+legal handle tests without spilling data 
+to disk to disk, então at least 2 or 4 
+gigs of memory então cara, no mínimo 
+você vai usar 2 a 4 gigas de memória 
+para evitar que você tenha spilling isso 
+é uma regra beleza, então estou 
+construindo um job, cara no mínimo 2 
+gigas de RAM, porque se você tiver menos 
+do que isso, a gente vai entender na 
+hora que a gente for entender 
+espaçamento de memória dentro do Spark, 
+a gente vai navegar ali dentro para 
+saber on heap, off heap heap, como que 
+você calcula memória, enfim, vocês vão 
+entender isso em detalhes, você vai ver 
+que na verdade menos do que isso a gente 
+tem problema de spill, de disco direto, 
+então a regra é de 2 a 4 gigas, tentem 
+evitar utilizar menos do que isso para 
+jobs de produção, claro e uma boa 
+configuração uma boa configuração para 
+se começar uma rule of thumb para a 
+maioria dos problemas médios e assim por 
+diante são 3 nós com 4 cores e 16 gigas 
+de RAM, esse é um boa configuração, o 
+que vai te dar um total de 12 cores ou 
+seja, o que vai te dar ali 12, 24, 48, 
+vai te dar 48 tarefas, porque você pode 
+ter ali o aumento de partições 3 vezes 4 
+então você vai ter 12 vezes 4 porque 
+você está aumentando a quantidade de 3 a 
+4 vezes e você vai ter 48 gigas de RAM, 
+então aqui são alguns números 
+importantes para você começar beleza 
+lembra que o número de partições 
+tem que manter todos os cores ocupados 
+de 2 a 3 a 4 vezes o número de 
+executores e esses caras vão ser 
+processados então agora eu vou pegar um 
+caso real para vocês aqui, não acabou 
+ali não vamos pegar um caso real aqui 
+então olha só, eu tenho um problema que 
+é diariamente eu gero 100 gigas 
+diariamente isso é real, eu passo por 
+esse problema no cliente são 100 gigas 
+eu tenho 30 dias de armazenamento de 
+dados, ou seja, de 30 em 30 dias eu 
+apago esse cara, eu tenho um life cycle 
+management que coloca isso num glacier 
+que congela esse dado para que ele não 
+precise ser utilizado mas ele de 30 em 
+30 dias e aí cara, o SLA desse cliente é 
+uma hora então o que você já começa a 
+perceber cliente, você quer mágica não 
+quer, você quer que eu processe esse 
+cara aqui em uma hora, beleza para 
+processar o seu job em uma hora eu 
+preciso disso aqui, então lembrem que no 
+final do dia nós temos que ser 
+orientados a um negócio então não é você 
+ficar fazendo cálculo feito um doido ali 
+não, é você ir num negócio e falar, 
+cara, qual é o SLA? 
+ah, o SLA é de 8 em 8 horas você vai 
+meter uma máquina com 64 gigas de RAM 
+para começar? 
+não, não precisa você tem 8 horas para 
+executar o job seu SLA é 8 horas agora, 
+quando o cara chegar para você e falar 
+que seu SLA é uma hora como eu tenho 
+aqui você vai falar, não, calma aí isso 
+aqui é uma hora, 100 gigas então irmão, 
+vou ter que fazer um cálculozinho aqui 
+olha só que legal então o cálculo é o 
+tamanho total é 100 gigas né, por dia 
+vezes 30 dias, ou seja eu tenho 3 
+terabytes de processamento para fazer 
+tenho que processar 3 terabytes porque 
+eu tinha que fazer um backfilling tinha 
+que processar esses caras doidinhos 
+então vamos lá, vamos lá, vamos 
+determinar o número de partições então, 
+considerando que o default partition 
+size é 128 tá o número de partições é o 
+que? 
+dia que é igual a 100 gigas dividido por 
+128 então a cada arquivo eu tenho em 
+média 781 partições para serem 
+processadas tá vamos pensar que a gente 
+vai processar os 100 gigas todos os dias 
+e no total a gente vai ter 3 terabytes 
+então nesse caso aqui, em vez de 
+processar os 3 terabytes a gente vai 
+processar 100 gigas então esse cálculo 
+aqui é baseado no processamento de 100 
+gigas todo dia eu tenho que processar 
+esses caras então eu tenho 781 partições 
+esse é o meu número de partições que eu 
+tenho beleza executou, total de tarefas 
+781 aí eu vou pegar 781 tarefas dividido 
+por 60 minutos é igual a 13 cores como 
+assim 60 minutos? 
+uma hora, né? 
+então, olha só que legal você achou a 
+quantidade de cores que você precisa ter 
+teoricamente para executar 781 partições 
+de forma linear baseada no SLA de uma 
+hora se você considerar aí isso aqui é 
+um ballpark o que é um ballpark? 
+é um número que é mágico jogou pra cima 
+se você levar em consideração que cada 
+tarefa vai demorar em média 1 minuto 
+como que eu sei disso? 
+bem, você vai olhar as execuções 
+anteriores do seu job e você vai 
+conseguir determinar por exemplo, em 
+média as atividades aqui dentro elas 
+demoram 1 minuto para executar, beleza? 
+mas se eu tiver baseado nisso em 1 
+minuto eu tenho o que? 
+13 slots para executar ou seja se cada 
+core se cada executor tem 2 GB de RAM 13 
+cores vezes 2 eu tenho 26 GB de RAM 
+seria uma forma de você estimar isso mas 
+o que eu fiz lá? 
+eu peguei o que? 
+segui a configuração padrão olha só que 
+legal 4 cores com 16 GB de memória eu 
+peguei 4 executores que teria o que? 
+cada um teria o total de processamento 
+que eu preciso de 13 cores dividido por 
+4 por nó ou seja cada nó desse vai ter 4 
+cores e 16 GB de RAM e no final das 
+contas eu consigo atender o que? 
+o meu SLA de 1 hora então foi assim que 
+eu cheguei ao número mágico quanto que 
+esse job executa? 
+ele demora 47 minutos para executar 47, 
+50 minutos para executar com essa 
+configuração de cluster até hoje 4 cores 
+com 16 GB, 4 nós beleza? 
+ah Luan, e como que eu brinco com a 
+locação no Spark? 
+a gente já vê que a gente pode brincar 
+com driver a gente pode mexer nos 
+parâmetros de executores a gente pode 
+mexer nos parâmetros de memória isso 
+aqui é bem avançado a gente vai ver isso 
+em detalhe fração, storage fraction como 
+que esse dado é serializado e 
+serializado e assim por diante o direito 
+dos mundos se você pode fazer é setar 
+dynamic allocation o que é dynamic 
+allocation? 
+ele vai alocar dinamicamente cara, 
+precisou de mais executor? 
+aumenta horizontal mais executores isso 
+aqui é perfeito no Kubernetes imagina 
+que você tem um job que executa sempre 
+em certo tamanho e de repente você tem 
+uma super um uptick de processamento 
+maior ele vai lá e vai automaticamente 
+setar mais executores para você ter 
+então você pode chegar no dynamic 
+allocation e falar mínimo de 3 e máximo 
+de 5 é o que o Databricks faz lá por 
+debaixo dos panos quando você dá entre 
+tantos entre 3 e 5 você consegue fazer 
+isso no Kubernetes também beleza? 
+antes da gente ir para a segunda parte 
+alguma dúvida 
+aqui? 
+vou seguir então vou seguir que a gente 
+ainda tem 
+um tem um pouquinho para ver então vamos 
+lá vimos a parte de advanced pillars 
+agora a gente já viu a parte de 
+internals já viu algumas coisas 
+pertinentes que eu acredito que seja 
+importante para vocês entenderem um 
+plano de execução como um todo vou pegar 
+só a pergunta do Ed aqui no meu caso eu 
+trabalho com EMR como eu deveria subir o 
+mínimo nesse exemplo que você está 
+informando seria uma instância do tipo 
+primária duas instâncias do tipo task ou 
+core quando devemos usar mais instâncias 
+task do que core espero que tenha 
+entendido a minha dúvida mais ou menos 
+eu já mexi bastante com AWS eu estou bem 
+enferrujado a diferença aqui é eu não 
+sei se esse task ou core são tipos de 
+instâncias diferentes mas se forem tipos 
+de instâncias diferentes é exatamente 
+uma instância primária que é o driver e 
+duas instâncias executores que é o task 
+ou core que vai executar ali os 
+trabalhos então você pode começar com 
+essa configuração mínima então você vai 
+chegar lá e falar cara eu quero 
+executores dois executores que tenham 
+ali entre 2 a 4 gigas de ram e que eu 
+tenha entre 2 a 4 cores esse seria pelo 
+menos para você começar a brincar com 
+isso Luan não sei se a pergunta é boa 
+mas se o Spark lê todos os arquivos 
+antes de processar o job como ele 
+consegue processar datasets maiores que 
+a memória do cluster ele processa X 
+pações por vez e depois pega outras X 
+boa pergunta Felipe então daí você já 
+começa a pensar aqui você já começa a 
+ter esse tipo de pensamento vamos supor 
+que eu tenho 6 gigas de ram mas eu tenho 
+20 gigas para processar existe um número 
+que o Spark consegue fazer porque ele 
+vai o que escrever dados intermediários 
+no disco então isso vai ajudar ele mas a 
+priori você precisa de memória então se 
+você não tem o máximo de memória para 
+processar aquilo cara você não precisa 
+ter ah eu tenho 1 tera você precisa ter 
+2 teras de ram não mas você precisa ter 
+um número que não seja muito longe disso 
+porque senão ele não vai conseguir 
+realizar a operação ou seja as tarefas 
+que executarem não podem exceder o 
+tamanho do cluster total então se você 
+tiver uma tarefa que excede esse cara ou 
+você vai ter um out of memory que ele 
+vai falar cara eu tenho uma tarefa que 
+por exemplo vou pedir um repartition eu 
+vou mostrar para vocês aqui por exemplo 
+um out of memory eu vou pedir um 
+repartition do dado eu não vou conseguir 
+fazer por exemplo aprendendo agora sobre 
+partição você acha que quando você está 
+processando 1 terabyte de dado você 
+carrega 1 terabyte para memória você vai 
+mandar um repartition velho quanto tempo 
+você acha que vai gastar você vai torar 
+o spark entendeu então assim a gente vai 
+entender técnicas para remediar isso 
+então é muito importante que você 
+entenda essas técnicas para remediar mas 
+o que você vai acabar vendo é que você 
+precisa de memórias equalitárias e que 
+aquela operação que você está executando 
+ela não pode exceder a quantidade de 
+memória as vezes você pode brincar um 
+pouquinho de serializar o dado armazenar 
+no nível intermediário e assim por 
+diante mas não existe mais o que você 
+precisa de memória em um cenário onde eu 
+preciso cruzar algumas tabelas para 
+enriquecer os dados eu vou fazer isso 
+aqui como prever o tamanho dos arquivos 
+depois desse cruzamento por exemplo 
+minha tabela principal é transação cruzo 
+com clientes para enriquecer meus dados 
+perfeito Cassio o que você vai fazer na 
+verdade na hora de escrever a gente vai 
+ver como vai fazer isso a gente vai ter 
+um calculozinho de padaria a gente vai 
+ter um repartition a gente vai ter um 
+coalesce para escrever esse dado melhor 
+no storage fica tranquilo que a gente 
+vai passar por isso deixa eu seguir aqui 
+beleza então pensando no modelo de 
+programação do Spark vamos lá estamos na 
+milha final 40 minutos a gente acabou 
+vamos lá pensando no modelo de 
+programação do Spark o Spark segue o 
+mesmo modelo do MapReduce só que ele 
+implementa isso em memória e de forma 
+muito mais otimizada mas no final das 
+contas o modelo mental de execução do 
+Spark ele é de Mappers e Reducers e como 
+funciona isso então você tem os Drivers 
+ou Driver aqui eu estou falando de uma 
+alta disponibilidade um HA que 
+geralmente isso acontece em ambientes de 
+alta disponibilidade isso quer dizer o 
+que você tem um Primary aqui e você tem 
+um Secondary aqui então se por algum 
+algum problema o Primary 
+que está numa região A cair esse cara é 
+direcionado para um Secondary 
+automaticamente mas Driver você tem um 
+somente então você tem um Driver e você 
+tem uns Executores só que qual o 
+problema do MapReduce que a gente já 
+sabe o MapReduce são operações que 
+acontecem em Disque então ele é um Disk 
+Based Execution então o cara escrevia 
+esse cara em Java por exemplo ele 
+compilava esse cara e ele mandava ser 
+processado então o que ele fazia ele 
+mapeava o que ele tinha que fazer entre 
+os Mappers e os Reducers ele tinha que 
+fazer um Shuffle por que vamos supor que 
+você está fazendo um Group By Group By 
+ID você está falando o que cara eu quero 
+que você agrupe por ID ou seja você está 
+explicitamente pedindo uma ordenação 
+porque você tem que organizar o dado por 
+ID só que esse dado está distribuído em 
+vários Mappers ele está em vários 
+Mappers então o que ele vai ter que 
+fazer ele vai ter que trocar esse dado 
+embaralhar esse dado e organizar isso é 
+o que a gente vê no MapReduce e que a 
+gente vê também no Spark ou seja não é 
+uma operação exclusiva do Spark é uma 
+operação exclusiva de tecnologia de 
+sistemas distribuídos todos os sistemas 
+distribuídos vai ter Shuffle vai ocorrer 
+Shuffle depois que você tem os Mappers e 
+você processa os Shuffles as ordenações 
+você reduz os seus resultados agrega 
+essas informações para entregar o Output 
+então assim como o MapReduce pensa 
+beleza e aí uma coisa que eu quis trazer 
+que é muito importante para mim eu 
+sempre gosto de trazer isso é que o 
+Spark se oriunda disso então Matheus 
+Zahar ali que foi um dos criadores de 
+fato que escreveu o código quando ele 
+estava escrevendo o código do Spark ele 
+olhou para o modelo de execução do 
+Hadoop e teve sorte de olhar para o 
+modelo de execução do TESS o que é o 
+TESS? 
+TESS em hindi é velocidade o que ele 
+faz? 
+basicamente como eu falei para vocês 
+você tem o Output você tem tarefas que 
+são executadas os Shuffles são escritos 
+em disco ou seja os processos 
+intermediários são escritos em disco 
+automaticamente por isso que é lento 
+porque tudo é escrito em disco ou seja 
+você faz o Map escreve esses caras 
+depois você puxa esses caras faz o 
+Reduce e escreve no disco aí você fala 
+caralho que forma burra de processar na 
+verdade não maravilhosa porque em 2004, 
+2005 RAM era extremamente caro então o 
+que você tinha na verdade era Storage e 
+você tinha que fazer o que? 
+com que as operações fossem Fault 
+Tolerant se acontecesse uma falha de um 
+executor isso não poderia atrapalhar 
+todos os terabytes de processamento que 
+você fez então por isso que ele salva 
+esses processos intermediários no disco 
+para garantir que você possa reprocessar 
+esse dado e parar de um outro pedaço só 
+que vejam que uma das coisas que o 
+Hadoop peca bastante é porque ele faz 
+vários mappers e vários Reduces ao longo 
+do tempo o que o TESS fez? 
+o TESS implementou a mesma lógica do 
+MapReduce mas no conceito de Directed I 
+Secret Graph isso é antes do Spark olha 
+só que legal então na verdade o Spark 
+puxou do TESS o modelo de execução do 
+TESS só que qual a diferença do modelo 
+de execução do TESS para o modelo de 
+execução do Spark? 
+é que no TESS é memória e no Spark é 
+memória então o que ele faz na verdade? 
+ele conseguia reduzir a quantidade de 
+estágios para serem executados e aí cara 
+a gente teve uma puta aumenta de 
+velocidade no Hadoop como um todo por 
+causa do TESS então esse cara aqui é 
+muito importante porque o modelo de 
+execução dele é exatamente o modelo de 
+execução do Spark só que em memória 
+bem, para a gente desmitificar de uma 
+vez por todas vamos falar dos RDDs então 
+o RDD a gente já sabe que vem do 
+conceito de MapReduce lá do Hadoop que é 
+o Resilient Distributed Dataset ele é 
+uma Low Level API hoje marcado como 
+Deprecated e ele é uma distribuição uma 
+coleção distribuída imutável de 
+elementos ou seja isso quer dizer que 
+não existe uma estrutura fixa em cima do 
+RDD e esse é um dos grandes problemas 
+que o RDD não consegue otimizar em 
+processo de escrita de código porque 
+você não tem boundaries você não tem 
+limites dentro de um RDD você pode 
+guardar um arquivo você pode guardar um 
+pedaço é programático então traz muitas 
+possibilidades por isso que o DataFrame 
+foi tão famoso então basicamente quando 
+você lê esse dado em RDD você está 
+trazendo esses dados em partições e 
+processando esses dados no cluster então 
+por exemplo lá no modelo antigo a gente 
+faria o que? 
+um val field RDD é igual a sc que é o 
+contexto você pega esse file carrega 
+esse arquivo e olha só que lindo rdd 
+.map e aí você ia trabalhar com todas as 
+operações primitivas do Scala então a 
+gente não usa isso aqui porque além de 
+ser complexo e ser bem old em termos de 
+programação ele é uma low level API por 
+isso que o Spark resolveu colocar ela 
+como low level API e colocar o DataFrame 
+e o DataSet como high level API a partir 
+do Spark 2 .0 a gente teve a gente teve 
+agora uma nomenclatura muito mais muito 
+mais fácil muito mais readable muito 
+mais inteligente de se lidar então eu 
+quero ler um arquivo Spark leia CSV eu 
+quero ler um JSON Spark leia JSON eu 
+quero ler um parquet Spark leia parquet 
+por exemplo e na verdade o que o 
+DataFrame é é uma tabela em memória e 
+por ser uma tabela em memória e por 
+estar numa high level API você consegue 
+adicionar o que? 
+um CBO você consegue adicionar um query 
+optimizer você consegue adicionar várias 
+coisas porque agora você tem uma 
+estrutura fixa de dados você tem uma 
+tabela em memória então agora existem 
+várias coisas que você consegue fazer 
+por transformar esse dado que era semi 
+estruturado para não estruturado RDD 
+para estruturado com DataFrame então 
+você consegue agora ter isso ou seja 
+porque que escrever em DataFrame é mais 
+rápido que RDD mas no RDD a linguagem 
+baixa beleza, mas ele não tem um cost 
+baser optimizer ele não tem um query 
+plan então cara isso aqui faz toda a 
+diferença porque na hora que você 
+executa esse RDD ele vai saber qual o 
+melhor RDD para ser executado qual o 
+melhor bloco para ser executado ao invés 
+de um RDD puro não ter todas as 
+otimizações de um tabela estruturada e 
+assim por diante por isso que a gente 
+sempre usa DataFrames para fazer isso 
+alguma dúvida 
+aqui? 
+podemos, ele não tem um CBO um cost base 
+optimizer ele não tem pode afirmar agora 
+se ele tem um plano de execução sim, ele 
+gera um plano para ser executado mas não 
+é um plano literalmente de execução com 
+todo o processo físico e assim por 
+diante porque a gente já viu por exemplo 
+um CBO aonde é que o RDD é executado na 
+verdade você tem alguns passos no RDD 
+que são bem mínimos comparado ao que o 
+DataFrame tem, eu vou mostrar para vocês 
+aqui quando a gente for olhar o query 
+execution você pode afirmar sim que ele 
+não tem um cost base optimizer ele não 
+consegue gerar diversos planos e 
+entender quais são as melhores 
+configurações que tem que ser feitas e 
+assim por diante porque é muito manual 
+tanto é para você ter uma ideia tanto é 
+Fred para você ter uma ideia antes aqui 
+é que você está falando de RDD você está 
+falando de DataFrame mas aqui, esse 
+código aqui não está muito certo, porque 
+na verdade no RDD você tinha que 
+explicitar em quantas partitions você 
+queria literalmente fazer então você 
+precisava explicitar certos números 
+porque o Spark não conseguiria entender 
+de forma automática quem entende isso? 
+o CBO o DataFrame por debaixo dos planos 
+vai transformar para RDD mas baseado no 
+CBO, perfeito Eduardo vou até colocar um 
+thumbs up aqui exatamente isso qual a 
+diferença entre DataFrame e DataSet? 
+tem diferença sim o DataFrame e o 
+DataSet utilizam o Spark SQL Catalyst 
+Optimizer que traduz tudo para RDD a 
+diferença é que o DataFrame trabalha com 
+dados estruturados e em DataSet você 
+pode ter dados customizados então vamos 
+supor por exemplo que eu já usei uma vez 
+só para vocês mas vamos supor que você 
+tem um dado proprietário que você quer 
+ler que não é parquet, que não é csv, é 
+um dado proprietário de banco por 
+exemplo então você pode criar uma classe 
+estendida de DataSet e você pode 
+customizar como vai ser sua leitura em 
+baixo nível só que ele vai utilizar toda 
+a parte de CBO, de alto nível e assim 
+por diante essa é a diferença tem uma 
+provavelmente que é idiota nunca vi 
+pergunta idiota, mas vamos lá qual a 
+diferença prática entre DataSet acho que 
+eu expliquei agora DataSet é só no Scala 
+não e tem as linguagens de programação 
+exatamente não pode utilizar Python 
+desculpa, no DataSet você não utiliza 
+Python você utiliza Scala somente 
+exatamente 
+beleza? 
+fechamos aqui? 
+agora vamos para uma coisa que eu gosto 
+bastante de explicar porque faz muito 
+sentido faz muito sentido falar agora e 
+depois para vocês vai fazer muito mais 
+sentido ver isso e eu gosto muito de 
+mostrar isso para vocês é um cara que eu 
+quis discutir com um time de produtos 
+também eu estive lá no São Francisco no 
+Data AI Summit há três semanas atrás lá 
+em São Francisco inclusive eu ainda 
+estou de jetlag estou tentando voltar ao 
+normal e a gente estava basicamente uma 
+das dúvidas que eu tinha no Spark em 
+geral é como o Role Stage Folding 
+funciona por debaixo dos panos porque? 
+eu vou explicar para vocês o que é a 
+maravilha desse cara aqui então vamos lá 
+o que é esse cara e porque eu preciso 
+entender ele você vai usar ele? 
+ele parece ser um transformador na minha 
+vida? 
+não, mas ele é muito legal de você 
+entender muito mesmo, 
+porque? 
+vamos lá aqui vamos pensar no seguinte 
+você tem um arquivo, um parquet chamado 
+Yellow Trip Data 2020 -2023 era um 
+parquet e aí o que eu vou fazer? 
+pegue esse arquivo, leia esse arquivo o 
+que eu vou fazer aqui? 
+eu vou fazer um filtro, eu vou fazer um 
+Group By eu vou fazer um Sorting, ou 
+seja, vou aplicar transformações em cima 
+dele eu li esses arquivos esse arquivo, 
+criei a aplicação do Spark pedi para ler 
+esse arquivo e depois eu fiz um filtro 
+fiz um agrupamento e fiz um Sorting ou 
+seja, gerei transformações beleza? 
+aí, o que eu fiz depois? 
+depois das transformações ou seja, li, 
+transformei e agora eu vou aplicar uma 
+ação eu quero ver o resultado desse 
+filtro desse agrupamento e dessa 
+ordenação o que ele vai fazer? 
+ele vai gerar o que? 
+uma ação e quando você gera uma ação o 
+que que o Master vai fazer? 
+o que que o Spark Master vai fazer? 
+o que que o Driver vai fazer? 
+o Driver vai gerar um plano físico de 
+execução ou seja, o Boundary de planos 
+de execução de geração de plano de 
+execução está vinculado ao que? 
+as suas transformações e ações e por que 
+que é legal falar do Whole State Code 
+Gen? 
+porque o Whole State Code Gen o que que 
+ele faz é ele gera bytecodes numa 
+simples instrução tá Luan que merda é 
+essa? 
+cara, o que ele faz é pensa comigo, a 
+gente estava vendo ali o processo da JVM 
+e a gente sabe por exemplo que processar 
+dentro da JVM em grande escala não é 
+eficiente e a gente viu que existia um 
+projeto chamado o que? 
+Tungsten que fez o que? 
+várias otimizações na memória e no CPU 
+para poder melhorar o processo do Spark 
+uma delas foi o Whole State Code Gen 
+então o que que esse cara faz? 
+ele em vez de você toda vez que você tem 
+uma transformação você gera um bytecode 
+e executa imagina só, imagina a 
+quantidade de requisições que eu teria 
+na JVM teoricamente para executar cada 
+transformação então o que que ele faz? 
+adoro isso junto com o CBO com o Cost 
+Based Optimizer ele olha para o plano de 
+execução ele fala cara, a gente consegue 
+fazer sabe o que? 
+a gente consegue pegar essas três 
+transformações aqui e encaixotar em um 
+bytecode só e executar e pedir para a 
+JVM executar um bytecode que tem três 
+instruções ao invés de executar três 
+instruções ah Luan, mas porque você está 
+falando isso? 
+porque isso otimiza o seu processo então 
+quando você por exemplo vê um plano de 
+execução assim, ah eu tenho um arquivo 
+parquet, eu tenho uma leitura de um 
+arquivo parquet que tem ali por exemplo 
+doze arquivos, eu escaneei demorei 
+tantos minutos, o tamanho total é tanto, 
+eu escaneei 622 milhões de registros, 
+isso é um caso que a gente vai ver logo 
+mais tá? 
+e aí olha só, você vai ver um cara 
+chamado whole stage code gem, que tem 
+três operações, isso quer dizer o que? 
+isso quer dizer que essas três operações 
+aqui, foi gerado um bytecode de execução 
+na JVM somente, porque ele agrupou tudo 
+isso numa operação, lindo né? 
+olha só que legal isso aqui ah, isso é 
+feito dinamicamente? 
+dinamicamente, o plano de execução vai 
+fazer isso, não precisa se preocupar é 
+só como funciona internamente Jonathan, 
+tá? 
+quer dizer Igor né? 
+isso já é pré -programado, isso é pra 
+mostrar as atualizações do tungsten, que 
+cara, muita gente pergunta, cara o que 
+foi o tungsten, o que o catarístico 
+optimizer faz, o que o CBO faz enfim, 
+uma das coisas que ele faz é tentar 
+aglomerar a quantidade de transformações 
+em um bloco de instrução em bytecode que 
+é executada dentro da JVM então olha só 
+o caso real aqui você teve um job de 3 
+.5 minutos que fez um whole state code 
+gem olha só que legal aqui, eu sei que 
+eu fiz duas operações dentro de uma 
+instrução bytecode então agora você 
+entende o que é um whole state code gem 
+quando você lê aqui uma, quando você lê 
+um plano de execução você consegue ver 
+aqui na hora olha só que legal cara esse 
+whole state code gem aglomerou duas 
+transformações esse outro whole state 
+code gem aglomerou duas uma 
+transformação, esse outro whole state 
+code gem aglomerou quatro transformações 
+quatro atividades e ele gerou um 
+bytecode dessa execução então quanto 
+mais whole state code gem você vê no seu 
+projeto no seu plano de execução, melhor 
+porque ele tá executando menos 
+instruções no CPU loucura né e simples 
+teoricamente legal, pelo menos agora 
+vocês sabem o que é um whole state code 
+gem eu acho que provavelmente seria 
+legal se vocês falassem, vocês já 
+olharam pra isso aqui e já falaram, o 
+que é isso aqui beleza, faz um filtro 
+aqui, beleza mas o que significa esse 
+whole state code gem então agora você 
+sabe o que é esse cara aqui é a execução 
+literalmente das instruções em bytecode 
+na máquina 
+010100 pronto, agora você não tem mais 
+dúvidas vamos lá que a gente vai 
+conseguir terminar em tempo fica 
+tranquilo, tá que bom, que bom, que bom 
+beleza, e agora a gente vai pra esse 
+malandro aqui, último do dia vamos 
+atacar esse cara olha lá, pra quem 
+perguntou já vou falar de cara, o RDD 
+não tem isso quem foi que perguntou e aí 
+eu queria mostrar aqui pra você ver foi 
+o Eduardo, não foi o Eduardo quem foi 
+que perguntou sobre o RDD? 
+se ele melhora ou não, enfim olha só 
+aqui a tríade de execução olha onde o 
+RDD está o RDD está aqui no step final 
+de execução tudo isso aqui galera 
+loucura né tudo isso aqui que a gente 
+está vendo toda essa parte aqui que a 
+gente está vendo ela está sendo 
+executada por causa de um Post Base 
+Optimizer por causa de um Catalyst 
+Optimizer exatamente Pedro é por causa 
+disso, beleza? 
+então essa é a maravilha de você 
+executar num DataFrame ao invés de um 
+RDD porque o RDD não passa por isso aqui 
+olha só onde o RDD está ele está no 
+final aqui da tríade tá vendo? 
+então vamos olhar como que os planos de 
+execução são feitos no Spark como que 
+você pode tirar proveito disso e assim 
+por diante tá, antes disso aqui eu vou 
+executar essa aplicação que demora um 
+pouquinho então essa parte de Query 
+Execution aqui eu vou executar esse cara 
+vou deixar executando aqui e vamos lá, 
+então vamos lá, o que ele vai fazer toda 
+vez que você escreve seu código ali em 
+DataFrame por exemplo, o que vai 
+acontecer? 
+você submeteu esse cara ele vai aparecer 
+ali num plano lógico não resolvido, 
+então o que ele vai fazer? 
+ele recebe esse plano de execução quem é 
+que faz isso, Luan? 
+o driver então todo esse processo aqui é 
+o driver, quem executa o RDD? 
+o executor mas todo esse plano aqui tá 
+acontecendo dentro da cabeça do driver 
+então o que o driver vai fazer? 
+o driver vai receber esse plano de 
+execução a primeira coisa que ele vai 
+fazer ele vai usar, ele tem um catálogo 
+de metadados que ele vai fazer o parse 
+binding o que que é isso? 
+cara, ele vai olhar, beleza o cara tá 
+pedindo um Spark Read Files de um local 
+tal isso aqui é válido? 
+é, propriamente é válido a instrução é 
+válida, os comandos são válidos beleza, 
+ou seja, ele começa a analisar o seu 
+código depois disso, ele cria uma 
+representação lógica de um plano que ele 
+quer fazer cara, então beleza, eu tenho 
+uma representação do que eu quero fazer 
+o que? 
+eu tenho que selecionar, eu tenho que 
+filtrar e eu tenho que escrever então, 
+no plano lógico, basicamente é 
+exatamente pensar nessa camada maior 
+depois você tem um Catalyst Catalog que 
+é o CBO que é o Cost Based Optimizer o 
+que que ele vai fazer? 
+ele vai olhar e cara vocês vão pirar nas 
+lemas que eu vou mostrar pra vocês de 
+estatística sério, tipo, vocês não tem 
+noção quanto estatística você não usa 
+estatística no seu ambiente, 
+provavelmente você não sabe o que você 
+tá perdendo você não dá um update 
+statistics lá nas suas tabelas, né 
+então, o que que ele vai fazer? 
+o CBO vai olhar as suas estatísticas e 
+todas as informações que ele tem 
+armazenada e vai falar opa, calma aí, 
+agora eu vou gerar um plano otimizado, 
+ele era, primeiro um plano não 
+resolvido, que era somente o dado que 
+vinha, depois um plano lógico, que são 
+os estágios mais macros e agora um plano 
+otimizado que é uma série de regras que 
+ele vai aplicar ou seja, se você meteu 
+lá de ler um arquivo e você pediu, por 
+exemplo, um pruning ou seja, cara, 
+seleciona só campo A, B e C no Optimized 
+Logical Plan ele vai literalmente 
+detalhar isso pra você ele vai falar, 
+opa, olha só desse plano lógico aqui que 
+o cara pediu pra filtrar ele pediu pra 
+filtrar, mas ele pediu pra filtrar por 
+esses colunas, então você tem esse nível 
+lógico aqui a partir disso, eu vou criar 
+o que? 
+o plano físico, então o que que o plano 
+físico vai fazer? 
+ele vai pegar o plano lógico e ele vai, 
+baseado nos algoritmos determinar qual é 
+o melhor plano porque ele não vai gerar 
+um plano ele vai gerar vários planos 
+como que eu sei os planos que são 
+executados? 
+eu consigo ver? 
+não você consegue ver os planos, todos 
+os planos executados consegue ser o 
+plano que vai ser selecionado pra ser 
+executado mas o que você consegue saber 
+é que esse dado é custo baseado então 
+ele usa estatísticas, assim como o SQL 
+assim como qualquer banco de dados 
+relacional usa as estatísticas pra saber 
+qual é o melhor plano pra ser escolhido 
+então ele vai gerar vários planos um 
+plano vai ser escolhido esse plano 
+escolhido, ele vai ser o que? 
+quebrado em estágios e tarefas que é o 
+que a gente já tá vendo o tempo todo ah 
+beleza, então no final das contas gerou 
+um plano tem estágio tem tarefa e vai 
+ser distribuído e o que que ele vai 
+fazer agora? 
+o stage code gen ele vai tentar pegar 
+todas essas instruções de RDD que você 
+fez no plano selecionado e ele vai 
+tentar comprimir numa instrução de 
+execução tá? 
+que aqui é o tungsten optimization, 
+então quando você vê whole stage code 
+gen ele é um tungsten total são as 
+otimizações que foram implementadas 
+dentro da JVM pra serem entregues agora, 
+parte linda disso quando eu tenho o 
+adaptive query execution habilitado a 
+partir do 3 .0 sim, o code gen é 
+automático isso aqui é a estrutura 
+interna do Spark não precisa fazer nada, 
+ele faz automaticamente tá? 
+pra você é só pra vocês entenderem o que 
+significa então olha só, vejam que o 
+adaptive query execution ele está no 
+nível RDD tá vendo aqui? 
+ele age no feedback RDD, ele não está no 
+plano selecionado, nem no plano físico 
+nem no cost model ele conversa direto 
+com o plano lógico e ele tenta na 
+verdade trabalhar algumas operações 
+nesse plano lógico então a gente vai ver 
+em detalhes ao longo desses dias o que 
+que o IEQI faz que é o adaptive query 
+execution mas ele trabalha em 4 
+vertentes ele faz o reparticionamento do 
+dado automático, ele faz a otimização de 
+join automático ele lida com skill 
+automático e ele faz re -otimização de 
+partições automáticas bem talvez você se 
+pergunte, taló mas tudo que você me 
+ensinou agora lá eu vou ter que, eu 
+deixo de fazer? 
+a resposta é não não, deixa de fazer 
+porque de novo, esse cara aqui é são 
+otimizações que ele adiciona ao longo do 
+código isso não quer dizer que você vai 
+construir a sua otimização de entrada de 
+dados e processamento da melhor forma 
+então você ainda vai ter que fazer isso 
+obviamente sempre mas o que ele vai 
+fazer é que nas operações intermediárias 
+e algumas operações de entrega de dados 
+ele vai estar sempre tentando otimizar 
+isso, por quê? 
+porque durante o tempo de execução ele 
+vai tentar coletar estatísticas em tempo 
+de execução para melhorar isso então ele 
+faz várias otimizações e ao longo do 
+treinamento a gente vai ver essas 
+otimizações beleza? 
+o Marco perguntou o seguinte o whole 
+state code engine me fez lembrar de um 
+row number em Spark que já filtra só as 
+linhas sobreviventes e ainda dropa a 
+coluna rank tudo numa linha de código 
+coisa divina de Deus, ah esse cara é 
+legal sim, row number bem famoso 
+inclusive beleza? 
+então vamos dar uma olhada aqui no query 
+execution então o que eu fiz? 
+eu sei que tem uma aplicação básica o 
+que essa aplicação faz galera? 
+essa aplicação ela desabilita o adaptive 
+query execution por quê? 
+ele desabilita o adaptive query 
+execution bem, ele desabilita o adaptive 
+query execution porque eu quero mostrar 
+o que ele vai fazer sem o AQE então o 
+que eu estou fazendo aqui? 
+eu estou fazendo um join de uma tabela 
+de business com uma tabela de reviews 
+são tabelas relativamente grandes são 
+tabelas que tem mais de 10 megas essa 
+tabela tem 3 .5 gigas e essa tabela tem 
+100 megas por exemplo e aí o que eu fiz? 
+eu cheguei aqui para ele e falei cara eu 
+quero fazer um join tá? 
+de business eu quero fazer um join da 
+reviews com a business pelo campo 
+business id e eu quero que você mostre 
+esse plano de execução para mim então o 
+que aconteceu aqui? 
+quando eu executei esse plano de 
+execução 
+ele fez isso em 1 .5 minutos e o que ele 
+fez aqui? 
+ele escaneou os arquivos então ele leu 
+52 arquivos ele criou o stage code gen 
+linha para coluna ou seja a gente tem 20 
+bets com 81 milhões de registros ele fez 
+um sort porque eu tive que fazer um join 
+eu pedi um join aqui e o join eu tenho 
+que ordenar para depois fazer um 
+exchange então olha só que trampeira eu 
+tenho que ordenar o dado para depois 
+organizar ele e depois eu fiz um sort de 
+novo para entregar esse dado gerado aqui 
+tá vendo? 
+beleza então o que ele gerou de plano de 
+execução vamos dar uma olhada então se 
+eu vier aqui no meu spark e eu falar o 
+seguinte olha pega esse data frame e dá 
+um explain pra mim true o que ele vai 
+fazer? 
+ele vai gerar um plano de execução para 
+você então de 
+novo lógico vamos lá plano lógico então 
+vamos lá ver o que 
+o plano lógico faz plano lógico 
+representação alto nível vamos ver se 
+ele está fazendo alto nível o que ele 
+fez? 
+você quer fazer um join vocês vão 
+aprender isso aqui você quer fazer um 
+join de business id com business id você 
+tem um alliance de uma query de R e uma 
+subquery alliance de B porque R 
+referente a data frame de reviews e B 
+referente a data frame de business 
+beleza e o que você está pedindo aqui é 
+a relação de colunas que tem bem do parq 
+então é isso que você quer fazer você 
+quer fazer o join a sua aplicação quer 
+fazer o join ou seja, está certo o que a 
+gente viu a gente viu que um plano 
+lógico na verdade o que ele faz é fazer 
+um high level isso aqui está alto nível 
+beleza agora eu vou fazer um analyze 
+pelo CBO e vou gerar um plano então ele 
+analisou esse plano cara beleza olha só 
+eu vi que na verdade essas colunas dessa 
+tipagem eu sei também agora que essas 
+colunas estão dentro desse arquivo e 
+dentro desse arquivo e agora eu vou 
+criar um plano otimizado para isso ou 
+seja o que ele fez aqui agora depois de 
+analisar ele criou um plano otimizado 
+qual foi o plano otimizado que ele criou 
+aqui ele vai decidir fazer um join de 
+business id com business id filtrando os 
+que não são nulos obviamente e a relação 
+dessas colunas que eu pedi porque eu 
+pedi todas elas então essa é a relação 
+de select que eu pedi agora vem a parte 
+do boom olha só que lindo isso aqui 
+beleza ele vai passar pelo cost model e 
+ele vai para o selected physical plan 
+então ele vai falar cara eu tenho um 
+physical plan aqui que eu escolhi amigão 
+qual vai ser eu escolhi o sort magic 
+join cara você vai aprender no 
+treinamento essa é a parte que eu gosto 
+bastante você vai aprender todos os 
+joins e você vai aprender em detalhe 
+como funciona então quando você vê isso 
+aqui quando você olhar ah ele fez um smj 
+que é um sort magic join caraca ele 
+gastou isso aqui então você sabe que 
+você vai ver todo sort magic join você 
+vai ver um exchange e um sort sort magic 
+join ou seja o sort ele vai ordenar 
+antes depois ele vai fazer um shuffle e 
+depois ele vai ordenar de novo ou seja 
+não é o join mais eficiente né mas ele 
+optou em fazer isso pelo que pela 
+quantidade de informações olha só que 
+lindo isso aqui ó vocês já viram isso 
+sort por esse cara beleza exchange de 
+hash partitions para comparar e o plan 
+id escolhido foi 90 beleza então ele vai 
+filtrar vai escanear o parquet vai 
+carregar isso para memoria vai fazer uma 
+partição do outro cara é a mesma coisa 
+ou seja o que é que um eu não quero 
+explicar em detalhes mas o que um sort 
+magic join faz ele pega esse dado envia 
+para os executores cria uma tabela hash 
+organiza esse dado depois coloca lá ele 
+está falando exatamente isso aqui ele 
+está falando olha amigão estou pegando 
+esse arquivo criando um hash partition 
+depois eu estou pegando aqui fazendo um 
+hash partition juntando esses dois caras 
+aqui e filtrando as informações vindo de 
+um arquivo parquet e aí esse cara 
+demorou para executar quantos segundos 
+1 .4 1 .5 beleza agora o que que eu vou 
+fazer eu vou abrir o AQI e eu vou 
+mostrar para vocês por exemplo o que 
+antes disso o que eu poderia fazer aqui 
+então aqui tem uma discussão a discussão 
+é a seguinte se vocês conhecem o 
+broadcast é o join mais eficiente que 
+tem no Spark e eu vou explicar em 
+detalhes amanhã não vou entrar em 
+detalhes hoje a gente está no final do 
+dia aqui tem muita coisa para cachola 
+então amanhã a gente vai ver está no 
+organograma da gente destilar esse cara 
+lá mas ele é o mais ele é o mais 
+eficiente só que o Spark padrão ele só 
+considera fazer um broadcast hash join 
+quando você tem uma tabela de 10 megas 
+até 10 megas então por exemplo o 
+adaptive query execution vai optar em 
+fazer o que isso aqui ó se ele ver que a 
+tabela tem 10 megas ele vai fazer o que 
+automaticamente ele vai mudar 
+dinamicamente a estratégia de join tá 
+vendo porque ele faz isso olha que coisa 
+linda dynamic optimizing of join 
+strategy então ele vai mudar em tempo de 
+execução ele vai mudar olha só que 
+loucura essa tabela tem 100 megas a 
+minha pergunta para vocês é dado dado o 
+cenário de hoje dos dias atuais 100 
+megas é muita coisa ou pouca coisa para 
+as 
+configurações que a gente tem como um 
+outro pouco tá então vamos lá vamos ver 
+se o broadcast se o adaptive query 
+execution ajuda aqui ele não conseguiu 
+fazer se eu setar esse cara para true 
+aqui ele não vai fazer nada porque ele 
+não vai conseguir identificar que isso 
+aqui tem 10 megas mas eu posso vir aqui 
+por exemplo e passar uma hint para o 
+spark chamado broadcast e aí eu 
+adicionei uma linha de comando então 
+from by spark .sql import broadcast não 
+é não é spark cycle aí aqui 
+broadcast então eu adicionei uma linha 
+de comando eu falei cara faz o broadcast 
+desse dataset business beleza e agora 
+vamos executar esse cara 
+poxa pedro depois você poderia lucas 
+depois você podia passar com mais 
+detalhes isso para mim cara isso é uma 
+coisa muito legal de mostrar para os 
+outros na live eu peguei um insight bem 
+legal sobre o broadcast consegui 
+implementar um job num job aqui que eu 
+já fiz 3 horas para duas nem parece 
+verdade você falando isso para mim vamos 
+lá parece que você está mentindo para 
+caralho mas eu sei que é verdade porque 
+eu já fiz coisas nesse nível então 
+realmente então relativamente a gente 
+vai ter um job que pode executar um 
+pouco mais rápido porque a gente 
+utilizou uma outra estratégia de join 
+para ser executado então a gente vai ver 
+aqui quanto tempo vai demorar se vai 
+demorar mais se vai demorar menos e 
+assim por diante 
+beleza a gente tem um outro cara aqui eu 
+trouxe uma outra operação essa é a 
+ultima do dia a gente vai acabar em 
+tempo o que eu estou fazendo aqui eu 
+estou fazendo um join de uma tabela de 
+vários arquivos ou seja em grande 
+quantidade com um csv um arquivo pequeno 
+e aqui eu estou habilitando o adaptive 
+query execution o que ele vai fazer por 
+padrão o spark vai utilizar vai escolher 
+possivelmente um source mesh join o que 
+a gente vai fazer aqui a gente vai ver 
+qual o comportamento do spark em relação 
+ao plano de execução que vai ser gerado 
+e o plano de execução que vai ser 
+executado que é diferente então olha só 
+o job terminou e ai a gente gastou o que 
+um pouquinho 
+menos ta vendo foi um segundo a menos 
+você teve uma otimização um pouquinho 
+melhor ali pelo tamanho do arquivo e 
+também vai depender muito das 
+transformações que você tem como a gente 
+pediu somente um join a gente vai ver 
+que a modificação não foi muito não mas 
+o que a gente vai ver aqui por exemplo é 
+que aqui a gente teve um input menor de 
+exchange por 
+exemplo beleza agora vamos para o ultimo 
+cenário aqui e a gente vai ver em 
+detalhes por exemplo o broadcast a gente 
+tem um caso aqui de broadcast que vai 
+reduzir tipo 30 a 40 segundos não não 
+consegue eduardo tem algumas técnicas de 
+você estimar o tamanho do data do 
+tamanho do data frame mas não tem como 
+você olhar pelo plano e editar isso não 
+então vamos ver como que o AQI funciona 
+aqui ta então se eu chegar aqui por 
+exemplo e executar esse job e eu to com 
+adaptive query execution habilitado 
+beleza o que que ele vai fazer ele vai 
+fazer o join vai fazer vai ler esses 
+arquivos vai fazer o join e vai entregar 
+esse dado beleza o que que ele fez aqui 
+de novo passeou fez um join plano alto 
+nível depois analisou esse plano viu as 
+colunas que tem que ser entregues viu 
+qual é a ligação dessas colunas com a 
+outra porque você pediu um join então 
+ele ta vendo a relação dessas colunas 
+aqui que está lá no catálogo e no plano 
+optimizado ele projetou executar um join 
+entre as colunas enfim fazer um filtro e 
+entregar esse dado e aí nesse caso aqui 
+ó vejam que quando você ta adaptive 
+spark plan is final plan equals false 
+você vai pensar cara mas o adaptive 
+query execution não rodou aqui mas na 
+verdade ele trocou o join então vamos 
+ver aqui lá tava falando como falso mas 
+olha 
+só aqui adaptive query spark plan final 
+true então o que que ele fez aqui ele 
+optou em fazer um broad cache exchange 
+pra colocar nesse dado então isso é uma 
+das coisas que ele vai fazer pra você 
+ele vai otimizar certas operações pra te 
+trazer mais velocidade como esse broad 
+cache exchange aqui acontecendo só que 
+depende do que você ta fazendo vai ter 
+coisas ainda que você vai ter que 
+instruir hint vai ter coisas ainda que 
+você vai ter que automaticamente 
+trabalhar e entender como ele faz por 
+exemplo skill skill é um problema que 
+acontece talvez no início da leitura do 
+dado o spark vai conseguir em tempo de 
+execução lá no final identificar algumas 
+coisas e melhorar o skill mas você tem 
+que tratar o skill lá na frente tá 
+beleza exatamente ele meio que cagou pro 
+plano de execução beleza esse é o plano 
+de execução mas eu quero executar esse 
+aqui então é exatamente isso que o 
+adaptive spark plan faz ele em tempo de 
+execução vai mudar ali a estratégia vai 
+fazer um shuffle vai fazer um coalesce 
+pra diminuir as partições pra poder ter 
+partições igualitárias sendo comparadas 
+com partições igualitárias e assim por 
+diante beleza gente 66 % de pessoas em 
+sala muito obrigado acabamos 11 e 3 
+antes de fechar o dia me fala ai que que 
+você mais gostou de hoje se vocês 
+curtiram me fala ai deixa ai que amanhã 
+a gente tem mais uma cacetada de de 
+coisas pra ver cara mas foi muito bom 
+foi muito bom me diverti 
+e ai que que vocês mais gostaram 
+partition locks partition acho que foi 
+bem legal também particularmente achei 
+muito muito bom hum porra pela 
+quantidade de coisa eu não consigo nem 
+dizer o que foi mais foda para partition 
+vou precisar resistir partition legal 
+descalco de alocação também legal hum 
+desenferrou já vários conceitos só que 
+tem ninguém mais acompanhando 
+inteiramente do raciocínio faz sentido 
+beleza gente ótimo amanhã temos mais 
+amanhã a gente vai ver toda parte de 
+antipatterns e patterns vai ser muito 
+legal vocês vão aprender muita coisa a 
+gente vai navegar em todos os 
+antipatterns e os patterns para vocês já 
+começarem a pensar como vocês vão 
+escrever aplicações e debugar e entender 
+toda essa meia de utilizar as melhores 
+práticas para desenvolver para que na 
+quarta feira vocês consigam implementar 
+na quarta e na quinta implementar essas 
+caras tá pode deixar para amanhã é 
+possível vale a pena criar índices em 
+memória em cima de colunas utilizadas no 
+join dos dois data frames em paralelo ao 
+ciclo clássico não você pode deixar aqui 
+o data frame em cima e vai fazer isso 
+para você principalmente se você tiver 
+utilizando lakehouse por exemplo a gente 
+vai na verdade confiar no lakehouse com 
+isso você não vai precisar trabalhar com 
+isso a gente vai ver por exemplo no dia 
+5 sobre é qual o nome é caraca muita 
+coisa não é caraca saiu o nome é liquid 
+plus 1 por exemplo a gente vai ver que 
+cara esse cara é foda vocês vão ver ele 
+em ação então é muito legal de ver tá 
+beleza já pode colocar o docker com um 
+clássico hoje não consegui explicar mas 
+amanhã eu vou chegar um pouquinho mais 
+cedo uns 15 minutos mais cedo antes de 
+começar a aula pode ser até 7 horas e aí 
+a primeira coisa que eu vou fazer com 
+vocês é explicar o repositório inteiro 
+para vocês poderem replicarem aí beleza 
+pode mandar lucas lá só os fotos até 
+agora se embora não for amanhã temos 
+algumas chances para fazer boa gente 

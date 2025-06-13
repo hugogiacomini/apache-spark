@@ -1,0 +1,6127 @@
+Olá pessoal, tudo bem?
+Boa noite, bem?
+Sejam bem -vindos a mais uma aula.
+Hoje, no nosso quarto dia, na quinta
+-feira, nós iremos falar de melhores
+práticas de utilização de código,
+melhorias em processos contínuos e como,
+de fato, escrever aplicações de Spark
+seguindo a melhor prática.
+Então, aqui na nossa agenda de hoje, o
+que a gente tem no treinamento para
+cobrir?
+Eu dividi ele em dois chunks, um chunk
+para a característica de desenvolver
+aplicações intensivas, ou seja, o
+conceito e a ideia de batch, e o outro
+sobre Stream Processing, usando
+Structure Streaming.
+E tem muita coisa legal para falar aqui.
+Então, são dois conteúdos densos, mas a
+gente vai quebrar aqui, pedaço a pedaço,
+e vai bem com calma, analisando,
+conversando, até porque o dia de hoje é
+legal e eu quero saber muito de vocês,
+como vocês estão escrevendo o código de
+vocês, o que vocês usam, se tem
+biblioteca, o que vocês usam para teste,
+o que vocês estão fazendo do lado de
+vocês para a gente trocar experiência.
+E aí eu vou mostrar um pouquinho de
+algumas das coisas que eu uso no dia a
+dia, outras coisas que são novas, que eu
+nunca usei também, que inclusive eu
+achei bem interessante algumas coisas, e
+eu sempre quis trazer esse conteúdo aqui
+por ele ser um conteúdo mais abrangente.
+Ele traz várias opções.
+A gente vai navegar em várias
+demonstrações aqui e pensar em várias
+formas diferentes de como atacar
+problemas relacionados a como lidar com
+aplicações.
+Beleza?
+E aí a gente vai ter o show depois do
+Matheusinho falando um pouquinho para a
+gente de Kafka, na integração de Kafka e
+Spark, entender porque que eles são o
+Match Made in Heaven, que a gente chama.
+Beleza?
+Então, vamos atacar esse cara?
+Porque hoje o dia está...
+recheado de melhores práticas.
+Eu acho que muita gente está esperando
+por esse momento.
+Eu já vou dizer o seguinte no dia de
+hoje.
+Existem muitas coisas que a gente vai
+ver ainda espalhado.
+Fiquem tranquilos, porque amanhã nós
+iremos escrever uma aplicação em batch e
+iremos escrever uma aplicação em
+streaming.
+E aí a gente vai ter todas as melhores
+práticas que a gente viu na segunda,
+terça, quarta e quinta dentro dessas
+aplicações.
+Então, isso quer dizer o quê?
+Cara, a gente vai pegar uma unidade de
+teste, a gente vai pegar uma forma de
+escrever, a gente vai utilizar um
+pattern, a gente vai escrever o código
+com início, meio e fim, vai ter isso
+documentado, enfim.
+Então, a gente vai ter isso passo a
+passo.
+Então, quando você estiver vendo as
+demos hoje, a gente vai ver muita
+feature, recurso e discutir sobre isso.
+Não fiquem preocupados, porque tem muito
+código.
+Então, não se preocupem com isso.
+Amanhã a gente vai estruturar a nossa
+mente.
+O motivo de eu fazer isso é porque, de
+novo, a gente tem...
+Nós temos um milhão de coisas para
+atacar.
+Existem várias prioridades.
+No dia de hoje, a prioridade para vocês
+é abrir a mente nas relações e
+possibilidades que a gente tem de
+biblioteca, de ferramentas auxiliares
+para ajudar você, sua produtividade,
+melhores formas de escrever aplicações,
+enfim.
+E amanhã a gente une todo mundo num
+local só.
+Beleza?
+Que aí fica mais fácil.
+Ah, legal.
+Então, você está pegando ali os
+melhores, colocando tudo, encaixotando e
+dando aqui um padrão de escrita.
+Então, a gente vai ver isso amanhã.
+Tá bom?
+Então, beleza.
+Então, vamos começar falando um
+pouquinho de como a gente constrói
+aplicações que são Critical Workloads
+dentro do Spark.
+Até agora a gente passou ali, e até
+gosto de mostrar essa parte, nós
+passamos aqui desde os conceitos
+principais, como as fundações, a
+arquitetura, task, job, como funciona a
+alocação de recurso e também como que
+funciona o fluxo, de acesso, ou seja, o
+ciclo de vida de uma aplicação.
+Depois a gente entendeu que o RDD foi
+deprecated para escrever e se é
+recomendado utilizar data frames ou data
+set.
+A gente viu bastante de plano de
+execução, entendeu um pouquinho do
+Catalyst Optimizer e navegou no Adaptive
+Core Execution as possibilidades que ele
+tem.
+No segundo dia, nós focamos nos patterns
+e antipatterns.
+Lembra lá que o que a gente fez foi
+basicamente mostrar seis antipatterns e
+seis patterns, juntando várias
+explicações de melhores práticas de
+utilização, correta e assim por diante.
+Hoje, ontem, nós vimos os cinco S's, nós
+vimos os cinco problemas mais comuns e
+navegamos em cada um deles para entender
+de fato, beleza.
+E hoje a gente vai atacar, como eu falei
+para vocês, melhores práticas de
+aplicação.
+Para que amanhã a gente possa fazer o
+quê?
+Fazer o deployment de aplicações.
+Dentro do Kubernetes, utilizando o Lake
+House e todas as coisas a gás que eu vou
+trazer amanhã para vocês, utilizando as
+melhores práticas, beleza.
+Então, a gente vai ter todo esse
+conjunto de entrega de hoje e amanhã.
+Dito isso, deixa eu começar, porque a
+gente tem muito conteúdo para entregar.
+Beleza, então a primeira coisa que a
+gente começa a pensar de fato, quando a
+gente olha na parte de desenvolvimento,
+desenvolvimento de aplicação, a gente
+viu problemas comuns.
+E normalmente, quando você está
+iniciando sua jornada no Spark, o que
+vai acontecer é que, cara, talvez pareça
+simples escrever, mas quanto mais a
+gente vai estudando e vendo as
+possibilidades, mais amplo fica nosso
+campo de visão.
+Isso quer dizer o quê?
+Existem várias ferramentas, existem
+várias formas de se trabalhar com o
+Spark.
+Você pode utilizar ele da melhor forma
+ou não da melhor forma.
+De novo, toda vez que você desenvolve
+algo que é codado, então você abre
+muitas possibilidades para fazer muita
+coisa, coisa boa e também há
+possibilidades para fazer muita coisa
+ruim.
+Então, o que que a gente precisa fazer?
+A gente precisa, e eu divido alguns
+pilares aqui do aqui do que a gente
+precisa como engenheiro de dados
+entender, e tem mente para que a gente
+possa escrever um código estruturado.
+Então, a primeira coisa que a gente, que
+eu sempre coloco aqui, independentemente
+do treinamento que eu esteja, são os
+fundamentos.
+E quando eu falo fundamentos eu não
+estou falando somente do Spark, estou
+falando dos fundamentos relacionados à
+área de engenharia de dados.
+Então, se você ainda sente, por exemplo,
+que você precisa aprender mais sobre
+esses fundamentos, não tem problema.
+A gente tem treinamentos na Engenharia
+de Dados Academy, por exemplo, a gente
+tem um treinamento de Fast Track que
+fala somente de fundamentos.
+Então, você pode ali estruturar seus
+fundamentos, entender o que é um Data
+Lake, quais são os conceitos principais,
+quais são os tipos de arquitetura, quais
+são as melhores práticas, quais são as
+tecnologias mais utilizadas no mercado,
+como elas se complementam e assim por
+diante.
+Depois disso, a gente começa a olhar
+realmente a arquitetura do Spark.
+E acho que hoje a gente pode falar, todo
+mundo aqui, que eu tenho um entendimento
+legal da arquitetura do Spark.
+Eu acho que talvez não esteja no topo da
+sua cabeça para você responder
+instantaneamente, mas você vai poder
+abrir o Scaledraw, revisar aquele
+conteúdo e lembrar.
+Então, a gente tem Task, a gente tem
+Slot, a gente tem Core, a gente tem
+Partições, Partições igual a Tasks.
+A gente tem o Driver, tem os Executors,
+tem o Cluster Manager, e aí você começa
+a desbravar toda essa parte.
+Aí vem o terceiro pilar, na minha
+opinião, que é começar a aprender a
+escrever para Spark.
+Porque, normalmente, Spark SQL é meio
+que intuitivo para a maioria das
+pessoas, independentemente do background
+dela.
+É o que eu falo para todo mundo, é muito
+mais fácil aprender a escrever SQL do
+que aprender a codar em Spark, muito
+mais.
+Então, é muito mais...
+É muito mais intuitivo.
+A linguagem SQL é intuitiva demais,
+muito simples de ser colocada em
+prática.
+E para Spark é um pouco mais complexo,
+porque existem, de novo, várias formas
+de fazer isso.
+Então, se você está utilizando Python
+ali, como a gente viu, é muito comum
+muitas pessoas utilizarem o Python ali
+no driver do Spark e achar que ele está
+utilizando o Spark da forma correta.
+Eu já peguei clientes grandes fazendo
+isso, que são, teoricamente, problemas
+simples.
+Mas, às vezes, sai ali da atenção.
+Uma vez que você começa a ter
+proficiência em Spark, Spark SQL, você
+começa a escrever suas primeiras
+aplicações.
+E aí, o que pode acontecer depois?
+No quarto pilar, para mim, ele vem uma
+coisa muito interessante, que é o
+seguinte.
+Cara, você está escrevendo suas
+aplicações, entendeu como Spark
+funciona, está se sentindo confortável.
+E agora vem um requisito, realmente, de
+você escrever uma aplicação que processa
+grandes montantes de dados.
+E aí, assim, as coisas começam a ficar
+interessantes exatamente nesse momento.
+Por quê?
+Porque qualquer vício de programação,
+qualquer coisa que você fez que não siga
+as melhores práticas quando você estava
+escrevendo suas aplicações
+anteriormente, elas vão passar
+despercebidas.
+Porque você está escrevendo aplicações
+de médio e pequena escala.
+Então, dificilmente um order by ali vai
+te atrapalhar.
+Você vai ter um tempo de execução, mas
+ele não vai ser gigantesco.
+Você vai ter ali um...
+Windows Functions colocado errado.
+Você não vai ter hints para você
+utilizar o Broadcast.
+Você não vai escrever de forma orientada
+como input, output e entrega.
+Você não vai utilizar reparticionamento.
+Você não vai pensar em partição.
+Então, você vai simplesmente codar e vai
+funcionar.
+E é o que a maioria dos desenvolvedores
+fazem hoje.
+Por isso que a gente, hoje, posso falar
+para vocês que vocês se tornam uma elite
+de pessoas.
+Por quê?
+Se vocês pegarem esse conteúdo aqui, e
+de novo, pensem o seguinte.
+Eu trabalho com isso.
+Eu tenho sete anos com clientes de
+pequeno, médio e grande.
+Então, eu passei por vários problemas.
+Os mais comuns de Spark e também alguns
+bem atípicos.
+E não só isso.
+Eu passei, mais ou menos, para
+desenvolver esse conteúdo de sete a nove
+meses.
+Então, eu já tenho em mente há anos em
+como eu construí esse treinamento.
+E foi muito complexo pensar numa
+estrutura desse treinamento.
+Por que eu estou falando isso para
+vocês?
+Não espere aprender tudo da primeira vez
+que você viu.
+Na verdade, isso seria até uma...
+Não é um pecado, mas isso seria até
+desafiar o seu professor.
+No quesito de, tipo, caraca, o cara vai
+fazer uma aula.
+Eu passei nove meses estudando isso
+aqui.
+Detalhe a detalhe.
+E o cara absorveu tudo da primeira vez.
+Então, vai devagar.
+Respeita o seu tempo.
+Revisa o conteúdo.
+Então, deixa passar o treinamento.
+Revisa o conteúdo.
+Vai digerindo de pouco em pouco.
+Para quem está na comunidade, pode
+utilizar a comunidade para a gente
+continuar trocando ideia.
+Senão, a gente faz lives sobre esse
+conteúdo.
+E a gente está sempre ali.
+A ideia é sempre estar praticando.
+E esse é o sucesso de qualquer coisa na
+sua vida, né?
+Não é quantas horas você dedica um dia,
+três ou sete.
+Mas sim a constância de dedicação que
+você tem.
+É muito mais produtivo para o seu
+cérebro trabalhar um estudo, por
+exemplo, todos os dias, uma hora por
+dia, do que você fazer três horas um
+dia, duas horas no outro.
+Aí, no outro dia, você não faz.
+No outro, você compensa, faz sete.
+Aí, depois, você faz dez.
+E depois, você não faz mais.
+Enfim.
+Então, o cérebro, ele não consegue criar
+uma rotina e não consegue, de fato,
+entender o que você quer.
+Então, você vai ter que criar um padrão
+baseline para ele poder entender isso.
+Então, tenha calma com o conteúdo, tá?
+É normal que a gente tenha várias
+perguntas.
+Por exemplo, muitos conceitos que a
+gente passou, hoje, vão estar embolados
+na cabeça de vocês.
+Ah, o que é esse P .I .O .S .K .I .O.
+ali?
+Talvez tudo não faz sentido.
+É normal, tá?
+Isso é normal em um treinamento intenso.
+O que vai acontecer depois é que, ao
+longo dos dias, das semanas, isso vai
+acomodando.
+Na sua mente, quando você revisitar o
+conteúdo, aí você vai ter suas eurecas.
+Ah, caraca.
+Não, agora eu entendi mesmo.
+Não tinha falado isso.
+Ah, eu estou vendo aqui agora.
+Então, vai com calma, tá?
+Se respeite.
+Mas, voltando aqui ao large -scale data
+processing, aqui as coisas começam a
+ficar bem complexas, na minha opinião.
+Porque aqui começa a diferenciar das
+pessoas que realmente escrevem por
+escrever, e não vão ver problemas, e
+pessoas que entendem como devem escrever
+com o Spark.
+E hoje eu posso falar para vocês com
+toda a certeza absoluta que vocês estão
+nesse time aqui.
+Porque, independentemente que hoje você
+não escreva utilizando as melhores
+práticas, você tem um conteúdo agora e
+você tem um norte para poder fazer isso.
+Você vai pegar o treinamento, vai
+assistir, e você vai saber no último dia
+ali quais são as melhores práticas, por
+que a gente utilizou aquilo, como
+estrutura um código lindo, maravilhoso,
+para você poder ter reproducibilidade,
+para você ter constante, se é para você
+entregar isso para o seu time com muita
+confiança, como se destacar e assim por
+diante.
+Você vai conseguir fazer isso.
+Então, veja o conteúdo que está aqui no
+treinamento.
+Beleza, isso é complexo.
+Mas tem uma coisa muito mais sensitiva,
+na minha opinião, que é um cara chamado
+Streaming e Real Time.
+Eu acho que eu e o Matheus, a gente fala
+de Streaming e Real Time desde, cara, eu
+nem lembro na verdade, deve fazer mais
+de 5, 6 anos, 5 anos que a gente fala
+disso.
+E naquela época já acontecia, mas não
+acontecia em grande volume dentro do
+Brasil, o Brasil está totalmente
+estourado.
+Mas cada vez mais agora, a gente está
+pegando casos de consultoria, problemas,
+inclusive eu ali, mais fora, mais coisas
+sobre Spark.
+E hoje a gente tem um tópico para falar
+muito legal de Spark, que me deixa muito
+feliz finalmente, que é o projeto
+Lightspeed.
+Eu não sei se vocês já ouviram falar
+desse projeto, mas esse projeto foi
+implementado realmente e dado à
+comunidade para o Structure Streaming.
+Então, a gente vai ver ele funcionando
+hoje, tá?
+Inclusive, é uma demo muito legal, que
+eu aconselho vocês ficarem aqui ligados,
+porque vai ser muito foda.
+E aí a gente vai ver o que ele habilita
+para o Spark, né?
+Beleza, só que aí tem um outro porém.
+Você entendeu Spark, você aprendeu a
+escrever suas aplicações, você começa a
+lidar com Streaming, mas aí você começa
+a ter a faceta do seguinte, cara, devo
+usar Spark para integrar ou não?
+Isso é uma coisa constante, tem muita
+gente que utiliza o Spark como um
+sistema de integração, né?
+A gente tem clientes que fazem isso e
+está tudo bem.
+Está tudo bem até um certo ponto de
+novo, até aquilo se tornar um ponto
+crítico na empresa, a gente vai começar
+a ver que o Spark não é a melhor
+tecnologia, longe disso, de fazer isso,
+não é a proposta inicial dele, né?
+A proposta dele é in and out, né?
+Receber dados de Data Lake, processar
+dados de memória e escrever de novo em
+Data Lake.
+É para isso que, de fato, o Spark foi
+feito.
+E hoje, com os adventos do Lake House, a
+utilização absoluta do Lake House, com
+certeza, que é exatamente o próximo
+tópico.
+Então, se você for começar agora em
+pensar em integrar sistemas, ou seja,
+puxar de um banco de dados relacional,
+trazer de um FTP, trazer microserviços
+para escrever, enfim, não utilize o
+Spark para isso porque ele não é feito
+para isso, tá?
+Então, e sempre tenha em mente o
+seguinte, não é porque uma tecnologia
+faz uma coisa que ela é boa nisso.
+Então, isso é um outro ponto muito
+importante que vocês têm que ter em
+mente.
+Não é porque faz que simplesmente você
+deve usar, porque se você for parar para
+pensar 300 milhões de tecnologias que a
+gente conhece fazem exatamente a mesma
+coisa, a mesma proposta do Spark, né?
+Só que quem faz melhor?
+Então, é importante você ter isso em
+mente na hora que você começa a
+construir suas skills, tá?
+E também não é porque faz que foi feito
+para isso, exatamente, tá?
+Como você gosta de dizer, tem coisa que
+é mais divertido morrer queimado, tipo
+isso.
+Então, para mim, eu tenho muito isso na
+minha vida, sabe?
+Tipo, eu não uso Spark em
+circunstâncias...
+Então, por exemplo, eu e o Matheus, a
+gente trabalha em consultoria, a
+primeira coisa que a gente se pergunta é
+o seguinte, cara, vocês trouxeram uma
+arquitetura aqui que tem Kafka e tem
+Spark, mas eu sei, por exemplo, que eu
+posso plugar o Spark direto em JDBC no
+MySQL e trazer o dado.
+Por que a gente não faz isso?
+E aí, a gente tem toda uma explicação do
+porquê não fazer isso e acaba justamente
+com o processo de morrer queimado seria
+melhor, tá?
+Então, prestem bastante atenção em como
+vocês...
+como vocês vão utilizar.
+Hoje, vocês estão em um nível que vocês
+podem ter essa visão mais ampla, beleza?
+Depois, a gente vai para o de facto de
+hoje.
+Então, cara, eu utilizo sistemas
+distribuídos, eu trabalho com Big Data,
+eu trabalho com Analytics, enfim.
+Cara, você tem que trabalhar com Lake
+House, tá?
+Você tem que escolher um Lake House para
+você trabalhar.
+Ou Iceberg, ou Delta, enfim, tá?
+Então, você vai escolher uma delas para
+trabalhar.
+E um dos grandes, hoje, atualmente, a
+gente já está quebrando essa barreira,
+né?
+A gente vai ter, daqui a alguns anos,
+aqui, acho que próximo ano, por exemplo,
+a unificação de todos os Lake Houses.
+Então, você não vai precisar mais se
+preocupar se você está escrevendo em
+Delta, se você está escrevendo em
+Iceberg, se você está escrevendo em
+Hood.
+Isso vão ser dias passados.
+Ainda não é.
+Mas isso vai acontecer, tá?
+Isso aí vai chegar no conceito que a
+gente vai falar amanhã de Fair House,
+que é uma casa justa.
+E aí, a gente vai ver que vai ter uma
+separação segregada de computação com...
+com storage, tá?
+Inclusive, exatamente, o Apache Xtable,
+quero ver se eu consigo trazer amanhã um
+pouquinho dele.
+É um projeto muito interessante.
+A gente tem outros projetos tomando
+também ali a vértice do Xtable, que eu
+vou mostrar aqui.
+Mas ele é um cara que eu espero que seja
+exatamente um momento que construa esse
+tipo de conceito, tá?
+E a DataBank está muito forte nisso.
+No evento que eu estava lá, três semanas
+atrás, lá em São Francisco, o Ali Godzi,
+que é o presidente da Databricks, falou
+exatamente isso.
+Cara, daqui dois, três anos, eu não
+quero estar mais falando com vocês sobre
+formato de arquivo.
+Quero estar falando sobre outras coisas,
+né?
+E aí, o Ryan Blue, que é um dos
+criadores do Apache Iceberg, ele...
+A empresa Tabula foi comprada para
+dentro da Databricks.
+Então, a gente vai ver cada vez mais
+Iceberg e Delta se unindo.
+E aí, a gente vai ver o Uniform.
+Amanhã, eu quero mostrar para vocês o
+Uniform,
+tá?
+Beleza, e com o fim?
+Eu vou até mudar aqui.
+Eu vou chamar de Paul Rittany.
+Paul Rittany, performance Rittany.
+Vou chamar The Art, né?
+Para mim, aqui, é a arte, né?
+Os 30 % ali do que vai realmente
+diferenciar o seu pipeline, o que vai
+realmente reduzir ali o seu job de 15
+horas para duas horas, o que realmente
+vai trazer impacto no negócio quando
+todo mundo deixou de olhar para aquilo.
+Então, essa parte é muito legal.
+A eficiência em como você escreve, ela
+vem de toda uma cadeia que a gente está
+entregando aqui, né?
+Então, pensa o seguinte.
+Não tem como você fazer performance TAN
+com perfeição se você não passar pela
+maioria desses pilares aqui, se não
+todos, certo?
+Então, lembrem que a construção do seu
+conhecimento, ele segue um pilar.
+Não tem como você começar hoje e, cara,
+daqui a dois dias, você quer fazer TAN
+de skill, por exemplo, né?
+São passo a passo.
+E isso é um processo que, normal, vai
+acontecer com todo mundo.
+Então, tenham isso em mente na hora de
+estar construindo o seu conhecimento lá
+dentro da sua casa.
+Então, você tem que ter em mente a sua
+cabeça, né?
+Quais são os pilares que eu tenho que
+saber?
+Onde eu me sinto confortável?
+Quais são os pontos que eu tenho que
+melhorar?
+Faz uma mental ali, divide essas
+categorias, vai falando, cara, por
+nível, como que você está em cada um
+deles, vai estudando isso.
+E muito mais importante do que isso,
+escolha o que estudar.
+A gente está num momento hoje, né?
+E aí eu tenho muita dó, inclusive, da
+geração de hoje, que, cara, hoje a gente
+é bombardeado com informação.
+Então, para você ter Fear of Missing
+Out, que é FOMO, é a coisa mais simples
+que tem, né?
+Porque você tem tanto conteúdo, você não
+consegue ler da DB, você não consegue
+entender aquilo, aí você tem que ver
+Polars, e daqui a pouco tem coisa nova,
+e chega outra atualização, tem Unity
+Catalog, Open Source, não sei o quê.
+E aí, se você não realmente tiver a sua
+cabeça focada ali, o que vai acontecer?
+Você fica, cara, estudando ali as coisas
+legais, vendo não sei o quê, mas você
+não tem profundidade em nada, tá?
+Então, lembrem disso toda vez que o seu
+corpo...
+E o seu corpo vai preferir fazer isso,
+tá?
+O seu corpo vai preferir...
+O seu corpo vai preferir desviar do que
+realmente pegar uma coisa focada e fazer
+de fim a fim.
+Então, você vai ter que retreinar a sua
+cabeça para isso.
+Então, beleza.
+Depois disso, a gente começa a pensar na
+segunda parte, que é...
+Quais são as melhores práticas que a
+gente pode aplicar?
+E eu gosto muito desse desenho aqui,
+porque ele mostra o seguinte.
+Eu dividi esses caras em entrada,
+transformação e saída.
+Então, quando você pensa no Spark, é
+muito bom você pensar dessa forma.
+Ele vai entrar, ele vai processar e ele
+vai sair.
+E, dito isso, o que a gente vai fazer?
+A gente vai segregar aqui alguns
+problemas em cada uma dessas categorias
+e vai falar em como a gente pode melhorá
+-las, tá?
+Então, por exemplo, na camada de
+entrada, a gente viu em detalhes, né?
+Então, a gente falou isso lá no
+treinamento de performance stunning, né?
+Arranhando a superfície, mas aqui a
+gente foi lá no detalhe do detalhe, né?
+Até saber, por exemplo, a função que é
+chamada dentro do parquê para poder
+carregar ali o parquê para o Spark, e
+como isso funciona por debaixo dos
+panos.
+Então, lembrem de não utilizar nenhum
+formato que não seja de Big Data
+Analytics, né?
+Ou seja, ORC, Parquet, Avro, Iceberg,
+Delta, que são formatos de tabela,
+enfim.
+Então, utilizem eles ao invés de
+utilizar JSON e TXT.
+Só utilize JSON caso você precise cuspir
+o dado para fora do Spark.
+Mas, para ingerir o dado, nunca pense em
+ingerir em JSON.
+Vai ser muito mais eficiente você ter
+uma rotina que utiliza, por exemplo, uma
+AWS Lambda, ou um cara que usa o Azure
+Functions, ou outro cara que usa o
+Google Functions, que pega toda vez que
+cai um dado no storage, você converte
+ele para parquê e joga em um outro
+local.
+Por exemplo, eu tenho um cliente que a
+gente faz isso.
+O cara tem uma landing zone, o que a
+gente faz?
+A gente tem um evento que olha para essa
+landing zone, e aí a gente tem um evento
+que está ligado a uma função.
+Então, toda vez...
+Toda vez que esse cara chega, o que a
+gente faz?
+A gente lê esse arquivo em Python e a
+gente converte esse arquivo para parquê
+e COSP na zona onde o Spark vai
+trabalhar.
+Então, nunca utilizem JSON para fazer
+isso.
+Evitem fazer isso, por favor.
+Utilizem técnicas para entregar parquê
+ou qualquer outra coisa.
+Outro ponto.
+No início da sua investigação com
+datasets grandes ou com processos
+críticos, identifique a distribuição do
+dado para ver se você tem o quê?
+Skill.
+Então, é importante, porque uma anotação
+que você faça no seu código, você não
+precisa tacar o skill naquele dia.
+Mas, de novo, partes por partes.
+Então, você escreveu o seu código, ele
+está com as melhores práticas, só que
+você fez uma distribuição ali e viu que,
+cara, esse dataset tem problemas
+enreditados de skill.
+Então, o que você vai fazer?
+Joga uma nota dentro da sua aplicação.
+Olha, é esse cara, não sei o quê.
+Possivelmente, a gente vai ter que
+fazer...
+Desotinização desse cara a longo prazo
+por causa disso, disso, disso e disso.
+Então, isso já é um ótimo indicativo,
+porque no pior dos cenários possíveis,
+quando um novo desenvolvedor pegar isso,
+ele já sabe que alguém documentou e
+falou, cara, olha só, realmente, a gente
+começou com um dado em tanto tempo, está
+em tanto tempo e, de fato, a gente tem
+skill.
+Então, é importante vocês fazerem isso.
+E lembra que a gente falou de I .O.
+excessivo.
+Então, por exemplo, se você está lendo
+dados que foram splitados ou foram
+particionados, ali no storage, lembra
+que a gente está saturando o storage.
+Quando a gente está lendo vários
+arquivos pequenos, a gente está
+saturando o storage.
+Então, é muito importante, não só no
+conceito de saturação, mas também no
+conceito do quê?
+No conceito de...
+É muito mais interessante para o Spark
+você fazer requisições mais long, porque
+é short -lived.
+Ou seja, várias micro requisições que,
+na verdade, vão bater ali, vão retornar
+um pedaço muito pequeno do dado e que
+não vão te trazer o dado como um todo,
+além de gerar custo.
+Isso, lembrem disso.
+Então, imagina só, se todas as
+aplicações que você tem começam a
+consultar de dados particionados ou
+realmente saturar I .O., você vai ter um
+alto custo de S3 ou de GCS ou de Blob
+Storage, sendo que esses são gastos que
+não devem ser expressivos.
+Eles devem aparecer, obviamente, no seu
+billing, mas ele não pode ser
+expressivo.
+Comparado ao todo o outro resto.
+Beleza?
+A não ser que você tenha uma anomalia.
+E quais são aí a gente...
+Quais são as fixas que a gente pode ter?
+Então, como eu falei, formato eficiente,
+otimizar o particionamento de dados por
+evitar.
+Então, deixa eu colocar aqui.
+Evitar, e a gente já viu demais isso.
+Vamos evitar particionamento.
+Vamos trabalhar com pruning e predicate
+pushdown.
+Então, cara, esse cara é perfeito.
+E a gente viu uma demonstração na
+prática do tempo de carga de um arquivo
+parquet inteiro e de pedaços somente
+deles, até porque o dado é colunar e
+escrito em disco dessa forma.
+Então, lembrem disso, tá?
+E broadcast para datasets pequenos.
+Então, acho que beleza.
+Na parte de IN, essas são as melhores
+práticas, ou pelo menos uma das melhores
+práticas.
+Claro, existem outras aqui, mas acho que
+essas são bem importantes.
+Se você seguir essas aqui, você já vai
+estar muito bem.
+Depois, a gente vai para o transformer,
+que é literalmente a parte onde a gente
+vai transformar o dado.
+Então, o que a gente não vai fazer?
+A gente não vai serializar esse dado.
+A gente vai evitar utilizar serialização
+e deserialização toda hora.
+E o que seria isso?
+Utilizar uma pandas UDF, por exemplo.
+A gente viu ontem como funciona o
+mecanismo do pandas UDF contra uma
+native spark function, e a gente viu que
+é extremamente mais eficiente utilizar
+uma native spark function.
+Então, nunca opte, nunca opte em
+utilizar um Python UDF, a não ser que
+não exista nenhuma opção.
+Para vocês, isso é muito claro, mas
+talvez um desenvolvedor de Python que
+está começando a sua jornada agora no
+Spark, isso para ele vai ser natural
+utilizar Python, e vai ter Python para
+tudo quanto é campo.
+Inclusive, hoje no final do dia, eu
+posso abrir para você um ambiente de um
+cliente crítico, e quero eu te mostrar
+Python Batch Evolved para torta e
+direita, porque ele utiliza Python.
+Isso acontece, é normal.
+Isso vai acontecer.
+Bom para você, porque isso vai te
+diferenciar mais ainda, porque uma
+mudança que você faça no código disso,
+você pode ter certeza que você vai ter
+um impacto extremamente positivo no seu
+código.
+Então, isso vai ser bom para você.
+Para a gente evitar shuffle, então, de
+novo.
+Quando eu falo evitar shuffle, é não ter
+mais shuffle.
+Ter shuffle vai acontecer, como a gente
+já falou, é inevitável.
+Mas a gente tenta evitar a quantidade de
+shuffle que a gente faz nas nossas
+aplicações.
+E tomar cuidado com out of memory.
+Então, operações que possam causar out
+of memory.
+Caching de dados, problemas relacionados
+com spill de dados, problemas de você
+carregar as informações dentro do
+driver.
+Então, tudo isso pode gerar para você
+out of memory.
+E é um problema relativamente comum no
+Spark.
+Ele acontece bastante.
+Sei lá, das 100 aplicações que eu reviso
+nos últimos tempos, eu diria que 20 %
+delas tem out of memory.
+E são coisas geralmente simples.
+O cara está usando 4.
+Ou o cara está fazendo um Pandas no
+driver.
+Ou ele está, sei lá, ele está tentando
+fazer um cache.
+Eu já vi várias vezes o cara fazendo um
+cache de uma tabela gigante.
+Que é uma tabela que não era grande, mas
+ela cresceu absurdamente.
+O cara está tentando cacheá -la em
+memória.
+Então, isso pode acontecer.
+Beleza?
+Então, evitar wide transformations o
+máximo que você puder.
+Utilizar caching como sabedoria,
+obviamente.
+Principalmente para os data frames
+intermediários.
+Lembra que o caching é efetivo a partir
+do momento que você tem esse dataset que
+foi para memória.
+E você tem várias pessoas ou vários
+outros downstreams consumindo deste cara
+aqui.
+Beleza?
+E otimizar joins de novo.
+E aqui utilizando Broadcast, a hint do
+Broadcast.
+Então, aqui eu vou botar para vocês.
+Optimize join Broadcast with hint.
+Com a hint que a gente viu.
+Então, adicionar ali o Broadcast no seu
+join.
+Para poder melhorar.
+De fato, a sua entrega.
+E por fim, ir no Sync.
+No Sync, é muito importante em como você
+escreve esse dado.
+Principalmente quando você está no Make
+House.
+Lembra que quando você está no Make
+House.
+Toda vez que você faz uma alteração no
+arquivo.
+No layout do dado ali no final do dia.
+Você gera uma nova versão dele.
+Então, com o tempo, você acaba tendo
+muitos arquivos.
+Além de você ter muitos metadados.
+E quando isso escala consideravelmente.
+Você tem que ter degradação de
+performance.
+Por estatísticas.
+Por tempo de leitura.
+Por metadado overload.
+E assim por diante.
+É importante que você tenha isso em
+mente.
+Teve um caso de um cliente agora
+recentemente nosso.
+Gigantesco.
+Que o problema dele era 30 % de
+latência.
+Por causa que o cara tinha mais de 200,
+300 versões de cada tabela.
+Porque ele não limpava esses históricos.
+E tinha ali deixado para o cara reter
+eternamente.
+Então, podem acontecer essas coisas.
+E não é raro.
+E evitar escrever small files.
+Então, um dos problemas que a gente tem.
+É a gente não se atenta às partições que
+a gente escreve.
+Ou seja, a ideia é no final que você for
+escrever algo.
+Utilize um coalesce.
+Para reduzir a quantidade de partições
+ali.
+E você escrever arquivos maiores.
+Ou na hora de fazer.
+E a gente vai ver amanhã.
+Quando a gente faz um repartition.
+A gente pode escolher como a gente quer
+ali.
+Tem técnicas para você escrever o dado.
+Em partições mais homogêneas.
+Ele já tenta fazer isso.
+Mas você pode forçar algumas coisas.
+Então, tentem sempre ter isso em mente.
+E a gente vai falar amanhã.
+Do liquid clustering.
+Que eu deixei o melhor para o último
+dia.
+Então, a gente vai ver, por exemplo,
+hoje.
+Que partição vai ser um problema do
+passado.
+Para vocês.
+Depois que vocês passarem por amanhã.
+Vocês vão ver que, cara.
+Acabou esse problema de partição.
+A gente vai utilizar direto o liquid
+clustering.
+E utilizar ele a partir de agora.
+Todo mundo.
+Tá?
+E eu acredito de verdade.
+Que isso aqui cobre um pouco mais que 70
+% da superfície.
+Então, eu acredito, cara.
+Que se você escrever pensando nessas
+dicas aqui.
+Você já vai ter 70 % dos problemas
+reduzidos.
+E aí, claro que vai sobrar o restante
+deles.
+Que a gente vai atacar exatamente aqui
+agora.
+Olhando práticas.
+Performando.
+Conversando sobre isso.
+E trocando ideia.
+Sobre patterns.
+Tá?
+Então, agora a gente vai falar das
+diferentes técnicas que a gente tem.
+Para melhorar a escrita do seu código.
+Acho que isso é uma parte que faz muito
+interesse para todo mundo aqui.
+Porque aqui você vai começar.
+A gente vai começar a discutir várias
+formas de se escrever.
+Várias bibliotecas.
+Enfim.
+De novo.
+Quando você está no mundo da habilidade
+e desenvolvimento.
+Não existe o certo e o errado.
+Por mais que a gente tenha padrões.
+Não quer dizer que existe o certo e o
+errado.
+Existe estar funcionando ou não no final
+do dia.
+E aí a manutenção vem depois.
+Muita gente pensa assim.
+Mas é muito importante que você entenda
+isso.
+Eu, recentemente, passei por um problema
+muito complexo.
+Muito complexo.
+E eu vou explicar para vocês.
+Para vocês entenderem porque eu trouxe
+esse capítulo aqui.
+E dediquei um dia para isso.
+Beleza?
+Eu sempre fui de background.
+De dados.
+E talvez isso também seja semelhante com
+o seu caso.
+Eu sempre fui um cara de background de
+dados.
+Eu nunca fui um bom, um exímio
+programador.
+E ao longo da minha carreira eu tive que
+aprender engenharia de dados.
+Eu quis aprender engenharia de dados.
+Eventualmente eu comecei a trabalhar com
+programação orientado a criação de
+dados.
+E chegou num momento que eu me deparei
+com um super desafio na minha carreira.
+Dois anos atrás.
+Um ano e meio atrás, mais ou menos.
+O Matheus, inclusive, viu isso de perto.
+O meu desafio foi...
+A Piffian chegou para mim e falou.
+Gente, olha só.
+A gente está juntando um time aqui de
+especialistas em Azure.
+Porque a gente tem três clientes que
+querem implementar soluções de Analytics
+Engineering dentro do Azure.
+E aí a gente precisa pegar os
+especialistas de Azure para pensar em
+criar uma solução automatizada de
+engenharia de dados.
+Ou seja, hoje a gente está inclusive
+fazendo o rollout do cliente essa
+semana.
+Eu estou sem dormir, basicamente.
+Mas o que a gente fez?
+Basicamente o cliente chega ali ou ele
+vai ter um processo que vai dropar o
+dado no storage.
+E a partir daí, cara, tudo acontece de
+forma automática e transparente.
+E o dado cai ali transformado, enfim, do
+outro lado, num data warehouse.
+Que posteriormente você tem um job de
+DBT que roda automaticamente.
+Até entregar o dado ali no Azure.
+E na ponta final, tá?
+Num dashboard, numa tabela ou no Power
+BI.
+Então, quando a gente se deparou com
+esse desafio foi.
+Cara, a gente tem essa solução no GCP
+já.
+Aí presta atenção nisso aqui.
+Essa história aqui é muito foda, tá?
+E aí a gente falou.
+Cara, a gente tem um Azure DP Quick
+Start para começar agora.
+Mas a gente tem um Google EDP Quick
+Start que já está feito e funciona muito
+bem no Google.
+E, cara, vai funcionar maravilhosamente.
+Exatamente no Azure.
+E aí a gente começou a discutir.
+Enfim, eu já tinha trabalhado nesse
+projeto anteriormente na Google.
+E eu sabia como o código foi escrito.
+E aí, olha só que coisa foda isso aqui.
+A gente fez um time.
+A gente fez um assemble de um time de
+cinco pessoas para poder desenvolver.
+Eu fui agraciado de estar no time.
+Então, eu, Warner e Kevin Pedersen fomos
+os responsáveis pelo design do projeto.
+E aí a gente teve o Daniel também, que é
+brasileiro, trabalhando com DevOps.
+O Matheus já trabalhou com ele.
+É animal também.
+Então, a gente juntou um time bem legal.
+Para vocês terem ideia, o Kevin
+Pedersen, ele é um dos Seniors
+Architects lá.
+Ele deve ter uns 60 e tantos anos.
+O cara é, enfim, legendário, né?
+O cara é muito foda e muito impaciente
+também.
+Mas, assim, pessoas muito gêneas são
+difíceis de trabalhar na maioria das
+vezes.
+Mas, enfim.
+Então, a gente falou.
+Cara, a gente precisa analisar o code
+base do Google para ver o que a gente
+vai puxar.
+E o cara tem tons de features da Google.
+Cara, o produto funciona muito bem.
+A gente divide isso em diferentes
+projetos.
+Esse cara é promovido entre ambientes
+muito transparentemente.
+Utiliza BigQuery, utiliza Spark e assim
+por diante.
+Cara, a gente olhou no code base, né?
+E a gente pegou ali e fez um bloco de
+uma reunião, de várias reuniões durante
+a semana para analisar o código.
+Nada foi aproveitado.
+Nada.
+Sabe o que é nada?
+Nada.
+Por quê?
+Porque o código foi desenhado e escrito
+para ser o quê?
+Google Specific.
+E aí, cara, aquilo ali foi um momento
+muito legal na minha carreira.
+Porque eu falei, cara, eu não quero
+passar por isso aqui de novo.
+Eu quero talvez ter, né?
+Eu quero construir um momentum, que a
+gente chama.
+Que é, cara, eu começo a desenvolver.
+Eu penso na arquitetura.
+Eu começo a desenvolver os pedaços e
+componentes dessa arquitetura.
+E depois eu vou evoluindo.
+E eu começo a ganhar momentum com várias
+pessoas trabalhando.
+Eu começo a ter um fluxo de trabalho.
+E essas coisas começam a evoluir.
+E aí, a gente acabou fazendo o quê?
+Cara, a gente vai ter que redesenhar.
+Então, a gente vai usar todos os
+conceitos e princípios, que eles são
+muito bons, tá?
+Tarefas, job, tarefa, atividade.
+Como isso é distribuído.
+Como que a gente trabalha com esse
+conceito do EDP no Google.
+Funciona muito bem.
+Beleza?
+E aí, a gente falou, cara, a gente tem
+que construir algo para o
+Azure.
+Né?
+Porque a gente tem outras coisas para
+falar aqui.
+A gente optou em reescrever.
+Em reescrever, não.
+Em escrever tudo.
+Ou seja, ler todo o código legado.
+Né?
+Não é legado.
+Mas ler todo o código do GCP.
+E pensar em como a gente construiria no
+Azure.
+Não.
+Negativo.
+Dessa vez, a gente teve o Kevin
+Patterson, que falou, cara, então, agora
+a gente vai fazer isso certo.
+Né?
+Independentemente do que o time de
+gerência quer.
+O time de gerência quer que a gente
+entregue em dois meses.
+Caguei para eles.
+Foi exatamente o que ele falou, tá?
+Na frente de todos os gerentes.
+Cara, eu não vou fazer o que vocês
+querem.
+Verdade.
+Ele falou isso para o VP, tá?
+Ele falou isso para o vice -presidente
+da empresa.
+Eu não vou fazer o que você está me
+pedindo.
+Porque o especialista sou eu, não é você
+que escreve o código.
+Eu vou escrever o código da forma que
+está certo.
+Então, assim, o cara...
+E ele está certo.
+Então, eu acho legal porque existe
+exatamente esse respeito e é importante
+ter realmente.
+Então, por que um cara tão experiente
+vai estar ali, né?
+Então, enfim.
+E aí, a gente...
+A gente começou a desenvolver, né?
+Então, a gente pediu um pouco mais de
+tempo.
+Obviamente, o projeto acabou demorando o
+dobro de tempo.
+Mas, cara, a gente construiu ele com
+padrões de desenvolvimento e patterns
+que hoje o time da Google vai
+implementar dentro do nosso codebase.
+Então, eles vão trazer a nova versão do
+EDP no Google dentro do nosso codebase.
+Porque o codebase que a gente fez, ele é
+dividido em patterns de engenharia de
+software.
+Então, a gente utiliza decorator.
+A gente utiliza muita coisa legal que eu
+vou falar aqui.
+E aí, eu vou trazer para vocês como que
+eu escrevi o Spark neles, trazendo todas
+essas dicas aqui para vocês nos últimos
+um ano desenvolvendo essa solução in
+-house.
+Beleza?
+Então, basicamente, isso para vocês
+entenderem o background do porquê eu
+achei importantíssimo falar disso.
+Porque muitas pessoas...
+Muitas poucas pessoas falam sobre isso
+no dia a dia.
+Como escrever código estruturado que vai
+ser chipado para uma plataforma de
+engenharia.
+Um dado que vai ser reutilizado por
+várias pessoas.
+Um conteúdo que vai ser reaproveitado e
+assim por diante.
+Beleza?
+Então, a gente começa a pensar no
+seguinte.
+Modularidade.
+Então, cara, esse é o nome mais
+importante que a gente precisa ter na
+nossa mente quando desenvolve
+independentemente.
+Claro que aqui existe um sweet spot que
+é muito difícil.
+Que é assim, cara, should I say, should
+I go?
+Tipo, qual o nível de detalhe que eu
+tenho que entregar?
+Será que eu tenho que ser muito
+detalhista ou pouco detalhista?
+Então, a gente vai discutir um pouquinho
+disso.
+Em qual ponto você vai reutilizar e como
+que você reutiliza as suas funções, por
+exemplo.
+Quais são as melhores práticas para
+isso?
+Segundo, configuration management.
+Nunca armazene configurações nenhuma que
+estejam relacionadas ao código da sua
+aplicação.
+Por quê?
+Porque isso vai fazer com que você não
+consiga utilizar um ciclo de DevOps
+eficiente.
+Isso vai fazer com que você tenha
+problemas de incrementos, de mudanças
+incrementais no seu cloud base.
+Isso vai te fazer sérios problemas de
+compliance, às vezes, e de segurança.
+Então, toda a parte de configuração que
+faz o setup da sua aplicação, de alguma
+forma, ela tem que estar completamente
+desacoplada.
+E isso vai te ajudar justamente para
+quando você está promovendo em
+diferentes ambientes.
+Então, imagine o seguinte.
+A gente, hoje, lá no nosso produto, nós
+temos um repositório.
+E esse repositório é promovido para
+todos os ambientes.
+Para Dev, para Prod e para UAT.
+E justamente por quê?
+Porque o código é 100 % desacoplado da
+configuração.
+Então, independentemente, a gente seta
+as configurações no metadado e, de
+repente, a aplicação enxerga em qual
+ambiente vai ser deployado.
+E eu digo isso não só na perspectiva da
+aplicação, tá?
+Eu vou mais além.
+Eu digo isso na perspectiva do DevOps
+também.
+Então, isso é muito importante.
+Quando você está chipando aplicações, é
+importante que você entenda que toda a
+organização do seu código e a escrita
+dele tem que estar 100 % desacoplada de
+configurações.
+Beleza?
+Logging e monitoring.
+Então, utilizar ferramentas e formas de
+monitorar o seu login.
+Ou adicionar login na escrita.
+É muito importante, tá?
+Muito.
+Por quê?
+Porque muitos problemas que você tem
+estão relacionados à Spark.
+Tem muitos outros problemas que você tem
+que estão relacionados ao negócio.
+Tá?
+E quando você tem um código grande e
+complexo, o que mais vai acontecer é...
+Eu tenho um problema no meio do meu
+processamento.
+A primeira coisa que eu vou fazer é o
+quê?
+Ler a stack de login.
+É a primeira coisa que você vai fazer.
+Literalmente, a maioria...
+95 % das vezes que você vai fazer, cara,
+falhou o meu job.
+Beleza.
+O que aconteceu?
+Você precisa ir lá no stack 3 para
+analisar ali o login do que aconteceu.
+Então, essa parte, essa primeira...
+Essa primeira interação com o problema
+era muito importante.
+Ela acontece basicamente, na maioria das
+vezes, com o login.
+Então, tenha isso em mente quando você
+está escrevendo aplicações.
+E hoje a gente pode justamente trabalhar
+com a ideia do quê?
+De otimizar durante já o
+desenvolvimento.
+Então, pensar exatamente nas ações que
+você vai utilizar.
+Quando que você vai utilizar.
+Então, evitar os accounts sem
+necessidade.
+Utilizar...
+Deixar isso, por exemplo, grudado ali na
+sua aplicação é muito perigoso.
+E aí, é interessante o seguinte.
+Quando você tem um código espaguete, que
+está ali em todos os lugares
+desorganizado, se você mete um show ali
+no meio, é muito difícil achar onde
+está.
+Mas quando você estrutura o seu código,
+ele já te ajuda a saber onde está cada
+pedaço desse cara.
+Então, aplicar técnicas para isso.
+Utilizar variáveis, como a gente já
+falou.
+Fazer o tanning de partições.
+A gente viu que, na verdade, é o grande
+segredo do Spark performar bem.
+É você conseguir fazer um grande o quê?
+Particionamento...
+Uma estratégia de particionamento para
+poder entregar, literalmente, a
+quantidade de cores e de partições que
+são ideais para o seu cluster.
+E aí, você sempre manter esses números
+ali para que você não tenha problemas.
+E outro ponto.
+Tenha um gatekeeper.
+Isso aqui, para mim, acho que é um dos
+takeaways mais importantes de
+desenvolver uma aplicação depois de um
+ano.
+Tenha um gatekeeper.
+E aí, a gente vai falar aqui que é um
+gatekeeper.
+Mas, basicamente, tenha um cara que é
+nitpicker.
+Que é chato pra cacete.
+Que não aprova.
+Que não dá um looks good.
+Lá no GitHub, ele aprova a sua pull
+request.
+É um cara que vai olhar a pull request
+que você mandou.
+E se ela for grande, ele já ignora.
+Cara, mas por que você ignorou?
+Está muito grande.
+Divide.
+Quebra em pedaços.
+Eu quero ver isso aqui em pedaços.
+Beleza.
+Mandou.
+Cara, não está seguindo a documentação.
+Volta.
+Mandou de novo.
+Deixa eu ver.
+Está seguindo o padrão de
+desenvolvimento?
+Não.
+Negra.
+De novo.
+Estou vendo aqui.
+Está funcionando.
+Legal.
+Tem teste?
+Não.
+Negra.
+Então, isso é importante.
+E isso é muito importante porque isso
+seta a cultura do desenvolvimento do seu
+time.
+Então, cara.
+Isso é essencial.
+E aí, a gente começa a entrar nessa
+seara que vocês estão vendo.
+A gente não está mais falando de
+engenharia de dados.
+A gente está falando de engenharia de
+software.
+E aí, é isso que eu tenho falado nos
+últimos anos aqui.
+Acho que no último ano, que é cada vez
+mais a engenharia de software, a
+engenharia de dados estão perto.
+Uma das outras.
+Então, hoje sim é importante que você
+tenha a ideia de padrões de
+desenvolvimento, de melhores práticas e
+assim por diante.
+Então, realmente, como o Jonathan falou.
+É difícil de ver no momento, mas é muito
+importante você sempre reinterar isso e
+não abrir.
+Você tem que ser chato no começo para
+que você crie padrões.
+E, cara, você vai ver que ao longo do
+tempo isso vai ser muito bom.
+Muito benéfico mesmo.
+E eu vi isso aqui acontecendo diante
+desse desenvolvimento aqui.
+Então, com certeza, é importante você
+ter isso em mente.
+Fica tranquilo.
+Passe por essa barra.
+Mas sempre deixa claro.
+Não seja um deck.
+Não seja tipo um escroto.
+Porque eu já trabalhei com gente assim,
+mas beleza.
+Mas negue e converse com o cara.
+Explique do porquê você negou e assim
+por diante.
+O brasileiro geralmente tem mais carinho
+com os outros.
+Fora do país não é muito bem assim não,
+mas beleza.
+A galera é bruta no nível que vocês não
+têm nem
+ideia.
+Enfim.
+Vamos lá.
+Então, o que eu quero trazer para vocês
+aqui?
+Eu quero começar com vocês sobre,
+primeiro, trazer algumas coisas que
+talvez vocês conheçam, algumas coisas
+que vocês não conheçam e algumas
+melhores práticas em relação a isso.
+Tem um guideline bem bacana para
+desenvolvimento de software chamado 12
+Factor App.
+O item 3 prega exatamente o iniciamento
+de configuração.
+Legal.
+Eu nunca li o 12 Factor App.
+Mas, se você está dizendo, Igor, vamos
+com tudo aí.
+Inclusive, vamos abrir ele aqui porque a
+gente está falando disso.
+E aí eu quero.
+A gente tem 57 pessoas em sala.
+Eu quero um input de vocês para ver o
+que vocês estão fazendo aí do lado de
+vocês e o que vocês estão aprendendo.
+Então, eu vou deixar aberto aqui.
+Depois a gente passa.
+Ah, eu já olhei isso aqui.
+Eu já olhei.
+Há muito tempo atrás.
+Muito legal, inclusive.
+Bem minimalista.
+Bem interessante.
+Gostei.
+Beleza.
+Então, vamos dar uma olhada ali no
+primeiro.
+Então, aqui no nosso repositório, dentro
+de SRC, eu criei.
+Aqui tem nossos demos.
+Enfim.
+E eu criei uma nova pasta chamada o app.
+App aqui dentro.
+E aqui dentro do app, eu criei main.
+Então, vejam que eu vou mostrar para
+vocês agora um pattern de
+desenvolvimento.
+Desculpa, main não.
+SRC.
+Um pattern de desenvolvimento para a
+gente começar a pensar e discutir.
+Relaxa que esse não é a forma final.
+A gente vai passar pela forma final.
+Essa não é a forma final.
+Isso aqui é a nossa incepção de pensar
+em como desenvolver a aplicação.
+Então, imagina que a gente tem essas
+aplicações aqui que a gente tem escrito
+ao longo dos dias.
+Então, deixa eu pegar uma aplicação
+aqui, por exemplo, que a gente tem
+escrito ao longo dos dias.
+Então, essa aplicação, ela está sendo
+escrita em um script, onde você tem as
+importações, declaração de sessão,
+importação de arquivo.
+E aí, o código acontecendo e talvez ali
+no final testando alguma coisa ou
+escrevendo alguma coisa.
+Que é o ciclo de in, transform e out.
+Beleza.
+Como que a gente começa a pensar em
+modularizar isso de uma forma
+interessante para quando a gente vai
+desenvolver algo mais abrangente?
+Então, talvez seria interessante pensar
+o seguinte.
+Cara, vamos criar aqui um cara chamado
+data ingestion.
+Olha só que legal.
+Então, nesse módulo de data ingestion, o
+que que a gente vai fazer?
+A gente vai chamar esse cara de módulo.
+E a gente vai ter um módulo que faz
+somente a parte de ingestão.
+Então, de novo, eu vou quebrar por
+ingestão.
+Output e transformation.
+Olha que legal.
+Então, isso aqui já é uma prática bem
+legal de você fazer, que já deixa o seu
+código muito mais limpo e muito mais
+fácil de ler e debugar e trabalhar.
+Tá?
+Valeu, Claudemir.
+Então, vamos lá.
+O que que eu fiz aqui?
+E hoje, cara, você tem IA do seu lado,
+né?
+Assim, eu sou apaixonado pela
+IntelliJ...
+Pela...
+Pelo...
+Pelo IntelliJ, não.
+Pela...
+Eu me esqueci o nome.
+JetBrains.
+Eu sou apaixonado pela JetBrains.
+Então, cara, você pode chegar aqui, por
+exemplo, botão direito, Write
+Documentation, né?
+E ele vai lá e escreve a documentação
+para você.
+Então, assim, hoje você tem muito
+auxílio da IA para te ajudar.
+E isso é importante.
+Isso ajuda a sua produtividade.
+Isso faz o boost da sua produtividade.
+Você pode gerar teste a partir disso,
+né?
+Então, aqui você pode...
+Cara, gera teste para mim.
+Escreve os testes para mim.
+Gera um unit teste para mim.
+Então, ele vai tentar escrever um teste
+unitário para você, tá?
+E isso é foda, né?
+Na minha opinião, isso aqui ajuda num
+nível absurdo, tá?
+A sua produtividade para que você
+aplique as melhores práticas ao seu
+favor.
+Beleza?
+Então, tenha isso em mente.
+O Copilot...
+Eu uso...
+Cara, eu tenho todos, se você pensar, na
+verdade.
+Eu uso todos, né?
+Então, o que eu fiz aqui?
+Primeira ideia é, cara, vamos criar
+módulos.
+Então, o primeiro módulo aqui que a
+gente tem é
+utilizar...
+Tu acaba utilizando, dividindo aqui por
+características.
+Mas eu quero que vocês prestem atenção
+numa coisa.
+Eu vou criar uma função chamada Read
+Business Data, tá?
+Que recebe o arquivo de business, né?
+Assim como a sessão do Spark.
+Isso aqui é importante.
+E o File Path.
+E faz isso, tá?
+A gente vai ver hoje, Igor, teste em
+dado.
+Por isso que hoje é foda, tá?
+Então, assim, respira e curte.
+Só, tipo, curte.
+Curte que aqui a gente vai construir.
+Amanhã vocês vão se arrepiar.
+Porque a gente vai construir uma
+aplicação que você vai olhar assim,
+tipo...
+Caralho, pode estourar dado aqui dentro,
+velho.
+Então, assim, a gente vai chegar nesse
+momento de ver aplicações rodando.
+E, tipo, sentar e só ver o negócio
+acontecendo.
+Porque tá bonito, tá?
+Então, vamos lá.
+Read Business Data.
+Para ler o dado.
+Então, aqui eu estou utilizando também a
+parte de login.
+Claro que você pode exagerar no login,
+tá?
+Fiquem à vontade.
+Para você utilizar e abusar de login.
+Read Review Data.
+Para que você leia os arquivos de
+reviews.
+E os arquivos de usuário.
+Então, veja que existem casos que a
+gente pega que você criou um módulo de
+ingestão que faz isso.
+E está tudo certo.
+Só que pensa no seguinte.
+Será que esse módulo poderia ser ainda
+mais enxuto?
+Porque, olha só.
+A gente está utilizando três funções.
+Que fazem relativamente a mesma coisa.
+Então, você tem o Review Business.
+Review Read Business.
+E o Read User.
+E é basicamente a mesma coisa.
+Então, eu quero que vocês tenham isso em
+mente.
+Então, uma das formas que já ajuda
+bastante é escrever dessa forma.
+Onde você está quebrando o processo.
+Mas tenha em mente que até aqui a gente
+está fazendo o quê?
+A gente está fazendo o que a maioria dos
+desenvolvedores fazem.
+Que já são mais experientes no Spark.
+Então, assim.
+Para quem iniciou no Spark e trabalha há
+um, dois anos.
+O normal, o esperado.
+Se você está em outra categoria, não tem
+problema.
+Mas o esperado é que você veja tudo
+dentro de um código.
+E está tudo bem.
+Quando o cara já tem uma experiência com
+Spark.
+Ali dois, três anos com Spark.
+Você vai ver funções desse jeito que
+você está vendo aqui.
+E quando você pega um código maduro.
+Você vai ver que ele é diferente disso
+aqui.
+E a gente vai ver.
+Tá?
+Então, olha só que legal.
+A gente fez a ingestão.
+E aqui eu vou chamar um cara chamado
+Data Transformation.
+Que vai ser o meu módulo de
+transformação.
+Então, aqui eu estou adicionando todas
+as transformações que o negócio me
+pediu.
+Então, vejam aqui também que eu tenho
+uma função chamada Future Active
+Business.
+Eu tenho outro cara chamado Calculate
+Average Rating.
+E eu tenho outro cara aqui chamado Join
+Data.
+Só que se você olhar.
+Um pouco mais com detalhe.
+Veja que teoricamente esse Future Active
+Business.
+Ele está vinculado a uma transformação
+nível negócio.
+Enquanto o Join Data.
+Não é uma transformação nível negócio.
+É uma operação que pode ser utilizada de
+forma comum.
+Mas está tudo certo.
+Só quero que vocês tenham isso em mente.
+Beleza?
+E após isso.
+A gente tem o que?
+O Output.
+Que vai fazer o que?
+Escrever o dado no formato que a gente
+pediu.
+Que é opcional.
+O padrão é Parquet.
+E ele vai escrever esse dado para você
+no Storage.
+Beleza?
+Só que a gente começa a se perguntar
+assim.
+Tá.
+E como que eu sei.
+Como executar todo esse processo aqui?
+Então, você vai ter o seu Name.
+Tá?
+E no seu Name.
+O que você vai ter?
+Olha só que código mais enxuto.
+Olha que legal esse código.
+Tá bem enxuto.
+Então, aqui a gente está declarando.
+A gente está chamando agora uma função
+Main.
+A gente está fazendo um Try.
+Accept.
+E vejam que a gente está carregando na
+primeira linha o que?
+Um arquivo de configuração.
+E a minha recomendação para vocês é.
+Crie uma pasta chamada Config.
+E crie um config de preferência em JSON.
+Tá?
+Por quê?
+Existem várias formas de fazer isso.
+Tem como você fazer com Variable e assim
+por diante.
+Mas eu achei.
+Eu ao longo do tempo.
+Eu achei muito mais fácil lidar com
+JSON.
+Porque você pode lidar com JSON em
+qualquer aplicação.
+De qualquer forma.
+E uma vez que você escreva um cara para
+ler os seus configs.
+Você pode reutilizar ele em qualquer
+lugar.
+Então, eu gosto muito de utilizar JSON.
+E geralmente o que software engineers
+utilizam bastante também.
+É isso.
+Então, isso na verdade é uma prática de
+engenharia de software.
+Você guardar essas informações num JSON,
+por exemplo.
+Tá?
+Então, aqui eu estou guardando as
+informações.
+Por exemplo.
+De localização desses arquivos.
+E de output.
+Vejam que isso aqui agora está
+desacoplado.
+Né?
+Está desacoplado da minha aplicação.
+Tá?
+E YAML também é legal.
+Funciona muito bem também.
+A gente usa bastante YAML também.
+É boa prática deixar o Main mais enxuto
+possível.
+E funções genéricas nos utils.
+E importantes na Main.
+Então, Luciana.
+Isso é uma prática utilizada.
+Eu gosto dessa também.
+Mas eu vou te mostrar uma que eu
+acredito ser melhor.
+Tá?
+Acompanha comigo aqui que a gente vai
+ver já já.
+A gente vai ver agorinha este cara.
+Deixa eu ver aqui.
+Beleza.
+Então, aqui eu vou ler meu arquivo de
+configuração.
+Eu vou inicializar a minha sessão de
+Spark.
+E vejam que o que eu estou chamando
+aqui.
+É um Create Spark Session.
+Que, na verdade, é um utilitário que eu
+criei.
+Então, dentro de utils.
+Então, vem aqui.
+Utils.
+Então, dentro de src.
+Eu tenho um cara chamado utils.
+Utilitário.
+E esse utilitário, o que ele faz?
+Ele tem um cara que cria a sessão do
+Spark.
+Ou seja, o que é legal aqui?
+Essa sessão, ela vai estar across the
+board.
+Então, se você tiver que fazer qualquer
+modificação.
+Você vai fazer essa modificação somente
+neste local aqui.
+E ela vai se repetir.
+E liberar para todo mundo que está se
+conectando a ela.
+Toda aplicação ou a aplicação que está
+se conectando a ela.
+Então, aqui eu estou recebendo o nome da
+aplicação.
+E estou, de fato, construindo a minha
+sessão de Spark.
+Assim como dizer qual o nível de login
+que eu quero aplicar para esse cara.
+Beleza.
+E aqui, uma função que eu gosto de
+utilizar bastante.
+Que é ler a quantidade de partições.
+Então, é só chamar aqui o nível mais
+baixo de RDD.
+Para calcular, para ver a quantidade de
+partições.
+Que foram colocadas aqui para aquele
+cara.
+O Pedro falou, não entendi muito bem.
+Por que ter três funções que fazem a
+mesma coisa no modo ingestion?
+É uma boa prática?
+Não.
+Eu não falei que é uma boa prática.
+Eu falei que é o que as pessoas utilizam
+normalmente.
+Tem muita gente que faz dessa forma.
+Que segrega este cara dessa forma.
+A gente vai ver daqui a pouco.
+Qual é a melhor proposta, na minha
+opinião.
+Para vocês utilizarem e por quê.
+Então, relaxe.
+Vamos devagar aqui.
+Queria entender o ganho de extrair uma
+função simples como Spark Read.
+Seria para poder adicionar outras
+lógicas, tipo logger?
+Não.
+Vou te dar um caso.
+Importante aqui.
+Imagina o seguinte.
+Que já vai quebrar você aqui agora.
+Imagina que você tem um caso nas suas
+aplicações.
+Que um pedaço você está particionando.
+Um pedaço das suas aplicações você está
+particionando em algumas tabelas.
+E outro pedaço você não está
+particionando nas tabelas.
+Beleza?
+E aí está tudo configurado.
+E assim por diante.
+E aí você chega ali.
+Seu cliente fala.
+Cara, a partir de agora eu quero, por
+exemplo.
+Tirar o particionamento de todos os meus
+scripts.
+O que você vai ter que fazer?
+Você vai ter que entrar código a código.
+Para limpar o partition by.
+Em vez de você ter adicionado uma flag
+na função.
+Para falar se você quer particionar ou
+não por um id.
+E já ter construído dessa forma modular.
+Para que você não precise fazer
+absolutamente nada.
+Então.
+Mesmo uma encapsulação simples dessa.
+Vai te gerar fodidos motivos
+interessantes.
+Até para você evoluir.
+Por exemplo.
+Eu já fiz isso inclusive.
+Eu criei uma função.
+Agora sim.
+Uma grande abstração com classe e
+objetos.
+Pode ajudar muito na migração de bucket.
+Por exemplo.
+Aqui o Sparkinternals.
+É uma caixa preta para o usuário.
+Quando ele escreve um código Spark.
+Ele não precisa se preocupar em caminho
+de entrada.
+Saída.
+Configurar.
+Spark Session.
+Escrever metadados.
+Enfim.
+As classes já absorvem isso.
+Então.
+Qualquer alteração no ETL Runner.
+Class.
+Passa as alterações para todos os jogos.
+Fora que atributos obrigatórios ajudam
+na saúde do ETL.
+Webflow faz isso com os operadores.
+Todos erram a base.
+Operator logo.
+Uma mudança na base.
+Se propaga.
+Ótimo.
+Bem lembrado.
+E muito bem colocado.
+Felipe.
+Muito bom.
+Coisa mais linda que já vi.
+Foi o Lake House Engine.
+Da equipe de engenharia de dados.
+Ah cara.
+Do Adidas.
+Eu já dei uma olhada nesse cara aqui.
+Podem mesmo.
+Realmente.
+Como que eles fazem as transformações
+com o nível Strike.
+Legal.
+Eu lembro desse projeto.
+Já tinha dado uma olhada aqui.
+Beleza.
+Então.
+Aqui na main.
+A gente tem um código muito mais enxuto.
+Então.
+Aqui a gente cria a seção.
+Tá.
+Aqui.
+A gente.
+Começa a ingestão.
+Então.
+Tá vendo que eu tô chamando uma ingestão
+pro business.
+Uma ingestão pro reviews.
+To do.
+Aqui no tools.
+A gente tá consumindo ações.
+Olha como que fica mais limpo.
+Transformação.
+Eu tô chamando as transformações que eu
+chamei das funções aqui.
+E output de dados.
+Então.
+Veja que.
+Teoricamente.
+O seu main.
+Fica muito limpo.
+E isso é legal.
+Tá.
+Então.
+Quando eu executo esse cara aqui.
+Tá.
+Vou deixar ele executando aqui.
+Né.
+Ele vai chamar todos os outros.
+Por que que você falha meu amigo.
+Se eu testei você agora.
+Claro.
+Né.
+Luan.
+Você.
+Meteu um dedinho gordo aí.
+Né.
+Aí.
+Aí.
+Fica difícil.
+Né.
+Comprou o Z aí.
+Seria bom.
+Uai.
+Acabei de testar o negócio.
+Não tá funcionando.
+Que.
+Que que foi.
+Então.
+Tá aqui.
+A gente vai executar esse cara.
+Beleza.
+Deixa ele executando aqui.
+Daqui a pouco a gente dá uma olhada.
+E essa proposta.
+É legal.
+Só que.
+O que que eu recomendo.
+Pra você.
+Gente.
+Existem várias formas de fazer.
+Tá.
+Existe abstrair por classe.
+Enfim.
+O que que eu sugiro.
+Pra vocês.
+É utilizar um pattern.
+Que a gente usa muito.
+Lá fora.
+Que eu não sei.
+Se vocês já ouviram falar dele.
+Eu quero escutar.
+A sinceridade.
+De vocês.
+Vocês já ouviram falar.
+Do.
+Modo.
+World Design.
+Separation.
+Concerns.
+Isso.
+Na verdade.
+São três práticas.
+Embutidas.
+Em uma só.
+E é o que a gente usa.
+Geralmente.
+Pra poder.
+Fazer.
+Projetos.
+Com Spark.
+É o mais utilizado.
+Tá.
+Eu acho.
+Que vocês vão gostar.
+Ele utiliza.
+Ele utiliza.
+Várias coisas legais.
+De decorator.
+Ele utiliza.
+Várias coisas legais.
+De outros.
+Patterns.
+Juntos.
+Tá.
+E deixa um pouco.
+Mais simples.
+Na minha opinião.
+Também.
+Então.
+Tipo.
+É um cara.
+Que.
+Senta ali.
+No meio.
+De design.
+Pattern.
+Que é.
+Deixa eu mostrar.
+Pra vocês.
+Aqui.
+Se vocês.
+Não conhecem.
+Esse site.
+Eu recomendo.
+Extremamente.
+Que vocês.
+Conheçam ele.
+Tá.
+E que vocês.
+Comprem.
+Um livro.
+Desse cara.
+É baratinho.
+Acho que custa.
+Menos.
+De 10 dólares.
+É.
+E eu aprendi.
+Os patterns.
+Aqui.
+É muito bom.
+Tá.
+Muito bom.
+Mesmo.
+Então.
+Deixa eu ver.
+Quais são os.
+Aqui ó.
+Então.
+Eles usam.
+O catálogo.
+De patterns.
+Beleza.
+Então.
+Se eu não me engano.
+Separation of concerns.
+Utiliza.
+Adapter.
+Partner.
+Decorator.
+E tem mais.
+Outro.
+Que eu não me lembro.
+Singleton.
+Acho que é o singleton.
+Que usa o mediator.
+Eu não me lembro.
+Mas ele utiliza.
+Algumas.
+Práticas.
+Aqui.
+Ah.
+E factory.
+Tá.
+A gente usa factory.
+Pra poder.
+Te entregar.
+Algo mais.
+Simples.
+Tá.
+Beleza.
+Então.
+Vamos lá.
+Como que eu estruturo.
+Tem uma documentação.
+Bem legal.
+Aqui.
+Pra vocês lerem.
+Que inclusive.
+Não foi gerada.
+Por mim.
+Obviamente.
+Tá.
+Mas.
+Tem aqui.
+Uma.
+Explicação.
+Bem legal.
+Então.
+É um modelo.
+Né.
+É.
+Modular.
+Desenhado.
+Em.
+Pedaços.
+Pequenos.
+Self containers.
+Podem ser.
+Desenvolvidos.
+Chipados.
+Independentemente.
+Né.
+O ETL.
+Por isso.
+Que é vinculado.
+A processo de ETL.
+Olha que legal.
+E o processo de.
+Inclusive.
+Aprendi isso.
+Não foi nem lendo.
+Tá.
+Aprendi isso.
+Com o.
+Um ancião.
+De 70 anos.
+É.
+É.
+É.
+Vinculado.
+A processo de ETL.
+Tá.
+Que ele fazia.
+Ele.
+Só trabalhava.
+Com.
+É.
+Ele.
+Só trabalhava.
+Com.
+Qual o nome.
+Cara.
+Daquela empresa.
+Que.
+Simens.
+Eu acho.
+Ele.
+Que analisava.
+Os logs.
+No Hadoop.
+De Simens.
+O cara.
+Consumia.
+Na época.
+Lá.
+Em.
+2003.
+4.
+1TB.
+Aí.
+O cara.
+Fazia.
+Todos os processos de ETL.
+Utilizando.
+Bash.
+Mas.
+Beleza.
+Só.
+Pra.
+Ver.
+O nível.
+Do.
+Do.
+Animal.
+Né.
+É.
+Muito.
+Feio.
+Não.
+Saber.
+Nenhum.
+Pattern.
+Isso.
+Vem.
+Da.
+Engenharia.
+De.
+Dados.
+Saber.
+Isso.
+Mas.
+Caso.
+Você.
+Saiba.
+Isso.
+Vai.
+Te.
+Ajudar.
+Muito.
+Tá.
+Então.
+Isso.
+É.
+Das.
+Coisas.
+Que.
+Por.
+Exemplo.
+Há.
+Um.
+Ano.
+E.
+Meio.
+Atrás.
+Então.
+Nem.
+Eu.
+Ia.
+Eu.
+Ia.
+Na.
+Ideia.
+De.
+Funções.
+Eu.
+Fazia.
+Mais.
+Calmente.
+Aquela.
+Ideia.
+De.
+Funções.
+Claro.
+Diminuindo.
+Um.
+Pouca.
+Complexidade.
+Mas.
+Eu.
+Não.
+Tinha.
+Nenhum.
+O.
+Que.
+Que.
+Eu.
+Coloquei.
+Então.
+Esse.
+Cara.
+Dividido.
+Especificamente.
+Né.
+Essa.
+Separação.
+De.
+Responsabilidades.
+É.
+Do.
+Processo.
+GTL.
+E.
+É.
+Dividido.
+Em.
+Módulos.
+Em.
+Gestão.
+Transformação.
+E.
+Output.
+E.
+Aí.
+Isso.
+Aqui.
+É.
+Foda.
+Isso.
+É.
+Que.
+Vocês.
+Vão.
+Mandar.
+Um.
+Foda.
+Business.
+Implementação.
+É.
+Aqui.
+Que.
+O.
+Negócio.
+Para.
+Mim.
+Fica.
+Muito.
+Sexy.
+Tá.
+Na.
+Minha.
+Opinião.
+Então.
+Beleza.
+Como.
+Que.
+Eu.
+Estruturei.
+Este.
+Repositório.
+Aqui.
+Então.
+Primeiro.
+Ponto.
+Tem.
+Um.
+Ritmo.
+Que.
+Explica.
+Ele.
+Que.
+Eu.
+Acabei.
+De.
+Mostrar.
+Para.
+Vocês.
+Beleza.
+E.
+Aí.
+Dentro.
+De.
+Data.
+A.
+Gente.
+Eu.
+Coloquei.
+Quatro.
+Carinhas.
+Aqui.
+Vamos.
+Olhar.
+O.
+Ingestion.
+Simples.
+Ingestion.
+Pio.
+Olha.
+Só.
+O.
+Ele.
+Faz.
+Ele.
+Em.
+Vez.
+De.
+Tem.
+Um.
+Rio.
+De.
+Data.
+Para.
+Usuário.
+Reviews.
+Para.
+Re.
+Como.
+Você.
+Estava.
+Falando.
+Ali.
+Quem.
+Foi.
+Que.
+Falou.
+Cara.
+Por que.
+Você.
+Está.
+Fazendo.
+Isso.
+Em.
+Mão.
+De.
+Data.
+Tem.
+Como.
+Ser.
+Somente.
+Uma.
+Função.
+Aonde.
+Isso.
+É.
+Eu.
+Te.
+Entendo.
+Então.
+Assim.
+Que.
+Que.
+A.
+Gente.
+Faz.
+Está.
+Tudo.
+Certo.
+Não.
+Dá.
+Problema.
+Não.
+Só.
+É.
+Chato.
+De.
+Ficar.
+Depois.
+Mas.
+Aqui.
+A.
+Fez.
+O.
+Que.
+Vai.
+Ser.
+Entregue.
+Legal.
+Você.
+Fazer.
+Está.
+Tipando.
+Esse.
+Cara.
+Essa.
+Função.
+Então.
+É.
+Interessante.
+Você.
+Fazer.
+Isso.
+Tá.
+Então.
+Rede.
+Data.
+Recebo.
+O.
+Spark.
+Session.
+Recebo.
+O.
+Path.
+Do.
+Arquivo.
+Recebo.
+Qual.
+Formato.
+Dele.
+Em.
+String.
+E.
+Esse.
+Cara.
+Está.
+É.
+Ele.
+Tem.
+Um.
+Tipo.
+Um.
+Antipagem.
+De.
+Pais.
+Parque.
+Ciclo.
+Data.
+Frame.
+Beleza.
+Olha.
+Que.
+Lindo.
+E.
+Aqui.
+Ó.
+Segue.
+Um.
+Pouco.
+Daquela.
+Ideia.
+Que.
+Eu.
+Mostrei.
+Para.
+Você.
+Só.
+Se.
+O.
+Forma.
+Se.
+Dessa.
+Forma.
+Se.
+O.
+Forma.
+De.
+Essa.
+Forma.
+E.
+Que.
+Ele.
+Bem.
+Simples.
+A gente.
+Consegue.
+Fazer.
+Muito.
+Mais.
+Coisas.
+Né.
+Então.
+Por.
+Exemplo.
+Você.
+Pode.
+Passar.
+Um.
+Dicionário.
+De.
+Informações.
+Aqui.
+Que.
+Você.
+Quebra.
+Fala.
+Cara.
+Eu.
+Quero.
+Com.
+Redes.
+Não.
+Quero.
+Com.
+Redes.
+Enfim.
+E.
+Por.
+Aí.
+Vai.
+Aqui.
+É.
+Uma.
+Base.
+De.
+Escopo.
+Pra.
+Você.
+Ter.
+Ideia.
+Tá.
+Então.
+Aqui.
+A gente.
+Tá.
+Falando.
+Da.
+Ingestão.
+Vamos.
+Pro.
+Output.
+E.
+Pra.
+Minha.
+Transformação.
+É.
+A.
+Parte.
+Do.
+Foda.
+Tá.
+No.
+Output.
+Mesma.
+Ideia.
+Tá.
+Então.
+Output.
+A.
+Vai.
+Escolher.
+Qual.
+Formato.
+E.
+Vai.
+Literalmente.
+Escrever.
+Baseado.
+No.
+Formato.
+Que.
+A.
+Gente.
+Tá.
+Beleza.
+E.
+Isso.
+Aqui.
+É.
+Um.
+Patente.
+É.
+O.
+Que.
+A.
+Chama.
+Que.
+Você.
+Tá.
+Se.
+Referindo.
+Esse.
+Patente.
+É.
+O.
+A.
+Chama.
+De.
+Modular.
+Design.
+Separation.
+Consumos.
+Beleza.
+Fechou.
+Aí.
+Daqui.
+A.
+Que.
+Eu.
+Pego.
+Essa.
+Pergunta.
+De.
+Vocês.
+Só.
+Só.
+Pode.
+Colocar.
+Aí.
+Daqui.
+Eu.
+Vejo.
+E.
+Escrever.
+Agora.
+Pra.
+Mim.
+Isso.
+Aqui.
+É.
+Cereja.
+É.
+O.
+De.
+Que.
+Encapsula.
+Função.
+Sim.
+Eu.
+Vou.
+E.
+Aí.
+Baseado.
+Exatamente.
+Jonathan.
+Naquela.
+Discussão.
+Que.
+A gente.
+Teve.
+Do.
+Parque.
+É.
+A.
+Possibilidade.
+De.
+Você.
+Evoluir.
+Esse.
+Filtro.
+A.
+Possibilidade.
+De.
+Selecionar.
+Novas.
+Características.
+Nesse.
+Filtro.
+E.
+Só.
+Tem.
+Que.
+Mudar.
+Aqui.
+E.
+A.
+Chamada.
+Deles.
+Nas.
+Funções.
+Em.
+Veste.
+Que.
+Modificar.
+Cada.
+Pedaço.
+Do.
+Código.
+Então.
+A.
+Gente.
+Encapsula.
+As.
+Funções.
+Vou.
+Mostrar.
+De.
+Novo.
+Pra.
+Minha.
+Parte.
+Do.
+Foda.
+Essa.
+Aqui.
+Você.
+Tem.
+Um.
+Outro.
+Bloco.
+Que.
+Se.
+Chama.
+O.
+Que.
+Business.
+Specific.
+Transformation.
+Modules.
+Que.
+Aqui.
+São.
+Os.
+Módulos.
+Específicos.
+Do.
+Negócio.
+Que.
+Herdam.
+De.
+Quem.
+Né.
+Herdam.
+Do.
+Filtro.
+Data.
+Olha.
+Que.
+Legal.
+Era.
+No.
+Filtro.
+Data.
+Era.
+No.
+Calculate.
+A.
+Grigate.
+Era.
+Do.
+Join.
+Dara.
+Porque.
+Eles.
+São.
+Transformações.
+Nível.
+Negócio.
+Tá.
+Tá.
+Então.
+Isso.
+Aqui.
+É.
+Legal.
+Porque.
+Isso.
+Separa.
+Como.
+Que.
+Você.
+Vai.
+Evoluir.
+O.
+Seu.
+Code.
+Base.
+Sabendo.
+Se.
+Isso.
+Seu.
+An.
+É.
+Faz.
+Eu.
+Gente.
+Não.
+Uma.
+Mãe.
+Aqui.
+Tá.
+Bem.
+Eu.
+Vou.
+E.
+Que.
+É.
+Ah.
+Não.
+Eu mostro agora para vocês chorarem Ou
+eu mostro depois Quem conhece esse cara
+aqui É isso aqui, eu acho que a galera
+vai pirar Eu acho, né Eu piraria Vamos
+esperar executar Então olha só o que eu
+posso fazer Vejam que eu estou dando um
+set job group E eu estou passando o nome
+disso aqui Vocês me perguntaram, por
+exemplo Se tem alguma forma que você
+pode Decorar uma execução do Spark Para
+que você consiga debugar no plano de
+execução Será que você consegue fazer
+isso Com set job group Herdando do Spark
+context Olha que coisa linda, imagina se
+você conseguisse fazer isso Então na
+verdade você consegue fazer Você
+consegue decorar cada chamada Que você
+tem com o nome que você quer Para poder
+debugar no projeto Vocês acreditam nisso
+ou não,
+cara É, foda isso, né Depois vocês dão
+uma pesquisada No set job group Acho que
+a maioria daqui Não sabia desse cara É
+legal Para jobs complexos Onde você quer
+especificar quais são as funções Que
+foram executadas referentes a esse grupo
+É interessante Pode pesquisar sobre ele
+Daqui a pouco eu mostro para vocês Eu
+não sei se o Apple me consegue pegar Não
+sei, não sei te informar Mas veja que
+agora a gente deixou ainda mais
+Segregado o output A entrada de dados e
+assim por diante Então está mais
+bonitinho, né Beleza Então gente Essa
+aqui seria a prática Que eu recomendaria
+Caso você esteja criando algo mais
+robusto Então cara, vou criar algo mais
+robusto Mas se você vai criar algo
+simples Eu pelo menos recomendo você
+dividir Em input, transform e output Eu
+acho que já ajuda Cara, grandemente Você
+separar o seu Spark Claro, se for uma
+aplicação pequena Não tem porque você
+fazer isso Mas se você está trabalhando
+em uma equipe Se você está evoluindo
+esse código com outras pessoas É
+importante que você faça isso E dê essa
+separação de responsabilidade Até porque
+quando você tiver a evolução desse
+código Você saiba exatamente o que mudou
+Em qual lugar De preferência Não aprove
+qualquer pull request Escolha pull
+requests que são pequenos E que resolvem
+um problema por vez Inclusive sendo as
+coisas que eu aprendi Cara, eu sofri com
+isso Então eu fazia duas modificações no
+código Mandava um pull request e era
+negado Eu queria fazer dez Então são dez
+pull requests Claro, cada um sobre um
+assunto Obviamente Mas a ideia é você
+segregar isso aqui Deixa eu pegar as
+perguntas Antes da gente
+seguir Beleza Vocês deram aqui os
+exemplos Responderam Esse design chama
+fachada Que é o faqueio de boa Verdade É
+possível usar um projeto A
+parte que só Contém utilitários Que
+sempre é usado Para todos os projetos
+Sendo importados aos projetos Para que
+fique um único lugar mesmo Tem como você
+criar um use disso Criar um pacote seu E
+você pode chamar esse pacote
+Posteriormente para os seus outros
+projetos Tem como fazer sim Luan,
+pensando em uso de Databricks Você ainda
+assim usa .pi Ou a sua estrutura em
+Jupyter Essas lógicas Então é engraçado
+Eu prefiro escrever aqui Eu sei que eu
+não tenho O Jupyter é infinitamente
+melhor Mais bonito Não estou querendo ir
+contra o Grain não Mas eu utilizo assim
+Porque eu acho que eu sou acostumado Já
+faço isso há muito tempo Desembolho
+aplicações desde 2017, 2018 E assim, eu
+uso o Jupyter Para algumas coisas Mas a
+ideia dos notebooks Não me excita muito
+para Production Ready Jobs Me excita
+muito para fazer análise Descoberta,
+exploração Trabalhar com dado Criar
+alguns pipelines em cima Mas não me gera
+tesão Em criar um job realmente De
+Production Ready Então eu não uso muito
+Se criar uma UDF com funções em escala
+Também teria esse problema de
+performance?
+Não, se forem as funções nativas do
+Spark Você não vai ter esse problema
+Porque lá naquele exemplo A gente está
+chamando o que?
+Pandas UDF Que é um pouquinho melhor
+Porque utiliza PyArrow Mas a melhor
+forma de você utilizar funções Você quer
+escrever funções?
+Pode escrever função Não tem problema
+Mas utilize Native Spark Então aqui Você
+vem aqui Native Vamos lá Native Spark
+UDF Você vai ter a documentação desse
+cara Escala User Defining Functions E aí
+você vai ter aqui Uma caralhada de
+funções Que você pode escrever Em
+relação a isso Beleza?
+Então aqui você vai ter Toda a
+documentação desses caras Tanto o DF
+quanto o DAF E assim por diante Aí ele
+vai te trazer todas as características
+Cadê?
+The Functions Aqui ó Então ele vai
+dividir inclusive Qual é o tipo que você
+quer?
+Arreio, dado, matemático, agregado Aí
+vai Olha o tanto É uma cacetada Então
+tudo isso aqui vai utilizar Beleza?
+Então fechamos a parte de visualização
+De melhores práticas Antes da gente
+começar aqui Eu vou dar então os 24
+minutos A gente volta às 9 horas então
+Beleza?
+Para a gente poder começar A ver a
+segunda parte do treino Fechou?
+Então é bom que a gente respira um
+pouquinho Que agora eu vou para um outro
+tópico Bem legal também Tá bom?
+Fechado ou não fechado?
+Beleza então Então eu volto já já com
+vocês Obrigado E aí alguém tinha
+mencionado Acho que foi o Jonathan que
+mencionou Que está vendo um livro aí De
+design patterns Cara, eu conheço esse
+cara Bartosz Ele é muito, muito, muito
+fera Velho Esse cara sabe pra caramba Do
+que ele está
+falando Então Um cara que vale a pena
+acompanhar Dica Beleza?
+Então realmente Esse livro aqui muito me
+Muito me intriga
+E nós já temos escritos aqui Beleza
+Design patterns
+Está bem excepção ainda né?
+Mas Data ingestion Design pattern Legal
+Acho que vai ser um livro legal de ler
+Beleza Lucas Eu assino o O 'Reilly já
+Tipo Eu sem dúvida vale muito a pena
+Muito mesmo E não só isso Você pode
+fazer download deles Enquanto você viaja
+e tal Você salva ele no iPad E lê e tal
+Muito bom Acho que vale muito a pena Eu
+tenho e cara Ah, mas também, João Você
+está lendo o
+Data Vault Do Ringstead Aí eu já li umas
+duas vezes E não entendi
+metade É uma leitura muito complicada
+Muito complexa na minha Na minha opinião
+O cara é bico Sim, parece bom Beleza,
+vamos lá então Paramos nas
+práticas, né?
+Então a gente já viu aqui Algumas
+diversas fórmulas De como deixar o seu
+código mais bem estruturado Beleza Agora
+a gente vai
+para a segunda parte da equação Que é
+Validação E Quality Checks Isso é um
+outro ponto importantíssimo Que você
+precisa ter na sua aplicação Que é como
+você adiciona Qualidade de dados E a
+gente vai ver também uma coisa muito
+legal De Profiling e Análise de Dado
+Qualidade de Dado no Dado Então eu vou
+mostrar para vocês aqui Quais são as
+opções que a gente tem para poder
+explorar E quais eu já usei Quais foram
+interessantes ou não E as novas também
+Que eu estou experimentando recentemente
+Que eu estou simplesmente apaixonado A
+gente vai ver uma série De De caras aqui
+Beleza?
+Então Dito isso Deixa eu só acertar aqui
+Só um
+minutinho Beleza?
+Vimos aqui a primeira Tem muita tempo
+Dito isso O que a gente vai ver agora?
+A gente vai ver A da primeira Aqui da
+esquerda Que aí cabe a explicação E acho
+que cabe a gente conversar sobre isso
+Que é o seguinte Schema Enforcement Como
+que vocês fazem Indo do lado de vocês?
+Vocês definem o schema na mão Vocês
+utilizam, por exemplo Um Read E deixam o
+Spark ler Inferir o schema Como que
+vocês fazem?
+E o que vocês fazem?
+Vocês acham, por exemplo Que em um
+sistema de alta criticidade O que você
+acha que mais se utiliza?
+Em sistemas que processam Teras e
+terabytes de dados, por exemplo Vocês
+acham que se utiliza mais O modo que
+você infere Ou o modo que você
+explicitamente coloca o schema?
+O que vocês acham?
+Infere explicitamente?
+Explícito?
+Quando eu parqueio eu deixo inferir Mas
+entendo que explicitar seria mais seguro
+É, acho que é mais ou menos nessa
+pegada, né?
+Eu também sigo a mesma ideia E o que eu
+faço também É verificar qual é o caso
+que eu estou lidando Então, por exemplo
+Quando eu estou lidando com o caso de
+fonte bronze Eu tenho um comportamento
+Quando eu tenho, por exemplo O caso de
+bronze e silver Eu tenho um outro
+comportamento Então, é interessante
+pensar nisso Principalmente na ideia de
+bronze, silver e gold Tá?
+Mas o que seria legal aqui?
+Eu vou mostrar um caso que muita gente
+fala De inferir ganho de performance E
+não inferir e assim por diante A gente
+vai dar uma olhada A gente também vai
+falar de profiling de dados Como que a
+gente pode detectar anomalias Quais são
+as bibliotecas que a gente pode utilizar
+Tem o Dequeue, que é muito legal Quem já
+utilizou aqui Se tem alguém que já
+utilizou, me fala Python,
+Dequeue Eu uso, tá?
+Legal então Eu gosto bastante Acho que é
+um cara bem interessante Tá aí uma coisa
+que a AWS fez bem Gosto bastante dele E
+também tem como você rodar os próprios
+Cheques básicos, enfim, né?
+E validação, né?
+Você pode também pensar em automatizar
+Certos tipos de coisa Então, vamos dar
+uma olhada aqui nas opções Que a gente
+tem disponível aí, tá?
+Deixa eu abrir aqui Vamos olhar o SH
+-INFORCE Lembrem que Hoje a gente vai
+ver várias coisas espalhadas Amanhã a
+gente vai colocar tudo em uma aplicação,
+tá?
+Então, fiquem tranquilos Ah, Luan, qual
+é o melhor?
+A gente vai conversando E no final a
+gente vai ali Seguir um padrão quando a
+gente for desenvolver E eu vou mostrar
+uma coisa pra vocês que Não tá nem no
+conteúdo programático E vocês vão adorar
+Quem aqui já utilizou o Google
+Scaffold?
+Fala pra mim isso Você já utilizou o
+Google
+Scaffold?
+É de comer?
+É, Scaffold é Esse vocês vão Pirar Se
+vocês quiserem dar uma olhada Dê uma
+olhada depois, mas Acho melhor vocês
+acompanharem Que eu vou mostrar pra
+vocês O Scaffold Sinistro, vocês vão
+adorar Mas enfim, vamos lá Coisas pra
+amanhã Então aqui eu tô tendo uma
+aplicação Que segue a ideia do
+Gatekeeper, né?
+De manter o enforcement do esquema E
+tipo, também garantir que a gente tem O
+dado do jeito que a gente espera Então
+isso é importante Dependendo da
+criticidade da sua aplicação Então aqui
+a gente tem três estruturas De
+inferência de esquema Então eu criei
+três funções diferentes aqui Eu vejo
+isso como mais um business Um ingestion
+business Tem como você fazer isso também
+Por exemplo, você explicitar isso aqui
+Uma das formas que a gente faz também
+Que eu gosto de fazer é o seguinte A
+gente coloca isso aqui num JSON E a
+gente mapeia isso Lá na hora de dar um
+Ah, read, beleza Esse read que você tá
+fazendo Ele é com esquema explícito ou
+não explícito Aí se ele setar sim, ele
+passa Qual é o JSON E aqui eu decomponho
+o JSON E crio essa estrutura aqui pra
+ele Com a tipagem do dado, usuário e se
+é nulo ou não Tá?
+E eu interajo na lista e crio esse cara
+aqui Então aqui a gente tá fazendo Pra
+cada um, né?
+Então a gente utiliza o struct type Pra
+poder estruturar todas as colunas Do meu
+dataset E aí o teste aqui De performance
+que eu quero mostrar pra vocês É o
+seguinte Será que realmente há diferença
+de performance Em referência a inferir
+ou não?
+Claro que depois de um certo tamanho de
+arquivo Vai haver Mas será que pra
+maioria dos problemas Essa diferença é
+muito notável?
+Então basicamente o que a gente vai
+fazer É a gente vai ler Um arquivo que é
+inferido Sem esquema E a gente vai ler
+um arquivo inferido Aqui com skin
+enforcement E aqui com without skin
+enforcement E a gente vai ver o tempo de
+cada um deles Em relação ao que ele leva
+Tá?
+Então olha só Pra ler o business data
+com skin enforcement Levou 5 .44
+segundos Beleza?
+Aí pra ler o review data Parquei com
+skin enforcement Que é esse cara aqui
+Demorou 8 .33 segundos Com skin
+enforcement Business Aqui ó, vamos lá
+Pronto Business data com skin
+enforcement 5 .4 Sem esquema 2 .22
+segundos Com skin explícito 8 .33 O
+review data que é uma tabela maior Aqui
+sem esquema 8 .95 E data 12 .79 E 13 .54
+Então assim, no final do dia É A
+diferença é que a gente vai ler É bem
+pouca Principalmente hoje pensando na
+ideia Por exemplo, de você ter um lake
+house Que você tem Toda uma outra
+abordagem de metadado Muito mais
+complexa, muito mais robusta Então eu
+acredito Que eu sempre tento deixar Sem
+o inferno Com o inferno esquema A não
+ser que eu tenha um caso realmente
+crítico Que eu precise garantir O meu
+contrato, que eu precise garantir Que
+aquele resultado é enfim Se eu precisar
+evoluir Aquele dataset especificamente
+Eu vou ter que fazer isso De forma
+manual Porque ele não vai fazer isso
+automático pra mim Então depende, tá?
+É, boa Tem também a parte Pensando em
+arquivos CSV e arquivos JSON Enfim, vai
+ser muito mais eficiente De fato,
+realmente Mas pra lake house,
+absolutamente não Lembrando que a gente
+Vai tentar evitar a partir de agora
+Trabalhar com arquivos CSV ou JSON Vocês
+me prometem?
+Mandam promessa pra mim Pink promise A
+promessa de dedinho Que vocês vão evitar
+o máximo possível
+Beleza?
+Tá, um cara que talvez Vocês gostem
+Aqui, quando eu for mostrar pra vocês
+Alguém já ouviu falar Do iData Yara Data
+Yara Data Profiling Olha só que legal
+Esse cara Olha só que legal Então já é
+uma outra
+coisa legal Pra vocês verem Yara Data
+Profiling Então o que esse cara aqui
+faz, né?
+Então esse cara Ele é um Data Profiling
+Tool Basicamente utilizado Por muitos
+cientistas de dados E desenvolvedores de
+Machine Learning E ele na verdade faz o
+que?
+Ele é pioneiro Em Python Package E ele
+cria um HTML muito legal Pra vocês,
+então vocês me perguntaram lá No começo
+eu fiquei me cursando Scratching my
+head, né?
+Fiquei aí cursando na cabeça De falar
+pra vocês Será que eu falo?
+Será que eu não falo?
+Mas eu uso esse cara Meio que bastante,
+tá?
+Eu adoro o que ele consegue fazer E aí
+Olha só que legal isso aqui O que
+basicamente ele faz, né?
+Aqui a gente vai Basicamente ler o
+arquivo E de anotado De validar esse
+arquivo Eu vou chamar um cara Generate
+Profile Report Que gera um relatório Só
+que vejam aqui, ó Aqui ele possa gerar o
+relatório HTML Ele precisa fazer isso
+aqui O que que acontece quando eu faço
+isso aqui, gente?
+Vocês sabem agora O que que acontece
+quando eu faço DF to Pandas Driver
+Pronto, agora todo mundo, né?
+Um collectizão lindo Bora pro driver
+Manda a tabela inteira pro driver
+Exatamente Então tomem cuidado com isso
+Tá?
+Isso funciona bem Pra análise Porque
+você vai rodar uma vez só Então talvez
+vale pagar aqui Mas tem datasets que
+você não consegue fazer isso Eu vou
+mostrar pra vocês Como que a gente faz
+com datasets que são grandes, tá?
+Então eu já vou inclusive Abrir o large
+dataset análise E já vou deixar ele
+rodando aqui Pra gente conseguir ver o
+resultado dele Tá?
+Então vamos lá Mas eu adoro muito esse
+cara Porque ele facilita bastante Então
+ele cria aqui, ó Dentro de reports O
+User Data Profile Report E aí eu vou
+abrir ele aqui No Como é que eu sigo
+abrindo?
+Aqui?
+Ó, aqui ele tem, ó Um visualizador e tal
+Mas não quero abrir aqui, não Eu quero
+Como que eu fecho você?
+Ah, aqui É, eu quero abrir no Google
+Olha só que legal, gente Então você tem
+aqui o overview As estatísticas, então
+Variação Número de celas Linhas
+duplicadas Tamanho total em memória 178
+Variação dos tipos de dados Quais são?
+Quantas colunas tem?
+Então texto você tem 2 Numérico 4 E
+assim por diante Variáveis Então você
+pode selecionar aqui por coluna Então,
+por exemplo Se eu pegar aqui User ID
+Aqui eu consigo saber Números distintos
+Tamanho em memória Sabe?
+Tipo, ah, nome Né?
+Então quais são os valores distintos
+Isso aqui ajuda pra gente poder também
+ver cardinalidade Ah, poxa, eu quero
+talvez ordenar isso aqui, né?
+Eu quero ordenar por importância Ah,
+olha só Isso aqui é um skill Tá vendo?
+Vocês vão falar foda Não, olha só Vocês
+perguntaram Como vocês identificam o
+dado Tá aí, ó Isso aqui ajuda bastante
+Muito mesmo, tá?
+Isso aqui pode ser um possível, né?
+Se você utiliza Ah, desculpa Se vocês
+utilizam, por exemplo Vai escolher a
+categoria É importância, por exemplo Pra
+fazer suas queries Você já sabe que
+possivelmente você tem uma discrepância
+muito grande, né?
+De Rockstar, Low e Normal Mas grande
+mesmo, tá?
+Então, beleza Interações E aqui Que eu
+meio que não entendo muito Porque eu sou
+meio burro em ciência de dados Mas tem
+uma relação aqui Pra ler esse cara que
+eu não sei ler, tá?
+Então eu não uso ele Missing values
+Então a matriz aqui E o sample de dados
+Últimas linhas E aqui você tem mais
+algumas coisinhas aqui, né?
+Você tem alertas Então olha só Eu adoro
+isso aqui também É, correlação ali É
+correlação isso mesmo Então olha só que
+lindo isso aqui Alertas Importância é
+muito desbalanceado Review count é auto
+skilled Olha lá Useful is high skilled
+Skilled, zero Olha que lindo Cara, isso
+é muito Isso já valeu o treinamento,
+como vocês dizem, né?
+Então quanto tempo demorou Qual a
+configuração e assim por diante Então
+isso aqui ajuda pra vocês pra cacete,
+tá?
+E reproduction Ah, tá, e aqui o tempo
+Então aqui você tem todas as informações
+Tá, então é simples e bem efetivo E bem
+legal pra você analisar o seu dado
+Beleza?
+Show Vamos voltar aqui Só que existem
+casos, por exemplo Que você tem data
+sets muito grandes Tá?
+Você precisa Precisa jogar pro driver
+aqui, tá?
+Por isso que aí vai o que eu falei pra
+vocês Por exemplo, você vai fazer isso
+uma vez só, né?
+Então às vezes vale realmente pagar isso
+Vai fazer uma vez só Vai gastar essa
+primeira vez Mas você vai ter esse
+relatório ali do dado Mas tem coisas,
+por exemplo Quando você tem data sets
+muito grandes Que não dá pra você fazer
+Então a dica que eu dou É utilizar as
+próprias estatísticas E as próprias
+informações do data do PySpark Então o
+PySpark tem função de describe Describe
+tem função de print schema Ele tem
+funções de validação Tá?
+Tem como se calcular, por exemplo Se
+existem valores que não estão aderentes
+Então você pode colocar isso aqui na mão
+Que vai utilizar o PySpark, né?
+Então aqui a gente consegue fazer uma
+análise estatística Mais baseado no
+Spark mesmo No PySpark Então aqui, ó Por
+exemplo
+A gente já começou a fazer aqui Então as
+informações Então, ó Lendo os dados Sem
+skin enforcement de 14 segundos Contém
+244 2 milhões 449 Não 2 bilhões 449 Não
+24 milhões 493 266 É, 24 milhões de
+registros Tá?
+Geralmente estatísticas Aí, ó Aqui a
+gente já tem uma ideia de estatísticas
+também Não tão detalhadas quanto aquela
+Mas isso ajuda um pouquinho pra entender
+Tá?
+Disparidade de dados O schema desse cara
+Aí aqui ele tá calculando os missing
+values Então tem como você também
+utilizar O próprio PySpark pra fazer
+isso Tá?
+Ele é legal Dá uma descrição Mas, cara
+Comparado ao outro Que já te dá
+relatório de skill Enfim Não Então assim
+Pra dataset grande Bom Você recomenda
+Cara Se você conseguir fazer uma vez Ler
+esse cara, né?
+Ali processar É Eu acho que vale a pena
+Mas Tem datasets que são muito grandes
+Não vai dar pra você fazer isso
+Obviamente Então aí você vai pra parte
+mais do PySpark Então pelo menos você
+tem duas opções Né?
+Você tem pequenos e médios datasets Pode
+fazer aquele Vai valer muito a pena Tá?
+Faz aí no seu ambiente Amanhã Se você
+conseguir já trazer Ou Depois Coloca lá
+no LinkedIn pra eu ver Isso ajuda
+bastante Pra você entender a
+distribuição Do seu Do seu dado Tá?
+Calma que eu Não acabei ainda não Beleza
+Mais o que
+aqui?
+Fechamos Esse cara Agora a gente tem Ah
+Aqui ó Então aqui a gente tem o Não tem
+missing values Calculando a quantidade
+de colunas Por um detalhe E aqui
+realmente É Exatamente o Describe Lá Tá?
+Então você tem uma informação Um pouco
+mais limitada Mas pelo menos te ajuda
+Beleza?
+Não Não automático Mas tem como você
+criar um script Que pega um sample ali
+Desse cara e faz Tá?
+Pode ajudar E aí você usa o Yada
+Profiling Por exemplo Tá?
+Mas Né?
+É o que o Jonathan falou Isso aí é um É
+meio complicado Porque principalmente
+pro Spark Por estar Extremamente tudo
+distribuído Enfim Então pode ser meio
+Pode ser meio perigoso Tá?
+Então eu prefiro que você Conte ali Ou
+numa análise mais detalhada Aqui no
+nível Pra Spark Ou Do que eu mostrei pra
+vocês
+Agora Beleza Então essa Acho que Essa
+opção aqui É muito legal Da gente levar
+Do Yada Profiling E aí a gente vai pra
+um outro Realm agora Que é o Realm de
+Testings Né?
+Então aqui a gente viu Quality Checks E
+agora a gente vai ver Como que se
+adiciona Testes Nos seus aplicativos
+Para ele De teste O que que
+geralmente Você vê aí Com sistemas de
+integração Como que você Utiliza isso
+Pra Utilizar Actions Por exemplo E
+automatizar Pacotes E automações Que
+você tem ali No lado de DevOps Por
+exemplo Tá?
+Então nesse caso aqui Eu peguei O que
+Geralmente A galera Que é Software
+Engineer Faz No Spark E depois vou falar
+O que que o Engenheiro de Dados Trabalha
+realmente Então se a gente vier aqui A
+gente tem um cara
+Chamado Tá dentro de teste Então vai tá
+em App SRC Não Vai tá Teste Aqui Então
+Nos meus testes Eu tenho esse cara
+Chamado aqui UnitPyTest Então é
+basicamente Utilizar a biblioteca
+UnitTest Né?
+Não é uma biblioteca Específica Do
+PySpark Mas lembrando Que o PySpark
+Agora já possui Funções de validação Tá?
+Ele tá trazendo Cada vez mais Deixa eu
+ver Se eu acho aqui Pra vocês PySpark É
+UnitTest Então ó O PySpark Já traz agora
+Cada vez
+mais Essa integração Do UnitTest Dentro
+da aplicação Dele ó Então olha só Que
+legal Ele integra O UnitTest Então agora
+Você tem Uma biblioteca Chamada PySpark
+.testing Ou seja Agora você não precisa
+Mais fazer Isso aqui ó Você pode Chamar
+Dentro do PySpark E ele Vai tá integrado
+Diretamente Com O O próprio PySpark Pra
+poder rodar Então você pode Chamar As
+built -in functions Em cima dele Olha só
+que legal Vocês sabiam disso?
+Ah Eu também uso o Chispa Eu sou Eu meio
+que sou Apaixonado pelo Chispa Inclusive
+eu conheço O Machine Powers Ele é muito
+gente boa cara Inclusive também Então tá
+aqui ó Tem como você fazer Validações já
+No nível Utilizando built -ins Né Pra
+poder fazer Ou PyTest Ou juntar tudo
+Então você consegue Ter aí Várias
+variações De como fazer Validação Eu
+recomendo Que vocês Tentem utilizar O
+máximo Possível Disso nativo Porque o
+Spark tem Trabalhado bastante Em tentar
+Unificar isso De alguma forma Ah então
+aqui Por exemplo É um teste Simples Que
+vai fazer O que?
+Uma validação Né Eu vou criar Uma seção
+E eu vou validar Os dados Baseados Nas
+características Dele Se eu tenho dados
+Duplicados Se eu tenho dados inválidos
+Se eu tenho dados Que não estão ali
+Dentro desse cara Eu vou utilizar A set
+Que é Cara verificar Se esse cara
+realmente Né Bate um com o outro Se não
+Realmente isso Vai ser colocado Mas como
+eu mostrei Pra vocês ali A nova
+possibilidade Agora você pode Utilizar o
+PySpark Ponto Pronto Então aqui
+ó Pronto Teste E aí Você pode Brincar
+Então você tem ó A set pandas Data frame
+Equals A set A set esquema Tem muita
+coisa Legal aqui Tá Que você pode
+explorar Então já está nativo E cada vez
+mais Esse cara É Vai Vai estar
+disponível Aí nas próximas Seções do
+Spark Bem Uma outra opção Um pouco mais
+fora Do Realm do Spark É o DQ Né E aí
+Vamos dar uma olhada O que é o DQ Aqui
+Porque o DQ É legal Eu já usei Ele
+algumas vezes Tá Algumas vezes Não
+muitas Mas algumas já Então O DQ Ele é
+Feito pela AWS Contribuído Pela AWS
+OpenSource E ele é Uma biblioteca Que
+define Testes unitários Pra dados Tá Que
+você pode Medir Qualidade Né Escrito em
+Python Ali E
+utiliza Todos os componentes De PySpark
+Pra que você possa fazer Então é legal
+Porque ele tem Algumas formas De você
+utilizar Tá Então tá aqui Como ele faz O
+relatório Né Como ele faz A análise
+Enfim Ele divide Isso em três Categorias
+Que é Profiler Analyze Checks Então a
+gente Vai ver aqui O DQ Deixa eu deixar
+ele Executando aqui Pra vocês verem Que
+legal E ele é bem simples Né É só
+literalmente Instalar a biblioteca Setar
+a versão Do Spark E rodar Esses
+analyzers Que eu vou mostrar Aqui um
+pouquinho Então aqui ó Por exemplo Aqui
+eu seto a sessão Né E aqui eu venho Por
+analyzer Então o que ele vai fazer Ele
+vai verificar A análise O resultado De
+análise Desse cara aqui Tá Você tem
+Profiling Que ele vai capturar O
+Profiling dos dados Também Sugestão de
+Constraint Verificação É Faz também
+Colocar esses dados Você pode salvar
+Essas informações Métricas É Carregar
+posteriormente Então é um cara
+Interessante Que dá pra usar Bastante
+Pra validar Seu dado Tá Então Olha só O
+que que ele faz Aqui Nossa O Great
+Expectations Cara Eu já tive Um
+Um Fimo Pra começar É difícil Tá Ah O
+sódio É bem legal Também Eu nunca usei
+Com SPARK Mas Já usei Com BigQuery Mas é
+legal Então ele dá Algumas informações
+Aqui ó De Data Check Completeness Valor
+Te dá algumas Estatísticas Aqui
+Referente Ao sucesso Não Analisa As
+informações Ali ali do seu dataset.
+Então, esse cara aqui, para quem estava
+perguntando, em vez de fazer o PySpark,
+por exemplo, essa aqui é uma opção
+legal, porque ele tem um analyzer ali
+que também faz algo parecido em relação
+ao comportamento e assim por diante.
+Esse cara aqui seria legal.
+Seria uma proposta interessante para
+vocês também utilizarem.
+Se você quiser fazer análise realmente,
+ter um cara que é evoluído
+constantemente, eu acho que ele é
+interessante.
+Então, na prática, Igor, o que a gente
+geralmente testa no Spark seria,
+literalmente, pelo menos a maioria dos
+testes que eu vejo quando a gente cria,
+é basicamente gerar dessa forma aqui
+mesmo.
+É criar ali o data frame e testar o
+comportamento para um teste específico.
+Mas, também tem como você gerar um
+sample de dado e consumir desse sample.
+Aí vai depender de como você quer.
+Qual a melhor forma?
+A melhor forma vai ser você consumir de
+um sample, com certeza.
+Então, tenta pegar ali um pedaço do dado
+e fazer um sample, ou criar uma pasta
+separada, onde você coloca, tipo, um
+arquivo só desse cara e você usa ele.
+Também tem synthetic data is the new
+orange.
+Orange is the new black.
+Então, talvez, synthetic data is the new
+black.
+Também ajuda.
+Fechou.
+Então, esse cara também é um cara legal.
+E aí, a gente vai para os que eu uso.
+Quais que eu uso?
+Quais que eu gosto?
+Eu gosto do Chispa e eu gosto do Queen.
+Então, eu deixei uma demo aqui para
+vocês de Chispa e Queen, mas antes de
+fazer, na verdade, antes de mostrar para
+vocês, eu não vou nem mostrar aqui,
+porque eu quero mostrar outras coisas
+para vocês.
+Deixa eu abrir aqui.
+Chispa e Queen.
+Chispa.
+Cadê você, Chispa?
+Aqui.
+Chispa e Queen.
+E aí, eu vou explicar um pouquinho
+rapidamente, mas eu quero mostrar eles
+aqui.
+Chispa e Queen.
+Todos criados pelos malditos.
+Pelo Martian Powers, ele trabalha na
+Databricks.
+Antigamente não.
+Então, esse cara já trabalhava com ele.
+Não só ele acelera esse projeto mais.
+Agora, a gente tem outras pessoas também
+que trabalham nele.
+E o que é o Chispa?
+O Chispa, ele é um cara em cima do
+PySpark que te traz vários métodos para
+facilitar ali a entrega do seu código.
+Então, olha só que legal isso aqui.
+Vamos supor que você tem uma função que
+remove não caracteres, né?
+Numa string.
+Beleza?
+Então, aqui eu crio uma sessão do Spark
+e aí eu faço um teste aqui.
+Só que olha só que legal.
+Você quer fazer um asset para ver se
+isso tem.
+Então, ele já encapsula para você o
+asset aqui, tá vendo?
+Mesma ideia do PySpark testing agora que
+a gente tem.
+Então, ele já abstrai isso para você.
+Mas não somente isso.
+O que eu gosto dele, na verdade, é que
+ele traz um output, bem claro do que
+está sendo passado.
+Ou seja, você consegue fazer qualidade
+de data frame, comparar um com o outro.
+Você consegue validar ordem.
+Você consegue ignorar ordem.
+Você consegue ignorar nulability.
+Então, você tem função ali para vários
+tipos de validações, né?
+Então, asset, por exemplo, def quality.
+Mais o que a gente tem?
+Customização de formato, que é legal
+também.
+Então, ele explica aqui bem como que ele
+faz o teste, quando ele valida o que
+acontece, né?
+Qual o erro que é colocado para você.
+E qualidade de coluna.
+Então, ele tem umas coisas legais.
+Eu uso ele, tá?
+Constantemente em projetos que eu
+preciso ser um pouco mais robusto.
+Eu preciso garantir certos tipos de
+teste.
+Só que agora eu estou, né?
+Navegando no PySpark e testes, tá?
+Tentar evitar um pouquinho do chispa e
+eu utilizar esse cara.
+E a gente tem o Queen.
+O Queen, ele é legal porque ele traz
+vários métodos.
+Esse cara aqui eu uso, tá?
+Ele vai...
+Aí eu uso sempre mesmo.
+Eu trago vários métodos para maximizar a
+produtividade.
+Então, você tem vários, ó.
+Validate presence of columns.
+Isso aqui eu uso bastante.
+Isso aqui eu uso bastante.
+Olha só que foda.
+Então, eu vou lá no Data Source e falo,
+cara, esse cara tem essas colunas aqui.
+Então, eu consigo chamar essa função.
+Outra.
+Adoro.
+Queen validate schema.
+Pego o schema, comparo com o source e
+vejo se ele existe.
+Se não, eu ignoro.
+Se o schema for diferente.
+Validar a abecência de colunas.
+Ah, cara, essa coluna está faltando,
+então nem passa no processo.
+Entendeu?
+Tem mais o que?
+Single space, removal of spaces.
+Tem várias funções aqui.
+Validade, rejects, weak start date.
+Aqui, ó.
+Transformation, snake case com.
+Então, ele já vai transformar em snake
+case.
+Ordenar, utilizando melhores práticas,
+em ordem alfabética e assim por diante.
+Esse cara aqui é muito legal, gente.
+Ele também tem um helper, tá?
+Para você poder renomear, por exemplo,
+colunas.
+Quando você tem dois datasets que tem a
+mesma coluna e você quer renomear ali
+para não ter problema, você simplesmente
+chama a função e passa o nome e ele faz
+isso.
+Esse cara aqui ajuda bastante.
+Listar as colunas, converter a coluna em
+lista.
+Mais o que?
+Ah, schema helpers.
+Converte um CSV para a PySpark schema.
+E aí?
+Adorou?
+Eu pego o queen, chamo o ponto schema
+from CSV e pego esse schema e ele vai
+converter isso para tcharam!
+Foda, né?
+Então, dá pra falar.
+Dá pra fazer uma coisa legal com isso.
+E dá pra fazer bem complexo mesmo.
+Isso aqui é legal.
+Print schema as code.
+Também legal.
+Mais o que que eu já brinquei aqui?
+Cadê as outras?
+Aqui, ó.
+Truth is blank, is not blank, between.
+Então, ele tem muita coisa legal que eu
+acho que vai ajudar vocês.
+Esse cara aqui a gente vai usar amanhã.
+Tá?
+Beleza?
+Esse cara aqui a gente vai usar amanhã.
+Quem não conhecia, fala eu aí.
+Ah, então?
+Porra, já valeu a pena.
+Porque esse cara aqui é bem legal mesmo,
+tá?
+Fechou.
+E eu tenho um outro cara pra gente...
+Não, é isso mesmo.
+Fechamos aqui a parte de testes.
+Beleza?
+Como diria o diretor da FreeBabam,
+ressaltando em aras, Iboninos Deves.
+Teste em produção.
+Eu nunca faço testes, mas quando eu faço
+testes, eu faço em produção.
+Maravilhoso.
+Beleza.
+Então, cobrimos ali um pouquinho das
+opções que a gente tem pra testings, né?
+De novo, fica tranquilo que amanhã a
+gente vai colocar um de cada.
+Então, os testes, o que a gente vai
+usar?
+A gente vai utilizar o PySpark Testing.
+Amanhã a gente vai usar o Queen.
+Então, a gente vai unir um pouquinho
+desses pra criar lá, de novo, né?
+Esse cara.
+Beleza?
+Vamos lá.
+Agora, a última parte que eu já tinha
+mostrado pra vocês ali, né?
+Que é como utilizar a representação de
+dividir o código realmente utilizando as
+melhores práticas.
+Então, encapsular.
+E, geralmente, as mais utilizadas pra
+parte de engenharia de dados que eu
+tenho visto ultimamente, pelo menos no
+último ano ali, não só escrevendo, mas
+lidando com outras aplicações, enfim.
+Engenheiro de software usa muito pra
+quando tá brincando com dados.
+Inclusive, o DBT utiliza esses patterns,
+que é Factory, Builder e Decorator.
+Então, se você tiver que escolher quais
+métodos você vai aprender, ou seja,
+quais são os primeiros a começar, eu
+diria esses aqui, tá?
+Você ir lá no Design Patterns, que a
+gente já foi,
+e aí você lê cada um deles, tá?
+Então, tá aqui.
+Não.
+Cadê?
+Catálogo.
+Aqui, ó.
+Catálogo.
+Então, você pode ver esses caras aqui,
+ó.
+Cadê você?
+Factory, Builder e Decorator.
+Então, Factory, Builder.
+Cadê o Builder?
+Acho que ele deve estar com outro nome.
+Aqui, ó.
+Builder e o Decorator.
+Tá?
+E, cara, adoro muito a explicação que
+ele faz sobre como funcionam os
+problemas, enfim.
+Esse livro aqui foi o primeiro livro que
+eu comprei.
+Custa 8 ,95.
+Ele é excelente.
+Eu recomendo muito que vocês comprem
+ele.
+Tá?
+Vale muito a pena.
+Mesma.
+Tá?
+Fica a dica.
+Ah, a gente já soltou o curso de
+Engenharia de Software, já.
+Não foi, Matheus?
+Ele já tá lá na plataforma.
+Vamos ver?
+Tá aqui na nossa plataforma.
+Acho que tá o Git.
+Não, o Git não.
+Sério?
+Eu acho que não foi.
+Na época que aconteceu a tragédia do
+Sul, né?
+Tava durante a produção.
+Não, ele tinha até acabado.
+Graças a Deus.
+Mas acho que ele tá...
+Tava só finalizando o...
+A gente tirou daqui?
+Tirou, né?
+É, mas ele vai vir, gente.
+É o Jean que vai fazer.
+Então, cara, o cara é muito bom.
+Aconteceu essa tragédia aí, enfim.
+Mas eu acho que nos próximos meses aí,
+ele já tá gravado inteiro, tá?
+Tá voltando, acho que só as partes
+iniciais ali do conteúdo que ele queria
+gravar.
+Então, vocês vão ter um treinamento de
+Engenharia de Software para times de
+dados.
+Então, né?
+Então, o cara é bom.
+O cara é muito bom.
+Ele é um instrutor nosso aqui que a
+gente admira bastante, na verdade.
+Tá?
+Beleza.
+E isso aqui...
+Ah, tem duas coisas que eu quero...
+Ah, não.
+Duas não.
+Já mostrei o app.
+Agora eu quero mostrar uma coisa que eu
+brinco bastante.
+Lembra que a gente vem conversando de
+partição, né?
+E eu queria só mostrar um script que eu
+deixei aqui pra vocês que geralmente eu
+uso ele, que é o Size Estimator.
+Tá?
+Deixa eu ver se eu acho ele que ele
+tá...
+Eu acho que ele tá em Utils.
+Tá?
+Tá.
+Então, o que esse cara faz?
+Esse cara estima o tamanho do data frame
+em memória.
+Isso ajuda um pouquinho, né?
+Então, aqui a gente vai conseguir ter
+uma ideia de qual tamanho do data frame
+que você carregou.
+Então, aqui a gente utiliza alguns
+cálculos, né?
+Fazer um RDD mapping pra ter uma ideia
+utilizando size of.
+De novo, é meio que um número aproximado
+e perto, assim.
+Não dá pra ter exatidão.
+Mas, pelo menos, te dá uma ideia do
+tamanho do dataset que você tá lidando.
+Então, ah, fiz uma leitura ali, por
+exemplo, do arquivo de reviews aqui, ou
+de usuário, ou nenhum deles.
+É, de usuário, né?
+Então, fiz um read aqui do arquivo de
+usuário e eu quero calcular, por
+exemplo, o tamanho estimado desse data
+frame em memória.
+Então, o que ele vai fazer é tentar
+estimar o tamanho em memória, tá?
+Very useful.
+Esse cara aqui é...
+Eu uso ele de vez em quando
+principalmente pra pensar nas partições,
+né?
+Então, com esse número aqui, a gente
+consegue calcular o que seria
+interessante.
+Então, por exemplo, ah, sei lá, esse
+data frame aqui, eu vou processar ele,
+ele tem, sei lá, 900 megas.
+Vou dividir por 128, por exemplo.
+Eu vou ter 7 partições.
+Ah, mas nesse caso, não tem que ter
+essas partições.
+Eu tenho 24, que é o número ideal.
+Então, eu vou chegar ali, pegar 900
+megas e dividir por 24 partições.
+Daí, eu tenho 37.
+Entendeu?
+Seria dividido em chunks de 37 megas.
+Então, se você quiser, você pode ir lá e
+setar 37 megas do Max Partition Bytes ou
+você pode setar a quantidade de
+partições que você quer carregar, tá?
+Então, ajuda bastante também.
+Ah, ótimo ponto, Jonathan.
+Você pode criar uma função que decide se
+pena ou não usar o Broadcast Join ou
+usando ali o Pattern, por exemplo.
+Uma boa ideia, tá?
+Legal de fazer também.
+Eu uso essa função aqui pra chegar em
+GB, mas depois de Joins ele não funciona
+bem, não.
+Ah, legal.
+Optimize Plan Status.
+Ah, legal isso, hein?
+Conhece aqui o showmode com Optimize
+Plan Status Size Bytes.
+Top.
+Aí, ele estimou aqui aproximadamente 995
+megas, tá?
+Então, vocês brincarem aqui, depois
+testarem e vejam o que vocês acham desse
+cálculo, tá?
+Bem, alguma dúvida até aqui?
+Ou seja, como que a gente escreve
+aplicações?
+Como que a gente adiciona Quality Checks
+e validações?
+Então, por exemplo, o que a gente ficou
+ali nos Patterns?
+Utilizar o Pattern ali que a gente viu
+genérico, né?
+Um Pattern mais focado pra ETL.
+Então, a gente viu ele aqui.
+Deixei, inclusive, a documentação pra
+vocês.
+Então, a Separation of Concerns.
+Eu acredito que esse cara seja uma ótima
+pegada pra quem tá querendo dividir o
+código, ter um código mais limpo,
+estruturado, enfim.
+Tá dividindo o que é genérico, o que que
+não é genérico, o que que é Business, o
+que que não é Business.
+Eu acho muito legal essa estratégia
+aqui, ajuda bastante.
+Depois, em relação a Quality Checks e
+validação de dados.
+Gosto bastante do Yara Profiling, que é
+bem interessante, né?
+Então, acho que talvez vale a pena dar
+uma olhada nele.
+Pra testes, eu utilizava o Xista de vez
+em quando.
+Tô migrando pro PySpark Testing, porque,
+na verdade, eu conversei com um dos
+desenvolvedores do...
+um dos PMC Committers principais do
+PySpark, e eu perguntei pra eles cara,
+vocês lançaram agora os frameworks de
+teste, enfim.
+Ele falou cara, nos próximos anos a
+gente vai incorporar todos os testes
+dentro da biblioteca do PySpark por
+causa do projeto Zen, né?
+Que é uma quantidade de evoluções no
+próprio Python pra PySpark pra fazer com
+que fique muito melhor.
+Então, a gente vai ver tudo isso
+embarcando no PySpark Testing.
+Então, utilizaria ele, tá?
+E utilizaria definitivamente o Queen.
+O Queen, ele é muito legal,
+principalmente pra validar ali na
+entrada do dado, pra você fazer certas
+validações interessantes desse cara.
+Eu acho interessante, tá?
+Tem, eu vou colocar amanhã o Readme,
+Rafael, pra poder implementar esse cara,
+beleza?
+Tá, então, basicamente, esses caras que
+eu utilizaria, a gente vai juntar esses
+caras amanhã ali, basicamente, pra poder
+fazer isso na nossa aplicação, tá?
+Agora, a gente vai pra seara de
+streaming, beleza?
+Então, nessas próximas uma hora e meia,
+a gente vai falar de streaming.
+E aí, o Matheus, inclusive, liga a
+câmera, né, Matheus?
+E aí, falou de streaming, Matheus.
+Chamou, chamou.
+Chamou.
+Chamou o Matheus.
+Matheus, chega aí.
+Então, vamos falar de streaming e,
+principalmente, falar de structured
+streaming e tem coisa legal aqui,
+beleza?
+Então, a primeira coisa, né, é, a gente
+sabe que o Spark, ele possui, né, o que
+a gente tem visto aí nos quatro dias,
+que é de fato ser excelente na parte de
+processamento de aplicações intensivas,
+críticas de grande escala.
+A gente já sabe disso, beleza?
+Agora, o Spark é muito versátil por quê?
+Porque ele também te dá uma API de
+streaming, né?
+E aí, antigamente, a gente tinha o o
+streaming API, o API do Spark, que era
+baseado em RDDs, que é o ESG Streams,
+que é o DS Streams.
+E aí, o que aconteceu?
+Esse cara foi marcado como Deprecated, e
+aconteceu a mesma coisa.
+Eles criaram um novo termo, né?
+Antigamente era Spark Streaming, e eles
+criaram um termo chamado Structured
+Streaming.
+Então, o nome já diz, né?
+Stream estruturado.
+Que diz o quê?
+SQL.
+Então, passa no Spark SQL, no Catalyst
+Optimizer, em todo aquele negócio que a
+gente já conhece do plano de execução.
+Então, nada mais, nada menos, o
+Structured Streaming é parte global do
+DataFrame, só que ele se comporta
+diferente do que, literalmente, Batch.
+E a gente vai ver o mecanismo interno
+dele aqui agora.
+Tá?
+Então, o Structured Streaming é um
+mecanismo de streaming, tá?
+De tolerância a falha.
+Então, ele vai ter, se você tiver em
+algum momento alguma falha durante a
+transmissão, enfim, ele vai
+computacionar esse promoção e é
+automaticamente off the shelf.
+E, basicamente, o que ele faz é o
+seguinte.
+Pensa num DataFrame, tá?
+Ou seja, é um DataFrame ainda, só que
+ele é unbounded.
+O que é unbounded?
+Sem boundaries, né?
+Não tem limitação.
+É um organismo que tá sempre recebendo
+informações.
+E ele transforma essas informações em
+micro batchings, tá vendo?
+Então, todos esses streams que entram
+dentro desse cara viram micro batching.
+Ou seja, isso aqui é o batch 1, esse
+cara é o batch 2, esse cara é o batch 3.
+E cada batch aqui, a gente tem uma
+quantidade de registros dentro dele.
+Tá?
+Então, aqui, ó.
+Batch 1, batch 2 e o batch 3 aqui.
+Beleza?
+E a gente vai ver, basicamente, como que
+ele faz a escolha de como ele divide
+esses caras aqui.
+Deixa eu botar o batch 3 aqui também pra
+ficar bonitinho pra vocês.
+Então, tá aqui, ó.
+Batch 1, 2 e 3.
+Tá?
+Então, streaming de eventos, micro
+batching, e esses caras vão ser
+processados no core, do mesmo jeito de
+sempre, tá?
+Esses batchs são colocados em partições
+e são processados em partições.
+Então, até aí, nada demais, tá?
+Beleza.
+E qual é o pattern de escrita quando a
+gente utiliza o Structure Streaming?
+Vamos dar uma olhada?
+Então, eu separei aqui e deixei pra
+vocês uma cola bem legal.
+Então, segue a mesma ideia de sempre.
+Input, Transformation e Output.
+Ou seja, a ideia do Structure Streaming
+é, do mesmo jeito que eu declaro
+computação em batch, eu irei declarar
+computação em streaming.
+E eu amo o Structure Streaming por causa
+disso.
+Eu só tinha um patch PIV, um ódio do
+Structure Streaming, porque eu não
+conseguia fazer mais de dois joins ao
+mesmo tempo.
+Mas, o nosso Mateuzinho aí, e a gente
+trouxe pra vocês o projeto Lightspeed,
+acho que ninguém, alguém já viu o
+projeto Lightspeed funcionando de fato?
+Ou seja, múltiplos joins no Spark?
+É, agora dá pra fazer isso.
+Acreditem ou não?
+Dá pra fazer mais de dois joins, tá?
+Então, vocês vão ver isso funcionando.
+O Mateuzinho aí que trouxe esse código
+pra gente.
+Então, palmas pro Mateuzinho.
+Olha, Mateuzinho.
+Muito difícil, viu?
+Muito difícil.
+É difícil de se limpar.
+Muito difícil.
+A gente vai ver.
+Tranquilo.
+Tá?
+Então, o que que o Structure Streaming
+faz, basicamente, é receber datasets,
+né?
+Transformar esses caras em dataframes,
+só que dataframes contínuos, em batches,
+em micro -batches, e processar isso
+dentro dos executores e outputar essa
+informação.
+Hoje, a melhor prática, quando você
+utiliza Structure Streaming, é ou você
+lê esses caras de um data lake, o que
+funciona bem, mas não é a melhor forma
+de fazer, ou você lê esse cara de
+sistemas de streaming.
+E aí, claro que a gente conhece um cara
+chamado Kafka, que inclusive o Matheus
+vai dar uma palhinha daqui a pouco sobre
+Kafka pra gente, só pra botar todo mundo
+na mesma página.
+Então, basicamente, a gente fala do
+match made in heaven quando a gente tem
+Kafka e Spark funcionando.
+Então, o Kafka se torna uma outra perna
+ali de leitura, de streaming, que vai
+ser a mais eficiente, e você consegue
+trabalhar esse dado dentro do Spark.
+Outro ponto.
+Lembra que Kinesis, PubSub e EventHubs,
+eles herdam das mesmas ideias e
+paradigmas do Kafka.
+Inclusive, por exemplo, o EventHubs é
+uma brinchezinha do Kafka, extremamente
+mais melhorada hoje, porque é multi
+-cloud, dividida e assim por diante, mas
+vem do Kafka, assim como os outros,
+principalmente os modos de garantia de
+dados, consistência.
+At least once, at most once, exactly
+once, que eu já vou falar rapidinho o
+que é.
+Então, eu tenho as minhas fontes de
+dados, a minha recomendação para vocês
+aqui, ou vocês consumam dados de
+streaming vindo de um data lake, ou
+vocês consumam dados de streaming vindo
+do Kafka.
+Preferencialmente, lógico que eu vou
+preferir que vocês consumam isso do
+Kafka.
+Extremamente mais rápido, infinitamente
+mais rápido do que vocês consumirem de
+um data lake.
+Por mais que um data lake prometa ter
+streaming, ele não faz streaming da
+melhor forma possível.
+E aí, o que que eu amo do Structural
+Streaming aqui?
+Que eu acho que todo mundo sabe.
+É que Structural Streaming, ele tem uma
+entrega de consistência, né?
+Ou seja, ele tem uma semântica de
+consistência, que é exactly once.
+Então, o exactly once, que é o AOS,
+basicamente entrega para você o
+seguinte, cara, gerou uma linha na
+fonte, vai aparecer uma linha no Spark.
+E aí você fala, mas isso não era o
+esperado?
+Isso não é simples?
+Cara, isso na verdade é muito mais
+complexo do que se parece, tá?
+O exactly once semantics é extremamente
+complexo, de você fazer.
+Você tem que deduplicar o dado, existem
+várias técnicas para você garantir qual
+é o dado que vai ficar e assim por
+diante.
+Então, o Kafka já faz isso desde muito
+tempo atrás, tá?
+E trouxe pro Spark.
+Outro ponto que o Matheus colocou aqui,
+muito importante, é que todos os outros
+Event Hubs, Clubs, Subkinices, eles
+estão em at most once, se eu não estou
+enganado.
+E o Kafka é o único que está em exactly
+once.
+Beleza?
+Então, você não precisa se preocupar com
+sequenciamento de dados ou com
+ordenação.
+O dado vai chegar em ordem, vai chegar
+1, 2, 3.
+Então, se eu gerei lá na fonte 1, 2, 3,
+vai chegar lá no Spark 1, 2, 3.
+Tá?
+Então, por exemplo, qual o problema
+quando você está no at most once?
+Você tem o dado que pode ser gerado mais
+de uma vez repetido e você tem que
+deduplicar esse dado.
+Então, o dado pode vir repetido e pode
+vir fora de ordem.
+Então, imagina que você fez um TED e
+depois um TED você fez, você recebeu um
+TED e você fez depois um...
+um saque, né?
+Imagina só que você, né, na sua conta
+recebeu o primeiro saque, só que o saque
+na verdade deixava a sua conta negativa
+pagando juros ali no banco, por exemplo,
+tá?
+Então, aqui você garante a ordenação
+desse cara em exactly once semantics.
+Toda vez que vocês processam dados, que
+vocês pensam em processar streaming,
+sempre olhem o nível de garantia, tá?
+Sempre olhem o nível que você pode em
+relação àquilo.
+Outro ponto importante, exactly once
+semantics
+possui...
+são coisas separadas, tá?
+Então, o que eu quero dizer com isso?
+O Kafka pode te entregar, entregar
+exactly once semantics, porque ele
+entrega, e ao mesmo tempo, eu posso...
+a ferramenta que conecta no Kafka, por
+exemplo, não entrega exactly once
+semantics.
+Então, uma coisa é você ter exactly once
+semantics, garantia de semântica, nas
+ferramentas, e garantia de semântica no
+pipeline como um todo.
+Então, aqui, nesse pipeline como um
+todo, você vai ter garantia ponta a
+ponta.
+Então, você vai puxar o dado, se você
+está utilizando structure streaming,
+você vai estar pelo EOS, por padrão, tá?
+Exactly once semantics.
+Esses dados vão ser processados no
+executor e serão escritos no output, e
+aí a recomendação é você utilizar um
+link house para isso, né?
+De preferência, se você está utilizando
+o Spark, você utilize ou RUDE, desculpa,
+ou Iceberg ou Delta, beleza?
+Aí o Jonathan perguntou em latência,
+sim, cada um deles tem um nível de
+latência.
+Por exemplo, o at least once é muito
+utilizado para fire and forget.
+Você manda mensagem, só que, cara, você
+pode não receber certas mensagens, né?
+Tá tudo bem.
+No at most once, você pode receber as
+informações, você vai receber elas.
+At most once.
+Vai receber pelo menos uma.
+Mas, além de você receber pelo menos
+uma, ela pode vir duplicada, por
+exemplo, e fora de ordem.
+Tá?
+Então, se o seu use case contempla isso,
+ele vai ser mais rápido.
+E, claro, que o nível mais crítico de
+excelência é o exactly once, né?
+Que você tem a garantia e você também
+tem a ordenação do dado.
+Entretanto, você paga, né, em
+deduplicação.
+Tanto é, por exemplo, que a latência, a
+gente costuma falar o que?
+É 10 contra 100, né, Matheus?
+A API do Kafka faz em 10 milissegundos.
+Isso.
+Então, a API do Kafka faz em 10
+milissegundos e a API do Spark faz em
+100 milissegundos.
+Então, assim, é uma diferença grande?
+É.
+Mas, será que você pode esperar 90
+milissegundos a mais, no seu caso de
+uso?
+Provavelmente sim.
+E aí, em vez de você ter que utilizar,
+por exemplo, no contexto do Spark, de
+você ter que utilizar uma outra
+tecnologia pra poder fazer streaming, ao
+invés de pagar 90 milissegundos a mais
+ou 80 milissegundos a mais, vale a pena,
+talvez, utilizar o Spark.
+Só que, agora, a gente tem o Continuous
+Processing, tá?
+Que muda o cenário.
+Quem conhece o Continuous Processing?
+Fala aí, pra mim.
+Poucas pessoas, né?
+Só o Jonathan.
+Então, isso é uma das grandes, isso era
+um dos grandes problemas que a gente
+tinha no Spark, antigamente.
+Por quê?
+Porque o Spark, ele faz isso aqui, né,
+por padrão, em micro -batchings.
+Então, você tem um tempo determinado
+ali, pelo intervalo, o tempo e os batchs
+e o tamanho dos batchs que são
+executados.
+Então, teoricamente, você tem essa
+latência ali de 100 milissegundos por
+padrão, né?
+Utilizando o XFlemon Semantics.
+E aí, o que que eles fizeram?
+Eles criaram uma API experimental
+chamada Continuous Processing, que tá
+escrita como experimental no Spark, mas
+no Databricks é o que se utiliza no
+Delta Live Tables, por exemplo, é
+Continuous, tá?
+Só pra vocês terem uma ideia.
+E você também tem geração de estado
+dentro desse cara aqui.
+Então, cara, esse cara é um organismo
+vivo que te entrega tudo, quase tudo, de
+transformações que você tem ali no mundo
+de batch, no mundo de streaming,
+simplificando pra vocês, tá?
+Já tá perguntando o seguinte, você diria
+que vale a pena depois ter um outro jogo
+de Spark Structure Streaming?
+Olhando para a Delta Table, para jogar
+nas camadas posteriores?
+Pois já tentei usar o Spark Stream
+olhando pro Lake, mas acarretou em alto
+custo de leaching no S3 com o Delta mais
+Spark Stream e esse custo de leaching
+diminui por conta do Delta Log?
+Vai ajudar, mas depende também muito da
+quantidade de registros que você recebe
+segundo por minuto, por exemplo, também.
+Mas uma prática que normalmente a gente
+usa, sim, é utilizar esse cara, ou o que
+o Jonathan falou, por exemplo, de
+habilitar um Change Data Feed pra você
+coletar somente as modificações, as
+últimas modificações, aí a requisição
+vai ser um pouco menor, tá?
+Beleza.
+E a gente tá no treinamento de internos,
+né, Matheus?
+Até onde eu sei.
+Então a gente tem que entender isso
+aqui.
+Isso aqui é importante da gente
+entender.
+Por quê?
+Porque isso aqui vai separar o seu
+entendimento de batch e de streaming
+aqui.
+Agora a gente vai entender o interno de
+como o Structure Streaming funciona.
+E, de novo, eu pensei bastante em
+entregar esse conteúdo pra vocês e dava
+pra chegar mais fundo do que isso, mas
+eu acredito que isso aqui já é mais do
+que o suficiente de vocês entenderem
+como funciona e qual a diferença deles,
+tá?
+Então, de novo, tudo começa pela Spark
+Session.
+Então você tem uma sessão estabelecida
+pelo usuário.
+E aí o que você vai fazer?
+Você vai estipular um ReadStream.
+Então, em vez de você fazer um Read em
+Batch, você simplesmente vai denominar
+um ReadStream.
+Então, a partir daí, o Spark vai
+entender o seguinte, que quando essa
+aplicação for executada e o plano de
+execução for executado, na verdade, esse
+cara vai acessar um método diferente do
+DataReader, que vai ser, em vez do
+DataReader, vai ser o método
+DataStreamReader, que você define a
+fonte e o esquema.
+Bem, por ser um Structure Streaming, o
+nome já se diz.
+É um streaming estruturado, ou seja,
+você precisa do esquema para você
+conseguir gerar o streaming.
+Você não simplesmente lê o arquivo e
+beleza, você tem que explicitar o
+esquema.
+Daí você vai dar um load para carregar
+esse cara para o Kafka, desculpa, para o
+Spark.
+Então ele vai ser uma ação que vai ser
+trigada.
+E você vai definir suas transformações
+aqui.
+O load vai, basicamente, ele não vai
+trigar a ação.
+É só o processo de carregar.
+ReadStream Load.
+Vou carregar esse cara.
+Quando eu tiver o load, o que eu posso
+fazer posteriormente é isso, é definir
+todas as minhas transformações que eu
+quero.
+Basicamente, você vai conseguir fazer
+quase tudo do que o batch faz, exceto
+limit take, distinct, sort, porque sort
+a gente vai utilizar Windows em Windows
+para fazer isso que a gente vai ver.
+E alter joints.
+De resto, as transformações de PySpark,
+enfim, funções, assim por diante, você
+consegue fazer tranquilamente dentro
+dele.
+Beleza?
+Então vai te dar toda essa face completa
+ali de você trabalhar com esse cara.
+E aí você vai definir o que?
+Um writeStream.
+Então ao invés de você chamar o
+dataWriter, vai ser chamado o método
+chamado dataStreamWriter, que vai
+definir como que esse dado vai ser
+escrito no sync, ou seja, no destino.
+Então ele vai fazer complete, ou seja,
+ele vai escrever o dataset como um todo,
+ele vai fazer append, ele vai, somente,
+é, colocar o dado incremental, ou
+update, por exemplo, que ele vai mudar
+somente da última vez que ele foi lá.
+Então depende de como você quer escolher
+que a sua fonte, que o seu destino
+receba essa informação.
+Na hora que você inicia essa execução, o
+que vai acontecer?
+Lá no driver vai ser gerado um plano de
+execução pelo QueryOptimizer, que vai
+passar por todo o CatalystOptimizer,
+todo aquele ciclo que a gente fez.
+E ele vai, vai ficar constantemente
+verificando e refazendo, não refazendo
+esse cara, mas gerenciando essa sessão,
+porque é uma sessão ativa, é um loop,
+né, cíclico ali que você tem.
+Esse manager aqui, ele é responsável por
+controlar todas as queries e tudo que
+está acontecendo no streaming, tá vendo?
+Então ele tem um cara aqui específico
+chamado StreamingQueryManager, que vai
+controlar antigamente, nesse nível de
+execução, a gente só tinha o
+MicroBatchExecution, tá vendo?
+Só que agora a gente tem uma nova, uma
+nova classe, um novo método aqui dentro
+dessa classe, que é ContinuousExecution.
+Então aqui a gente está falando de
+Small, de SeriesOfSmallBatchesJobs em
+ExactlyOneSemantics a 100 milissegundos,
+e a gente está falando do Continuous com
+suporte a baixa latência, mas com
+AtLeastOneSemantics.
+Tá?
+E aí você vai ter que pagar deduplicação
+lá na frente da transformação.
+Então aqui não tem segredo.
+Entretanto, olha a latência, 1
+milissegundo.
+Então daí você começa a ter cenários
+muito mais responsivos do que de fato
+você tem em um ambiente de MicroBatch,
+em caso você precise disso.
+Beleza?
+Tá.
+E essa execução incremental, como que
+ela é desenhada?
+Como que ela acontece por debaixo dos
+panos?
+Então lembra lá que quando você vai
+fazer uma execução, você vai ter que
+pagar deduplicação.
+Então o Spark, o plano de execução do
+Spark SQL vai decidir, ele vai verificar
+se é um Query Execution, ou seja, se ele
+vai executar um plano Batch, uma vez só,
+ou se ele vai fazer um plano
+incremental.
+Olha que legal.
+Então lá dentro do Spark SQL você tem,
+cara, é Batch.
+Beleza?
+Então você acessa aqui o método de Query
+Execution.
+É Streaming?
+É.
+Então beleza.
+Então aqui você acessa o Incremental
+Execution.
+Tá?
+E aqui na verdade ele vai executar
+incrementalmente essas informações com o
+Drive.
+Todos os Batchs que vão chegando ali,
+ele vai refinando o plano, verificando o
+plano e constantemente se comunicando
+com a Engine para verificar o melhor
+plano possível de execução.
+Tá?
+Beleza.
+A gente está no treinamento de internos.
+Então vamos dar uma olhada.
+Isso aqui é legal.
+A ligação do plano juntamente com a
+execução do Query Execution.
+Olha só.
+A gente começa aqui na esquerda.
+Você tem um Streaming que foi feito, que
+vem de uma fonte de dados.
+Esse Streaming foi ligado.
+Foi criado um plano lógico ali.
+O que vai acontecer nesse momento?
+Quando você acionar o Job, quando ele
+começar a ser executado, ele vai gerar
+um novo Batch de plano.
+Tá?
+E aí vejam que toda essa parte de
+Trigger está vinculada ao quê?
+Está vinculada a todo o processo de
+execução incremental.
+Gera o plano lógico, gera o plano
+otimizado, gera o plano físico, verifica
+nos planos físicos qual é o melhor,
+seleciona o plano físico e transforma
+esse cara em RDD e manda para os
+executores.
+Então, esse Trigger aqui, do Structural
+Streaming, é exatamente isso
+aqui.
+É como ele funciona quando ele é
+acionado.
+Então você tem um novo Batch, esse novo
+Batch recebe um novo atributo, que é a
+diferença desse novo plano, o que faz o
+Trigger de um plano lógico, e aí ele
+entende cara, esse plano lógico vem de
+uma Trigger que é uma execução
+incremental.
+E aí, essa execução incremental aqui,
+Trigger todo o plano de execução.
+Uma vez que você tenha o plano de
+execução, você manda o próximo Batch e
+fica inteirando sobre isso.
+Então, constantemente você está
+verificando o plano de execução que você
+está executando ali para o seu
+Streaming.
+E claro que você tem o State Store.
+O State Store onde você armazena no
+estado das execuções.
+Onde você guarda o metadado dessas
+informações.
+Ficou claro aqui?
+Valendo.
+Deu para entender?
+A imagem ficou tranquila de entender?
+Ah, Luan, eu preciso saber disso?
+Cara, é interessante você entender a
+estrutura.
+Tá?
+Como funciona.
+Então, ah legal, tem uma visão ali como
+que o Structural Streaming funciona.
+Mas acho que mais do que isso, eu não
+iria.
+Acho que é suficiente.
+Tá?
+E daí a gente entra no nosso queridinho.
+Né?
+Que é o Kafka.
+O Kafka, ele é um sistema que, de novo,
+vai funcionar perfeitamente com Spark,
+inclusive essa é a recomendação.
+E ele é um sistema que abrange diversas
+vertentes e vértices aqui.
+Você pode utilizar ele como um sistema
+de integração.
+Você pode utilizar ele como serviço de
+microserviço para integrar entre
+serviços.
+Ou você pode utilizar para ITL.
+Você pode utilizar para um bocado de
+casas de uso.
+Você pode ter uma coluna, uma espinha
+dorsal na sua empresa, onde tudo passa
+pelo Kafka.
+Inclusive, muitas empresas utilizam isso
+hoje.
+Então, tudo chega no Kafka e aí ele
+manda para o Data Lake, ele manda para a
+comunicação com microserviços, ele
+trabalha com o conceito de data mesh
+muito bem e assim por diante.
+Né?
+E aí, qual seria o que a gente vai ver
+amanhã?
+A gente vai ver um caso de Streaming
+Pipeline que vai fazer exatamente isso.
+A gente vai receber os dados do Kafka.
+Nós iremos transformar essas informações
+com Structural Streaming e nós iremos
+gravar esses dados em Sinks.
+Né?
+Eu posso gravar tanto no Kafka novamente
+para ser reutilizado por uma outra
+aplicação, enfim.
+Como eu também posso armazenar no Delta
+Lake.
+E a gente vai ver, por exemplo, quem vai
+consumir desse cara aqui?
+O nosso maravilhoso Trino.
+Então, a gente vai utilizar o Trino para
+consultar o dado que está sendo escrito
+em tempo real pelo Kafka.
+Olha só que maneiro.
+Tá?
+Então, a gente vai ver isso amanhã
+funcionando na nossa telinha.
+Tá?
+E aí, eu quero passar aqui para o
+Matheus falar aqui uns 10 minutinhos,
+que eu acho importante, sobre Kafka.
+Eu sei que muita gente aqui já conhece
+Kafka.
+Eu acho que muita gente já entende
+Kafka.
+Mas eu acho que os insights do Matheus
+aqui em relação a isso vão ser
+extremamente pertinentes e valiosos.
+Então, Matheus.
+Vamos lá, gente.
+Então, vamos falar um pouquinho desse
+cara aqui.
+Aqui é uma turma de Mastering.
+Então, a gente não entra muito na parte
+de básico mesmo, tá?
+Eu vou entender que vocês sabem já o que
+o Kafka é, mais ou menos, e eu vou dar
+uma explicação meio que comprimida,
+assim, vamos dizer assim, simplificada
+de tudo.
+Mas o Kafka, ele é um sistema de
+armazenamento, tá, gente?
+Não se enganem, tá?
+É um sistema de armazenamento com várias
+APIs em volta dele.
+Então, ele tem uma API de produção de
+dados, ou seja, tem uma aplicação em que
+eu chamo um método dentro do Kafka para
+poder gravar os dados dentro do Kafka.
+E eu vou ter o de consumo, que é a
+leitura.
+Qual que é o mais legal do Kafka, na
+minha opinião, é eu posso construir a
+prodúcia de uma forma e eu posso
+construir o consumo de outra forma, e
+isso não influencia em nada a minha
+estrutura, porque eles são totalmente
+desacoplados um do outro.
+Se esse cara cair de um lado da leitura,
+parar por qualquer motivo, não
+influencia o produtor, e se o produtor
+também cair, não influencia também o
+nosso consumidor.
+Qual que é a grande vantagem também?
+Ele foi feito para falhar.
+Ou seja, o Kafka é uma estrutura de
+armazenamento distribuída.
+Então, a gente está vendo aqui, no
+desenho, eu vou inserir dado num tópico,
+que é como se fosse uma representação de
+uma tabela, eu vou quebrar esse dado que
+está chegando, esse streaming que está
+chegando, que é contínuo, uma coisa que
+o Luan falou, que é um bounded.
+Eu sei quando começa, mas eu não sei
+quando termina.
+Eu vou receber esse cara, e esse cara
+vai ser alocado em partições.
+Pode ter uma partições, ou no caso aqui
+a gente tem nove.
+E a gente quebra esse dado, esse
+streaming que está chegando, nas
+partições.
+O que ele faz?
+Eu tenho meus servidores.
+Eu falo assim, Kafka, é o seguinte, eu
+tenho aqui nove partições, beleza?
+Eu preciso que alguém seja o líder desse
+cara.
+Ou seja, quando eu pedir o dado, alguém
+tem que responder para mim.
+Só que, eu estou tomando essa falha, eu
+vou ter uma replicação também entre
+elas.
+Ou seja, eu vou ter o meu dado, a minha
+partição, aplicada na quantidade de
+brokers que eu tenho.
+Nesse caso aqui, três, eu poderia
+colocar a replicação, fator de
+replicação igual a três.
+O que ele ia fazer?
+Ele ia, na verdade, copiar a minha
+partição, no caso da zero, nos três
+brokers.
+Depois, a minha primeira, nos três
+brokers.
+Se acontecer alguma coisa em um dos
+brokers, o que acontece?
+Nada para o meu processo como um todo,
+porque ele elege um novo líder e eu
+consigo acessar o dado.
+Só que, tem uma coisa que o Luan colocou
+aqui, e eu estava até explicando isso,
+para uma reunião que eu estava sobre
+Kafka, de um treinamento customizado,
+que é o Craft.
+É o que, gente?
+A gente acaba, hoje, a dependência com o
+Zookeeper, na versão 4 .0, se não me
+engano, fica praticamente deprecated
+para o Kafka, não sobe mais.
+O Zookeeper, que era um componente
+externo.
+O Zookeeper, o que ele precisava?
+Como eu comentei, um broker caiu.
+Um dos meus servidores de Kafka caiu.
+Quem que fazia a nova eleição?
+Opa, quem que vai ser o cara que vai ser
+responsável por aquela partição?
+Ficava no Zookeeper.
+Então, o broker, o que ele fazia?
+Quem que era o líder?
+Criava uma partinha dentro do Zookeeper.
+Se esse cara mandava o heartbeat, ou
+seja, está funcionando, está
+funcionando, está funcionando, esse cara
+caiu, opa, chama outro.
+Quem responder primeiro era o líder
+daquela partição.
+Isso tornou -se um gargalo no Kafka em
+grandes distribuições.
+Pensa, gente, em...
+Eu estava até discutindo isso.
+Pensa, por exemplo, em 1 .500 brokers
+rodando ao mesmo tempo.
+Pensa que agora, 100 caíram.
+Eu preciso rebalancear, eu preciso
+saber, fazer uma nova eleição de
+partição.
+Imagina o tempo que isso ia levar.
+Então, hoje, a gente recomenda sempre
+estar usando já, já estar testando o
+Geocraft.
+Ele já está em produção, production
+rate.
+Antigamente, ele estava em
+desenvolvimento.
+Na versão 3 .7 .1, que é a versão atual,
+ele já está na produção.
+Então, esse é o Kafka.
+Alguém tem alguma dúvida?
+Entenderam?
+Armazenamento, um discão, super rápido,
+baixa latência, 10 milissegundos.
+Todo mundo fala assim que entendeu,
+porque eu fico preocupado.
+Eu falo assim, gente...
+Eu acho massa essa parte do Kafka,
+quando você fala, cara, ele escreve em
+HDD, nessa velocidade, aí você fala
+assim, aí a galera fala, mas como que
+ele faz isso, né?
+Aí, magic.
+Tem várias nuances que eu quero trazer
+para vocês.
+Quem já fez treinamento de Kafka deve
+ter visto.
+Eu comentei sobre zero copy, não vou
+entrar no detalhe de zero copy aqui
+agora, como a fórmula, como ele faz.
+Mas, a ideia é você ter muito cuidado,
+principalmente a questão do...
+do...
+Eu fiz até uma brincadeira com o
+pessoal.
+Eu falei, gente, dado esse cenário que
+eu falo que replica o dado, a partição
+replica entre a quantidade de brokers,
+se eu tenho 1 .500 brokers, eu tenho que
+ficar disponível para sempre.
+Por exemplo, vou tentar lembrar qual
+empresa que eu dei de exemplo, se não me
+engano foi a New York Times ou foi o
+Reddit, eu não lembro qual deles, porque
+eles têm 1 .500 brokers.
+Eu falei assim com o pessoal, gente,
+nesses 1 .500 brokers, eu preciso de
+alta disponibilidade.
+Vamos colocar a quantidade de...
+o fator de replicação igual a quantidade
+de brokers?
+O que vocês acham?
+Vamos lá, essa é uma pergunta legal,
+para a gente ver algumas coisas aqui,
+com um plano de latência.
+Eu tenho 1 .500 brokers.
+Quero ter alta disponibilidade.
+Ou seja, não posso ficar fora do ar.
+Vou ter o meu fator de replicação igual
+a quantidade de
+brokers?
+Ainda esse exemplo você usa?
+Uso, e uso e todo mundo cai nela.
+Eu falo, quantos você teria?
+O pior é que o cliente é gigante.
+Quanto vocês teriam?
+5?
+Eu tenho 1 .500, eu teria de 3 a 5,
+Paulo.
+Por que?
+Eu gosto dessa pergunta.
+Porque eu já ouvi várias...
+Lembrando que eu não posso parar.
+Pode chutar, velho.
+Chuta, gente.
+Vocês estão aqui para aprender, não
+precisa se preocupar.
+Eu vou explicar o porquê.
+Até mesmo o porquê, 50%, o que vocês
+acham?
+20 %?
+100 %?
+Cada um pode dar o chute.
+Se vocês não estão aí, eu vou explicar.
+1 terço, 500 réplicas.
+Perfeito.
+Começou o Felipe, ótimo.
+30 %?
+Não, não pode, Gabriel.
+Você tem que ter a quantidade de
+brokers.
+Você dobrou a quantidade de brokers, não
+pode.
+Replicação é somente a quantidade de
+brokers na
+inferior.
+Ia ser só um chute, eu prefiro entender
+essa lógica,
+prefeito.
+5 %?
+Vamos, gente.
+Vamos, gente.
+Vamos aproveitar rapidinho.
+Pode chutar, não estou falando para 100
+% vocês chutarem, não.
+Eu vou explicar.
+5 %?
+Não posso parar.
+Ronald, entende que não vou colocar aqui
+a Kubernetes não.
+Vamos colocar aqui numa situação em que
+se o nó cair, caiu.
+Eu não vou colocar Kubernetes não.
+Porque não, não tem.
+Seria uma máquina virtual, pode ser uma
+máquina virtual qualquer, que aí eu
+preciso fazer.
+Se a máquina, se a minha máquina caiu,
+caiu.
+Por que no mínimo 3?
+Deu William.
+1 terço, beleza.
+Pode ficar tranquilo.
+Eu vou explicar.
+Isso é legal, porque eu fiz essa mesma
+pergunta para o pessoal e cada um falou
+uma coisa diferente.
+Tem, tem heartbeat entre eles.
+O próprio cluster se comunica com ele e
+antigamente comunicava com o Zookeeper.
+Então se alguém ficasse fora por causa
+do heartbeat, ele já fazia uma nova
+eleição de partição.
+De novo, ele foi feito para falhar,
+então não pode ficar
+disponível.
+Então vamos lá, gente, deixa eu
+explicar.
+Quem falou 500?
+Deu William.
+Por que você falou 3?
+Por que no mínimo 3?
+Paulo, por que você falou também 3 ou 5?
+Eu quero saber por que.
+Você já assistiu minhas aulas, então tá
+bom.
+Mas você assistiu minhas aulas é por
+que?
+Você não está falando a resposta, você
+está falando só o que você assistiu.
+Então eu vou responder, segura aí.
+O que acontece, gente?
+Vamos lá.
+Geralmente esse tipo de cluster ele vai
+ter entre 3, 5, 7, no máximo no máximo,
+quando você tem 10 mil nós, no máximo
+ele vai ter 15, no máximo, no máximo.
+Por que eu falo no máximo?
+Porque imagine o seguinte, a partir do
+momento que você tem isso replicado
+entre eles e você tem um idPontant igual
+a true e você está usando
+idClossemantics igual a all, ou seja,
+está usando o x igual a all, ou seja,
+manda o dado, eu tenho que esperar todo
+mundo gravar para depois voltar para mim
+disponibilizar.
+Imagina isso em 1500 brokers diferentes,
+imagina isso em 500 brokers diferentes,
+imagina uma tendência de rede rodando e
+eu só posso mandar o próximo batch a
+partir do momento que esse batch gravou
+todo mundo.
+Imagina isso, só para vocês terem uma
+ideia.
+Tá?
+Então, quem respondeu 3 e 5, eu espero,
+ou 4, eu espero que tenham pensado
+nisso, porque a questão de, de gravação
+entre eles.
+Porque eu tenho que manter essa
+garantia, tá?
+Então, geralmente, quando vocês verem
+classes gigantescos, eles não vão ter
+fator de replicação grande.
+Mas igual o Luan falou, ele já pegou
+casos que colocaram a quantidade de
+servidores.
+A gente pergunta, por que?
+Ah não, porque está auto -disponível.
+Tá, mas aí quando você gravar aqui vai
+esperar todo mundo?
+Ah, realmente, nunca o número de
+flutuação de rede mesmo está realmente
+gargalando.
+Acharam o problema.
+Com uma simples configuração.
+Tá?
+Então, Kafka não é tão simples, tá
+gente?
+Eu gosto, eu deixo essa parte, não é,
+essa que é a mensagem, na verdade.
+Parece que é assim até você fazer.
+A mensagem é que o Kafka é um mundo
+separado, assim, ele é muito complexo.
+Muito mesmo.
+O Matheus estava falando um bocado de
+termo aí, que eu lembro que quando eu
+lecionava de Kafka para ele, cara, era
+só uma sopa de letras, né?
+Então, assim, se o Matheus falar rápido
+demais, eu ainda tenho que ficar
+pensando, ah, ele falou X0, não sei o
+quê, tal, tal, tal, tal, tal, tal.
+Porque é um sistema que requer muito
+cuidado, tá?
+Ele é bem complexo.
+E aí quando você entende também, cara, o
+quão ele é foda, tipo, é muito legal
+isso.
+E eu faço isso de propósito, essa sopa
+de letrinha eu vou falando porque
+realmente, gente, não, vocês estão no
+mastering.
+O mastering já é avançado de certa
+forma.
+Então eu recomendo para quem tem
+interesse dar uma assistida nas aulas de
+Kafka, porque tem muita coisa legal.
+É, e outra coisa, para quem tem
+interesse, né Matheus?
+A gente tem treinamento de
+especialização em Kafka e você tem o
+Kafka Series, né?
+Também.
+Isso.
+Que eu vou atualizar ele em breve.
+Prepare -se.
+Então, tá aqui, ó.
+A gente tem especialização de Kafka e o
+Kafka Series para vocês se
+especializarem.
+Treinamento pelo Matheusinho aí.
+De fritação.
+Então, se você quer fritar a mente e
+aprender Kafka, aí você fica doido,
+realmente.
+Beleza.
+Então vamos lá.
+O que que falta a gente ver aqui em
+relação a este cara aqui?
+Eu trouxe três pontos referentes ao
+Kafka e o Spark.
+Antes da gente ver, eu mandei um sobre.
+Que é, primeiro, a integração dele.
+Então, de novo, ele vai ser, né, quando
+eu falo ele, ele vai ser porque ele
+entrega...
+Obrigado, viu, Matheus?
+Que ele entrega execling semantics,
+então vai ser maravilhoso isso com
+source sync.
+Você vai ter tolerância a falha
+justamente porque o mecanismo de
+integração do structure streaming com
+Kafka é utilizando a API de transação do
+Kafka, sim.
+Kafka faz transação.
+Existem várias, inclusive, respostas na
+internet se Kafka é um banco de dados.
+Então, se você colocar, se você olhar o
+banco de dados de dentro pra fora e
+quais são as propriedades que ele
+integra, que ele entrega, o Kafka faz
+isso, tá?
+Então, o Kafka tem uma API transacional,
+onde você consegue fazer uma transação
+no Kafka, tá?
+Por exemplo, uma transação bancária, por
+exemplo, tá?
+Você consegue gerenciar esquema também
+em cima dele, se você tiver o esquema
+registro ali no seu deployment de Kafka,
+você pode utilizar juntamente com o
+structure streaming pra ler essa
+informação em Avro, por exemplo, tá?
+E, no structure streaming, a gente tem
+ali algumas operações que são utilizadas
+normalmente quando a gente tá lidando
+com Kafka, né?
+Ou com sistemas de streaming como um
+todo, né?
+Então, você tem a parte de processamento
+do dado, que vai ser enquanto esse dado
+chega, né?
+Então, o dado vai chegando, ele vai
+sendo processado em microbettings ali.
+Lembrando o seguinte, que o tempo de
+ingestão é diferente do tempo de
+processamento.
+De fato, o que a gente costuma fazer em
+sistemas de streaming é gravar qual é o
+source time ou ingestion time e gravar
+qual é o processing time, sempre, tá?
+Isso é uma regra pra quem trabalha com
+streaming, que é o seguinte, ah, por
+exemplo, eu tenho um SQL Server, beleza,
+eu tenho lá na tabela uma data que fala
+quando que aquele registro foi inserido
+na fonte, bem, foi inserido às 10h23,
+legal.
+Quando ele sai lá, né?
+Esse event time sai e ele entra no
+Kafka, ele vira o quê?
+Um ingestion time.
+Então, a gente flaga um date time nele
+na hora que ele entra no Kafka.
+Foi gravado no Kafka, a gente coloca um
+ingestion time.
+E aí, a gente tem uma engine de
+processamento que é o Spark, e o Spark
+faz o quê?
+Lê essa informação e depois que processa
+esse dado, escreve no fluxo de saída o
+processing time, tá?
+Ou seja, o que você pode fazer em cada
+registro é gravar o event time, o
+ingestion time e o processing time.
+Isso é maravilhoso pra você fazer
+estatísticas, por exemplo, em cima do
+seu streaming.
+Ah, legal, o dado aconteceu, por
+exemplo, lá na fonte às 10h23, mas ele
+foi processado às 10h45.
+Por quê?
+Você começa a ter ideia de latência,
+quantos registros você consegue
+processar por segundo e assim por
+diante.
+Então, é uma prática bem legal você usar
+a ideia de event time pra poder
+trabalhar com structure streaming e
+eventos,
+tá?
+Só um minutinho, vou fazer uma notação
+aqui.
+E aí, em geral, essa ideia de event time
+salva vidas, tá?
+Que muitas vezes, ah, eu não tenho campo
+date time pra poder criar o resto do
+processo.
+O próprio Kafka te dá o timestamp, então
+você traz o resto do header, aquele
+timestamp, que é o event time,
+justamente o que a gente já usou até na
+demo, e aí a gente trabalha com esse
+event time, sem preocupar com mexer com
+a aplicação.
+A gente tem marca d 'água, né?
+Isso, na verdade, não é uma
+característica do Spark em si, do
+structure streaming, é uma
+característica de sistemas de streaming
+ter marca d 'água.
+O que é marca d 'água?
+A marca d 'água é pra que você tenha uma
+janela operacional aonde a marca d 'água
+consiga entender se você tem, por
+exemplo, late arrival data.
+Você tem dado, por exemplo, que era,
+vamos supor, tava no batch 23, você tem
+uma janela de 10 minutos.
+Essa janela acabou.
+E esse registro, ele deveria chegar
+nessa janela.
+E aí a gente tem uma outra janela, que a
+gente vai ver já já, uma window, e aí
+esse evento chega.
+E daí o Kafka consegue ignorar e não
+processar esse evento.
+Por quê?
+Porque ele não está, no caso Kafka, com
+Spark, vai fazer isso porque ele vai
+ignorar um late arrival.
+Então, ele vai fazer isso pra você
+também, o que é bem interessante,
+principalmente pra garantir a sequência
+e a continuidade do seu processo.
+E, como forma de você garantir o estado
+da sua aplicação, você tem um cara
+chamado Checkpoint, que vai fazer
+checkpoints, vai gravar as informações
+no State Store, que pode ser um RocksDB
+ou pode ser um subsistema HDFS, assim
+por diante.
+Ele vai escrever essas informações lá.
+E ele vai manter essa informação de
+metadados, justamente pra caso aconteça
+alguma falha na aplicação, ela pare,
+enfim, quando ela voltar, ela saiba onde
+ela está e ela se comunique com o Kafka
+pra buscar exatamente qual o último
+ponto que ela parou e trazer esse dado
+pra dentro dele.
+Tá?
+Então, vamos ver algumas demos aqui
+legais do Kafka funcionando em ação.
+Deixa eu só puxar aqui.
+O que é que eu faço aqui?
+Você quer gerar?
+Pode gerar.
+Gera dados aí pra gente.
+Se parar aqui é um clipe Pode, pode
+gerar.
+Pode gerar.
+Então, vocês estiverem vendo aí?
+Estão vendo aí, Matheus?
+Sim, senhor.
+Então, o que a gente vai fazer aqui
+nessa demonstração?
+A gente vai, de forma simples, ler um
+tópico do Kafka.
+Então, esse vai ser uma demo básica,
+primeiramente, pra gente entender como
+que a gente conecta com o Kafka e como
+que a gente traz esse dado.
+Tá?
+Então, vamos lá.
+Primeiro, eu vou declarar uma sessão.
+No caso aqui, a gente está citando que o
+host é localhost, ou seja, minha máquina
+local.
+E aqui, a gente está como a gente pode.
+A gente tem várias formas de fazer isso.
+Eu posso explicitar aqui um packages jar
+e daí ele vai, toda vez que eu ligo essa
+sessão, ele vai, na verdade, ir lá nesse
+cara.
+Ou, eu posso simplesmente adicionar ele
+dentro de um jars aqui.
+Então, na hora que você faz o build,
+você pode adicionar aqui, como eu
+adicionei aqui, o jar, você pode
+adicionar o jar, que é esse cara aqui.
+Então, automaticamente, quando você
+buildar a imagem do Spark, você não
+precisa mais se preocupar com esse cara.
+Amanhã, a gente vai ver isso buildado já
+funcionando.
+Então, fiquem tranquilos.
+Aqui, eu vou especificar o esquema de
+usuário, desculpa, o esquema de cliente,
+o esquema de drivers e o esquema de
+writes.
+Então, qual é a pegada aqui?
+A gente tem um dataset, que está sendo
+gerado no Kafka, que gera exatamente o
+quê?
+Clientes, drivers e writes, ou seja,
+corridas para os motoristas e quem pede.
+Então, a gente tem as informações
+relacionadas a eles aqui.
+Beleza, latitude e longitude.
+E aí, o seu caminhãozinho ainda está
+andando pelo oceano Atlântico?
+Vou voltar, não, resolvi, mas aí,
+coitado, ele ficou perdido.
+Esse rolê estava legal.
+Esse rolê estava legal, só o off -topic.
+Que rapidão.
+Eu estava construindo uma aplicação para
+mostrar em tempo real uma carga de
+entrega, para a gente fazer uma demo em
+um dos treinamentos que a gente vai
+fazer.
+E aí, ele se gabou.
+Cara, vou mostrar aqui a parada para
+vocês, eles não pagam nada.
+E aí, eu falei, caralho, você conseguiu.
+Você teve tempo de ver.
+Não, eu fiz em streamlit aqui, o negócio
+está foda.
+Aí, beleza.
+Ele foi lá, fez a rota.
+Quando a gente viu, o caminhão estava no
+meio do oceano Pacífico.
+A rota do navio.
+A desculpa é navio.
+Tudo bem que não tinha navio.
+Foi maravilhoso, velho.
+Nadou, voou, fez tudo.
+Foi maravilhoso, velho.
+Tomou tudo o que eu falei para fazer.
+Foi épico, foi épico.
+Beleza, voltando para a aula, gente.
+Aí, aqui a gente tem, por exemplo, para
+a corrida, a gente tem o ID da corrida,
+obviamente.
+O ID do driver e o ID do customer.
+Então, a gente vai trabalhar com esses
+caras aqui.
+Tem o start location e o end location lá
+no Pacífico, lá no Mato Pacífico.
+Tempo de entrada, tempo de requisição da
+corrida, fim da corrida e o preço desse
+cara.
+Então, aqui a gente vai definir uma
+função que vai criar o streaming.
+Então, o que o streaming vai fazer?
+Ele vai fazer um Spark widget agora,
+widget stream.
+Só que agora o formato não é CSV, não é
+Parquet, não é nada, é Kafka.
+E aí, você vai adicionar as informações
+aqui que você quer.
+Você pode adicionar a configuração de
+TLS, você pode adicionar diversas
+configurações aqui.
+Aqui a gente está vendo as configurações
+básicas.
+Então, aqui você tem a lista de
+Bootstrap servers.
+Isso aqui é o meu IP para me conectar
+com Kafka.
+Esse meu Kafka está no Kubernetes,
+obviamente, enfim, em algum lugar.
+Então, eu estou aqui com uma API
+externa, eu estou com um load balancer
+externo para fazer isso.
+Na vida real com clientes reais, isso é
+uma das coisas que eu amo no Kubernetes,
+o Kubernetes utiliza cluster IP, o que é
+interno.
+Então, não tem como você ter brecha de
+acesso externo dentro do Kubernetes, ele
+é uma caixa preta.
+Então, quando a gente faz o deployment
+da sua aplicação inteira no Kubernetes,
+você está em intraconexão e você não
+precisa passar o IP externo.
+Na verdade, o que você precisa fazer é
+passar somente o endereço do IP interno.
+Aqui, eu estou me subscrevendo ao
+tópico, que a gente vai passar o nome
+dele, e eu estou começando o starting
+offset lendo do earliest.
+O que é o earliest?
+É o início do meu tópico.
+Então, do começo do meu tópico até o fim
+do tópico, lê para mim.
+Ou você pode mudar também aqui para
+latest.
+E aí ele vai puxar somente o que está
+chegando novo.
+Então, automaticamente o Kafka vai
+entender isso.
+Lembra lá que a gente fez a aplicação de
+load?
+Beleza.
+O que eu vou fazer?
+Eu vou pegar esse data frame e eu vou...
+Isso aqui é importante.
+Eu vou fazer um cast do valor do JSON
+value para string.
+Então, eu vou selecionar o campo valor
+porque o Kafka transiciona dados em
+binário.
+Então, o que você tem que fazer aqui?
+Você tem que transformar esse binário em
+string e aí a gente vai acessar um JSON
+para abrir a estrutura desse cara.
+Uma outra forma de você fazer aqui, por
+exemplo, você pode utilizar esquema
+registry do Kafka para fazer isso.
+Para perguntar para o esquema registry,
+ele vai falar Ei, qual é o esquema desse
+cara aqui?
+E aí você, em vez de ter que fazer isso
+aqui, você já pega o esquema do dado
+automaticamente.
+Outra coisa importante aqui é que a
+maioria dos deployments que eu já
+trabalhei com o Kafka e que foram
+vários, eu nunca consegui utilizar
+esquema registry.
+Todos eles foram assim, todos.
+Então, a maioria dos clientes fora,
+clientes grandes, eles não têm esquema
+registry embedado.
+O Matheus também aprova, trabalhou em
+vários clientes.
+Todos tinham esquema registry, Matheus?
+Não, né?
+Não.
+De fato, 90 % usava JSON, 10 % Avro e
+quando tinha esquema registry era
+complexo, viu?
+Ah, eu lembro, eu lembro.
+É, complexo.
+Complexo do cara ter que parar, não ter
+outra opção ali porque é complexo
+somente.
+Tá?
+Então, beleza.
+Então, aqui ó, Matheus, a gente deu o
+createStreaming.
+Então, o que a gente vai fazer aqui?
+Criar um streaming chamado src
+appCustomersJson, appDriversJson e
+writesJson.
+Beleza?
+Então, eu vou gerar esses caras aqui.
+Beleza?
+Aqui, no caso do William, não.
+Como eu estou em earliest, ele sempre
+vai ler do início ao fim.
+Sempre do início ao fim.
+Mas se eu colocar latest, sim.
+Ou seja, tudo que chegar novo ele vai
+fazendo.
+Ou, se acontecer alguma coisa...
+Você gravou o checkpoint onde, Matheus?
+Onde está o checkpoint?
+Não, nesse caso eu não estou usando o
+checkpoint.
+Estou usando o diário do Kafka.
+Ah, você está usando o diário do Kafka,
+tá.
+É, nesse caso aí, para não tudo que eu
+estou fazendo é local, aí eu não debitei
+o checkpoint, não.
+Beleza.
+Tá.
+Ah, é porque é obrigatório para file.
+Obrigatório.
+Mas para cá não, porque o state stop
+pode ser gerenciado pelo Kafka.
+Outro ponto importante.
+Então, aqui a gente tem um formato
+console para quem não conhece.
+Então, a gente pode ligar o streaming e
+aqui, sim, a gente está startando ele.
+Então, a gente aqui está ali, de fato,
+fazendo toda a ação, criando plano de
+execução e assim por diante.
+Então, aqui, sim, a gente está olhando
+esse dado.
+Então, a gente vai iniciar esses caras e
+ver se esse dado está chegando.
+Matheus, você está gerando o dado aí?
+Pode ir.
+Cadê você?
+Deixa eu abrir aqui, só um minutinho.
+Esse cara está rodando em background.
+Tá.
+Então, está aqui, ó.
+Os batches aqui, está vendo?
+Ó, batch 68.
+Ele leu.
+Batch 69.
+E ele continuou lendo, infinitamente,
+tá, os dados.
+Matheus vai continuar, vai mandar dado
+aí, ó.
+Você vai ver que vai chegar outro batch.
+Chegou outro batch.
+Batch 26.
+Para não.
+Está aí.
+Ou seja, o dado está chegando ali das
+corridas do Uber, estão acontecendo.
+Esses dados estão chegando dentro do
+Kafka.
+De novo, chegou agora o batch 27 do
+driver.
+Está aqui.
+Beleza.
+Outro.
+Batch 25.
+Batch 28.
+E vai chegando esse dado.
+Beleza?
+Tá.
+Então, simplesmente, a gente tem esses
+dados chegando.
+A gente não fez nenhuma transformação
+aqui.
+A gente simplesmente só consumiu o dado
+do Kafka.
+Tá?
+Se estiver falando alguma besteira aí,
+Matheus, pode me interromper, tá?
+Não.
+Pode.
+Certinho.
+Beleza.
+Agora, a gente vai começar a trabalhar
+com streaming de verdade.
+Porque aí, naquele momento, a gente só
+leu e não fez absolutamente nada.
+Agora aqui, a gente vai fazer algo bem
+legal.
+Que eu, particularmente, acho muito foda
+em sistemas de streaming.
+E sou muito apaixonado, Matheus.
+Não sei se você concorda comigo.
+Você trabalha com Spark também, mas mais
+focado na parte de streaming como um
+todo.
+Você concorda comigo que o Spark faz ser
+muito fácil trabalhar com tudo?
+Porque você não tem que, por exemplo,
+programar de uma forma em batch.
+E, cara, você tem que ter uma outra
+tecnologia, por exemplo, pra processar
+em streaming.
+O que você acha disso?
+Não.
+Isso, pra mim, é a melhor parte do
+Spark.
+A melhor parte.
+Pra você, praticamente, ser transparente
+da forma como você vai trabalhar com as
+duas fórmulas.
+E outra coisa.
+Esse dado é todo mundo no mesmo lugar.
+Você pode trabalhar com Python, com
+Scala, com SQL.
+Você vai trazendo toda essa maioria de
+linguagens num lugar só.
+O que facilita bastante.
+Facilita bastante, com certeza.
+Então, aqui, estamos iniciando a sessão,
+a mesma coisa.
+Estruturando o esquema.
+Uma opção aqui, Matheus, que eu gosto de
+fazer pra estruturar o esquema, e eu vou
+deixar aqui anotado pra vocês.
+If you can...
+You could read...
+a data file from htfs to get the schema
+of the data.
+Então, o que você pode fazer aqui?
+Uma das formas que eu já fiz, tá?
+Na verdade, eu uso sempre que eu posso.
+É o seguinte.
+Eu deixo um arquivo, um arquivo do dado,
+tá?
+Então, por exemplo, eu vou ler ali um
+streaming de um arquivo.
+Tá?
+O que que eu faço?
+Nesse caso aqui, a gente tá no Kafka,
+então a gente vai definir obviamente o
+que eu vou pegar no esquema Regis.
+Mas a gente pode também fazer streaming
+de S3, de HDFS e assim por diante.
+Você vai resolvendo essas perguntas
+de...
+pra mim, Matheus.
+E aí, o que que a gente faz?
+Eu faço um read no arquivo, extraio o
+esquema e chamo o esquema aqui dentro.
+Tá?
+Então, eu leio o arquivo mais recente,
+pego o esquema e coloco aqui.
+Aí, desse jeito, eu não preciso
+estipular obrigatoriamente o esquema
+quando eu tô construindo de arquivo, tá?
+Uma das formas.
+Aqui, a função pra criar, como a gente
+já viu, aqui não muda nada, a não ser
+que agora, o que que a gente tá fazendo?
+A gente tá aplicando o quê?
+Uma operação aqui interessante, que é
+pegando o value de f, que a gente
+converteu o value de binário, e a gente
+tá pegando o que o Matheus falou.
+Automaticamente, dentro do header ali,
+dentro do streaming do Kafka, ele coloca
+algumas metainformações ali, tá?
+Sim, usa.
+Do mesmo jeito, Guilherme, usa a
+partição do mesmo jeito, só que a
+partição aqui, pelo que você já
+entendeu, elas vão ser micropartições.
+Então, sim, dúvida que não quer calar, o
+streaming também não usa partição?
+Sim, tudo vai partir do pressuposto de
+partições.
+Então, quando o StructureStreaming vai,
+né, porque ele é um pool, então ele vai
+lá buscar o dado no Kafka, ei, tem coisa
+nova?
+Ele vai lá e o Kafka fala, tem.
+Ah, então me entrega aí.
+E ele vai e manda um batch.
+E esse batch é o tamanhozinho do seu
+StructureStreaming.
+Então, sim, você tem a ideia dos small
+files sendo gerados em microserviços,
+né?
+Então, fica tranquilo, essa dúvida é
+totalmente normal.
+Então, sim, tá?
+Então, por exemplo, se você vai escrever
+esse dado lá, no final, é muito
+importante, talvez, que você faça um
+coalesce ou um repartition pra poder
+escrever esse dado, senão você vai gerar
+small files, beleza?
+Bom ponto, boa pergunta.
+Isso, aí a gente evita, lembra que a
+gente evita escrever um partition by.
+Lembra que a gente vai tentar escrever,
+sim, partition by, essa é a
+recomendação.
+Então, aqui, ó, selecionei value, e aí,
+como eu tava falando pra vocês aqui
+antes, o Kafka, ele coloca outras
+informações ao longo do streaming que
+ele recebe.
+Uma deles é um cara chamado timestamp.
+Então, ele prega lá o timestamp de
+quando o dado chegou nele.
+E aí, a gente pode transformar esse
+timestamp, nesse caso, se a gente não
+tem da fonte, em event time.
+Então, esse é o tempo do evento.
+Então, aqui, eu estou pegando a coluna
+JSON value, né, que é esse cara aqui.
+Tô passando o schema dele e tô chamando
+de dado, de data, né?
+E tô pegando a coluna também de event
+time.
+Então, eu tô pegando tudo de data, ou
+seja, todos os dados, todos os schemas
+que a gente tem ali, eles vão tá dentro
+desse cara aqui.
+Tá?
+Todo o schema ali da estrutura do
+streaming.
+E aqui, a gente vai criar os três
+streams.
+Beleza?
+Agora, a gente vai pras três opções
+disponíveis de Windows, tá?
+Então, a gente tem a sliding, que o
+próprio nome já avisa, né?
+Ela vai trazendo as informações em
+sliding.
+Ela vai sobrepondo ali.
+Segundo, sessão, que é geralmente uma
+das mais usadas.
+Sessão, sessão, sessão.
+Então, você tem uma sessão ali, por
+exemplo, ó, uma marca d 'água de cinco
+minutos e uma sessão de dez.
+Então, isso quer dizer o quê?
+Você tem uma sessão que acontece de dez
+minutos.
+Então, ele abre o processo, a janela, de
+dez minutos.
+Tá?
+E aí, o que que ele faz?
+Durante esses dez minutos, você tá
+recebendo esses caras, tá?
+Uma vez que acabam esses dez minutos, o
+que que acontece?
+Computaciona esses dez minutos e daí
+abre -se uma nova janela pra ser
+processada.
+E a gente também tem o Dublin Window.
+Então, o Matheus, inclusive, botou aqui,
+gostei do que você botou, o Matheus, ó.
+Dublin Window é Fixed Size, que não faz
+overlapping do dado, ou seja, o dado que
+tava na sessão anterior, você não vai
+ver na sessão posterior.
+Session Window, ele agrupa os eventos
+baseados numa chave.
+E Slide Windows, ele vai passando em
+intervalos regulares.
+Então, basicamente, o que a gente vai
+ver aqui é esse...
+Alguém perguntou o que que é o append
+aqui, tá?
+É...
+É...
+Esse append aqui é pra...
+append é pra appendar o dado e console é
+porque ele mostra na tela.
+Então, ele tá escrevendo, é tipo um
+show.
+É, ele tá colocando memória.
+Então, é um show aqui, tá?
+Então, aqui, ó, o Slide Window que a
+gente tem.
+Então, o Matheus botou aqui, ó, Dublin
+Window, Driver ID, Total Fare e Write
+Counts.
+Então, ele consegue saber o seguinte, ó,
+nesta data o usuário, né, o Driver ID
+164 recebeu esse valor total de três
+corridas nesses últimos, né, ele
+especificou o Dublin Window, a Dublin
+Window aqui tá setada pra quanto tempo?
+Pra um minuto, né?
+O que já parece ser um pouco estranho e
+aí a gente vai fazer uma coisa em cima
+disso já já.
+Então, quando eu olho aqui e falo cara,
+estranho, um minuto esse cara
+computacionou três corridas?
+Hum, tá estranho, né?
+Esse cara computacionou uma corrida, faz
+sentido.
+Esse cara computacionou duas, seis
+corridas?
+Hum, tá meio estranho isso aqui.
+Então, a gente tem tantas informações de
+sessão, né, que a gente pegou a Dublin
+Window Slide Window, que eu consigo ver
+o count e aqui o cliente e a atividade
+dele, quantas corridas ele fez nos no
+tempo do Slide Window tá selecionado pra
+quanto tempo?
+Pra cinco minutos tá?
+E por último, se a gente achar aqui,
+Sliding Tumbling, deixa eu ver se o
+Tumbling tá aqui e o Tumbling Window
+também tá?
+Então, aqui são as formas de janela.
+Luan, pra que que eu uso isso aqui?
+Quando você quer computacionar na
+streaming, você dificilmente vai pegar o
+dado e vai escrever, vai pegar o dado e
+vai escrever.
+Você precisa fazer o que?
+Um agrupamento, às vezes, pra fazer uma
+análise de tempos, né?
+A quantidade de vendas que estão
+acontecendo em janelas de dez em dez
+minutos, né?
+Um Sliding Window ali que vai dez em dez
+minutos andando e calculando a
+quantidade de transações que foram
+acontecendo ali naquele tempo.
+Então, você vai usar janelas pra poder
+processar essas informações de forma
+contínua.
+Beleza?
+Show!
+Agora, vamos para o Detection Customer.
+Então, o que que a gente vai fazer aqui
+agora?
+Sim, essa demo ficou bem legal.
+A gente vai utilizar um Join entre dois
+Streamings.
+Tá?
+Então, aqui é a mesma coisa como a gente
+já viu anteriormente.
+Aqui, a gente tá especificando dois
+Streamings, um de Cliente e outro de
+Rights.
+E a gente tá fazendo um Join entre eles.
+Vejam isso aqui, é literalmente um que?
+Um Pais Parque, né?
+Assim como a gente é acostumado a ver lá
+do modo anterior.
+Então, eu vou pegar Rights, vou fazer um
+Join com Customers e vou fazer um Inner
+Join entre eles.
+Vou selecionar as colunas que eu quero
+e, nesse caso, eu vou aplicar uma janela
+de detecção pra fazer o que?
+Pra contar a quantidade de corridas e a
+quantidade de valores que eu tenho
+dentro desse cara.
+E eu vou agrupar isso de minuto a
+minuto.
+Só que aí tem uma coisa legal aqui, ó.
+A gente vai simular uma detecção de
+fraude aqui.
+Então, essa detecção de fraude é quando
+o valor agregado for maior do que cinco
+corridas.
+Ou seja, se você tem cinco corridas em
+um tempo de cinco minutos, é estranho.
+Possivelmente isso seja uma fraude.
+Tá?
+Então, o que que você consegue fazer
+aqui, ó, é ver exatamente o tempo.
+Deixa eu ver aqui, ó.
+Você vê se existe, dessas sessões que
+estão acontecendo, quem são os caras
+anômanos.
+Então, por exemplo, esse ID de Customer
+99 aqui, ele teve nove corridas neste
+tempo aqui, aglomerado.
+Então, não faz sentido.
+Daqui a pouco a gente vai ter um outro
+batch gerado em um minuto depois que vai
+computacionar de novo e vai ver
+exatamente pro próximo batch qual é a
+anomalia deste cara, tá?
+Então, é que você consegue estender esse
+cara
+gigantescamente.
+Se o jovem stream falha por algum
+motivo, ele consegue resumir de onde
+parou?
+Sim.
+Então, utilizando o Kafka ali, ou
+qualquer outro sistema que ele tá
+conectando, ele automaticamente tem um
+checkpoint dele e ele vai saber da onde
+ele parou e vai voltar automaticamente.
+Eu consigo dimensionar o tamanho do
+cluster de Spark com o job rodando,
+exemplo, colocar mais ou menos
+instâncias em período de pico, você
+consegue mudar, né?
+E é o que você consegue automaticamente
+escalar e diminuir utilizando a
+location, né?
+O dynamic allocation.
+Outra coisa que você consegue fazer, e é
+uma prática, tá?
+Uma prática falada pelo time da
+Databricks, não usar mais de 25
+streamings na mesma aplicação Spark.
+Essa é a recomendação do time da
+Databricks.
+Por que?
+Boa pergunta.
+Número mágico, né?
+Eles tiravam, não sei da onde, mas
+enfim.
+A relação do uso de workers e drivers é
+mais ou menos igual ao batch, ou no
+streaming, usa mais o driver.
+Não, vai ser na mesma pegada, tá?
+A mesma ideia que você tem de batching,
+você vai ter em streaming.
+A diferença é que você, de fato, vai ter
+a ideia de muitos pequenos registros
+sendo colocados ali de tempos em tempos
+nas micro partições, porque é um micro
+batching.
+Tá?
+Então, assim, se você não controlar como
+esse dado vai ser escrito, você vai
+sempre gerar small files, né?
+Então, é comum.
+E esses small files não é um problema,
+né?
+Somente do Kafka e Spark, enfim, é um
+problema computacional complexo, chato,
+que acontece, né?
+Beleza.
+A gente tem tanto a detecção de fraude
+do cliente, quando a gente também tem a
+detecção de fraude do lado do motorista.
+Então, aqui você consegue saber também
+qual é desse
+aqui, está no batch 631, qual a
+localização desse cliente, o ID e a
+corrida dele, o fare e o tempo.
+Então, aqui, a gente está calculando uma
+janela para identificar quais são as
+corridas que estão acontecendo de um
+minuto, tá?
+Agregado por esses caras.
+E, aqui, a gente tem o Project
+Lightspeed, né,
+Matheus?
+Ele já está fazendo três, três streams,
+né?
+Exatamente.
+E a gente está fazendo dois joins.
+Cara, você não tem noção de quanto é
+lindo ver isso, sério.
+Quantos anos eu quis ver isso, né?
+Eu realmente queria ter isso alguns anos
+atrás.
+Então, o que geralmente a gente faz é o
+que a gente fazia antigamente.
+A gente fazia um join de um dataset, de
+um dataframe com outro, depois do
+resultado desse dataframe a gente fazia
+um outro join, um outro join e fazendo
+joins assim, porque só podia fazer dois
+joins.
+Agora, você pode fazer diversos, tá?
+Você pode ter vários joins aqui, que a
+gente está unindo esses três para fazer
+esse cara e isso vem do Project
+Lightspeed.
+Beleza?
+E, por último, a gente tem a, né,
+biblioteca experimental, teoricamente,
+desse cara, chamada Continuous.
+Então, agora, quando você triga o job,
+você pode falar Continuous, tá?
+Você pode passar aqui o tempo.
+Então, olha só que legal.
+Vou desviar esse cara aqui.
+Bem mais rápido, né?
+E eu te retorno algumas informações.
+Quer ver, Juan?
+Para um pouquinho aí.
+Quer ver?
+Ele vai falar, olha, olha, o seu batch é
+de 100 milissegundos, só que você está
+gastando 429.
+Então, a gente dá algumas ideias de você
+não reduzir tanto para você acertar a
+sua quantidade.
+Você está batendo demais, mas, no final
+das contas, você está demorando alguns
+milissegundos para poder ter o dado do
+outro lado, tá vendo?
+Então, mostrando para vocês aqui o
+Continuous, funcionando, por exemplo,
+tá?
+Que é o que se usa em Delta Live Tables,
+a torta direita, lá, pela Garabricks.
+Por isso que é muito rápido, né?
+O processo interno deles.
+Encerramos a tempo?
+Nossa, hoje encerramos a tempo.
+Perguntas, perguntas.
+Vamos lá.
+Deixa eu ajudar o Matheus aqui.
+Tora o pau, Jonathan.
+Pode perguntar.
+O Joint Tabellen Streaming vai levar em
+conta somente a intersecção das windows
+de cada uma?
+Sim, ele vai fazer isso.
+Vai ter que trabalhar com watermarking,
+tá?
+Como o Matheus colocou ali, você vai ter
+uma marca para poder estipular como que
+você vai fazer esse cara.
+Pode descravar o joint lá, Matheus?
+Ah, eu consigo fazer também.
+Pode, pode tirar um boost.
+Opa.
+Boa noite, pessoal.
+Tudo bom?
+Beleza.
+Luan, a pergunta é em relação a essa
+parte de streaming, mas eu acho que na
+unificação da experiência com batch.
+Então, o assunto, na verdade, é
+checkpoint.
+Do que eu estudei, o checkpoint do
+streaming tem um comportamento bem
+diferente do batch.
+Porque, assim, o do streaming,
+inclusive, é bem mágico.
+Você, até com change data feed, ele fica
+gravando automaticamente de onde ele
+parou, sem você precisar controlar nada.
+O do batch, aparentemente, pelo que pelo
+menos eu estudei, ele não faz esse tipo
+de comportamento de gravar de onde ele
+parou.
+Então, assim, se eu quisesse fazer um
+job que, ora, ele processa em streaming,
+ora, ele processa em batch.
+Como é que eu poderia fazer isso de
+forma unificada para ele, tipo, saber
+sempre de onde parou, independente do
+modo que eu estou processando?
+Isso realmente não é possível ou é um
+desconhecimento meu?
+Não, você vai ter que fazer customizado.
+Nesse caso, o que eu faria, eu teria
+duas aplicações separadas.
+Porque lidam com fontes diferentes.
+E no batch, no caso, eu faria um
+checkpoint na mão, por não dizer assim.
+É, exatamente.
+O que muita gente faz, inclusive.
+Faz na mão mesmo.
+Controla o checkpoint do lado dele.
+Perfeito.
+Obrigadão, Luan.
+Tá, falou.
+Esses joins são somente entre data
+frames e streams dentro da mesma
+aplicação, certo?
+Vamos fazer join com arquivos parquet,
+questão do data lake ou tabela?
+Você consegue fazer assim?
+Você paga em latência.
+Você paga em latência, mas consegue
+fazer assim.
+Dá para fazer aqui.
+O continuous exige mais da CPU?
+Cara, ele é um sistema um pouco mais
+agressivo, então ele vai exigir com
+certeza mais, porque, de novo, você está
+puxando o dado constantemente em
+milissegundos.
+Então, você vai ter mais utilização de
+CPU, absolutamente.
+Mas, é extremamente eficiente e tem
+outros sistemas que fazem também coisas
+assim.
+O Flink, por exemplo, também trabalha na
+casa de poucos milissegundos.
+Enfim, o Flink é Flink.
+O Flink é outro nível de streaming, né?
+O Flink, o Flink.
+Eu vou nem falar do Flink, não.
+O Flink é outra outra discussão.
+O Flink é um caso totalmente à parte.
+Ele é excelente para streaming.
+Pena que não tem conteúdo em português,
+Matheus.
+Se tivesse conteúdo em português...
+Acho, acho que vai ter, viu?
+Acho que vai ter, mas não vamos dar
+calma.
+Vai ter.
+Vai ter.
+Não estou fazendo treinamento ao tempo,
+não é por um motivo...
+Vocês não estão me vendo fazendo
+treinamento sozinho.
+Então, tem um motivo por causa disso.
+É.
+Então, tá, né?
+O que será?
+Então, beleza, gente.
+É isso.
+Acho que a gente finalmente terminou a
+tempo hoje.
+Hoje terminamos antes das 11 horas, tá?
+Então, vamos lá.
+Já fiz o curso da Confidante
+Cristianzinho lá.
+Fica com Deus, gente.
+Amanhã a gente se vê no último dia para
+poder literalmente ver essas aplicações
+rodando aí com sucesso.
+Beleza?
+Fica com Deus e até amanhã.
+Valeu, Matheusinho.
+Obrigado.
+Boa noite.
+Tamo junto, mano.
