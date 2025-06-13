@@ -60,6 +60,28 @@ df.coalesce(10).write.parquet("/caminho/saida/otimizado")
 df.write.partitionBy("ano", "mes").parquet("/caminho/saida/particionado")
 ```
 
+#### Exemplo de Liquid Clustering (Delta Lake)
+
+O Liquid Clustering permite que o Delta Lake otimize automaticamente o layout dos dados, agrupando registros similares e reduzindo o impacto de small files sem a necessidade de particionamento manual.
+
+```python
+# Criação de uma tabela vazia
+(DeltaTable.create()
+  .tableName("table1")
+  .addColumn("col0", dataType = "INT")
+  .addColumn("col1", dataType = "STRING")
+  .clusterBy("col0")
+  .execute())
+
+# Utilizando CTAS
+df = spark.read.table("table1")
+df.write.clusterBy("col0").saveAsTable("table2")
+
+# CTAS utilizando DataFrameWriterV2
+df = spark.read.table("table1")
+df.writeTo("table1").using("delta").clusterBy("col0").create()
+```
+
 ### Casos Especiais
 
 - **Hive On-Premises**: Particionar por data ainda faz sentido, mas monitore o número de partições.
