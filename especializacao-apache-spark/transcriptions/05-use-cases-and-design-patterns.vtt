@@ -1,0 +1,4928 @@
+Vamos então para o, infelizmente, para o
+último dia.
+Quando as coisas começam a ficar legais,
+a gente para, né?
+Na verdade, eu sempre falo que o Matheus
+assinto falta.
+Eu fiquei um tempo afastado, né?
+E faz, acho que, oito ou nove meses que
+eu não ministrava um treinamento
+teoricamente.
+Então, já digo aqui, Diniz, que foi uma
+turma especial.
+Especial.
+Eu espero que vocês não sumam, que a
+gente continue nas lives, que vocês
+continuem acompanhando o conteúdo e que
+a gente continue inteirando, sabe?
+Não sumam.
+Se vocês precisarem de alguma ajuda, no
+final a gente conversa sobre isso.
+O que a gente vai ver hoje, né?
+No último dia.
+A gente agora vai entrar um pouco na
+visão...
+Eu vou entrar aqui no início um
+pouquinho mais específico em algumas
+coisas que eu ainda preciso cobrir sobre
+o SPAC, que eu acho que é importante
+vocês entenderem como um todo.
+E aí, eu quero entrar no momento de a
+gente dar o passo para trás e começar a
+enxergar certas coisas numa visão mais
+360 feet view, sabe?
+De longe.
+E a gente começar a juntar, colar.
+Eu vou trazer os meus PPTs e as minhas
+técnicas que eu uso para arquitetar
+soluções de Big Data para ver se isso
+pode ajudar vocês no dia a dia, tá?
+Então, a primeira coisa que a gente vai
+falar é que eu acho que ficou claro isso
+aqui.
+Aí eu queria a resposta de vocês.
+Deu para entender que o ciclo de vida de
+uma aplicação SPAC, ela está relacionada
+ao processamento.
+Está tudo certo até aí?
+Hoje, isso está, tipo, crystal clear,
+tá?
+Tipo, claro que o SPAC é um engine de
+processamento em memória super eficiente
+para que você trabalhe com o quê?
+Com um data lake.
+Ficou claro?
+Se não ficou claro, pergunte.
+E aí a gente falou, por que o data lake?
+A gente discutiu, né?
+Então, assim, no SPAC você puxa de JDBC.
+No SPAC você faz conexão com o API e
+assim por diante.
+Mas, cara, será que ele é a melhor
+ferramenta para você fazer a ingestão do
+dado?
+Ele não é.
+Ele não é feito para isso, tá?
+Eventualmente, ele pode trazer features.
+Eventualmente, ele pode cada vez mais
+fazer overlap em outras tecnologias.
+Mas tem tecnologias específicas para
+fazer esse trabalho.
+A ideia é, você quer tirar o melhor do
+SPAC?
+Joga ele dentro do lake house.
+Joga o seu dado dentro do lake house.
+E aí você vai ter o melhor dele.
+O que a gente aprendeu ontem?
+Será que a gente precisa de um engine
+MPP, gastar, cara, dinheiros e dinheiros
+em dinheiros para poder fazer com que as
+pessoas consigam consumir o dado?
+A gente viu várias opções ontem.
+Desde possibilidades de bancos de dados
+relacionais com índices colunares até,
+cara, ferramentas proprietárias.
+Mas a minha recomendação, um takeaway de
+ontem, é que vocês planejem com muito
+cuidado.
+Vocês pensem com muito cuidado.
+Acho que vocês já ouviram falar aquela
+expressão, the devil is on the details,
+né?
+Então, é exatamente isso, sabe?
+Tipo, tá no detalhe.
+Então, o que vai fazer a sua solução,
+como eu posso falar, ela brilhar, são os
+detalhes que você vai adicionar nela.
+Vão ser as complexidades que você vai
+conseguir endereçar resolvendo aquilo.
+Mas o que eu quero que vocês entendam é
+que o SPAC é um sistema de processamento
+de in and out.
+Recebe, processa, aplica a regra de
+negócio e costa.
+E aí, isso é meio óbvio do porquê.
+Que o SPAC é tão adotado.
+Porque é onde a regra do negócio existe.
+Por isso que eu sempre falo pra vocês.
+O que vale mais dentro de uma empresa
+como um todo?
+A regra de negócio que ela possui ali
+dentro pra entregar valor pra quem vai
+consumir.
+Por isso que o SPAC é super importante.
+E ele é um ecossistema muito vívido,
+muito alto, muito forte nas empresas.
+E as empresas utilizam porque você
+consegue fazer o quê?
+Cara, se é DBA, hoje você sai do
+treinamento entendendo que, porra, eu
+posso usar meu skill de SQL pra
+escrever.
+Você trabalha com Python?
+Porra, eu posso sair ali do Python,
+aprender pra SPAC ali, beleza?
+Não vai ser uma curva tão foda ou
+pandas.
+Eu vou usar o pandas aqui e eu vou
+escrever meus pipelines
+transparentemente.
+O que que é isso?
+Cara, tem vários arquivos ali, mas o
+SPAC eu sei que ele é foda.
+Ele é distribuído, ele vai processar o
+dado pra mim.
+Então, essa fricção que você tem, ela é
+muito baixa.
+E isso faz com que você adote algo muito
+facilmente.
+Porque não te custou muito, entendeu?
+Beleza.
+Só que a gente viu também que tem...
+Esse é o problema.
+Esse conceito no mercado que é
+extremamente importante.
+O conceito de data lake.
+O conceito de data lake é um lugar cru
+dos dados.
+Por que, Luan?
+A gente discutiu qual a ideia do ETL pro
+ELT.
+Por que que a gente usa isso hoje.
+A necessidade de entregar insights pras
+empresas.
+A necessidade de ter o conceito de data
+driven estabelecido.
+A ideia de você conseguir gerar todos os
+tipos de visualizações e processamento
+de dados depois que o dado entra no data
+lake.
+Conseguir garantir pra ciência de dados
+que ele vai conseguir pegar o dado cru
+de como chegou e criar modelos
+analíticos em cima disso.
+Só que a gente também sofre com alguns
+problemas de colocar essas informações
+no data lake.
+Que é o swamp de dados.
+E aí, o lake house, ele vem justamente
+com essa camada semântica.
+Essa camada ácida.
+Essa camada que te traz a veracidade da
+informação.
+Que te traz a segurança de você utilizar
+um sistema que vai te garantir o que
+você precisaria que te garantisse, tá?
+Então, o lake house, que pode ser o RUD,
+o Iceberg ou o Delta inicialmente, ele é
+uma engine que funciona pra melhorar o
+que?
+A garantia daquele dado.
+É pra trazer o que?
+Os problemas que o data lake não trazia.
+Ou seja, o dado está sem esquema, o dado
+ser difícil pra performar porque não
+consegue fazer analytics, você não ter
+qualidade de dados lá dentro, porque
+você não tem enforcement do dado, você
+não conseguir garantir se aquele dado
+vai ser atômico ou não.
+Então, o lake house vem pra isso.
+Então, é lógico que se a gente tá
+pensando em construir soluções hoje,
+gente, a primeira coisa que a gente vai
+entender desse treinamento é que a gente
+vai sair entendendo que o lake house é o
+caminho que a gente vai fazer pra
+entregar o que?
+A qualidade de dados pra o conceito de
+lake, caso você use esse conceito de
+lake na sua empresa.
+Beleza?
+Bem, e a gente viu, a gente viu o The
+Medallion Architecture, ou a arquitetura
+Delta.
+Então, a arquitetura Delta, ou a
+Medallion, tanto faz, os dados chegam no
+data lake de qualquer formato, a gente
+discutiu e ficou claro mesmo que assim,
+tente entender que o mundo ele é muito
+diverso, então você chegar num data
+lake, você forçar com que as pessoas
+escrevam parquê, você forçar que as
+pessoas escrevam em algum formato, isso
+pode bloquear elas de adotar essa nova,
+essa nova tecnologia, ou de
+culturalmente entender que isso é algo
+viável e bom pra elas.
+Lembra que, infelizmente, a gente tá
+falando de pessoas no final do dia,
+então é tudo sobre pessoas, então a
+gente também tem que saber como a gente
+vai fazer o approach de fazer isso.
+Então, o data lake é um ambiente livre
+que, infelizmente, vai deixar esse cara
+escrever em qualquer formato, tá?
+E aí, eventualmente, a gente vai trazer
+essas informações pra dentro do nosso
+ambiente livre, pra dentro do nosso lake
+house, tanto em batch, quanto em
+streaming, a gente viu isso nos dois
+dias.
+Esse dado vai entrar na bronze, do jeito
+que ele é, tá?
+Eu vou falando aqui, só quero ter
+certeza que ficou claro esses conceitos
+que eles são os mais importantes do
+treinamento, tô sumarizando aqui pra
+vocês.
+Então, o dado entra exis, do jeito que
+tá, por quê?
+Porque posteriormente tudo que vai
+acontecer após está estruturado, está
+garantido de forma ácida e está
+garantido com esquema, então você tem
+uma estrutura performática em cima
+disso.
+Depois esse dado vai ser sumarizado nas
+tabelas de domínio, que a gente discutiu
+também ontem, né, então, sempre
+recomendação.
+Tem dez folders, vamos supor, tem três
+folders, usuário, user, subscription e,
+sei lá, sales.
+Você vai ter uma tabela bronze user, uma
+tabela bronze subscription e outra
+tabela bronze sales.
+Quando você for pra silver, talvez você
+não seja da tabela bronze, você vai ter
+uma tabela você tem somente, talvez, tá?
+Aí é que eu tô viajando.
+Você vai ter uma tabela usuário só.
+Elas vão se convergir numa tabela só.
+Que são os conceitos de tabelas de
+domínio.
+Você vai reduzir a sua footprint de
+interface.
+Até porque, se você tá consumindo do
+Data Lake, eventualmente, como o
+Camimurã, inclusive, a gente conversou
+sobre isso, vão ter vários usuários
+vindo de vários sistemas diferentes.
+Então, é muito interessante você ter uma
+tabela de usuário que fala por todos os
+usuários da sua empresa.
+É muito mais fácil do que você falar,
+cara, aonde é que tá no Lake o usuário
+do Postgres?
+Não, onde é que tá o usuário do MySQL?
+Cara, então, porra, seria muito mais
+fácil você ter uma tabela que te diz da
+onde são as fontes, mas o cara tem ali
+unificado um usuário só, da onde ele
+vem, quais são as características dele.
+Você tem um lugar de acesso.
+Faz muito sentido.
+Pra padronização, pra governância, pro
+lineage, pro catálogo de dados, pra
+qualidade do dado, pra curadoria dessa
+informação, né?
+Então, vale muito a pena esse, essa
+veracidade ser estabelecida.
+Uma vez que você tem essa veracidade do
+dado, você vai literalmente entregar as
+suas tabelas golds, que são as tabelas
+que a visão do negócio precisa, baseado
+nas suas informações silvers.
+Que, eventualmente, você vai poder
+entregar várias soluções pra vários
+clientes diferentes, porque no final das
+contas, se você construir essa
+arquitetura, você vai poder simplesmente
+copiar e colar a sua gold onde você
+quer.
+Porque é simplesmente um fato de você,
+toda a ferramenta de big data hoje,
+gente, toda ela, se ela não tiver
+conexão com o Spark, ela vai ter conexão
+com o Storage, tá?
+Ela vai ter conexão com o S3, ou com o
+Google Cloud Storage, ou com o Blocks
+Storage.
+Então, no pior dos cenários, se você não
+tiver uma conexão direta com o Spark,
+você vai jogar isso dentro do Data Lake.
+Por exemplo, vou dar um exemplo pra
+vocês.
+O PIN No.
+O PIN No, a gente falou dessa
+tecnologia, a gente vai falar ainda mais
+semana que vem, lá, enfim.
+E, cara, o que que acontece?
+A gente não tem conector direto do Spark
+com PIN No pra PySpark.
+A gente tem pra escala, né?
+E eu não trabalho com escala, não
+escrevo escala.
+Então, eu poderia aprender escala, nesse
+caso, e escrever, ou eu posso
+simplesmente pegar o PySpark, cuspir o
+dado do PySpark dentro do Data Lake, e
+de lá importar as minhas tabelas
+offline, que é exatamente o que eu faço.
+Então, você sempre vai ter essa opção.
+É isso que eu quero que você entenda.
+Você vai ter essa opção sempre, tá?
+Dificilmente você não vai ter.
+O Tablo lê direto do Lake em formato
+Delta?
+Eu tenho certeza absoluta que sim.
+Matheus, só checa pra mim, mas o Tablo,
+ele tem conexão direta com o Delta, tá?
+Ele tem sim.
+Você pode ler o Core BI, o Tablo, ele lê
+direto do Delta.
+Beleza?
+Deixa eu botar uma coisa aqui pra falar
+com vocês no final, pra não
+esquecer.
+Beleza.
+Tá, mas ainda tem um ponto que eu quero
+conversar com vocês, que eu acho
+importante,
+tá?
+E é plano de execução.
+Eu acho que todo mundo que já trabalhou
+com banco, quem aqui não, quem aqui não
+conhece o que é um plano de execução,
+coloca eu.
+Um plano.
+Pode ser de banco de dados relacional,
+pode ser do que quiser.
+Coloca eu.
+Que não conhece, não concluiu falar
+sobre isso, desconhece o que significa
+isso.
+Beleza.
+Boa, Gerson.
+Mais alguém?
+Coloque.
+Não se acanhe.
+Basicamente, um plano de execução...
+Não.
+Relaxa.
+Um plano...
+E é até bom a gente explicar isso.
+O que é um plano de execução?
+Vamos todo mundo rever.
+Um plano de execução é literalmente um
+plano que a engine, nesse caso Spark,
+vai executar.
+Então ela vai pegar aquele plano que foi
+gerado de alguma forma e vai executar.
+No banco de dados relacional, quando
+você faz uma query, vai fazer uma
+consulta, ele vai fazer o que?
+Ele vai, cara, de forma a falar o
+seguinte, cara, eu recebi uma consulta
+de um animal de teta.
+Como que eu faço essa consulta virar
+realidade pra ele?
+Então é como se tivesse um abracadabra
+ali que vai fazer a mágica pra ti e vai
+te entregar.
+Só que pra essa mágica acontecer, você
+tem que planejar o processo.
+Os passos a passo.
+Então, olha, ele pediu aqui o select que
+vai na tabela do usuário, aí une com
+outra tabela chamado vendas, aí ele tá
+pedindo aqui uma cláusula pra trazer
+somente os usuários que estão acima do
+peso.
+Sei lá, com o IMC, blá.
+Legal.
+Então tá, vamos entender o seguinte.
+Existe essa tabela?
+Existe.
+Esses campos aqui existem?
+Quantos registros tem?
+Me dá umas informações estatísticas aí,
+o plano de execução.
+Ou engine de execução.
+Me dá aí algumas informações.
+Ah, legal.
+Então, olha, eu vou criar um plano de
+execução aqui que eu quero executar isso
+aqui.
+Então, eu vou criar um plano, um plano
+pra executar.
+E aí ele manda.
+Então, tudo que funciona por debaixo dos
+planos, com tecnologias escaláveis, de
+processamento, sistemas relacionais,
+enfim, você tem uma engine de execução
+que vai criar um plano pra você
+executar.
+Então, o Spark não é diferente disso.
+E por ele ser baseado em SQL, ele cria
+um plano muito eficiente pra fazer isso.
+Por isso que bancos de dados são tão
+eficientes.
+Porque eles criam planos de execuções
+muito bem feitos.
+O coração da inteligência de um retorno
+de uma query é exatamente um plano de
+execução.
+E isso é muito bom.
+E isso vai fazer com que o processo
+inteiro seja possível.
+Nas máquinas virtuais da Cloudera,
+consigo fazer todo o processo do Delta
+Lake?
+Consegue.
+Lá no Cloudera, na versão que você
+tiver, você precisa garantir que você
+tem os bits necessários pra integrar o
+HDFS ou integrar o Impala, enfim, o
+storage pra que você possa, integrar com
+isso.
+O Cloudera novo, inclusive, já integra
+com o Iceberg.
+Então, você já tem isso também.
+E o Spark vai utilizar tudo isso.
+Como que é o plano de execução do Spark?
+Por que que eu vou falar disso hoje?
+A gente tem várias lives que entram em
+detalhes em cada uma delas, que eu acho
+que vale a pena vocês olharem.
+E aí eu vou falar quando que vocês devem
+parar pra pensar nisso aqui.
+Mas é importante que vocês vejam isso
+aqui, porque isso é um conhecimento que
+vocês precisam ter no seu caminho pra se
+tornar SMEs, experts.
+Né?
+Subject Matter Experts.
+Pra vocês se tornarem realmente savvy no
+negócio, vocês precisam entender algumas
+coisas importantes pra vocês baterem o
+olho e captar aonde está o problema se
+você tiver.
+A gente usa isso aqui pra entender o
+comportamento pra debugar problemas.
+Então, vamos lá.
+O plano de execução no Spark, ele
+funciona da seguinte forma.
+Primeiro ponto.
+Você tem o Query Execution Plan.
+Né?
+Um plano que vai ser o quê?
+Vai ser criado ali pra ser executado na
+engine.
+Então, como funciona?
+O driver é o cabeça.
+Então, toda requisição, eu escrevi minha
+aplicação aqui no Databricks, eu
+escrevi, enfim, eu dei o Submit lá.
+Porra, apertei Submit.
+Esse dado, né?
+Essa aplicação vai chegar no driver, que
+é a cabeça do Spark, e ele vai fazer o
+quê?
+Ele vai começar a quebrar o seu código
+em vários jobs.
+Então, ele vai analisar seu código ali,
+e eu falo, cara, eu preciso escalar esse
+código, porque é um engine distribuído,
+então eu vou quebrar em jobs, em
+trabalhos.
+Beleza?
+Ele vai usar isso baseado no que?
+No Lays Evaluation, baseado no que são
+transformações e ações.
+Basicamente, quais são as ações que eu
+tenho que usar?
+Por exemplo, uma ação de contagem, ele
+vai quebrar.
+Uma ação de você rodear um grupo de
+datasets.
+Uma ação de você coletar essas
+informações pra memória, de ler, de
+escrever, ele vai dividir isso em várias
+atividades.
+Depois disso, ele vai passar por um
+projeto de, por um processo de estágio,
+que é sequenciar essas tarefas que vão
+ser executadas e como elas vão estar
+preparadas para serem executadas.
+E aí, depois disso, ele vai falar o
+seguinte, olha, eu tenho todos os
+estágios prontos aqui, essas são as
+tarefas que vocês têm que executar.
+Quem é esse vocês?
+Esse vocês são os executores.
+Então, o Spark, ele tem um driver, que é
+a cabeça pensante, ele tem os
+executores, que são as atividades que
+rodam.
+Perfeito.
+O Minion.
+Então, as tarefas estão dentro dos
+Minions.
+Então, ele vai mandar, olha, tá aqui os
+estágios, executa essas tarefas.
+Beleza?
+Só que, vocês já ouviram falar daquele
+deitado, daquele ditado, que nem tudo
+que é, parece ser?
+Uma coisa é eu planejar um plano de
+execução, outra coisa é eu executá -lo,
+ele com maestria.
+Isso acontece na vida computacional
+também, tá?
+Então, na vida computacional, às vezes,
+ele tá com a estatística desatualizada,
+ele fala, vixe, deu merda aqui, ó.
+Por quê?
+Porque ele ia consultar uma atividade,
+por exemplo, uma tarefa que era pra
+consultar, sei lá, um arquivo que estava
+colocado naquele momento, que tinha 10
+mil registros, na verdade, em 200 mil
+registros.
+E aí, aquela tarefa vai pesar um pouco
+mais naquele momento.
+E você vai ter alguns tipos de lentidões
+que podem acontecer, porque você tá
+falando de uma arquitetura distribuída,
+onde ele não tem controle de onde tá o
+storage.
+Então, aqui, por exemplo, essas tarefas,
+vão ali, dentro do Data Lake, ser
+iniciadas para ler e fazer todo esse
+processo.
+Então, a gente vai conseguir analisar
+cada tarefa dessa daqui a pouco.
+É uma boa prática definir memória e
+vCore para drives e executores?
+Ele é, você pode deixar ele fazer isso
+pra você.
+O que eu recomendo?
+Deixa ele fazer, né, claro, quando você
+criou uma aplicação, você tá construindo
+a long -premises, enfim, você tá
+trabalhando com recurso, é muito bom.
+Mas, na maioria das vezes, deixa o
+Spark, deixa o Databricks fazer isso,
+deixa o Dataproc fazer isso, deixa o
+HDInsight decidir se você é...
+E aí, essa pergunta é boa, porque toda
+aplicação que eu escrever long, eu
+preciso ficar olhando o plano de
+execução?
+Não, velho, de novo, foca no business.
+Por favor, foca no business.
+Isso aqui é pra casos que são edge
+cases, são casos que você, cara, eu
+tinha um job que executava em 10
+minutos, tá sendo executado agora em
+duas horas, o que que tá acontecendo?
+Você vai ali analisar um plano de
+execução, que eu vou mostrar agora, e
+você vai lá.
+Então, já tem uns hackings aqui que você
+bate e fala, opa, aqui podia melhorar.
+Tem alguma coisa que eu posso fazer no
+meu código?
+Opa, aqui é um outro problema, será que
+podia melhorar?
+Enquanto isso, eu vou, na verdade,
+estartar o meu cluster de Databricks,
+porque eu quero mostrar pra vocês planos
+de execução e tempo de execução e a
+gente discutir sobre eles, porque agora
+vocês entendem.
+Vocês vão entender, ler um plano de
+execução, eu garanto pra vocês, depois
+dessa explicação que eu vou fazendo.
+Vocês já vão conseguir debugar, e isso é
+um conceito avançado que a gente faz,
+tá?
+Se o cara começar no Spark, no dia 1,
+ele não vai entender muito bem o que que
+significa um plano de execução, quais
+são as tarefas, enfim, mas a gente vai
+chegar lá daqui a pouco.
+Deixa eu botar aqui.
+Quando vale a pena quebrar o plano da
+execução e fazer um checkpoint?
+Vou falar também.
+Nesse caso do Spark, seria o Small
+Files, a gente também vai ter esse
+problema que eu vou falar daqui a pouco.
+Então, o job vai ser as atividades que
+chegaram, Bruno, do código que você
+escreveu.
+Então, ele vai identificar no seu
+código, algumas ações, as ações que você
+especificou, né?
+E ele vai criar jobs pra isso.
+Esses jobs vão ser colocados em
+stagings, onde ele vai ser trabalhado,
+vai ser assinalado as tarefas que vai
+ser executadas, e vai ser enviado pra,
+teoricamente, os executores que vão
+executar múltiplas tarefas.
+Mas o Spark tem um cara muito, muito
+foda, chamado Catalyst Optimizer.
+E isso nada mais é do que uma puta
+inteligência de banco de dados
+relacional, dentro de um sistema
+distribuído.
+Então, isso aqui vem de todos os
+adventos de sistemas relacionais, desde
+1940, 1950 até 2022.
+O Catalyst Optimizer, ele é o coração do
+Spark.
+Ele é onde a mágica acontece.
+Então, esse cara, ele é muito importante
+pra você entender.
+Por mais que o código esteja rodando
+rápido, não pode ter problema devido ao
+volume de processamento estar pagando
+mais por isso?
+Pode.
+Você pode estar executando o código
+rápido e ter vários problemas que talvez
+não sejam notados naquele momento, que
+você possa ter problemas depois.
+Vale a pena você resolver o problema?
+Ou vale a pena você tentar aprender a
+escrever da melhor forma e,
+eventualmente, monitorar suas aplicações
+e as que realmente doem, verificar se há
+valor de você melhorar?
+Sim.
+Eu, geralmente, trabalho dessa forma.
+Eu acho que, em relação a tudo isso, no
+final do dia, a gente tem que entender o
+que é valioso.
+E esse poder crítico -analítico é o que
+eu tento trazer pra vocês no
+treinamento.
+A gente não tem que ficar demais
+atachado no, porra, eu vou escrever o
+melhor código.
+Porra, eu vou escrever da melhor forma.
+Vai.
+Eventualmente, você vai aprender a
+escrever muita coisa boa.
+Mas você também vai escrever, antes de
+escrever muita coisa boa, você vai
+escrever muita coisa ruim.
+Mas, isso é um processo normal.
+Então, a gente vai entender algumas
+coisas que são muito gritantes pra você
+não fazer.
+E, depois, a minha recomendação é você
+analisar.
+É você, cara, eu tenho duas aplicações,
+três aplicações.
+Como que tá a performance?
+Tá?
+Tá legal?
+Tá viável?
+Tá atendendo o negócio?
+Legal.
+Mas, com o tempo, você já vai saber o
+que pode te dar problema.
+E, aqui, você vai entender o que você
+não tem que fazer pra você não ter
+problemas.
+Ou evitar alguns problemas.
+Então, vamos lá.
+Optimizer.
+Então, assim como em qualquer lugar,
+você tem o que você deseja fazer com o
+que realmente é feito.
+Então, você tem o plano lógico, e você
+tem o plano físico, tá?
+Então, o plano lógico, ele é uma ideia,
+um esboço do que vai ser, de fato,
+executado lá no executor, beleza?
+Então, vamos entender como que esse
+processo ele é quebrado.
+Vocês vão ter esse PPT, então vocês vão
+poder sempre entender como esse processo
+é feito.
+Primeira coisa que acontece, gente,
+quando você submete uma query, um data
+frame, um data set, enfim, você passa
+por um processo de análise.
+Eu falei ali, um pouco.
+O que é o processo de análise?
+O processo de análise é ele ficar, cara,
+esse data frame existe?
+Ele tá em memória?
+Essa coluna existe?
+Cara, eu tenho informações de catálogo
+disso?
+Eu tenho informações de metadata dessa
+informação?
+Então, essa é a primeira parte que
+acontece na cabeça do Spark.
+Ele entender o seguinte, cara, isso aqui
+existe no meu mundo?
+Ele tem essas informações gravadas num
+catálogo.
+Então, ele vai tentar resolver as
+coisas, tipo a agendidade, ele vai
+tentar fazer a inferência do Schema pra
+você, tudo isso vai acontecer aqui nesse
+primeiro momento.
+Depois disso, ele vai começar a pensar o
+seguinte, tá, legal, eu entendi, eu
+recebi, tá validado, isso aqui existe do
+meu lado, agora eu vou começar a pensar
+num plano que eu vou criar para atender
+o que você pediu pra cá.
+E aqui fica legal.
+Quando ele criar esse plano lógico, o
+próximo processo é ele falar o seguinte,
+cara, eu criei um esboço desse plano
+lógico e agora eu vou, eu vou criar um
+plano físico.
+Só que na hora que esse plano físico é
+gerado, é legal, porque ele não gera só
+um plano físico.
+Ele pergunta pra um modelo de custo,
+olha só que interessante isso aqui, é o
+Cost Model, tá, ou CBO, e muitos
+sistemas de banco de dados relacionais,
+Cost Based Optimization, ele vai
+perguntar o seguinte, Cost
+Model, qual é o plano mais eficiente
+desses aqui?
+Porque, na verdade, quando o modelo
+lógico é criado, se geram vários modelos
+físicos.
+Isso que é muito legal do Catalyst
+Optimizer.
+Então ele não gera só uma forma de
+fazer, ele gera várias formas de fazer.
+E quando ele gera várias formas de
+fazer, você tem uma engine, basicamente
+que vai olhar e vai escolher qual é o
+melhor plano baseado no custo.
+Luan, o que que é custo?
+Cara, ele vai validar quantidade de
+estágios que você tem, quantidade de
+tarefas que você tem, qual é o peso
+dessas tarefas, aonde ele tá sendo
+consultado, qual é a localidade dessas
+informações, qual é a configuração de
+RAM que você tem, quais são as
+configurações que você colocou no Spark.
+Ele avalia um bocado de coisa ali pra
+escolher o melhor plano pra ser
+executado naquele momento.
+Ele seleciona esse plano e olha só, que
+lindo, ele gera o RDD, o Resilient
+Distributed Dataset, que é o que?
+O low code.
+Então você escreveu em high code, você
+escreveu na high level API, e no final,
+quando ele for executar o plano de
+físico que você escolheu, desculpa, que
+o cost model escolheu, ele vai executar
+na linguagem baixa, que é a escala ou
+Java.
+Beleza?
+Então, o que que escrever na linguagem
+alta te possibilitou?
+Tudo isso aqui que se você escrevesse na
+linguagem baixa, você não teria diversas
+otimizações.
+Por exemplo, informações de metadado,
+serialização em memória, otimização de
+qual plano melhor ser escolhido,
+velocidade na escrita e na leitura, qual
+o melhor plano para ser escolhido, tudo
+isso são coisas que a gente tinha muito
+problema antes de ter o DataFrame com
+SQL, o Catalyst Optimizer.
+Então o Catalyst Optimizer, quando a
+gente teve a unificação em 2016, ele
+traz esses agimentos das melhores
+práticas, das melhores coisas
+relacionadas ao que?
+Sistemas distribuídos, sistemas
+relacionais em um modelo inteligente
+para decidir qual a melhor forma de
+executar aquele código que você
+pediu.
+Tudo certo até aqui?
+Posso seguir?
+Se não, a hora é agora.
+Boa pergunta.
+Ele só passa pelo Catalyst quando usa o
+DataFrame e o Dataset?
+Lembra quando a gente viu aquele PPT lá
+no dia 1, onde falava nas comparações e
+aí falava que uma das comparações que
+tinha era tipo melhoria de tal coisa,
+serialização em memória e tal?
+É exatamente o que o Catalyst Optimizer,
+ele faz.
+Ele melhora o plano.
+Então, se você não passa por ele, você
+vai passar direto pela linguagem baixa e
+você perdeu diversas coisas ali ao
+tempo.
+Então, basicamente, falar que ele não
+vai passar por esse engine porque o
+DataFrame está dentro do SQL, o RDD não
+está dentro do SQL, ele é linguagem
+baixa.
+E aí?
+Até agora tudo bem?
+Vamos lá, gente, me respondam.
+Sim?
+Beleza?
+Fechou.
+Agora, agora que a gente entendeu um
+pouquinho, né?
+Ah, não, eu vou entender tudo da
+primeira vez?
+Lógico que não, mas você vai entender o
+seguinte, cara, ele recebe, valida,
+manda um bocado de plano e ele vai
+escolher um plano.
+Beleza, você não precisa saber o detalhe
+do detalhe disso, mas o que é importante
+você entender a partir de agora?
+Os operadores.
+Isso é importante você entender.
+O que que são os operadores?
+É basicamente o que ele vai fazer e o
+que ele fez pra executar aquilo ali
+especificamente.
+Por exemplo, quando você vê, olha só
+como que a gente vai ler plano de
+execução, olha que coisa legal, você vai
+ver um cara chamado aqui, ó, scan
+parquet.
+Bem, isso aqui é meio óbvio, eu tô
+escaneando um parquet.
+Beleza.
+Olha só isso aqui, ó, whole stage code
+gen.
+Isso é muito bonito de ver.
+Tá?
+Então isso aqui você já sabe, ó, isso é
+bonito, o Luan falou que é bonito, por
+quê?
+Quando você vê esse whole stage code
+gen, é porque na verdade, o que que ele
+fez?
+Ele pegou várias tarefas, várias
+operações, ele colocou isso num batch,
+ele otimizou, converteu pra bytecode,
+pra java bytecode, que é a forma mais
+rápida de você executar um código, e ele
+comprimiu isso num instrumento de
+código.
+Então, esse column art role, esse hash
+aggregate, ele virou um whole stage code
+gen.
+Então, toda vez que você vê esse whole
+stage code gen, isso é uma utilização
+que o Spark faz pra reduzir a quantidade
+de atividades e acelerar a execução da
+sua engine.
+Por que que é importante você entender
+isso?
+Porque, com o tempo, você vai entender
+que tem certos tipos de operações que a
+gente faz, que vai fazer com que você
+tenha um whole stage code gen, e que
+eventualmente vai executar mais
+eficiente.
+A gente vai ver algumas delas.
+Segundo, olha só que interessante.
+ScanParQ.
+Essa é uma operação muito legal de você
+ver, que é o seguinte, olha.
+Ele vai ler operações de fonte.
+Então, aqui, tanto se for ParQ quanto se
+for Delta, você vai ver o que?
+O ScanParQ.
+O objetivo é você tirar o dado da fonte,
+e ele vai retornar as informações que
+você pediu.
+Entretanto, tem uma coisa muito sexy que
+você vai ver, que é isso aqui, ó.
+Filter.
+Então, o que ele fez?
+Ele fez um file scan, tá vendo?
+E aqui ele fez um map partition, tá
+vendo que isso aqui é uma operação.
+Você tá vendo que essa operação aqui ela
+não tá escrita como whole stage code
+gen?
+Alguém conseguiria se habilitar por que
+não está como um whole stage code gen?
+Vamos divagar aqui.
+Vocês conseguiriam divagar comigo?
+Por quê?
+Por quê?
+Olha só, essa operação aqui tá me
+dizendo o seguinte, ó.
+ScanParQ.
+Muito bom, Matheus.
+Também.
+Não é uma operação, ó.
+Map.
+O que é mapear?
+Ele foi lá, mapeou.
+Aqui, ó.
+Output aggregator.
+E output aggregator.
+Só que por que que esse cara aqui ele
+está como whole stage code gen?
+Por quê?
+Porque essa primeira operação não está
+no controle do Spark.
+Ela é uma operação externa.
+Por quê?
+Eu estou lendo a informação.
+Uma vez que essa informação chega aqui,
+ela pode ser otimizada.
+Então, tá vendo que eu estou tendo uma
+passagem de Mac Partitions para cá
+também?
+20, 21.
+Só que se você olhar o collect é
+exatamente o mesmo código, escala 194,
+escala 194.
+É a mesma classe.
+A diferença é que aqui eu estou no
+controle do RDD como um todo.
+Aqui eu mapeei e trouxe isso para o
+controle das minhas partições.
+Ah, Luan, eu vou entender isso de
+primeira vez?
+Não, mas é só para você começar a
+entender.
+Como que o berenguedê todo funciona?
+Dentro desse berenguedê aqui de file
+scan, você vai ver um cara chamado
+filter.
+Se você tiver, ó, isso é muito
+importante.
+Se você estivesse lendo de um CSV, se
+você estivesse lendo de um JSON, você
+não veria um filter aqui.
+Por quê?
+Porque você tem que carregar para a
+memória para depois acessar esse
+contexto.
+Por isso que a gente usa sistemas
+distribuídos ou arquivos de big data.
+Tá vendo que coisa linda?
+Aqui é a prova.
+Olha quantas linhas eu estou fazendo.
+Um milhão de linhas.
+É isso mesmo?
+Um milhão?
+Ou um bilhão?
+É um bilhão, né?
+Então, o número de batches.
+Tá vendo aqui?
+B.
+É um bilhão.
+244 .161.
+Só que o filtro é o quê?
+2 .780 .705.
+Olha que foda.
+Por causa que eu estou fazendo um
+parquê.
+Porque o parquê tem inteligência de o
+quê?
+Lembra que a gente falou que se a gente
+está utilizando parquê, a gente está
+ganhando 3, 4 vezes mais de velocidade?
+E se você estiver falando de delta, você
+vai ganhar mais velocidade ainda.
+Por quê?
+Por causa do pushdown computation.
+Por causa dos predicados.
+Porque na hora que eu for lá no Lake
+House, eu vou acessar aquela estrutura
+tabular lá que eu falei.
+Eu vou olhar o que eu mostrei.
+Vou olhar os metadados e ainda vou
+reduzir menos o que eu tenho que
+consultar para trazer para a memória.
+Então, é muito importante você entender
+que quando eu trabalho com Spark, Spark,
+eu trabalho o quê?
+Eu trabalho com otimização dele como um
+todo.
+Isso é um ponto muito importante, gente.
+Desculpa.
+Para vocês entenderem.
+É muito importante.
+Para que na hora que, por exemplo,
+alguém fala, não, mas vamos processar os
+dados aqui em JSON e tal.
+Você fala, gente, beleza.
+Quer processar em JSON?
+Está legal.
+Mas assim, vamos usar outro formato, né?
+Vamos usar um formato especializado para
+Big
+Data.
+Eu acho que é muito bom você ter isso em
+mente no plano de execução eu mostrar
+para você.
+Isso, ele usa o metadado do Parquet para
+reduzir a quantidade de operações que
+você vai fazer.
+E fazendo o drill down mais ainda, olha
+só que legal isso aqui.
+Olha o nível que ele dá, gente.
+Pelo amor de Deus.
+Número de arquivos lidos, 12.
+Tamanho dos arquivos lidos, 3 .2.
+1 bilhão.
+Ele traz várias outras coisas legais
+aqui.
+Repeatable, Repeated Reads.
+Isso aqui é importante.
+Isso aqui é legal.
+Depois eu explico o que é isso.
+O tempo que ele demorou para escanear.
+Eu também tenho tempo aqui.
+Mas o que é legal aqui?
+Ó.
+Deixa eu ver se eu consigo ver uma
+métrica legal.
+É, acho que aqui te diz isso.
+Então, ó.
+Informações adicionais do número de
+leituras, enfim.
+Por que que eu faço isso, Luan?
+Porque isso é da versão nova do Spark.
+Essas tabelas no meio do fluxograma?
+Não.
+Vou mostrar pra vocês que todo o Spark,
+ele tem um Spark History.
+E ele grava tudo isso aqui e te dá tudo
+isso aqui.
+Tá?
+Eu vou mostrar pra vocês.
+Relaxa que a gente vai debugar aqui
+agora.
+Um plano de execução que a gente já
+executou antes.
+Até aqui, tudo bem?
+Deu pra divagar um pouquinho, entender
+as operações?
+Ou não?
+Não é um bicho de sete cabeças, é?
+Tipo, beleza.
+Vai vir pela primeira vez, lógico, né?
+Mas assim, não é uma parada nossa,
+impossível, não tô entendendo nada.
+Dá pra entender, né?
+É prática.
+Dá pra entender.
+Outras coisas importantes.
+Aqui é importante.
+Gente, toda vez...
+Aí, ó.
+Aqui é uma prática que você, se você
+quer se diferenciar da galera que
+trabalha com Spark, essa aqui é a
+diferença que você vai ter na sua vida.
+Então, grave.
+Olha só.
+Tem uma operação chamada Exchange.
+Toda vez que você vê isso, chora.
+Não tô brincando, mas é uma operação
+ruim.
+Então, o que é o Exchange?
+O Exchange é simplesmente...
+Significa Shuffle.
+O que é Shuffle?
+Tá ligado?
+Quando a gente pega um baralho, a gente
+quebra o baralho no meio, a gente faz o
+Shuffle.
+Embaralha ele aqui, coloca pra
+embaralhar.
+É exatamente isso.
+Só que, olha só, o Shuffle no Spark é
+doloroso.
+Por quê?
+Você tem quatro máquinas, quatro
+executores, quatro minions trabalhando.
+E aí eu faço a operação seguinte.
+Olha, faz pra mim um join das tabelas.
+Cara, vai ter um pedaço aqui, um pedaço
+aqui, um pedaço aqui, um pedaço aqui.
+Ele vai ter que embaralhar tudo e te
+cuspir um resultado.
+Isso é o Shuffle.
+O Shuffle é uma operação muito custosa.
+Por quê?
+Porque ela tá falando de movimento
+físico.
+Então, o movimento físico tem que falar
+o quê?
+O movimento físico tem que tirar as
+informações, mover para um outro lugar,
+reduzir.
+Saturação de networking acontece em
+muita coisa pra isso.
+Então, quando o Exchange é habilitado?
+Você já tá aprendendo as melhores
+práticas, amigão.
+Olha aqui, ó.
+Join, você vai ter Shuffle.
+Repartition, você vai ter Shuffle
+também.
+O que é fazer um Repartition?
+Você carregou os dados na memória e você
+quer particionar isso em outro output.
+Por exemplo, você quer, você recebeu,
+isso tá em 25 partições.
+Você quer reduzir pra 4 partições.
+Ou o inverso.
+Isso vai gerar Repartition também.
+Coalesce.
+Mover todos os dados.
+Por exemplo, a saída de um CSV, você vai
+pagar pra movimentar todos os dados pra
+um local só.
+Porque o Coalesce vai te fazer, e é a
+saída do output de CSV, ela é escrita
+single thread, ela não é multi -thread.
+Então, você vai ter problemas, porque
+você tá enviando tudo pra um local só,
+pra despejar esse dado no local.
+Então, você vai pagar Coalesce.
+Outro, ordenação.
+Se você ordenar o dado, você vai pagar
+Shuffle também.
+Que são as operações mais caras que você
+tem no Spark.
+São operações de Exchange.
+Beleza?
+Vai mostrar como melhor o Shuffle,
+gerando aqui, para usar pro Partition?
+Não.
+Esse nível aqui, não.
+Eu botei isso na Spark Series que vocês
+vão ter.
+Na Spark Series vai ter exatamente cada
+um desses problemas.
+Então, como que a gente resolve, como
+que a gente resolve Repartition?
+Quando a gente tem problema, por
+exemplo, com Skill.
+Como que a gente resolve Skill?
+Big File Problems, Small File Problems.
+Tudo isso vai estar lá na série do Spark
+Series que vai começar a partir do dia
+de 1º de Setembro e vai ser um episódio
+publicado por semana.
+Vocês vão ter aí episódio até final do
+ano aí pra assistir, tá?
+Sobre cada um, sobre um tópico
+diferente.
+Desde o início até coisas extremamente
+avançadas.
+Um dos arquitetos aqui disse para
+colocar o comando abaixo e melhorou
+bastante.
+Ele mantém o histórico do plano ou ele
+sempre já mantém o histórico?
+Beleza.
+Olha só.
+Outra coisa.
+Joins.
+É muito importante.
+Principalmente se você tá na versão do
+Spark 2 .4 na versão do Spark 3 .0 pra
+trás.
+Você tem que se preocupar com isso aqui.
+Se você tá com o Spark 3 .0 pra frente,
+você já tem o...
+a mágica.
+Adaptive Query Execution, tá?
+E aí ele vai resolver sua vida pra
+cacete.
+O AQI é a solução da vida do Spark.
+Tá?
+Coisas que vocês já têm benefício.
+Eu trabalho com Spark desde a versão 2
+.7 acho que 1 .7 eu acho.
+Então eu não tinha.
+Isso que eu vou falar daqui a pouco pra
+vocês, tá?
+Adaptive Query Execution.
+Vocês vão se beneficiar e morrer disso.
+Beleza?
+Então vamos lá.
+Você tem três...
+Você tem alguns tipos de joins no Spark.
+Mas quais são os mais importantes?
+São esses três joins, tá?
+BHJ, SHJ e SortMeshJoin.
+E aí, existe uma relação...
+Ah, tá.
+Spark Fetch, Shuffle Partition 16.
+É, nesse caso te ajudou, deixa eu ver se
+é o Ricardo, o Hitskill.
+Ah, cadê?
+O Ricardo.
+É.
+Sim, você vai reduzir ou aumentar as
+partições que você tá fazendo o Shuffle.
+Você pode falar pro Spark, olha Spark,
+você vai fazer o Shuffle, mas você vai
+fazer em tantas partições.
+Isso é uma configuração que adiantou pro
+seu ambiente.
+Mas dependendo de um ambiente grande, aí
+você quebrou ou você melhorou.
+Então pro seu ambiente pode funcionar
+bastante.
+Basicamente o que você tá falando aí é
+pra você fazer o Shuffle não só em uma,
+não em duzentas.
+Mas fazer em dezesseis.
+Então ele vai tentar alinhar isso em
+dezesseis partições.
+Então o número que você deixou, o rad
+set ali.
+Pode funcionar pra muitos casos seus,
+mas se você tiver um volume estrondoso
+de dado, você vai precisar de mais
+Shuffle Partitions pra poder fazer
+eficientemente.
+Aqui, ó.
+Esses dias tive um problema com um left
+join de uma tabela com um ponto 3B com
+uma tabela de três mil.
+Estava demorando muito, às vezes dando
+out of memory.
+Um join do tipo Prodcast salvou minha
+vida, mas até onde eu pesquisei, ele só
+funciona com o inner join.
+No meu caso, funcionou.
+Caralho, que legal essa questão.
+Vou resolver aqui agora pra você.
+Por que que funcionou?
+Ó, BHJ Broadcast Hash Join.
+Olha só.
+One side is very small, que é exatamente
+o teu caso, tá?
+E a outra é grande, tá?
+Então, quando o Spark vai querer fazer
+um Broadcast Hash Join, é quando isso
+aqui, ó.
+Uma tabela tem um bilhão, e a outra
+tabela tem 300 mil.
+Ele vai falar, é, brother, vou meter um
+Broadcast Hash Join aqui.
+Por quê?
+Porque eu vou fazer o quê, ó?
+Presta atenção.
+Cada executor troca os dados com a
+tabela grande por um Hash Join.
+Vamos traduzir isso aqui.
+O que que é um Broadcast?
+Um Broadcast é você abrir um túnel de
+comunicação e passar informações sobre
+esse túnel de comunicação.
+Isso é um Broadcast.
+Então, vamos ler o que todo esse plano
+de execução tá me dizendo.
+Tá falando o seguinte, olha, essa
+tabelinha de 300 mil, o que que ela fez?
+Ela fez um exchange com a tabelona
+grandona.
+Então, todos os executores abriram um
+túnel de comunicação e enviaram essas
+informações pra onde a tabela está.
+Então, é como se ele fizesse o quê?
+Olha, em vez de você vir nos executores,
+e fazer, por exemplo, um exchange
+gigantesco e, cara, matar aqui tudo, o
+que que eu vou fazer?
+Eu vou pegar essa tabelinha pequena e eu
+vou propagar ela pra todos os executores
+que tem esse Join que você vai fazer,
+para e eu vou fazer isso em Hash, ou
+seja, qual a forma mais rápida de você
+fazer isso?
+Em Hash.
+Eu boto uma tabela em Hash, faço uma
+comparação hexadecimal de Hash entre
+elas e comparo essas informações.
+Só que isso funciona se uma tabela for
+grande e uma tabela for pequena.
+Normalmente, esse Join é acionado pelo
+Spark, quando você tem um Inner Join.
+Se você meter um Left Join, você, o
+Spark, não talvez escolha um Broadcast
+Hash Join.
+Ele faz um Sort Hash Join.
+E aí você vai ter, por exemplo, uma
+consulta que poderia ser executada em
+dois minutos e executada em uma hora.
+Ou vice -versa.
+É exatamente isso que aconteceu com
+você, João.
+E agora você sabe o que que aconteceu.
+Ficou claro?
+Aconteceu porque ele escolheu isso.
+Se você já tivesse esse conhecimento,
+você ia bater o olho e falar, opa, olha
+só, seu safado.
+Você escolheu um Sort Hash Join pra mim
+aqui, ou um Sort Mesh Join, mas eu quero
+um BHJ.
+Porque o BHJ é, de fato, o Join mais
+eficiente e mais gostoso que a gente
+quer ver o Spark fazendo um BHJ.
+Ficou claro, gente, que não só o João
+ficou
+claro, tanto faz fazer Left Join usando
+anotações que ele conta o DataFrame?
+Sim, mesma coisa.
+Acho que precisa de prática pra
+aprender.
+Ele meio que envia a tabela pequena para
+todos os nós e cada um de nós resolveu
+de uma vez a outra.
+Perfeito, sei, João.
+Ficou assim, top.
+Mais, gente, vamos lá.
+Interagem.
+Hoje é sexta -feira.
+Depois daqui vocês não vão me ver mais.
+Quer dizer, pelo menos no final de
+semana.
+Então, digam pra mim aí.
+Beleza?
+Outra coisa.
+SHJ.
+Um lado é três vezes menor do que a
+média dos tamanhos das partições para um
+Broadcast.
+Então, durante a partição do Join, você
+também vai ter o SHJ.
+Isso aqui é uma outra técnica que ele
+vai usar para reduzir Shuffle, para
+reduzir Exchange.
+Todas as ideias de você que o Spark
+tenta usar o Join é para tentar reduzir
+movimento.
+Então, ele vai, cara, vou tentar reduzir
+movimento no melhor.
+Mas tem casos que não tem como.
+Antes do Spark 3 .0, a gente não tinha o
+Adaptive Query Execution.
+Depois da Adaptive Query Execution, ele
+faz isso em tempo de execução.
+Eu vou mostrar pra vocês uma das coisas
+mais lindas que vocês vão ver na vida de
+vocês.
+Então, aqui é um outro tipo de Join.
+E você tem um SortMeshJoin, que
+normalmente ele é o mais comum.
+E ele, cara, ele vai juntar.
+Ele vai fazer um Merge entre esses caras
+em memória.
+Então, ele vai ter muito Shuffle e muita
+transição de dados.
+E aí alguém falou o seguinte, ah, mas
+isso aqui é prática.
+Então, sim, é prática.
+Então, coisas que eu faço, que eu
+aprendi na minha vida.
+Então, toda aplicação que você escrever
+desde o dia 1, você liga pra ele cuspir
+todo o info, toda a informação, e você
+fica olhando os planos de execução.
+O que ele fez aqui?
+Ah, fez isso.
+Ah, olha, ele fez esse Join aqui.
+Quando faz isso?
+Isso já vai automaticamente, daqui a
+pouco, entrar no seu coração.
+Vou mostrar aqui.
+Precisa me atentar com a velocidade de
+rede quando contratar um Cluster?
+Isso ajuda nos Brochets?
+Cara, a nuvem abstrai isso pra você.
+Você não precisa se preocupar não.
+Falar, ah, se preocupa não.
+Não precisa se preocupar, tá?
+Então, só na solução e não no problema.
+Então, vamos lá.
+Vamos ver isso com algumas coisas que a
+gente já fez aqui.
+Que tal?
+Live Demo.
+Live Demo.
+Eu gosto de Live Demo.
+Eu gosto assim.
+Vamos lá.
+Que aí vocês vão falando pra mim.
+Pode ser?
+Outra coisa, eu tenho um convite pra
+vocês antes disso aqui.
+Matheus, eu posso fazer o convite?
+Aqui é lá.
+Entendi.
+Eu posso fazer o convite pra eles?
+Pode.
+Quantas vagas a gente tem?
+Eu acho que a gente tem sete vagas, eu
+acho.
+Sete ou cinco.
+É, o Reds vai me matar, mas beleza.
+Olha só, gente.
+A gente vai fazer, na semana que vem,
+nos dias 25 e 26 de agosto, no auditório
+da Microsoft, lá em São Paulo, um
+pequeno evento chamado Kafka Spark
+Experience.
+Resolver os problemas mais complexos do
+mercado.
+Basicamente, a gente vai explicar a
+estrutura interna.
+A gente vai fazer, te falar quais são os
+problemas mais comuns e como resolver os
+problemas mais comuns.
+No outro dia, no dia 26, a gente vai
+identificar quais são os problemas e
+como corrigir algum problema.
+A gente vai fazer um RCA, um Root Cause
+Analysis, pra identificar.
+Vocês vão encontrar um problema no Kafka
+e um problema no Spark e eu vou falar
+pra vocês assim, ei, o que que tá
+acontecendo aqui?
+Como eu vou fazer aqui agora?
+E vocês, vocês são os engenheiros de
+dados, a gente é um time, vocês vão
+resolver esse problema.
+E na quarta parada, a gente vai ter a
+implementação de um caso real de
+streaming de batch com ele, com o Kafka.
+A não ser que esse evento é patrocinado
+pela StarTree, que é a aceleradora da
+Pimol.
+Então, nós temos o orgulho de falar
+desse evento.
+Esse evento é um evento exclusivo pra
+quem é do The Plumbers.
+Ele é presencial, ele vai estar na
+comunidade a pós, sim, tá?
+Ele vai estar na comunidade a pós, sim.
+Ele vai ser, ele vai ser estruturado,
+vai ser gravado, a gente tá levando um
+camera maker, a gente tá levando um
+putetinho pra gravar, pra ir pra São
+Paulo pra gravar.
+Ele vai aparecer pra vocês aqui no Kafka
+e Spark Experience, vocês vão ter acesso
+ao conteúdo exclusivo que só vai ser
+dado pra quem é da comunidade.
+Entretanto, de novo, pra falar que essa
+turma realmente é toti, ela, tá bom?
+Eu tô estendendo cinco vagas pra vocês.
+Quem quiser, fala aqui, que aí você, eu
+dou acesso pra vocês participarem.
+Vai ser na quinta e sexta da semana que
+vem.
+Quem quiser participar, fala pra gente
+aí, o dia inteiro.
+Tá?
+Então, se alguém daqui quiser
+participar, avisa.
+A gente vai em São Paulo, né?
+A gente vai participar.
+A gente vai em São Paulo.
+É, porque São Paulo.
+Beleza, vamos lá.
+Cluster.
+Né?
+Então, todo cluster de Spark, todo,
+local, na nuvem, Kubernetes, em qualquer
+lugar.
+Beleza?
+Boa.
+Priscila gastou o primeiro foda do dia.
+Boa.
+Então, se vocês quiserem, tem interesse.
+Vamos lá.
+Aqui você tem um card chamado Spark UI,
+tá vendo?
+Olha só, Spark UI.
+Quando você clica aqui, ele abre um UI.
+Vou abrir aqui uma nova tabela.
+Isso aqui é o famoso Spark History.
+É o histórico do Spark, onde ele grava,
+guarda todas as informações que ele
+executa.
+Por que que isso aqui tá tudo zero,
+Juan?
+Cara, tá tudo zero, porque eu acabei de
+ligar o meu cluster, né?
+Então, eu não tenho nada executando.
+Isso, não executei nada.
+Mas, a gente vai executar um negocinho
+aqui.
+Quando o cluster desliga, perdemos o
+histórico, você pode vir aqui e volta.
+Você tem um driver logs que vai ficar
+pra você.
+Nesse caso, por se falar da nuvem, como
+você tem histórico, você pode vir aqui,
+ó, e ele vai gravar algumas coisas pra
+ti.
+Os workers, por exemplo, informação dos
+workers, enfim, tá vendo?
+Ele tá rodando, mas, historicamente, as
+informações que estavam ali são
+efêmeras.
+Você pode pedir pra gravar isso em outro
+local, mas, basicamente, sim, tá?
+Aqui as aplicações, usando Ganglia,
+vamos pegar aqui, ó.
+Ele te traz alguns prints do
+comportamento, mas a habilidade de você
+fazer o que a gente vai fazer agora,
+realmente, você perde, tá?
+Então, vamos lá, tiozão.
+Eu vou fazer uma parada bem tranquila
+aqui, Matheus, acompanha comigo, ó.
+Vamos em tempo de execução fazer isso
+aqui, pra galera aprender e ficar doido.
+Então, vamos lá.
+Tempo de execução, ó.
+Eu vou criar uma tabela de itens e uma
+tabela de vendas, tá?
+Vai demorar muito tempo isso aqui, mas
+aqui eu tô criando uma tabela de 30
+milhões.
+É 30 milhões?
+300 milhões?
+Deixa eu ver aqui.
+30 milhões, né, Matheus?
+Isso.
+E aqui eu tô criando uma tabela, uma
+tabela de 1
+bilhão.
+Certo?
+Tudo e pouca.
+Beleza.
+Então, aqui, eu vou gerar essas
+informações, tá?
+Depois eu vou fazer um select pra vocês
+verem aqui, realmente.
+E, vou fazer vocês verem a execução
+dessa consulta, olha
+só, sem ter o Spark 3 .0.
+Antes do Spark 3 .0.
+Muitas aplicações hoje residem antes do
+Spark 3 .0.
+Por isso que eu tô mostrando.
+Muita realidade de muita gente.
+Então, você já olha ali sua aplicação e
+fala, eita, é Spark antes de 2 .4.
+Eu vou mostrar pra vocês, pra vocês
+falarem foda, pra gente aquecer o dia de
+hoje, que a gente ainda tem muita coisa
+pra falar, mas pra aquecer, pra vocês
+verem uma coisa, tipo assim, sai da
+aplicação 2 .4, eu fui pra 3 .0, eu
+quero me matar de felicidade.
+A gente tem cliente, pra você ter ideia,
+que executava pipelines em 30 minutos,
+40 minutos, a gente mudou pro 3 .0 e foi
+executar em 2 minutos, 1 minuto e meio.
+A mesma aplicação, só foi mudada de um
+lado pro outro.
+Vamos ver o plano de execução que foi
+colocado aqui, ó.
+Executou isso em 24 segundos.
+Então, vamos agora analisar o plano de
+execução em tempo real.
+Vamos fazer isso?
+Me ajuda aqui, então.
+Vamos lá, compute, Spark UI,
+beleza.
+Timeline de execuções, e esse comando de
+23 segundos.
+Vamos analisar?
+Vocês me digam, tá?
+Se vocês já entenderam alguma coisa,
+vocês vão me deixar muito orgulhosos
+aqui, ó.
+Primeiro, o primeiro resultado, o
+estágio, tá vendo?
+O estágio da execução, opa, eu entendi,
+Luan, lá que os estágios são a
+quantidade de operações que são
+realmente executadas.
+Então, no estágio 4, ele fez um processo
+aqui de collect, de pegar as
+informações.
+Então, eu tô vendo aqui, ó, 21 segundos
+é nesse cara aqui, ó.
+Então, vamos nele, vamos.
+Cliquei nele.
+Legal, olha, me deu umas informações bem
+legais aqui e tal.
+Mas eu quero ver isso de uma forma mais
+bonitinha.
+SQL.
+Aonde é que demorou mais?
+Matheus, aqui?
+Vamos pegar esse de 23 segundos aqui?
+23 segundos.
+Eu vou pegar aqui.
+Eu também.
+Eu também.
+Vou expandir esse cara.
+Vamos lá ver, Matheus, ó.
+Fez um scan, fez um whole stage
+generation, fez um exchange, opa, o Luan
+falou que o exchange é caro.
+Então, vamos ver aqui.
+Vamos expandir os detalhes pra ver.
+Cloud Storage Response, número de
+parquês 36, 3 .2 gigas, 36, métricas do
+colunar, porque é parquê, em forma
+exchange.
+Caraca, exchange.
+Alguém me disse por que que esse
+exchange aconteceu aqui?
+Olha pra esse código e me fala por que
+que esse exchange aconteceu.
+Aonde tá o exchange nessa consulta aqui?
+É isso aí.
+Perfeito, viu?
+Que não é tanto doido.
+Viu que vocês não são...
+Exatamente, tá todo mundo certo.
+Parabéns.
+Então, olha só.
+Exchange.
+O bichão pegou aqui, ó.
+Exchange, tá?
+O que que ele fez aqui?
+Leu tantos blocos, moveu, blá, blá, blá,
+blu, blu, blu, entregou o dado aqui no
+lado.
+Beleza.
+Agora, eu vou pegar o mesmo código,
+Matheus.
+Eu vou habilitar o Spark 3 .0.
+Eu vou habilitar uma feature chamada
+Adaptive Enable True.
+E eu vou executar o mesmo código,
+Matheus.
+Vamos ver.
+Por que que o Spark é assim, Matheus?
+Por que que eu habilitei uma flag e
+ganhei 2x de velocidade, Matheus?
+Por que, Matheus?
+Isso, Matheus.
+É loucura.
+Você habilitou uma flag, Matheus?
+Não, Matheus.
+Então quer dizer que a galera que usa 3
+.0 vai meter essa flag aqui e talvez vai
+resolver vários problemas do pipeline
+deles, Matheus?
+Possivelmente.
+Isso é muito engraçado.
+SQL.
+11 segundos.
+A mesma query, tá?
+Olha o que que ele fez aqui.
+AQE ShuffleWit.
+Ele fez um coalesce.
+Antes dele entregar o dado pra você, ele
+fez uma operação anterior em tempo de
+execução pegando todos aqueles dados e
+falou, cara, esses dados aqui que você
+vai entregar em vários executores no
+final, ele pode ser colocado em uma
+partiçãozinha só e eu mostrar esse dado.
+É muito mais eficiente.
+Então, o que que ele fez em tempo de
+execução?
+Pegou, botou em uma partição só e
+mostrou o dado pra você.
+E por causa dessa pequena brincadeira
+que ele fez, se o seu pipeline executava
+em dois minutos nessa operação, ele vai
+executar em um minuto.
+Nesse mesmo caso aqui.
+Porque ele executou em 11 e aqui ele
+executou em 24.
+Então a gente tá falando de mais de 2
+minutos.
+De velocidade por eu habilitar uma flag.
+Outro.
+Ah, esse aqui é esse aqui é esse aqui é
+depressivo.
+Vou desabilitar e vou fazer uma query.
+Eu vou fazer essa query aqui.
+Joins.
+Eu quero mostrar isso.
+Joins.
+E eu vou agora executar essa query.
+De um milhão de linhas contra um bilhão
+de linhas, Matheus.
+Você consegue me falar quanto tempo
+demorou pra executar essa consulta?
+Seis minutos, hein?
+Seis minutos, né?
+Tá.
+Agora eu vou habilitar o query execution
+e eu vou executar essa consulta.
+Seis minutos.
+Vamos ver quanto tempo vai demorar?
+Já tem um spoiler ali, já.
+Já, mas eu, mesmo vendo já é...
+Já é muita loucura, né?
+Vamos ver aqui o que ele vai gerar de
+plano de
+execução.
+Olha, tá em tempo de execução.
+Running queries.
+Ele tá rodando.
+Vamos ver.
+Alguma pergunta?
+Tá, então.
+O pessoal tá...
+Hoje o pessoal deve tá bebendo cerveja,
+alguma coisa assim.
+Tá mais boa.
+Tô interagindo menos hoje.
+Ah, então tá prestando atenção.
+Toma na cara aí que cês vão tomar um...
+Os tapas na cara.
+Pá!
+Pá!
+Então, vamos ver quanto tempo esse cara
+vai
+gastar.
+Vai, amigão!
+Seis pontos sessenta e seis contra um
+minuto.
+É.
+Olha só.
+Que coisa linda.
+Com um tantinho mais rápido, né?
+É um pouco, né?
+Você ganha só seis vezes por habilitar
+uma flag.
+Beleza.
+Vamos ver aqui o que ele fez.
+O que ele fez?
+É só habilitar uma flag.
+Não vai nada.
+Não, isso que é o legal.
+Você habilita a flag e vai embora.
+Não aumentou máquina, nada.
+Nada.
+Você não aumentou magra.
+Porra, não.
+Você só foi lá e habilitou isso.
+Ó, tá lendo um arquivo, um arquivo.
+Tá fazendo um exchange.
+Por que que ele tem que fazer um
+exchange aqui?
+Ele tá colocando essa memória.
+Você pediu um join.
+Aí, ó, o que que ele meteu aqui antes do
+join?
+Opa!
+Antes de você fazer esse join, amigão,
+eu vou reduzir a quantidade de partições
+pra você, pra você fazer um broadcast
+join.
+Porque o broadcast join é o mais rápido
+de todos.
+Então, como eu consigo fazer isso, eu
+consigo reduzir os meus estágios e
+reduzir seis vezes o seu pipeline.
+Então, se você tinha um pipeline que
+rodava em 6 .66 minutos, esse cara agora
+tá rodando em 1 .15.
+Seria possível usar algo parecido nas
+lições anteriores ao 3 .0?
+Não.
+Aí você vai ter que forçar, você vai ter
+que entender, você consegue chegar nesse
+mesmo plano.
+Só que você vai ter que codar.
+Você vai ter que entrar no seu código e
+antes de fazer os joins, você vai ter
+que setar as coisas e se encoditar.
+Mas por qual motivo ele ia desabilitar
+por padrão no 3 .0 e no 3 .1 depois tudo
+certo?
+Era porque estava em teste?
+Não.
+Exatamente.
+Porque eles lançaram as melhorias, mas
+não quiseram deixar isso habilitado
+porque existem alguns problemas de
+ajustes e existem alguns fixos que eles
+gostariam e queria dar a possibilidade
+para as pessoas testarem e verificar se
+naquele workload faria sentido.
+Beleza?
+Já são quase uma da manhã aqui, vou
+acompanhar a aula gravada.
+Fui, abraço.
+Aguardo mais informação.
+Fica com Deus, Jefferson.
+Até mais.
+Mas depois o 3 .1 é habilitado como
+padrão.
+E aí eu posso ir e ir.
+Uma das coisas que se vocês quiserem
+também dar uma olhada depois, eu não
+recomendo mais, né?
+Mas isso aqui tudo vai estar lá com
+vocês.
+Fica tranquilo, aqui a gente pode fazer
+algumas coisas legais de caching e assim
+por diante que está dentro lá.
+E aí, gostaram?
+Desse tapa na cara?
+Ou seja, esse tapa na cara diz para você
+o seguinte, se você está começando
+agora, se você quer mudar, como que foi
+o caso do Breno mesmo?
+Que ele fez o treinamento?
+Lógico.
+Acho que foi de uma...
+O negócio era tipo duas, três horas,
+passou para 30, 20 minutos, eu acho.
+Era três horas, passou por 20 minutos.
+Era da hora para minuto.
+Ele só foi lá e habilitou o 3 .0, não
+foi?
+Tem um cara que hoje trabalha com a
+gente, foi engraçado.
+Estava na empresa hoje dele.
+Ele é júnior.
+Não, era anterior.
+Mas ele ganhou aumento, não foi?
+Foi promovido, ganhou aumento e começou
+a ser bombardeado de proposta.
+É verdade, ele foi lá e habilitou ele.
+Não, moleque.
+Não, moleque, eu só fui lá e vou ter a
+aplicação, moleque.
+Então, é exatamente isso, tá?
+Se você...
+Olha só que legal, olha só o hacking na
+sua cabeça.
+Você trabalha com Spark já, vamos supor
+que você vai entrar ali em um ambiente e
+fala, cara, é Spark 3 .0?
+Não é?
+Você já começa a ficar feliz, porque
+você pode talvez pegar aquela aplicação,
+fazer com que ele execute, testar ela e,
+velho, talvez, só de você fazer isso,
+você vai reduzir a aplicação, sem fazer
+nada.
+Tá?
+Então, é uma parada foda.
+Beleza?
+Vamos agora evoluir.
+E aí, Matheus?
+Foi?
+Você tá vendo a tela?
+Foi, foi, foi.
+Então, a gente viu Spark como um tudo.
+Beleza.
+Mas, o Spark precisa ser orquestrado,
+tá?
+O que que é isso?
+Cara, se a gente for pensar, você tem
+várias coisas pra orquestrar, acho que
+agora faz sentido.
+Se vocês forem na live e eu falo de
+orquestração, às vezes fica meio, sabe?
+Ah, mas o que que é orquestrar?
+É, cara, garantir o seguinte, a
+informação, por exemplo, vai chegar no
+Data Lake, aí eu vou acionar um processo
+que vai comprimir esse dado, vai colocar
+no lugar.
+Depois, eu vou pegar esse dado, vou
+executar o Spark, aí depois o Spark vai
+fazer, vai cuspir, cuspir no Data Lake.
+Aí, depois que ele cuspir no Data Lake,
+eu vou pegar esse dado e eu vou colocar
+dentro do Snowflake.
+Aí, depois de colocar no Snowflake, eu
+vou fazer um código que vai validar se o
+dado que tava no Data Lake, a quantidade
+de linhas, por exemplo, é a quantidade
+de linhas que entrou no Snowflake.
+E aí, depois disso, eu vou mandar um e
+-mail no Slack, eu vou mandar uma
+mensagem no Slack falando, olha, o
+processo XPTO foi processado com
+sucesso, rapaz.
+Beleza?
+Isso é sexy.
+Certo.
+Aperta e vê, todo o processo rodar.
+Então, toda vez que você estiver falando
+de Spark, você vai ter que trazer uma
+coisa sexy pra poder te ajudar a
+orquestrar.
+E quem pode fazer isso?
+São as engines de orquestração.
+Quais são as engines de orquestração no
+mercado?
+Você tem três muito marcantes nas
+nuvens.
+No Azure, você tem um Data Factory.
+No Glue, desculpa, perdão.
+No Azure, você tem um Data Factory.
+Na AWS, você tem um Glue.
+E na Google, você tem um Cloud Data
+Fusion.
+O que eles fazem?
+Exatamente a mesma coisa.
+É um sistema de ingestão e de
+orquestração que vai, o que?
+Plugar, conectar os pontos pra você.
+O conceito é o mesmo.
+Só que você entende que você está, de
+novo, estrategicamente falando.
+Ah, porra, eu sou tudo Azure.
+Faz sentido você usar o Data Factory.
+Ah, eu sou tudo AWS.
+Faz sentido você usar o Google.
+Ah, eu sou todo GCP.
+Só que a moção do mercado e a multi, ser
+multidisciplinar, custo, estratégia de
+risco, estratégia do seu nível C,
+estratégia da empresa, normalmente
+quando a empresa, ela cresce, ela não
+vai ficar numa nuvem só.
+Ela vai usar mais de uma nuvem.
+E o que acontece numa empresa média e
+grande porte?
+Você começa a ter várias coisas em
+vários lugares.
+E, eventualmente, você entra no problema
+do silo, que, eventualmente, você vai
+ter problemas, na entrega do dado, no
+final das contas, e assim por diante.
+O que você pode fazer é, talvez,
+escolher uma solução que se comunique
+across the board.
+Então, como o Bruno falou ali, o
+Airflow.
+Por isso que você vê o Luan falando de
+Kafka, Spark e Airflow.
+Se você souber essas três tecnologias,
+Matheus, aonde você consegue trabalhar
+com essas três tecnologias?
+Se você realmente souber Spark, Kafka e
+Airflow.
+Eu quero ver.
+Se você, se fosse, for certificado nas
+três.
+Qualquer lugar fora do país.
+Se você trabalha em qualquer lugar fora
+do país.
+Se você está duvidando de...
+Ou dentro do praísmo, uma puta empresa
+legal aqui.
+Se você está duvidando da gente, vai lá
+no LinkedIn, bota vagas abertas e lê as
+vagas.
+Eu duvido não encontrar Spark, Kafka ou
+Airflow.
+Em nenhuma delas.
+Pode ver todas.
+Pode ver, pode ler.
+Da primeira à última.
+Se você não vê Spark, Kafka e Airflow,
+manda um print pra mim, que eu quero ver
+o que não achou.
+O que está acontecendo com essa empresa.
+Todas elas vão usar essas três
+tecnologias.
+Por isso que o Luan sempre traz isso pra
+vocês nas lives.
+Porque é isso que vocês precisam
+aprender.
+Spark primeiro, ficou bom.
+Entendeu Spark?
+Foda.
+Aprendeu a processar?
+Tá, agora eu quero orquestrar pra ver o
+360, integrar, melhorar, mandar alerta,
+sabe, orquestrar, gerenciar meus
+pipelines.
+Airflow.
+Aí depois eu quero ir pra uma solução de
+tempo real, de como eu melhoro os meus
+sistemas, como eu conecto, como que o
+processo de data mexe, como que eu
+unifico tudo com Kafka.
+Então, se você tiver certificação de
+Kafka, certificação de Airflow,
+certificação de Spark, aí eu falo pra
+você, velho, é impossível, porque pra
+você chegar nesse nível, você vai ter
+que fazer casos de uso, você vai ter que
+estudar.
+É possível me certificar sem eu
+trabalhar com elas?
+É, você faz casos de uso, como eu faço.
+Claro, eu tenho experiência, trouxe
+isso, mas você tem casos de uso, você
+tem fontes de dados de vários lugares,
+você pode fazer casos de uso real, real
+mesmo.
+Ah, pego os dados do Uber, jogo aqui, aí
+eu quero fazer um processo de analisar
+com mapa geográfico, boto isso tudo no
+Kubernetes e tal, faço isso na
+DigitalOcean, que tem 300 dólares de
+graça pra você que tá começando, proviso
+no meu sistema inteiro, brinco com esses
+meus caras, ou não, eu tenho uma máquina
+legal, subo o Docker, boto todo mundo
+ali dentro, trabalho com isso, começo a
+divulgar artigos na internet, escrevo no
+Medium, gravo vídeos sobre isso.
+É assim que você vai se especializando.
+Até você ter a primeira oportunidade,
+depois disso, tá bom.
+Luan, você tem ou recomenda algum
+roteiro para aprender Spark, Basic to
+Master of Gods?
+Tem.
+A série.
+Fora a série que eu criei, o único lugar
+que eu falarei que teria algo perto, e
+por que eu não tô me gabando não, tá?
+É porque o que acontece?
+Eu fui no mercado, eu olhei tudo, falei,
+cara, o treinamento é muito foda, tem
+disso aqui, mas ainda falta um puta
+mundo gigante para Spark desenvolver
+ali, código e tal.
+E eu peguei, eu fui em todos os sites,
+Coursera, o que você pensar, invalidei
+todos, falei, cara, tá faltando isso.
+E eu criei Spark Series.
+Mas se você não conseguir esperar,
+porque vai começar agora, mês que vem e
+tal, eu recomendo, eu acho muito legal,
+você me pergunta isso no final, eu te
+dou ali o lugar, beleza?
+A Confluence tem um plano de 100 dias de
+Kafka, mas tem inglês no lance, verdade.
+Pergunto, poxa, poxa, falei, não, vou
+falar, fica tranquilo, é porque eu já
+vou falar disso no final, entendeu?
+Por isso que eu vou falar.
+Já tem isso lá, então eu vou falar.
+Então, hoje, hoje, você tem três formas
+de botar o Airflow.
+Você pode chegar dentro da
+infraestrutura da AWS e provisionar o
+Amazon Managed Workflows for Apache
+Airflow, que é o Airflow gerenciado
+dentro da AWS.
+Você pode chegar dentro do Google e
+utilizar o Google Cloud Composer, o
+serviço mais utilizado da Google para
+gerenciamento de pipelines é o Pinsos,
+que é o Airflow, o mapa de baixas
+fontes.
+O Azure ainda não tem, infelizmente eu
+não posso falar para vocês quando, e
+também não posso falar certas coisas,
+mas o que eu posso falar é que está bem
+perto de existir, tá?
+Então, você terá um serviço gerenciado
+de Airflow dentro do do Azure.
+O que foi?
+Não posso falar, mas também peguei para
+existir.
+Ah, velho, é porque eu não aguento, é
+porque eu quero mostrar que a parada é
+foda, e aí eu tenho que falar que o
+pessoal está foda.
+Alguém ia perguntar, mas no Azure, então
+eu já mandei logo a fita já, entendeu?
+CNDA, por favor, tá gente?
+O que você acha de ferramentas como DBT
+e Dataform?
+Fica mais na mão de analistas?
+Perfeito, é isso mesmo.
+Acho legal, DBT é muito foda, tem vindo
+com muita força, e a gente vê mais
+times autossuficientes, times silo,
+times mais independentes do time de
+engenharia de dados de analytics da
+empresa utilizar o DBT.
+Mais fácil, tudo com SQL, C -Orchestras,
+T -Lineage em cima e tal.
+Mas é uma puta tecnologia para você
+aprender, tem ganhado muita atração, mas
+eu, se eu fosse você, aprenderia as
+tecnologias bases e depois você navega
+nessas outras, tá?
+É a minha recomendação.
+Mas é muito legal, é uma tecnologia
+muito legal, inclusive a gente vai
+trazer nos próximos meses dentro do
+podcast, dentro do das lives também,
+porque é muito bom, vale muito a pena.
+Inclusive, eu não sei se você sabe, mas
+você pode executar um código de DBT
+dentro do Databricks agora, em produção,
+escalável, tá?
+É uma das parcerias que eles fizeram.
+É muito massa, então o cara se pegou
+ali, pega o código, joga no Databricks e
+ele executa.
+Então, vamos lá.
+Bem, a gente navegou em muita coisa
+nesses dias.
+Primeiro takeaway, de novo, olha as
+possibilidades do Spark.
+O que ele consegue fazer?
+Eu executo em qualquer lugar.
+No dia 2, cara, tudo que refere a batch,
+melhores práticas, porque que o dado tem
+que estar no data lake, o conceito de
+lake house e quais são as melhores
+práticas.
+Dia 3, streaming, computação no batch e
+streaming da mesma forma.
+Trago essas informações de forma
+seamless.
+Utilizo a surface de PySpark ou Pandas
+pra processar minhas informações e sou
+muito feliz porque eu consigo executar
+isso de forma escalável.
+Quarto dia, ei, entendi que o dado chega
+no Spark, mas ele tem que sair.
+Eu tenho que colocar ele em diversas
+formas, mas como que eu estruturo isso?
+Qual a melhor forma de colocar essa
+informação?
+Quais são as ferramentas disponíveis?
+Quais são os MPPs?
+O que é TDW?
+O que é MDW?
+Eu posso utilizar sistemas diferentes
+disso pra entregar resultado?
+Eu posso entregar uma ferramenta, uma
+estrutura que foge da ferramenta e eu
+posso entregar aquele meu dataset gold
+em vários lugares ao mesmo tempo.
+Agora, o que que tá faltando pra gente?
+Como tudo isso se casa?
+Como tudo isso se conversa?
+Eu lembro, gente, que esse PPT me
+demorou 11 horas pra fazer.
+Você lembra disso, Matheus?
+Há 4 anos atrás, não lembra disso?
+Eu lembro até hoje.
+Eu demorei 11 horas pra criar esse PPT
+pra vocês.
+11 horas.
+Esse, um PPT.
+Eu me lembro muito bem disso.
+Foi marcante.
+Eu falei, cara, a gente precisa criar
+uma arquitetura pra unificar tudo.
+Então, e se você tivesse uma arquitetura
+que te unifica?
+Isso aqui, gente, é um trabalho de
+muitos anos juntamente com o time de
+soluções da Piffin.
+Pra vocês terem ideia, olha só que
+legal.
+Isso aqui é da Piffin.
+Eu tive que pedir direitos pra isso.
+E, graças a Deus, a Piffin me deu o
+direito de mostrar isso aqui, porque
+isso é o que a gente usa pra criar
+solução, Matheus.
+Você sabe disso.
+É o que a gente usa nos nossos clientes
+do mundo inteiro pra dar soluções pra
+eles.
+Por quê?
+Existe uma role muito famosa, chamada
+Solutions Architect.
+Eu vou na reunião com o cliente, eu faço
+um mapeamento da necessidade dele e eu
+crio uma solução arquitetural pra ele.
+Só que o time de GCP entregava uma
+Lambda de um jeito, o time de AWS
+entregava de um jeito e o time de Azure
+integrava de um outro.
+E isso começou a gerar um grande
+problema, porque eventualmente, essas
+empresas migravam entre produtos,
+migravam entre nuvens.
+E a gente começou a ter um problema
+muito grande.
+E aí, um dos animais de teta, prazer
+Luan, foi designado, ou se fez
+designado, a se certificar nas três
+nuvens pra entender tudo isso.
+E a gente teve mais outras três pessoas
+que trabalharam juntamente comigo pra
+criar uma arquitetura agnóstica.
+Você lembra disso, Matheus?
+Lembro.
+Sei que o negócio foi exaustivo, eu
+lembro.
+Foi complexo.
+O que que a gente fez?
+Criar uma arquitetura agnóstica que
+possa te entregar uma visão 360
+unificada.
+Então, vamos lá.
+Arquitetura Lambda.
+Eu olho pra fonte de dados e eu falo pra
+fonte de dados o seguinte.
+Ei, você é batch ou você é streaming?
+Tá?
+Depois disso, a primeira coisa que eu
+faço é planejar o quê?
+A minha camada de batch e a minha camada
+de speed.
+A camada de batch, a primeira parte da
+camada de batch, você vai escolher um
+storage.
+Pode ser um Data Lake Storage, pode ser
+um Google Cloud Storage, pode ser um S3,
+pode ser um HDFS.
+Beleza.
+Escolhi?
+Legal.
+Camada de baixo.
+Ah, um sistema de real -time gestion.
+Eu recomendo fortemente vocês utilizarem
+o Kafka, mas tem Event Hubs, Pub Sub,
+Kinesis e assim por diante.
+Beleza?
+Legal.
+Agora, processo essa informação.
+Como eu processo essa informação?
+Spark.
+Por quê?
+Eu mostrei pra vocês na terça e na
+quarta que você pode unificar o quê?
+A computação em batch com streaming em
+um local só.
+Você unifica nele.
+Olha que coisa linda.
+Porque se você estivesse falando de
+2008, 9, 10, você estaria naquele
+zoológico louco.
+Você ia ter uma tecnologia pra processar
+em cima, uma tecnologia pra processar
+embaixo.
+Muito Code Rewrite, que é o que existe
+hoje, no mundo real.
+E um Samba do crioulo louco pra você ter
+que computacionar streaming e batch ao
+mesmo tempo.
+E no final você escolhe na camada de
+servir.
+Irei servir.
+Você pode servir no SQL Data Warehouse,
+que é o Synapse.
+Você pode servir no Snowflake.
+Você pode servir no Hive.
+Ou seja, se preocupe com as camadas e
+coloque a tecnologia que você quer lá
+dentro.
+No outro lado do Spectrum, eu posso
+mostrar pra vocês isso.
+Será que agora faz sentido pra vocês
+isso aqui que vocês estão vendo?
+Lembra que vocês viram isso no primeiro
+dia, nos primeiros 10 minutos que a
+gente conversou?
+E aí?
+Vocês conseguem entender um pouquinho
+disso aqui agora?
+Me fala aí.
+Quero escutar de vocês.
+Quantas pessoas estão de saúde?
+Tem.
+Faz sentido pra vocês agora?
+Faz, né?
+Faz mais sentido que no primeiro dia,
+né?
+Sim, agora tudo se encaixa, né?
+Então, ó.
+Escolho.
+Tem um sistema que vai trazer o dado.
+O Storage.
+Databricks.
+Aqui.
+Event Hubs.
+Databricks.
+Se converge na camada de integração e
+vai pro meu sistema de
+visualização.
+Tá.
+Mas tudo bem.
+Eu quero ir além.
+Vamos além, então.
+Vamos pra uma arquitetura Kappa.
+O que é uma arquitetura Kappa?
+A arquitetura Kappa é a simplificação da
+arquitetura Lambda.
+E aqui eu vou quebrar um conceito muito
+foda.
+Toda vez que você ver Kappa, você vai
+escutar que é pra sistemas de streaming.
+Mateus, as pessoas estão certas ou
+erradas, empresários?
+Erradas.
+Erradas.
+Não é um sistema pra streaming.
+É um sistema de unificação.
+Tá?
+Gente, pensa no seguinte.
+Olha que coisa linda.
+Quando a mente explode assim, ó.
+Pensa aqui, ó.
+Aqui você não tem que perguntar pra
+fonte.
+Ei, é streaming?
+Ei, é batch?
+Imagina se diferentemente de perguntar
+eu conseguia falar o seguinte.
+Ó, quando algum evento acontecer em
+alguma cara, quando você pega isso pela
+primeira vez você fica...
+Quando acontecer um evento na sua fonte,
+seja ela qual for, eu vou receber esse
+evento.
+No Kafka, por exemplo.
+Então, vamos supor que...
+I'm not talking to you, shut up.
+Então, imagina o seguinte.
+O dado chegou no Data Lake.
+Recebi um evento no Kafka.
+Ei, chegou o dado no Data Lake.
+Imagina que chegou um dado num banco de
+dados relacional.
+Ei, chegou um dado num banco de dados
+relacional.
+Imagina que chegou agora um dado no
+Redis.
+Alguém que entrou lá no sistema e fez,
+abriu o carrinho e tem 30 itens no
+carrinho, mas ele não pagou ainda o
+carrinho e você quer receber a
+notificação depois de 3 minutos e esse
+cara não fez nada com o carrinho.
+Talvez seja um cara interessante pra
+você.
+Fala, ei, olá, seu carrinho.
+Quero receber uma notificação.
+Ou seja, tudo vira um evento.
+Você passa a ser event driven.
+É o que todos os microserviços e
+aplicações do mundo estão fazendo.
+Então, você recebe um evento no Kafka.
+Foda, né, velho?
+É o animal de teta...
+Como é que é?
+Animal...
+Eu me esqueci.
+Mas, olha só que foda isso.
+Tudo.
+É todos os sistemas da sua empresa.
+API, qualquer coisa.
+Quando acontecer arquitetura orientada a
+eventos para sistemas distribuídos e
+para analytics ao mesmo tempo com
+sistema nervoso central embedado em tudo
+isso.
+Então, o dado cai no Kafka, que os
+microserviços já se comunicam com ele
+também.
+E aí, você pode fazer o que com o Spark?
+A gente pode falar pro Spark o seguinte.
+Eu mostrei pra vocês que o Spark pode
+conectar no Kafka por streaming.
+Mas, ele também pode comunicar com
+batch.
+Eu posso falar pra ele o seguinte.
+Lê de 20 em 24 horas do Kafka.
+É como se o Kafka fosse a sua área em
+staging.
+É como se o Kafka fosse a sua landing
+zone.
+Ou ele pode processar em tempo real.
+Então, se você unifica a entrada do dado
+como um evento, você tem uma arquitetura
+capital.
+E essa é a melhor arquitetura que existe
+pra você processar dados.
+Por quê?
+Você tá unificando a complexidade.
+Você já parou pra pensar que você não
+vai ter mais small file problems?
+Você já parou pra pensar que você não
+vai ter que lidar com vários tipos de
+formatos diferentes dentro do seu data
+lake?
+Você já parou pra pensar que você vai
+poder reagir em tempo real pro que tá
+acontecendo na sua empresa?
+E, eventualmente, esse dado pode ser
+colocado no data lake.
+Entretanto, ele entrou na sua fonte da
+verdade em tempo real.
+É um evento que aconteceu em tempo real
+que, eventualmente, vai chegar no data
+lake.
+Mas, eu tenho uma porta de entrada.
+E essa porta de entrada é unificada.
+É o que...
+Bem -vindo à arquitetura de todas as
+empresas grandes do mundo.
+Airbnb, Spotify, Verizon, BMW, Mercedes
+-Benz, Apple.
+Todas elas são baseadas exatamente dessa
+forma.
+O dado entra na coluna vertebral no
+Kafka.
+De tempos em tempos, é despejada pros
+times de analytics em cima do data lake.
+E, posteriormente, algumas informações
+voltam para o Kafka enriquecido.
+Na Copa do Mundo, será que usam algo
+assim?
+Na Copa do Mundo do Brasil,
+infelizmente, não, porque eu participei.
+Mas, na Copa do Mundo fora do Brasil,
+sim.
+Utilizam um sistema orientado a eventos.
+A gente, infelizmente, no Brasil, não
+usava
+isso.
+É, o Pix é assim.
+Cara, várias outras empresas fora do
+país.
+A Nubank trabalha muito assim.
+PicPay também trabalha muito assim.
+Magazine Luiza trabalha muito assim
+também.
+Luiza Labs trabalha, que é a Luiza Labs,
+trabalha muito assim também.
+Os temas reativos, enfim.
+Então, esse é o padrão do mundo.
+E, um ponto muito importante.
+Receber em tempo real não quer dizer que
+eu processe em tempo real.
+Isso é uma quebra de paradigma na sua
+cabeça.
+Velho, eu posso receber no Kafka em mil
+e milissegundos.
+Pro Spark chegar lá e processar, depende
+dele.
+Pode processar a cada três horas, pode
+processar a cada dois, pode processar a
+cada seis horas.
+Então, a arquitetura Kappa não está
+vinculada a ah, não, eu uso Kappa só
+quando eu processo em tempo real.
+Negativo.
+Você usa Kappa para unificar as
+dificuldades que a gente tinha, os
+hurdles que a gente tinha da arquitetura
+Lambda.
+Porque agora eu tenho um centralizador
+de código.
+Agora eu tenho um local de ingestão.
+Eu tenho um local unificado onde eu
+trago esse dado.
+E, eventualmente, esse dado vai cair lá
+na serving layer do mesmo jeito.
+Porque você tem uma linha de
+processamento.
+Por exemplo, olha só, um caso real.
+Inclusive, a gente passa por esse caso
+lá no treinamento de Kafka.
+Imagina que você tem ali o Spotify.
+A gente usa o caso do Spotify.
+A gente tem dados vindo do aplicativo,
+dados vindo do banco de dados que foi
+atualizado, informações de usuário,
+informações do MongoDB e assim por
+diante.
+Eles entram no Kafka, no Enterprise Data
+Hub.
+Eles são enriquecidos em tempo real.
+Ou de tempos em tempos.
+Em batch ou em tempo real.
+Depois eles são entregues em diferentes
+sistemas ao mesmo tempo.
+Isso é uma arquitetura Kappa.
+Ficou claro?
+Olha que bonito, está vendo?
+Vários produtores escrevem um sistema
+centralizado.
+Você tem um sistema de streaming que
+reage a isso.
+E você tem os consumidores para a
+entrega do dado no final.
+E cada consumidor pode ter uma
+tecnologia diferente que ele gostaria de
+ter.
+Ficou legal aqui?
+Na próxima COP500, eventos por segundo
+da posição da bola serão gerados para
+avaliação do VAR com IAC.
+Tempo real, Kafka, provavelmente.
+Ou RabbitMQ, ou algum sistema assim.
+Pulsar, alguma coisa desse tipo.
+Então, vamos focar na solução e não no
+problema.
+Mas ainda tem, Matheus, uma coisa que me
+incomoda.
+Depois do Spark processado, devolve para
+o Kafka?
+Ótima pergunta.
+Sim.
+Vai para os dois.
+Vai para os dois.
+Por quê?
+Você quer voltar para o Kafka porque um
+microserviço em tempo real pode utilizar
+daquele dado que você processou e vai
+para o Data Lake posteriormente porque
+você quer deixar o dado lá para machine
+learning, para melhoria, para
+entendimento das informações.
+Então ele vai para os dois.
+Vou até voltar.
+Está vendo?
+Ele bate e volta e depois cai ali no
+storage de longo tempo.
+Boa pergunta, Douglas.
+Beleza.
+Mas a vida real...
+Matheus, você já chegou num cliente...
+Fala aí da experiência do maior cliente
+agro que a gente tem.
+Gigante.
+Você bota o cliente dentro de uma
+arquitetura Kappa, bota ele dentro de
+uma arquitetura Lambda, é assim que
+funciona?
+Como que é na vida real?
+Na vida real você vai ter que mesclar.
+Vai ter que atender a realidade do
+cliente.
+É entender essas duas arquiteturas e ver
+o que você consegue entregar.
+A gente usa muito...
+A gente acredita que é mais efetivo em
+grandes pares de clientes e a gente
+seguiu o approach do Kappa, porém é um
+híbrido.
+A gente costuma modificar ele para o
+quê?
+Para a tendensidade do cliente.
+Arquitetura em camadas.
+Que é o que a gente fez na Piffin de
+unificar.
+Olha só que legal.
+Isso já está no PPT para vocês lá.
+E se, ao invés de eu pensar em
+arquitetura Lambda ou Kappa, eu seguir
+os conceitos da Lambda e Kappa, mas ao
+mesmo tempo eu criar uma arquitetura que
+seja agnóstica e que atenda as
+necessidades do meu negócio
+independentemente da tecnologia que eu
+utilizo.
+No business, na perspectiva do business,
+ele quer entender qual tecnologia você
+está usando?
+Não.
+Tanto faz.
+Contanto que você entregue o que ele
+precisa, literalmente tanto faz.
+Então os requisitos do business é muito
+mais importante do que a tecnologia que
+você vai usar no final do dia para a
+perspectiva do negócio.
+Então, e se você criasse uma arquitetura
+Layered?
+O que é Layered?
+Em camadas.
+Olha só que legal.
+Primeira camada, ingestão.
+Legal.
+Como que o dado vai entrar no meu
+sistema de Analytics?
+No Azure, você tem Data Factory, Event
+Hubs, HDInsight, Confluent Cloud, Blob
+Storage, API.
+Eu posso pegar uma aplicação e direto
+escrever lá no Blob Storage, enfim.
+O dado entrou, onde ele vai cair?
+Ele vai cair geralmente no Data Lake.
+O dado vai chegar lá no Data Lake.
+E eventualmente esse dado pode ser
+explorado.
+Eu vou explorar.
+Essa seria a melhor prática.
+Ou seja, antes de você criar processos
+de ETL ou ELT, nesse caso ELT, a ideia e
+a melhor prática é você explorar o que
+você tem dentro do seu Lake.
+Por isso que o Dremio funciona muito
+bem.
+Por isso que o Azure Data Explorer
+funciona muito bem.
+Porque são sistemas de exploração.
+Você vai entender primeiro.
+Vai criar um molde, um esqueletão.
+Fala, cara, entendi.
+Eu preciso performar isso e criar
+processos sobre isso.
+E posteriormente eu vou processar essas
+informações.
+Tá vendo que você tem dois arrows.
+O arrow que sai direto do ingestão e
+processamento e o arrow que sai da
+exploração pra cá.
+Por quê?
+Porque se você estiver consumindo em
+tempo real, o dado pode sair do sistema
+de ingestão e processamento.
+E aí você vai casar com essas
+tecnologias que já estão todas aqui com
+as melhores práticas.
+Depois disso, esse dado vai pra camada
+de entrega.
+Então, você também pode do dado
+explorar.
+Você fala, cara, eu já explorei esse
+dado do jeito que eu quero.
+Eu não vou processar essa informação
+ainda.
+Ela já foi feita aqui.
+Eu vou mandar direto pra minha camada de
+serving layer.
+Então, o que que você tem aqui?
+Hive, HDInsight, Cosmos DB, Synapse,
+Snowflake.
+Você tem várias propostas.
+E no final, esse dado vai ser escrito,
+por exemplo, vai ser entregue num
+sistema de visualização.
+Beleza?
+E claro, pra suportar tudo isso, existem
+vários outros componentes que a gente
+olha.
+Esses são os componentes básicos.
+Mas tem vários outros componentes que a
+gente delega como shared resources, que
+são recursos compartilhados entre todos
+esses pedaços do processo.
+Então, você tem Data Discovery, você tem
+banco de dados relacionais que podem ser
+usados em vários processos aqui.
+Você tem NoSQL que pode ser usado
+também.
+Você tem sistemas de capacidade de fazer
+busca textual em cima do Data Lake, por
+exemplo.
+Você tem um sistema que orquestra tudo
+isso, como o Data Factory.
+Você tem um sistema de monitoramento.
+E isso te traz uma visão 360 enterprise
+de como você entrega uma solução fim a
+fim pro teu cliente.
+Isso é o que a gente usa lá na Piffin
+pra orquestrar e construir nossos
+sistemas.
+Mas o mais foda disso não é pensar no
+Azure.
+É você fazer isso aqui, ó.
+É você ver o custo que cada um deles tem
+comparado ao que cada um te oferece.
+Então, esse é um trabalho que a gente
+fez com um cliente que o cliente tava
+entrando num momento de nuvem e falou,
+ó, eu quero que vocês comparem todas as
+nuvens pra mim e me tragam um preço mais
+ou menos aproximado de quanto custa um
+pipeline de big data.
+Olha só que legal esse trabalho.
+A gente pegou aqui o Data Lake.
+A gente pegou um sistema de tempo real.
+Opa.
+Um sistema de tempo real.
+Então, aqui pra mim, pro Bob Storage,
+pra eu colocar um terabyte de
+capacidade, custou R $847.
+Aqui no sistema do Event Hubs, custou R
+$1567 com throughput de 3 megas e
+ingresso de 1 milhão de dados.
+Esses dados entram, a gente vai
+processar ele dentro do Spark, a gente
+escolheu o Spark Pulse.
+A gente não escolheu o Databricks, tá?
+A gente escolheu o Spark Pulse pelo
+conceito do Synapse como um todo.
+Beleza?
+Então usamos aqui um Spark Pulse decente
+pra processar em batch de tempos em
+tempos e jogamos esse dado no Dedicated
+Pulse porque eles precisavam do dado
+ligado 24 por 7.
+Então a gente pegou o mais barato, ficou
+R $14 .580.
+Olha que você percebe, Matheus, o que a
+gente falou na segunda -feira, ó,
+ingerir R $847 .567.
+Processar, R $6 .000.
+Guardar, R $14 .000.
+Então, se você olhar pra esse pipeline
+como um todo, a gente tem um custo
+mensal de R $23 .550.
+Matheus, quanto que isso dá por ano?
+R $23 .550 vezes 12.
+Calma que vocês vão entender.
+Calma que vocês vão entender.
+R $282 ,60.
+Beleza, guarda aí.
+Legal.
+Lembra que a gente mostrou a arquitetura
+anterior?
+E se eu quisesse ir pra AWS?
+Mudaria o quê?
+Só as três?
+As três tecnologias.
+Então, as caixas são exatamente as
+mesmas.
+Isso quer dizer o quê?
+Que você pode planejar uma solução que,
+independentemente do que você tá usando
+dentro da casca ali, ela pode se
+comportar do mesmo jeito na entrega.
+Então vamos supor que você tá usando K
+-inícias e você arquitetou sua
+arquitetura desse jeito e aí você fala,
+caraca, mas agora a gente quer usar o
+Kafka, porque o Kafka vai habilitar
+esses use cases, vai ser melhor, e assim
+por diante.
+Você vai trocar um sistema de gestão,
+vai botar o Kafka, e vai ser
+transparente pro seu negócio.
+Isso é foda.
+Isso é transparente pro seu cliente.
+Ele, teoricamente, vai ter o mesmo
+valor, só que pro seu time vai facilitar
+e vai te habilitar outros casos de uso.
+Então, ó, sistema de gestão, S3 com Lake
+Formation, Athena pra explorar, tá tudo
+aqui, gente, ó.
+Processamento, AWS Glue, Databricks,
+EMA, K -inícias, Lambda, Serving, pode
+ter o Presto, Amazon Redshift, Hive,
+entrega na visualização e você tem todos
+os share resources aqui.
+Pra orquestração, ou o AWS Glue, ou o
+Airflow, tá?
+Vamos fazer uma comparação de valores
+aqui.
+S3, muito mais barato do que o Azure
+Data Lake Storage Gentoo.
+Olha lá, 170 dólares, 170 reais.
+Gente, os 31 estão aqui porque eu quero
+mostrar, isso aqui é muito legal, vocês
+estarem, por favor, a gente vai mostrar
+umas paradas aqui bem legais.
+Quero que vocês estejam atentos aqui pra
+não perder isso, tá?
+Quem tá aí, bota eu que eu vou contar
+aqui quantas pessoas estão de fato
+prestando atenção.
+Tem 31, então vai aparecer 31 aí.
+Beleza, quase tem 29, eu acho.
+Beleza.
+Isso vai ser bom pra vocês.
+Isso aqui é conteúdo que você pega do
+PPT que já é estudo pra você chegar.
+Tô fazendo o MapReduce.
+É...
+Muito bom, muito bom.
+Isso aqui é um associamento para uma
+empresa de porte grande?
+Não.
+Porte médio, tá?
+Um pipeline.
+Um unlocking de um pipeline.
+Beleza?
+Então, vamos lá.
+170, sistema de ingestão.
+Aí é que o Kinesis Firehose já foi mais
+caro.
+Entrou, a gente escolheu o Databricks,
+ficou por 5 .791, surpresamente mais
+barato que o SparkPulse lá do Azure.
+E o Redshift com 1 tera, um spectrum de
+100 gigas, 3 nós, com 4 vcpus cada e 32
+gigas de RAM, 13 .238 por mês.
+Valor do meu pipeline 21 .663.
+Matheus, bota o do Azure do lado e agora
+me fala quanto que vai ficar esse cara
+aqui.
+21 .663.
+Opa.
+259 ,956.
+Gosto da galera participando, ó.
+260 mil.
+Beleza.
+Vamos pro Google.
+Aí é depressão.
+Véi, agora, quem não fala foda não é meu
+amigo.
+Não, é sério, é sério, não vai ser meu
+amigo.
+Esse neguinho não fala foda, o nego não
+é meu amigo mais.
+Ó, ingestão, PubSub, Confluent Cloud,
+que tá em todas as nuvens, DataFusion,
+trouxe o dado.
+Google Cloud Storage, explorou, DataPrep
+ou DataLab.
+Processou várias opções.
+Dataproc, Dataflows, Functions,
+Decracking, craquenzinho, craquenzinho,
+craquenzinho, e os sistemas
+compartilhados.
+Pode passar pro próximo?
+Pode, Matheus?
+Pode.
+Eu não vou falar, vou deixar eles
+falarem.
+Vocês já pararam pra fazer isso?
+Talvez não, né?
+Talvez.
+Pior que não tá não, cara.
+É isso mesmo, tá faltando não.
+É muito barato.
+Esqueceu, sério.
+É, mas é a verdade.
+Olha só, o Google Cloud Storage, pra um
+milhão de operações, você tem em um
+tera, você tem 143.
+PubSub, ele é serverless, 193 pra 100
+gigas de
+entrada.
+Dataproc, ligado, 2156, na mesma
+configuração de 4 vcpus, e o Big Query.
+Isso é 170 reais.
+Não, detalhe, eu botei aqui dois tera,
+porque um tera era de graça.
+Então eu falei, não, eu vou apelar, eu
+vou meter dois tera por mês, porque aí,
+tipo, porra, eu posso botar um mão
+flicoxa aqui de 170 reais, né?
+E aí, você tem quanto, Matheus?
+31 944.
+Então me fala cada um dos três.
+Azure, 282 ,600.
+AWS, 259 ,956.
+GCP, 31 ,944.
+Obrigado.
+Na visão de vocês, acredita que essa
+discrepância de preço do Google é uma
+estratégia de curto prazo?
+Não.
+Sempre foi assim.
+O problema é isso.
+Todo mundo pergunta isso, tá, João?
+Não, não, é isso mesmo.
+É isso.
+A agressividade mesmo.
+É isso.
+E aí, de novo, o planejamento faz a
+diferença.
+Por que que, aí, velho, quando bate a
+explosão na cabeça de vocês entenderem
+tudo, por que que a Google demorou três,
+quatro anos pra entrar na competição?
+Porque ela tava construindo tudo
+conterinizado.
+Por que que é barato dessa forma?
+Porque é tudo conterinizado.
+Por que que é tudo mais rápido?
+Porque é tudo conterinizado.
+Por causa da merda do bordo.
+Tá?
+Então, assim, a pergunta que eu faço é
+por que essa diferença absurda de preço?
+Porque você tá falando da Google.
+Só por causa disso.
+Você só conhece Big Data e você só
+existe como engenheiro de data por causa
+dessa empresa.
+Se você acha que Azure e que a AWS faz
+alguma coisa, nunca.
+Não existe nada mais fudido no planeta
+do que uma coisa chamada Google .com.
+Não existe, velho.
+Esquece.
+Esquece, esquece.
+Duvido alguém argumentar comigo e me
+fala o que que é mais fudido do que
+Google.
+Me fala aí, Google.
+Não, fala YouTube, Google .com.
+Me fala aí o que que é mais fudido que
+eu quero escutar da sua boca.
+Só eu descobro.
+Me fala o que que é aí.
+Me fala, eu quero escutar.
+Isso que eu chamo de caga louca.
+Porque eles planejaram, exato,
+Kubernetes, que não dá pra entender.
+Por que que em 2023 a Gartner a Gartner
+estima pra 2024 80 % das aplicações do
+mundo estarem em Kubernetes?
+Você acha que tá tudo?
+Gente, presta atenção.
+Quem souber Kafka, Airflow, Spark,
+Kubernetes, que é o que a gente fala em
+todas as lives do ZQ, Kubernetes já
+dominou o mundo e você não sabe.
+Exatamente.
+Isso tem a ver com eles apagarem a
+própria infra, com a própria plataforma
+e a gente pesquisa.
+Não pra entender, porque segundo
+Gartner, a Google está atrás das outras.
+Prove me that I'm wrong.
+Boa, Davi.
+Eu vou pegar aquela faca.
+Prove I'm wrong.
+No eSolution Google.
+Não, não é não.
+Eu só tô te mostrando aqui é dado, né?
+De novo, in God we trust, others must
+bring data.
+Eu só tô te trazendo dado.
+É o dado.
+É lá no cálculo.
+Vai lá nas três calculadoras, abre, faz
+o cálculo, você vai ter isso
+aí.
+É, aquele head shift que eu fiz é
+teoricamente pequeno.
+Ele faz muita coisa legal, mas ele não é
+um head shift grande, não.
+Assim como...
+Ah, outra coisa que vocês não sabem.
+Respondam pra mim se esse DWU de
+computação é escalável.
+Você acha que isso aqui ele tá rodando
+em quantos nós?
+DW300?
+Matheus, três, né?
+DW300 sem horse powers em cada DW, não
+é?
+Que que vocês acham?
+Quantas máquinas computacionais rodam em
+300 DWU e você paga 14 .580?
+Agora o negócio tá...
+Agora nem...
+Vamos lá, quantas?
+14 .580.
+Você conta por máquina?
+Não.
+Quantas máquinas rodam você pagando 14
+.000 por mês, só que lá tá falando que é
+DW300?
+Quantas máquinas lá embaixo estão sendo
+executadas?
+Quantas máquinas...
+É 100%, né?
+Agora ficamos...
+A gente vai fazer 100 em 100.
+Eu vou escrever, tá?
+Uma máquina.
+Não, eu tô falando sério.
+Lembra o Luan falando pra vocês, pra
+vocês não utilizarem ele pra um terabyte
+de dados pra menos?
+Por causa disso.
+Você tá usando um sistema um pouco mais
+performático do que o Azure SQL
+Database, mas você tá utilizando um
+banco de dados relacional por debaixo
+das plantas, ele não tá escalando.
+Ele só tem um subsistema um pouco
+melhor, enfim, mas se você utilizar um
+Azure SQL Database da forma inteligente,
+utilizando columnar storage, você vai
+ter performances totalmente
+equivalentes.
+É só máquina dedicada, só que você tá
+falando que DW é 300, mas você paga uma
+máquina só.
+Se você for pra DW400, ainda tá pagando
+uma máquina um pouco melhorzinha.
+Quando você tá indo pra DW500, aí você
+começa a ter o poder da escalabilidade.
+Por isso que a gente tem que entender e
+não ser animal de teto.
+Dica preciosa isso aqui.
+Então, antes de falar, vamos usar
+sinapses...
+Eu não tô falando que é ruim.
+Entenda.
+É maravilhoso.
+Use se precisar.
+Use se tiver mais que 700, 800, 900
+gigas de dado.
+Use um tera pra menos.
+Pensa em outra coisa.
+Pensa em ter um sistema de
+virtualização.
+Joga isso no banco de dados relacionado,
+particionado, talvez.
+Faça uma técnica mais sexy.
+Você vai economizar...
+Caraca, você vai ter um Azure SQL
+Database aí por 2, 3 mil reais por mês,
+que vai atender você muito bem e você
+vai reduzir no teu job tantos...
+Se duvida de mim, é porque não teve
+tempo pra mostrar a demonstração, mas um
+da Spark Series vai ter, tá?
+Eu vou fazer uma query no DW300, eu vou
+executar uma query no Azure SQL
+Database.
+No DW, demora 7 segundos.
+No Azure SQL Database, demora 11.
+Ou 10.
+A mesma consulta.
+3 segundos a mais que você vai pagar por
+consulta, só que você vai pagar 5 vezes
+a menos.
+Faz o cálculo e me diz o que você acha
+melhor.
+E é esse tipo de coisa que você tem que
+entregar pro seu chefe.
+Você não precisa tomar decisão, mas é
+importante que você mostre.
+Ó, chefe.
+Tá aqui, ó.
+Toma decisão, mas documenta.
+Tá aqui.
+Ó, isso faz a diferença.
+Lembra que the devil is on the details?
+É isso.
+É isso que faz você se destacar como
+profissional.
+É esses detalhezinhos.
+Você vir com um PPT, mostrar, porra, a
+diferença de custo de cada um.
+Pode pegar esses PPTs, usem, tá?
+Só, por favor, não publica, faça umas
+paradas como eu já vim ali fazendo e
+ainda falar que foi você que fez.
+Aí é palha.
+Mas, assim, usem os PPTs, transformem
+isso aqui no nomezinho de vocês,
+comparem, tragam essas informações pro
+seu time, pro seu squad, traga pro seu
+gerente.
+Isso muda a percepção das pessoas.
+Tá?
+E ainda tem um outro estágio, Matheus.
+Ó lá, ó.
+Então, se a gente botar side by side, a
+gente tá falando de um pipeline básico,
+tá?
+De ingestão unificada, processamento e
+serving.
+Eu poderia usar o Aurora?
+Poderia.
+Aurora é muito bom.
+Muito bom.
+Tá?
+Mas não muito pra analítico, né?
+Assim, você vai poder usar pra muita
+coisa, mas não vai ser o puta sistema
+próprio pra analítica.
+Tem esse curso no K8S?
+Infelizmente, nesse PPT, não, mas eu
+trago...
+Não, não, eu trago agora.
+Tu é de qual ano aí?
+Quanto?
+17 mil por ano.
+17 mil por ano?
+Toda stack de big data?
+Toda stack, completa.
+Não, mas eu tenho...
+Não, mas tem...
+Deixa eu abrir aqui o terminal.
+Qual o dia?
+Último dia?
+Eu acho que é o último dia.
+Eu também acho.
+Eu acho.
+Calma aí, gente.
+Vale a pena.
+Hum...
+Não tô vendo aqui, meu Deus.
+Eu sei que a gente fez e...
+Não, calma aí.
+Eu não lembro qual.
+Acha pra mim aí?
+Ó...
+Deixa eu mostrar uma coisa pra vocês.
+Quando vocês estiverem vendo aí, me
+avisa.
+Tenta achar, Matheus.
+Tem alguns dos PPTs que a gente tem.
+Hum...
+Quando vocês estiverem vendo aí, me
+avisa.
+É isso que a gente oferece pra todos os
+nossos clientes que trabalham com a
+gente.
+A gente tem um serviço gerenciado
+chamado Orion.
+O cliente dá a subscription pra mim, pra
+gente, pro nosso time, AWS, Azure ou
+GCP.
+A gente cria o Kubernetes e sobe tudo
+isso aqui, tá?
+Então a gente tem Kafka, Data Lake,
+Spark, KSQL, Faust, Druid, Pinno,
+YugaByteDB.
+A gente se integra com qualquer uma
+dessas caras aqui.
+Trino, Zeppelin pra fazer query no
+Spark, de modo interativo.
+Visualização Metabase, Superset.
+Gerencia todo o pipeline com Argo CD.
+Orquestra todos os pipelines de batch
+com Airflow.
+Faz todo o login de tudo que tá
+acontecendo dentro do Kubernetes,
+pegando os logs de tudo dentro do
+Elasticsearch.
+Então eu posso navegar nos logs, ver o
+que tá acontecendo, criar alertas,
+enfim.
+E tem um sistema de promífias e grafana
+pra ver todos os gráficos 360.
+Qual a diferença aqui?
+Você coloca em qualquer nuvem.
+Você anda em qualquer nuvem.
+Tá?
+Então esse é um sistema que a gente
+trabalha há mais de 2 anos e meio, né
+Matheus?
+Mais de 2 anos e passos.
+Unir tudo isso dentro do Kubernetes.
+Então...
+E você pode falar pra eles que no
+treinamento de Kubernetes o que que
+acontece no treinamento de Kubernetes?
+A gente mostra tudo.
+E tem repositório pra isso?
+De código?
+Então você tá falando que você dá o
+código disso aqui
+tudo?
+Então tá bom, vocês são burros pra
+caralho.
+Gente, gente, isso aqui é o futuro.
+Isso aqui é muito foda.
+Tá?
+Tá na comunidade?
+Tá, Matheus?
+Tá.
+Hã?
+Tô zoando.
+Tá.
+E vocês acham que 4 mil reais é caro.
+É isso que eu acho massa, tá ligado?
+É bem barato mesmo.
+Isso aqui foi bem barato de construir.
+É tranquilão, tá?
+Aqui você vai gastar pra construir
+algumas 3 dias, 4 dias, viu?
+Sem.
+Demora um cadinho de tempo isso aqui,
+viu?
+Então, lá na comunidade tem o Big Data
+no Kubernetes que é o único treinamento
+do mundo que te ensina a botar todo esse
+stack de Big Data em Kubernetes usando
+os melhores caras.
+Tá?
+É...
+Mas quem não tem dinheiro conversa com a
+gente que aí a gente tenta pensar numa
+forma de ajudar vocês.
+Não reduzindo o preço, mas achando forma
+de pagamentos.
+Aí eu falo com o Regis pra casos
+excepcionais a gente...
+A gente faz alguns outros tipos de
+pagamento.
+Tá?
+Então...
+Meu filho, uma coisa você pode ter
+certeza com a nossa equipe.
+Se você quiser realmente...
+Achou, Matheus?
+Não.
+Tô procurando...
+Adorei o João.
+Último duvido do treinamento.
+Se você não é homem duvido de alto nível
+de provocação de dar acesso ao clube de
+DevOps com Kubernetes pra nós.
+Aí cê...
+Aí cê tá apelando, né, irmão?
+Queria, mas porra, é demais.
+Mas gostei da provocação, essa foi boa.
+Se você achar aí, Matheus.
+Mas cê tem um número.
+Dá quanto?
+17 mil.
+17 mil pra você ter tudo.
+Eu não lembro, cara.
+A gente sempre procura isso.
+Tá em algum...
+Ah, eu acho que tá...
+Não tá no treinamento de Kubernetes,
+não?
+Vê lá, abre lá.
+É, tô...
+Deve tá no treinamento de Kubernetes.
+Sim.
+Tá no treinamento de Kubernetes, irmão.
+Beleza, vamo, vamo, vamo.
+O que é que cês têm que olhar?
+Cara, se vocês...
+Esse curso explodiu cego, espero ver o
+de Big Data é o máximo que ele fez.
+É, o de Big Data com Kubernetes, é...
+Aí é...
+É, que leve.
+Ficou foda.
+Não, e o melhor, a gente vai...
+Não, a gente vai lançar uma nova versão
+agora.
+Sabe quanto que custa?
+3 .500 reais.
+E já tem 45 pessoas em lista de espera.
+Então, a gente vai lançar, acho que
+daqui dois meses, a nova versão do
+treinamento.
+E quem tá na comunidade tem acesso a um
+ano, né?
+Então, se espera um pouco, acontece de
+novo.
+Por isso que eu acho que vale a pena.
+Ah, não.
+Aí vai ser nível de apelação, né?
+A gente aprendeu mais alguma coisa em um
+ano.
+A gente já perdeu uma coisinha em um
+ano.
+Mas vamos lá.
+Vamos lá, vamos lá, vamos lá.
+O que que eu acho que vocês tem que
+olhar, tá?
+Eu não vou dar recreio, porque eu já vou
+acabar.
+Então, recreio a gente sai mais cedo.
+A mulher de vocês vão ficar felizes.
+Ou parceiro, ou quem você tiver seus
+amigos, se você vai beber cachaça carai,
+enfim.
+Vamos lá.
+Big Data, o que que você tem que olhar
+no mundo?
+O que que tá no spotlight de open
+source?
+Já deixei aqui pra vocês a cola, mano.
+A cola.
+Olha a cola.
+A cola.
+Cáfrica, tá?
+Torrou o cérebro.
+Eu sei o que que é isso.
+Já aconteceu comigo.
+Teve um treinamento que eu fiz com o
+Luth, que eu juro pra você, eu dei
+shutdown, velho.
+Eu saí de treinamento no último dia,
+deitei na cama, acordei, juro pra você,
+quatorze horas depois.
+Tipo, onde eu tô?
+Tá vendo?
+Acontece, essa torração é massa.
+Ó, tá tudo aqui.
+Cáfrica, pulsar, Spark, Airflow, Pinot,
+Trino, Dremio e o Gabite.
+Pode olhar pra esses caras, pode
+estudar, pode manter eles ali.
+Cara, e o Gabite tem um trecho de
+certificação legal.
+Pinot tem que ganhar uma puta tração,
+Airflow tem certificação, vale a pena
+fazer.
+Cáfrica também, tá?
+Então, é muito a pena olhar pra isso
+aqui.
+Ah, Luan, mas e pras nuvens?
+Você também não fala?
+Falo.
+Pras nuvens, quais são os três produtos
+que eu acho que no Azure você deve olhar
+com muito carinho, tá?
+Azure Preview, governança de dados tem
+vindo muito forte, olha pra esse
+serviço.
+Databricks, não preciso nem falar, cada
+vez crescendo mais.
+Puta, serviço e o The New Kiran The
+Block, né, que é o Azure Synapse
+Analytics, que são os três produtos mais
+acelerados hoje de dados da Microsoft,
+são esses três caras, tá?
+Então, vale muito a pena vocês
+utilizarem e olharem pra esses caras.
+AWS, três caras que eu recomendo demais
+vocês olharem.
+MSK, Managed Streaming for Apache Kafka,
+então você agora tem o Apache Kafka lá
+com as melhores práticas e por aí vai,
+lá
+dentro.
+Amazon Glue e DataBrew, também, puta
+serviço legal de você utilizar.
+O Amazon Managed Workflows for Apache
+Airflow, também muito interessante.
+Juliana, qual o certificado de
+comunicação que você tá falando?
+Depende, tá?
+Treinamento do Kafka é preparatório,
+treinamento de Airflow vai ser
+preparatório também, então tem alguns
+que sim, não são todos não, tá?
+A gente não consegue às vezes trazer
+essa comunicação.
+Na Google, esses três.
+Cloud Data Fusion, cada vez mais
+ganhando tração, muito utilizado, uma
+puta UI legal, utiliza Dataproc por
+debaixo dos planos, processa em massive
+scale.
+Dataflow, porra, serverless,
+processamento unificado de batch
+streaming, Apache Beam, que é open
+source por debaixo dos planos, vale a
+pena demais você saber.
+E o The Krakenzinho, que eu não preciso
+falar.
+É o Kraken, é o Kraken.
+Esse é o Kraken, tá?
+Eu vou falar das certificações também.
+Gente, é isso, e agora eu quero tirar 20
+minutinhos aí, se vocês me permitirem,
+pra trazer o que eu acredito que seria
+legal de vocês mental sets.
+Beleza?
+Então, vamos respirar um pouquinho.
+Sabe, pegar essas últimas, essa extra
+mile aí, 20 minutos, eu quero falar um
+pouquinho sobre o que não é técnico.
+O que é importante vocês também olharem,
+certificações, sabe, vamos sair um
+pouquinho do técnico, acho que tem os
+PPTs, tem tudo isso pra guiar vocês.
+E agora eu quero trazer um outro momento
+pra gente fechar com chave de ouro.
+Beleza?
+Napoleão Bonaparte dizia que 90 % da
+guerra é informação.
+Eu não sei se vocês já assistiram também
+o jogo da imitação.
+Pra quem nunca assistiu, é um filme
+obrigatório pra você assistir.
+É um puta filme, um dos melhores filmes
+que existem, que fala muito sobre isso.
+Sobre como um cara conseguiu, o Alan
+Turing, conseguiu desvendar as
+informações criptografadas e daí
+conseguir devagarmente utilizar essa
+informação pra vencer a guerra.
+Tá?
+É um filme muito foda e vale muito a
+pena.
+o cientista pode descobrir uma nova
+esteira, mas ele não pode fazê -la.
+Então ele pergunta pra um engenheiro se
+pode fazer pra ele.
+Então, isso é uma coisa que destaca
+muito a ideia do cientista para um
+engenheiro e a importância desse cara.
+E terceiro, uma das coisas que eu mais
+gosto de falar, In God We Trust, Others
+Must Bring Data.
+Então, o treinamento foi baseado nisso.
+Foi mostrar pra vocês nos cinco dias
+exaustivos, é cansativo.
+É cansativo pra todo mundo, eu sei.
+Tá?
+É desconstruir cabeça, é construir
+cabeça, é bater.
+Às vezes eu falo algumas coisas fortes
+que dói e tudo bem.
+Tentem entender que quanto mais maleável
+nós formos, mais adaptável nós formos,
+eu gosto de trabalhar muito assim, na
+adaptação.
+Acho que é importante você se mesclar,
+fazer o blending.
+Então, você chega ali no cliente, você
+tenta entender a dor do cara, tenta,
+porra, ajudar ele.
+Vai pra outro cliente que fala, outro
+coisa e tenta entender.
+Usa as ferramentas que você sabe pra
+suportar.
+Dá um passo pra trás, tenta entender a
+visão 360, tenta entender qual o valor
+do negócio.
+Tenta ter uma visão um pouco maior pra
+se conectar com as pessoas.
+No final é de pessoas para pessoas.
+Tudo sobre isso é sobre pessoas.
+Máquinas ajudam a você entregar
+resultado para as pessoas.
+É isso que acontece.
+Então, eu acho que isso ajuda bastante.
+Eu acho que é um metal set muito legal
+de você ter na sua vida de você
+conseguir se conectar com as pessoas,
+tá?
+E isso vai ajudar você a fazer o
+unlocking de várias coisas, de vários
+momentos da sua vida e viver muitas
+coisas legais.
+O que que eu acredito que pra um
+engenheiro de dados seja interessante
+você saber, né?
+Porque eu vi aí hoje vocês falando o
+seguinte, ah, mas porra, as vagas o cara
+pede um trilhão de coisas.
+Então, as vagas pedem um trilhão de
+coisas, mas quando você for dentro
+dessas vagas, primeira coisa que você
+tem que saber, fundamentos tem que estar
+muito bem tá?
+ETL, LT, Data Warehouse, modelagem de
+dados, diferença de um SQL pro NoSQL,
+melhores práticas, Big Data, Hadoop,
+como funciona o Spark, o que que o
+Hadoop é.
+Isso vai ser perguntado.
+Como que você arquiteta soluções, como
+que você pensa nesse produto, o que que
+é o analítico, o que que significa isso
+na sua vida, como que tudo se conecta, o
+que que é Data Lake, o que que é Lake
+House, o que que é Streaming, o que que
+é cara, o que que, quais são as
+linguagens de programação, o que que é
+importante, por que que uma escala,
+esses conceitos são importantes pra você
+entender, tá?
+É, então, existem uma meríade de coisas
+que é importante você saber.
+O que que eu elenco que são as must, as
+coisas que vocês tem que saber, tá aqui,
+tá?
+Eu acho que é importante vocês
+entenderem, por exemplo, Linux, é
+importante você entender o básico de
+Linux.
+Luan, quanto que você sabe de Linux?
+Grep, Cat, CP, acho que é basicamente
+isso, assim,
+muito básico, sou muito básico.
+Mas pra Big Data você não precisa nada
+além de tudo, puta, MKdir, boa.
+Pra você ver como que eu sei legal, eu
+escrevi tail, touch, legal pra tocar,
+né?
+Então, é, essas coisas básicas, saber
+usar linha de comando ao invés de
+interface, perfeito, Priscila, muito
+bom, foda.
+Isso, essas coisas básicas, SQL,
+obrigatório, Python, obrigatório,
+escala.
+Se você vem do background Java, escala é
+legal, mas eu ainda acho que o valor do
+poder moderno de hoje foca em SQL e
+Python.
+Você vai ter muito sucesso.
+E aí eu vou te provar, eu tô na área de
+Big Data Analytics desde que essa área
+existe como área, e eu vou te falar o
+seguinte, você ainda vai ver muita vaga
+como escala em Java, mas eu aposto com
+você, eu vi isso acontecendo, a
+transição de escala em Java pra SQL e
+Python, eu tô vendo isso diante dos meus
+olhos, e eu vou te dar certeza que cada
+vez mais isso vai crescer, porque
+adoção, integração, facilidade,
+agilidade, tem muita coisa que você faz
+com escala que é muito foda.
+Então você vai ter fit, não é uma
+linguagem morta, muito pelo contrário, é
+foda, mas aprenda Python, aprenda SQL,
+ou se você tá resistente pra aprender
+Python, tudo bem, fica com escala e SQL,
+e aí com o tempo vai entendendo se vale
+a pena você migrar pra Python ou não.
+Beleza?
+Bancos de dados.
+Olha só, às vezes você olha uma vaga e
+tem tipo assim, cara, o cara tem que
+saber SQL, mais SQL, post 2 .1, não sei
+o quê.
+Não, você não precisa saber de tudo
+isso.
+Ninguém vai te pedir isso na vida real.
+O que eles vão te pedir na vida real,
+nessas vagas, é que você entenda o que
+roda por debaixo dos planos.
+E o que roda por debaixo de SQL, Oracle,
+Postgres, MySQL, é exatamente a mesma
+coisa.
+São bancos de dados relacionais regidos
+por ACID, tem uma arquitetura às vezes
+um pouquinho diferente umas das outras,
+mas o regimento é o mesmo.
+Então se você souber muito bem o
+fundamento e pegar uma, você vai na
+reunião, filho, você não vai passar
+vergonha.
+Só, cara, eu não tenho experiência em
+Postgres, como você tá passando aí, mas
+eu conheço o sistema todo, eu sei SQL e
+tal, tal, tal, e no Postgres também tem
+uma feature de change data capture e
+assim por diante, tá?
+Então você vai conseguir se virar muito
+bem.
+Bancos de dados NoSQL, muito importante
+vocês saberem também.
+Aí já divaga um pouquinho.
+Você vai entender CapBase, né, que é um
+conceito muito importante para sistemas
+distribuídos, para bons dados NoSQL, Not
+Only SQL, mas cada, no espectro NoSQL,
+você tem divisões de tipos de banco.
+Então você tem banco chave valor, você
+tem banco documento, você tem banco
+texto, e você tem banco colunar.
+Então aqui eu trouxe três que são muito,
+muito usados e muito importantes, que é
+importante você dar uma lida, mas antes
+fundamento.
+MongoDB, Cassandra e Redis.
+Eu acho que são bancos muito utilizados,
+principalmente na área de engenharia e
+de dados, é muito bom.
+ETL e DW.
+Porra, entenda o que que é um ETL,
+entenda o que que é um DW, entenda quais
+são as ferramentas que você tem no
+mercado que te habilitam isso, tenha
+esse conhecimento para você realmente se
+acoplar.
+Entendeu o que uma ferramenta de
+middleware faz, que é conectar um dado
+com outro, enfim, assim por diante.
+O que você precisa fazer com sistemas
+distribuídos e frameworks?
+Na minha opinião, Hadoop é uma
+obrigação, todo mundo tem que ler lá o
+que eu falei para vocês na segunda
+-feira dos PDFs.
+Todo mundo tem que saber realmente como
+funciona o processo como um todo, mas é
+muito importante que vocês foquem em
+algum deles.
+Ah, precisa aprender Spark, Kafka e
+Airflow?
+Não, eventualmente você vai aprender,
+mas não precisa, tá?
+Então, começa de novo, como Jack,
+cortando com pedaços, vai de um em um,
+um pouquinho, tá?
+E tenta entender os conceitos, que é o
+mais
+importante.
+E pipelines, Lambda e Kappa, layer,
+escolha uma das nuvens para se
+especializar, e aí vamos devagar sobre
+isso agora, tá?
+Mas, eu diria que 30 % da sua jornada é
+isso, e 70 %
+da sua jornada é isso aqui.
+Ou seja, hoje, cada vez mais eu vejo
+soft skill taking over o que é o
+conceito realmente de tecnologia.
+Por quê?
+Porque o hard skill, o technical skill,
+ele é muito mais fácil de aprender do
+que o soft skill.
+Soft skill é muito mais difícil de você
+aprender, porque ele está vinculado com
+pessoas, ele está vinculado com as suas
+limitações naquele momento, como você
+pensa, como você acha que as coisas
+devem ser.
+A tecnologia não, ela é mais exata, você
+aprende, você para ali, faz um curso e
+aprende.
+O business skill, você pode ter cursos
+que te ajudam, mas você vai ter que
+viver, a experiência vai te moldar.
+Então, é muito importante que você abra
+a cabeça, que você evolua, que você veja
+que tudo o que você tem, seja vinculado
+a estar fora da sua zona de conforto.
+No momento que você sentir que você está
+na sua zona de conforto, quebre a sua
+zona de conforto e vá para uma zona e
+aprenda a viver no caos.
+O caos vai fazer você crescer, tá?
+Não a sua zona de conforto, a sua zona
+de conforto não faz você crescer.
+Muito pelo contrário, faz a gente ficar
+aqueles velho grumpy, velho chato,
+entendeu?
+Tenta sair da sua zona de conforto.
+Isso vai te ajudar bastante.
+Aprenda uma nova língua.
+Ah, mas eu sei inglês.
+Aprenda espanhol.
+Sei espanhol.
+Aprenda mandarim.
+Ah, sei mandarim.
+Aprenda alemão.
+Ah, sei alemão.
+Aprenda italiano.
+Isso abre a mente.
+Outra coisa.
+Olha só, as coisas as coisas idiotas que
+a gente não pensa.
+Vou dar um exemplo.
+Vou dar um exemplo bem legal aqui.
+Eu estou passando por uma reforma.
+Eu mudei de casa e não sei o que.
+Eu tenho que lidar com pessoas de
+diferentes espectros da moeda.
+E aí, às vezes, chegou um cara que
+quebrou o porcelanato da casa e, não,
+porque eu não vou pagar de novo, que não
+sei o que, porque vocês fizeram, ah, o
+cara estourou o cano.
+Não, que não sei o que.
+Seja um resolvedor de problemas.
+Deixa eu entender você.
+Não, tudo bem.
+Você quebrou.
+Não, tudo bem.
+Não tem problema.
+Será que você não pode me ajudar aqui
+porque aconteceu isso?
+Isso vai fazer você ser o pica das
+galáxias.
+Resolver problemas.
+Aprender a como negociar.
+Aprender a como lidar com problemas.
+Aprender a como negociar.
+Aprender a como contornar problemas que
+não são solucionáveis.
+Pegue os problemas da sua vida mais
+difíceis que você tem.
+Às vezes no seu relacionamento que está
+porra foda.
+Ou, às vezes, no momento que você está
+com a sua família ou com o seu pai.
+Tente resolver aquele problema.
+Por mais que doa, por mais que pareça
+idiota o que eu estou falando.
+Tudo bem.
+Talvez alguém que ache muito idiota.
+Isso vai fazer você brilhar fudidamente
+na tua vida.
+Não só como pessoa, mas como
+profissional.
+Porque as grandes pessoas os grandes
+pensadores são problem solvers.
+Sejam resolvedores de problemas.
+Problemas todo mundo vai ter.
+Ditar a escala que está dentro do seu
+coração é você que dita.
+Você dita o nível da dor que você quer
+sentir.
+E todo mundo, cada um aqui se a gente
+for abrir a vida de cada um cada um tem
+um problema mais fudido que o outro.
+Que um vai olhar e falar caralho meu
+problema velho.
+E o outro, caraca todo mundo tem, é
+difícil para todo mundo.
+Se sobressaia elevando a sua mente.
+Entendendo que você tem que resolver,
+suportar a sua família ajudar seus
+filhos, crescer ser uma pessoa melhor,
+dar uma educação melhor impactar as
+pessoas perto de você.
+Acerta a sua mente dessa forma.
+Isso vai fazer você crescer como pessoa
+mais ainda e isso vai reverberar para o
+teu problema.
+Aqui, porque você vai começar a ter
+facetas de como resolver um problema que
+às vezes é não solucionável de uma forma
+muito mais simples.
+Você vai conseguir traduzir.
+Você vai conseguir resolver e
+solucionar.
+Então, na prática, pega os seus
+problemas mais difíceis e tente resolver
+eles.
+Parece engraçado.
+Eu fiz isso.
+Fiz isso durante muitos anos.
+É uma das coisas que eu peguei junto
+com...
+Gente, pessoas que querem evoluir tem
+mentores.
+Matheus, isso é verdade?
+Sim, sim.
+Quantas vezes eu...
+Quantas vezes eu encho o seu saco por
+dia?
+Tá gravado, né?
+Não posso falar não.
+Quantas vezes eu cobro você do perfeito
+do perfeito?
+Não, várias, várias vezes.
+E com razão.
+Por quê?
+Eu quero o seu mal?
+Não.
+Você quer criar um profissional melhor.
+Eu quero elevar vocês.
+Eu quero elevar o bastão.
+Por quê?
+Porque a vida vai te cobrar isso se você
+não aprender aqui.
+E quando a vida cobra, brother, ela não
+tem carinho, ela não fala, ela estupra
+você.
+Ela não tem dó de você.
+Então, esteja preparado para os
+desafios.
+Então, isso é importante.
+Isso é mais importante do que isso aqui.
+Porque com essa mente, tudo se torna
+possível.
+Você quer ganhar quanto?
+Você quer trabalhar aonde?
+Você quer ser quem?
+Você quer mudar quantas vidas?
+O que você quer fazer pra sua vida?
+Você se acha bom?
+Abaixa sua bola.
+Tem gente que fala 20 línguas.
+Você acha que você tem dinheiro?
+Tem gente que tem 100 vezes mais.
+Se coloca embaixo.
+Dentro da sua média, seja o pior.
+Esteja com pessoas que a sua média, você
+se sente um dos merdas.
+E isso é muito bom.
+Com a mentalidade certa, você vai elevar
+o seu nível de consciência e tudo isso
+que parece difícil aqui de aprender, vai
+ser só uma questão de tempo.
+Você vai chegar lá.
+É uma questão de tempo.
+Isso vai fazer você aprender inglês.
+Isso vai fazer você desbloquear o que
+tem parado na sua vida.
+Isso vai fazer com que as coisas que são
+morosas sejam quebradas.
+Que a procrastinação que você faz não
+interfira mais, porque você vai
+resolver.
+E como você resolve o problema de
+procrastinação?
+Vou te dar a dica.
+Qual é a parada mais chata que tu tem
+que fazer?
+Acorda às 6 da manhã e faz.
+Pega, bota o celular no airplane mode e
+todo dia de noite organiza sua agenda
+pro próximo dia e fala Ei, eu vou comer
+você aqui.
+Tá vendo essa atividade que é chata?
+Pois agora eu vou fazê -la a melhor
+atividade.
+Meu irmão, depois a sua cabeça vai ficar
+assim.
+Eita, eu vivo no caos.
+Tudo que você fizer vai ser com a
+qualidade fodida.
+É fácil?
+Não.
+Como você vai conseguir isso?
+Estudando tecnicamente?
+Não.
+Superando você.
+Incrementando sobre você e correndo
+sobre a sua versão anterior.
+Sendo uma pessoa melhor do que você é no
+dia que você está hoje.
+É isso que é a grande sacada da vida.
+É você evoluir a sua parte business.
+Sua parte hard.
+Beleza?
+E soft.
+Muito mais.
+Então, ter uma cabeça criativa vai te
+ajudar.
+Ter colaboração.
+De novo, é de pessoas para pessoas.
+Se comunicar.
+Ah, mas eu sou uma pessoa mais soft
+spoken.
+Não falo muito.
+Beleza, vai trabalhar isso.
+Baixar um curso.
+Lembra da galera que tem esse problema?
+Legal.
+Você tem esse problema aqui na internet.
+Tá, você vai apresentar.
+Vai apresentar.
+Mas eu gaguei.
+Foda -se.
+Vai apresentar.
+Você vai quebrar.
+Problemas são feitos para serem
+quebrados.
+Aí talvez você olhe assim.
+Ah, mas parece fácil para você.
+Não, brother.
+Eu também venho de família pobre.
+Já tenho os meus problemas.
+Vocês têm os problemas.
+Não é questão da gente se comparar com
+os outros.
+Esquece.
+Esquece.
+Esquece.
+É você e você.
+Olhe para as outras pessoas.
+Olhe para pessoas que você admira ali.
+Pega aquelas coisas e evolua você.
+Mas é você contra você.
+Não é porque o Luan fala inglês ou o
+Matheus fala que você ainda não fala.
+Aí você fala não, mas eu sou um bosta e
+tal.
+A primeira viagem que eu fiz eu não
+falava nem mais to meet you, brother.
+Eu chorava.
+Eu já me mijei nas calças de nervoso.
+Eu fui apresentar a primeira vez em
+inglês.
+Eu quase me caguei.
+Eu quase me caguei para 30 pessoas.
+E literalmente eu quase me caguei.
+Eu quase desmaiei.
+É um processo, gente.
+Não é fácil, não.
+Não é porque você vê uma pessoa ali
+fudida no holofote gravando.
+Nossa, o cara é foda.
+A gente, de novo, é um estado.
+A gente vai aprendendo.
+Eu faço isso aqui há 14 anos.
+Teve alguém que falou na terça ou quarta
+Caraca, como que você sabe de tanta
+coisa?
+Você está me vendo agora.
+Você está me conhecendo.
+Pô, o cara é foda.
+14 anos de estrada.
+Habitiquei muita coisa na minha vida.
+Estudei, estudo todo dia.
+Aprendi a hackear minha mente.
+Aprendi porra, mente positiva.
+Vamos lá.
+É um processo.
+Todo mundo vai chegar lá eventualmente.
+E, de novo, a sua batalha e o seu corre
+é a tua batalha e o teu corre.
+Cada um é individual.
+Cada um tem coisas que precisam melhorar
+individualmente.
+Entende?
+Por isso que não tem como comparar Luan
+com Matheus, Matheus com Luan.
+Tem como a gente setar o mesmo objetivo
+e a gente chegar lá.
+Só que cada um vai chegar num tempo
+diferente e está tudo certo.
+O importante é a caminhada até lá.
+Eu sempre falo para você, não é Matheus?
+A vida não é uma sprint.
+É uma maratona.
+Então não adianta você sair correndo
+feito um louco.
+Ah, vou estudar 10 horas.
+Aí estuda 10 horas segunda.
+Estuda 10 horas terça.
+Estuda 10 horas quarta.
+E aí esqueceu que, na verdade, a
+musculação ou qualquer coisa na vida é o
+quê?
+É a constância.
+Não adianta eu pegar um puta peso na
+segunda, um peso meio merda na terça e
+na quarta eu vou comer Mc Donald's.
+Não.
+É a constância que traz a perfeição.
+Eu sempre falo para todo mundo aqui.
+Estude uma hora por dia.
+Mas todo mundo fala caralho, uma hora
+por dia, mano?
+Sim.
+Estude uma hora por dia.
+Uma hora por dia, mas é uma hora por
+dia.
+Aqui, ó.
+Ligou, botou no airplane mode, uma hora
+por dia, vou estudar isso aqui.
+Estuda.
+Quando bater o horário, para de estudar.
+Por quê?
+Você vai começar a dar feedback positivo
+para o teu cérebro.
+Mas está ficando legal agora.
+Corta.
+Corta.
+Por quê?
+Você vai ter desejo.
+Você vai gerar a sua mente ter desejo de
+estudar.
+Coisa idiota.
+E aí, no outro dia, você estuda uma
+hora.
+Aí, quando estiver ficando top, parou.
+Para.
+Vai fazer outra coisa.
+Sua mente vai começar a falar, não, eu
+gostei daquilo.
+É um estímulo legal.
+É porque, na verdade, a mente sabota
+você para ficar no seu mundo de
+procrastinação merda.
+E aí, você vai hackear a sua mente e,
+daqui a pouco, você está estudando três
+horas em hiperfoco.
+Com tesão.
+E, louco, para comer mais livro.
+Por quê?
+Você ensinou, você hackeou a sua mente
+do status quo.
+Você quer o quê?
+Acordar, cagar, comer, andar um
+pouquinho.
+Para que eu vou me esforçar?
+Eu não quero carregar músculo.
+Eu não quero evoluir.
+Para quê?
+Eu estou bem.
+Estou mijando.
+Estou bem.
+Estou respirando.
+É isso que eu quero.
+Está vendo?
+São coisas que parecem tão idiotas.
+Mas, cara, é o que faz a diferença para
+a vida.
+É isso.
+Tá?
+Curiosidade.
+São 10 e 2.
+Tem 31 pessoas aqui.
+Isso é curiosidade intelectual.
+Vamos fazer um treinamento.
+Vamos achar.
+Vamos melhorar.
+Vamos evoluir.
+É isso.
+Beleza?
+E, por último, conhecimento de
+indústria.
+Luan, Matheus, cara, Simeonek.
+Tem várias pessoas.
+Se junte com as pessoas que já estão na
+fronte lá.
+Reduza o seu passo.
+Você não precisa aprender tudo sozinho.
+Você pode reduzir.
+Siga as pessoas que você admira.
+Tutores.
+Pessoas que te ajudam.
+Sabe?
+Cara, não tem só Luan.
+Tem várias pessoas legais.
+Vai ali com carinho.
+Tira um dia para você curar as
+informações e tal.
+Para você ter uma coisa legal.
+Para você estudar pessoas que você
+segue.
+Isso é bom.
+Isso faz bem.
+Está nesse ciclo.
+Então, tenha esse conhecimento de
+conseguir separar o que é importante
+para ti ou não.
+E se baseie muito em livros.
+Livros é a experiência do cara.
+Que passou dez anos, cinco anos, seis
+anos condensado.
+Se baseie no conceito para depois
+evoluir realmente para uma internet
+onde, cara, muita coisa é distorcível.
+Muita coisa é difícil.
+Então, eu sugiro assim.
+Se a promoção para entrar na comunidade
+fosse ofertada hoje, acho que passaria
+dos 15.
+Fácil.
+Nesse sentido, às vezes, ser muito
+técnico atrapalha mais do que ajuda.
+Perfeito.
+Meia hora de conversa.
+Escuta e resolve mais que dias.
+É isso aí.
+E tem muita gente que não entende, mas é
+isso mesmo.
+É exatamente essa ideia.
+Isso quer dizer que você vai ser um...
+Você vai codar merda?
+Desculpa, gente.
+Eu estou muito no palavrão hoje.
+Isso foi mal.
+Mas não.
+Mas é essa a ideia.
+Beleza.
+Legal codar.
+É porra foda, mas eu posso reduzir
+metade dessa codação todinha que isso é
+conversar com o negócio e entender.
+É um negócio foda.
+Ouvi uma vez uma história de futebol,
+mudou meu mindset.
+Você tem que jogar como profissional
+mesmo sem ser.
+Pois quando tem um olheiro da várzea
+vendo um jogo de série B, ele vai
+atender, ele vai se atentar naqueles que
+já jogam como profissional e ainda não
+são.
+Ou seja, a oportunidade vem para os
+preparados e nunca vem antes.
+Perfeito.
+É isso mesmo.
+É exatamente isso.
+Foi mal.
+Eu divaguei.
+É o momento que eu divago.
+Só algumas coisas que eu penso.
+Vocês não são obrigados a concordar,
+whatsoever.
+Se foi bom, entra no ouvido, guarda no
+coração.
+Se não foi, entra no ouvido, passa e
+beleza.
+Está tudo bem.
+Não tem problema nenhum isso.
+A ideia é só tentar mexer.
+Tentar provocar.
+Tentar, ei, acorda.
+Entendeu?
+É uma outra visão, um outro prisma.
+Por isso que é bom interagir com pessoas
+diferentes, com coisas diferentes.
+É mexer.
+Mexer em você é bom.
+Sabe?
+Tenta tirar uma coisa boa disso.
+A gente está aqui para tentar mudar a
+vida de vocês.
+Sabe para quê?
+Para você replicar isso aqui.
+Para você se sentir obrigado.
+Caralho, eu tive uns tutores lá que os
+bichos faziam um negócio.
+Pô, eu vou fazer isso também.
+Quando você impactar a vida das pessoas,
+isso...
+Vocês sabem.
+Impactar a vida do seu filho, ensinar
+para sua mãe, ajudar as pessoas que você
+ama, o seu namorado, a sua namorada.
+Isso é gratificante.
+Isso é gratificante.
+Nem falar que não é, porque é.
+Tá?
+Realmente não tenho palavras para falar
+sobre esse treinamento.
+É treinamento motivacional, né?
+Tipo o Chilling Modion.
+É...
+E é engraçado que a gente não pode falar
+isso antes de conhecer você, mas a gente
+chega, ei, compre meu treinamento.
+Você vai aprender muita coisa.
+É engraçado.
+Só quem realmente experimenta isso vive.
+Então eu fico feliz.
+Leve isso para frente.
+Cole no grupo.
+Esteja com a gente.
+Evolua.
+Converse comigo.
+Eu estou no WhatsApp.
+Eu demoro.
+Estou me inquietando, mas eu respondo.
+Sabe?
+De vez em quando às vezes não vou
+responder porque às vezes é difícil,
+mas...
+Eu tenho amor pelos meus alunos.
+Matheus sabe.
+Matheus sabe.
+Ele assiste esse treinamento Ele assiste
+esse treinamento que eu tenho até dó
+dele.
+Eu já assisti esse treinamento umas 15
+vezes.
+Toda vez, porra...
+É isso.
+Todas as edições.
+Desde 2018, 2019.
+E já deve estar chato, porque, porra, eu
+falo pra caralho.
+Mas eu amo os meus alunos.
+Eu quero ajudar vocês.
+De coração, se eu falei alguma coisa que
+deixou magoado, enfim, desculpa.
+Eu quero mexer com vocês por dentro, mas
+do lado positivo.
+E você pode ter certeza que a minha
+intenção é a melhor.
+Não tem nenhum momento diminuir.
+Muito pelo contrário.
+Quero que vocês sejam fodas.
+Quero que vocês adicionem.
+Seja melhor.
+Critique positivamente.
+Feedback.
+É isso.
+Eu acho que a gente tem que ter essa
+mentalidade.
+Beleza?
+Eu pratico o que falo.
+Você não tava?
+Skin the game.
+Boa.
+Valeu.
+Skin the game.
+Vamos terminar aqui, antes de eu começar
+a chorar.
+Tem até tempo que eu...
+Beleza, meu.
+Mas beleza.
+Não, é porque tem coisas que são legais,
+assim.
+Beleza, vamos lá.
+Certificação.
+O que que eu recomendo pra vocês, tá?
+A gente já tá acabando.
+10 minutinhos.
+É...
+Escolha uma das nuvens.
+É isso aqui, ó.
+Então, o começo do jogo, pra um
+engenheiro de dados, é se fundamentar.
+Você vai escolher uma das nuvens.
+Ah, Luan, mas eu quero fazer...
+Não.
+Você não quer fazer as três.
+Você pode até fazer as três.
+Você vai fazer uma muito bem.
+Então, seja inteligente.
+Passo pra frente, passo pra trás.
+Passo pra frente, passo pra trás.
+O que que é isso?
+Estudou uma tecnologia?
+Passo pra trás.
+Ei, isso aqui é parecido com o que nas
+outras?
+Você já tem que ter essa mente.
+Ah, estudei Azure Blob Storage Data Lake
+Gen2.
+Passo pra trás.
+Calma aí.
+Na AWS...
+Ah, legal.
+É a mesma coisa.
+Porra, legal.
+Construa sua mente multidisciplinar.
+Seja multidisciplinar.
+Assim, você vai navegar em qualquer
+ambiente.
+Você vai começar com qualquer um.
+Você vai usar vários hats diferentes e
+você vai conseguir abranger e impactar
+mais.
+Independentemente do que você faz.
+Então, escolha uma dessas três.
+Qual é a nuvem hoje?
+A maior nuvem hoje se chama AWS.
+Google e Azure.
+Qualquer uma das três, você vai ter
+espaço no mercado.
+Agora vai uma questão muito de visão do
+que você acredita.
+Eu, na minha...
+O meu two cents é o seguinte.
+Para Analytics, eu vejo a Google
+Skyrocket.
+E aí, a gente tem Azure e a AWS.
+A AWS é muito bom.
+Então, vai depender, cara.
+Sim, você vai ter emprego em qualquer
+uma delas, tá?
+Então, escolha o que mais você se
+identifica.
+Proposta, visão, custo.
+De novo, entenda que é tudo uma questão
+de percepção.
+Então, não é...
+Vou desligar o vídeo por causa da AWS.
+Cala a boca, Matheus.
+É...
+Essa da AWS, agora é a AWS Data
+Analytics Switch.
+Ah, é verdade.
+É esse mesmo.
+Mudou.
+Depois eu mudo aqui.
+Então, valeu, Márcio.
+É tudo como você usa as armas que você
+tem.
+Então, eu posso chegar aqui e descascar
+a AWS.
+Mas eu posso também falar de um jeito
+para vocês que, porra, o nego vai amar.
+Então, é muito importante que você
+entenda o passo para frente e para trás.
+Porque, por exemplo, se você estiver na
+AWS, o nego vai chegar, ah, mas é
+custo...
+É muito custoso, não sei o quê.
+Aí, você vai ter as armas para poder
+defender quem você está.
+Ah, tudo bem.
+Você está olhando na perspectiva só do
+custo.
+Mas, cara, e das facilidades que você
+tem quando você está ali dentro?
+Serviços, integrações, a diversidade que
+você tem, como você consegue segregar o
+ambiente.
+Olha só os benefícios que eu tenho aqui.
+Eu tenho isso, isso, isso.
+São os pontos muito bons, enfim.
+Realmente, aqui é um pouco mais caro,
+mas a gente pode planejar assim, assim,
+assim.
+Saiba como fazer.
+Se você está na Google, também.
+Mesma coisa, não é só porque você...
+A Google é mais barata, que ela é
+melhor.
+Não existe isso.
+Uma coisa é verdade.
+Independentemente da nuvem que você
+escolher, qualquer analytics que você
+quiser fazer, de qualquer nível de
+complexidade, vai ser atendida em
+qualquer uma das três.
+Se alguém chegar para mim e falar assim,
+não, eu faço isso na Google, que eu não
+faço na AWS.
+Business requirements, nenhum.
+E nem technical requirements.
+Ah, eu não faço isso.
+Não faz.
+Você faz nas três, tá?
+Então, se você for muito bom, você vai
+saber extrair o melhor de cada uma
+delas.
+Você escolhe, mas essas são as três
+certificações.
+Qual que eu vejo que é a mais foda de
+fazer, a mais difícil?
+Amazon Web Services Certified Big Data
+Specialty, ou Data Analytics.
+É a mais difícil de todas.
+A segunda mais difícil de todas, Azure
+Data Engineer Associates.
+E a menos difícil, Data Engineer Google,
+inclusive a prova mais legal que eu já
+fiz na minha vida.
+Por quê?
+A AWS e o Azure, a prova de certificação
+é muito focada em comando, é muito
+focada em certas nitty gritties do
+detalhe, que você tem que ter quando
+você vive bastante ou quando você faz
+muita demo, quando você brinca bastante.
+O approach da Google é diferente.
+É solução, é pensar, é arquitetar, é
+como que esse serviço encaixa, então é
+uma prova com mental set mais diferente.
+Eu já fiz muita prova de certificação na
+minha vida, hein?
+A prova mais gostosa que eu já fiz até
+hoje é o Google Professional Data
+Engineer.
+Então, é...
+de ser gostosa de fazer, tá?
+Então, assim, eu, se hoje, Luan...
+Ah, Luan, se você fosse começar hoje,
+qual cloud você faria?
+Definitivamente Google.
+Tá?
+Definitivamente Google.
+Depois disso, como a gente tá falando de
+Spark, a gente tem a trilha do sucesso
+aqui, né?
+Então, você pode...
+O primeiro, a jornada da certificação é
+o Data Certified Data Engineer
+Associates, depois o Data Certified Data
+Engineer Professional, e se você quiser
+realmente fazer o skin in the game, é
+Databricks Certified Associates
+Developed, que é uma plataforma para te
+exportar.
+Cara, se você tiver uma nuvem e essas
+três certificações, se você quiser me
+desafiar, pega seis meses da sua vida e
+fala, cara, eu vou me especializar.
+Tira uma certificação da Google, tira
+essas três certificações.
+Se você não tiver empregado, fala
+comigo, por favor.
+Fala com a gente.
+Né, Matheus?
+O pior cenário é você trabalhar com a
+gente ou a gente vai indicar você pra
+algum cliente que todo dia fala, Luan,
+tem alguém aí, sem indicar, por favor.
+Eu preciso contratar, não tem gente no
+mercado.
+Todas as empresas grandes no Brasil, a
+gente tem vínculos com todas elas, tá?
+Então, fica tranquilo.
+Segue.
+Segue e fala com a gente.
+E...
+Estudo.
+Olha, tem algumas coisas que eu acho
+legais aqui, tá?
+Então, assim, ó, tem o DataCamp, que eu
+recomendo demais.
+Tem uma trilha chamada Data Engineer
+with Python, que ensina muita coisa.
+Tem uma outra trilha chamado PySpark,
+que você tem em desenvolvimento.
+Dentro dessa fila de aritmia, você
+também tem ela.
+Você tem um curso no Coursera chamado
+Python for Everybody Specialization.
+O Coursera é muito bem visto fora do
+país.
+É muito bom, eu gosto bastante.
+Você tem uma outra que é obrigatória
+todo mundo fazer, na minha visão, que é
+Architecting with GKE.
+É o Google Kubernetes Engine.
+É quem criou, né?
+Então, é o treinamento da Google, feito
+pelos criadores do GKE, que é o
+Kubernetes, que é o blog.
+Então, ele conta toda a história, tudo.
+E tem a Udacity, que faz o treinamento
+de Data Engineer, que eu acho muito
+legal também.
+São bem focados em casos de uso, ensinam
+tecnologias legais, é focada na AWS.
+Então, é um caminho também pra você
+trilhar, que eu acho importante, tá?
+Eu acho legal.
+Então, assim, ah, eu quero aprender
+Python.
+Faz o DataCamp.
+É muito bom, tá?
+Essas são as trilhas que você ficou de
+falar sobre Spark.
+É, velho, exatamente.
+É porque dentro do DataCamp tem o de
+PySpark, aí eu queria falar pra você.
+Então, entra lá no DataCamp, você vai
+ver que tem um treinamento de 6 horas de
+PySpark, tá?
+Que é bem legal.
+Eu comecei a fazer ele, achei bem legal.
+Então, você vai gostar lá.
+É muito bom.
+E vou deixar minha última palavra aqui,
+antes de abrir, pra quem quiser falar.
+In order to succeed, your desire for
+success should be greater than your fear
+of failure.
+Então, é sempre sobre você, sobre a sua
+mente, tá?
+É sempre você desejar o sucesso mais do
+que o medo de fracassar.
+E isso é uma coisa que a gente conquista
+com o tempo.
+É incremento por incremento.
+Então, eu espero que nesse treinamento
+você tenha conseguido absorver a
+intenção desse treinamento como um todo.
+Conseguir ver que a gente passou em
+níveis técnicos, a gente passou em
+níveis arquiteturais, a gente passou em
+níveis mentais, nesses dias online, que
+eu acho que é uma experiência muito
+legal, pra que vocês possam tirar alguma
+coisa de bom.
+E eu espero que vocês tenham gostado, de
+verdade.
+Eu espero que vocês tenham curtido.
+Eu espero que tenha sido bom, tenha sido
+proveitoso.
+E aí, nesse último momento, até as dez e
+meia, mais ou menos, a gente abre pra
+quem quiser falar, deixar feedback,
+fazer algum comentário, ou sumarizar se
+aprendeu alguma coisa.
+Isso é uma coisa legal que a gente abre.
+E deixo pra vocês.
+Muito obrigado por vocês terem investido
+o tempo de vocês.
+Foi um prazer poder ministrar o
+treinamento pra vocês.
+Sempre é um prazer pra mim.
+Sempre é muito legal.
+Eu sempre me divirto bastante.
+Espero que vocês também tenham se
+divertido.
+Agradecer meu braço direito,
+Matheusinho.
+Sem esse cara aí, não seria possível o
+que a gente faz hoje.
+Então, o cara tá do meu lado, faz
+acontecer, aguenta.
+O cara chato aqui, não é fácil.
+E agradecer, Mike.
+Obrigado por tudo.
+É isso.
+Gente, só um recado.
+Os certificados já estão no grupo de
+WhatsApp, tá?
+Que a gente acabou de mandar pra vocês.
+Caso alguém não tenha recebido, não viu
+o nome da lista lá dentro do Drive,
+procura a gente no grupo e a gente
+verifica cada caso.
+Beleza?
+Mas tá lá.
+Quem não estiver no grupo, avisa aqui
+pra mim que eu mando o link.
+E a importância, Matheus, de eles
+colocarem isso no LinkedIn,
+né?
+É muito importante isso.
+Ah, pra você propagar, fazer marketing
+pra gente?
+Cara, isso ajuda.
+Isso é legal de escutar, realmente.
+Mas ajuda muito você sair do holofote.
+Cara, a gente tem muito feedback legal
+de, cara...
+No caso da galera, arrumou emprego por
+causa disso.
+Muito.
+Usa o nome do treinamento.
+Fez treinamento do Luan e tal.
+Então, cara, vale a pena.
+É...
+Então, é.
+Exatamente.
+Preciso entender.
+São vocês fazendo marketing pra vocês
+mesmos.
+Então, é...
+Pede permissão pra acessar.
+Dá o link...
+Deixa eu mandar aqui de novo.
+Deixa eu ver aqui porque tava como...
+Deixa eu confirmar aqui.
+Mandei...
+Deixa eu mandar aqui pra vocês.
+Acertava pra acessar pelo link.
+Ah, e claro.
+Se vocês acham que isso é feito por
+mim...
+Tem toda uma equipe aqui, cara, que faz
+isso com muita paixão.
+De novo, pessoas...
+Pessoas...
+A gente atrai coisas boas.
+Quando a gente faz coisas boas, a gente
+atrai.
+Então, pô, a gente tem toda uma equipe
+muito foda aqui.
+Cristina, Priscila, Regis...
+É...
+Pô, toda uma equipe de marketing.
+Cara, a gente tem o Jean.
+É...
+A gente tem várias pessoas parceiras que
+trabalham com a gente.
+Então, pra todo mundo, muito obrigado
+por fazer isso acontecer.
+Né?
+A gente tem várias pessoas trabalhando
+aí.
+Preciso até acessar...
+Primeiro foda que eu lanço nos cinco
+dias, mas puta que pariu, vocês são
+fodas mesmo.
+Obrigado.
+Não.
+Quem são fodas são vocês, né?
+Sem vocês, isso aqui não seria possível,
+então.
+Né?
+Round of applause de vocês.
+Foi.
+Pra mim deu.
+Legal.
+Beleza.
+Agora foi.
+Pessoal, quem quiser tirar do mute, pode
+tirar.
+Já tá liberado aí.
+Obrigado.
+Quem quiser, tudo bem também.
+Pô, só repetir mesmo o que eu falei ali
+e parabenizar mesmo pela qualidade, pela
+atenção, assim, pela dedicação.
+É...
+Notável, cara.
+Mesmo pra fora da engenharia de dados,
+assim.
+Já estudei muita coisa, já fiz muito
+curso de um monte de coisa.
+Não venho do mundo da técnica.
+Tô aí há quatro, cinco anos entrando na
+tecnologia, três entrando na engenharia
+de dados.
+E...
+Pô, como professores mesmo, parabéns,
+assim, pela...
+didática, pela presença, pela qualidade,
+assim.
+Vocês são fodas.
+Parabéns mesmo.
+Obrigado.
+Que isso, prazer nosso.
+É isso que faz valer a pena o feedback,
+porque parece simples do nosso lado, mas
+a gente tá aqui e é foda também, então é
+muito bom.
+Esse feedback reassente todo o cansaço
+que a gente levou.
+Caraca, valeu a pena.
+Porra, foi foda, cansativo, que é pra
+todo mundo.
+É, o Claudio curou, mas valeu muito a
+pena.
+Obrigado.
+Bom, é, quero agradecer vocês também,
+né?
+Eu estou mudando o mindset, né?
+Eu sou da área de desenvolvimento, do
+setor público, né?
+Estou indo agora trabalhar em banco e
+pretendo ir pra área de dados também,
+né?
+O Luan tinha optado de trabalhar
+antigamente, lá em 2005, com a
+Michelangelo.
+Eu lembro, claro que eu lembro.
+Quem era eu?
+Fala aí pra eles, quem era eu em dois
+mil e quantos?
+2015, né?
+2005, 2005.
+2000?
+É, por aí.
+2000 é uma coisa.
+Eu era o menino catarrento, eu não era o
+menino catarrento?
+Não, sempre as pessoas se esforçavam,
+tanto é que até no inglês lá, a gente às
+vezes ele me passava algumas coisas de
+inglês na época, já mandava muito bem,
+desde sempre mandou muito bem.
+E assim, só tenho a agradecer, né?
+Pelo tanto de conhecimento, sei que vou
+penar um pouco até eu conseguir
+assimilar parte pra começar a caminhar
+sozinho, né?
+Mas tô adquirindo aqui a comunidade
+também, né?
+Pretendo evoluir bastante, né?
+Então agradeço você, ao Matheus também,
+então só tenho palavras de
+agradecimento.
+Ah, obrigado, José.
+Valeu demais.
+Não, que bom, eu fico feliz de também se
+sentir mais perto na comunidade, se você
+quiser falar comigo, tem meu celular,
+tiver dúvida, sabe, qualquer coisa, pode
+falar comigo pessoalmente, qualquer um
+aqui, tá?
+Eu tô fazendo isso com paixão, amor e
+tesão, então é muito importante que
+vocês também deem o feedback com amor,
+paixão e tesão pra gente melhorar.
+A ideia é melhorar e fazer a gente, nós
+os melhores engenheiros de dados do
+Brasil, do país, do mundo,
+consequentemente, porque a gente vai
+abrir pra inglês, vai abrir pra
+espanhol, vai abrir pra porra toda.
+Então a gente quer todo mundo junto,
+feliz, como uma grande
+família.
+Isso aí, eu queria muito agradecer mesmo
+por todo esse conhecimento que temos
+passado e até um amigo meu trabalha numa
+empresa no qual você tá dando
+consultoria aqui no Sul e o nome dele é
+Lua também, fala direto com você.
+Ah, o Lua!
+Conheço, conheço, conheço.
+E aí ele sempre...
+Bah, legal, bah!
+Fico feliz.
+Exatamente.
+Sempre falou muito bem de ti, esse tempo
+falei pra ele hoje eu trabalho com um
+banco de dados, sou analista de dados e
+quero muito migrar pra essa área de
+engenharia de dados e eu converso com
+ele bastante e perguntei Lua, me indica
+algum curso aí.
+E ele falou, cara, o melhor curso que eu
+sei é o do Lua Moreno, ver com ele
+quando for abrir algum curso, alguma
+coisa assim que realmente vale muito a
+pena.
+E aí quando ele viu ali já me mandou no
+LinkedIn e não pensei duas vezes, já
+comprei o curso ali e realmente vale
+cada centavo mesmo, então queria te
+parabenizar.
+Ah, você e o Matheus aí porque é
+literalmente foda.
+Você mora onde?
+Moro em Porto Alegre.
+A gente mora em Porto Alegre, não vai
+Matheus?
+Vamos, vamos.
+Quando a gente for, você lê alguma
+coisa, avisa que aí a gente marca um
+café, se der certo.
+Show, perfeito, só avisar.
+Fica de olho ali, quando você vier eu
+marcar então.
+Marca, com certeza, é um prazer.
+Então tá, muito obrigado por tudo mesmo.
+Nada, quem é isso?
+Um abraço.
+Aí ó, sou de Porto Alegre também, vamos
+fazer uma bagunça aqui no churrascado.
+Com certeza, quando eu chegar aí.
+Sucesso.
+Vai ser muito bom te conhecer, Márcio.
+Digo mesmo.
+Digo mesmo.
+Acho que é dar os parabéns mesmo pelo
+conteúdo aí, você e Matheus estão de
+parabéns, tanto pela essência do
+conteúdo, tanto pela passagem das dicas,
+enfim, de tudo que vocês têm de
+conhecimento pra gente.
+Eu vim de outros cursos também de
+engenharia e quando você vai colocar em
+prática e você entra na área de
+engenharia, você vê que alguns cursos
+deixam um pouco a desejar e esse tá
+totalmente
+atual, né, não tem tecnologia que nunca
+foi usada, enfim, eu acho que tá top dos
+tops aqui e quinta -feira eu vou tá lá
+no curso de...
+Nossa, então porra.
+A gente vai trocar uma ideia, enfim.
+Que bom, não, vai, com certeza, top
+demais.
+Não, mas bom você trazer essa visão,
+Bruno.
+Obrigado por trazer essa visão, porque é
+por isso que a gente faz online, é por
+isso que a gente é chato com isso,
+porque eu quero ter o conteúdo sempre
+atualizado, porque eu acho que isso é a
+diferença, entendeu?
+Tipo, cara, o cara quer consumir
+conteúdo atualizado, irmão, eu não vou
+chegar aqui com a Hadoop, porra, mil e
+bolinha.
+Exatamente isso, cara.
+Então, assim, vamos pra realidade, aí
+você chega na realidade, porra, mas eu
+aprendi MapReduce, tá ligado?
+Então, assim, é legal entender, mas a
+gente tem que ver a realidade.
+Então, obrigado, Bruno.
+Obrigado por isso.
+Lua, também queria dizer aqui que me
+surpreendeu também o curso, a gente
+pesquisou bastante antes de escolher e
+foi totalmente satisfatório.
+E eu acredito que a gente vai se ver
+também aqui daqui umas duas semanas, a
+gente...
+Você vai lá na CACI, não vai?
+Vou, claro que eu vou.
+É lógico que eu vou.
+A gente tá aqui no treinamento.
+Ah, que legal, a gente vai se ver, com
+certeza.
+Com certeza a gente vai estar lá.
+Beleza, é isso.
+Fico feliz.
+Obrigada.
+Nada que isso.
+Legal, legal, legal.
+Vou ver o Quesão de Brasília, não vou
+receber não.
+Que bom.
+A gente vai se ver.
+Olha, Marcelo...
+Acho que é isso, né, gente?
+Agradecer a todo mundo.
+A gente continua publicando, a gente
+continua entregando conteúdo.
+Pra quem tá dentro da comunidade, legal.
+Pra quem não tá top também, continua
+esse conteúdo se não for o momento pra
+você.
+Quiser conversar com a gente depois, um
+caso especial, fala comigo, fala com o
+Matheus, fala com o Rez, a gente é muito
+aberto pra isso.
+Tá?
+No final das contas, vocês têm que se
+sentir bem para dar esse passo.
+Vocês têm que querer dar um passo e é um
+processo.
+Não precisa fazer agora, a comunidade
+não vai morrer, não vai nada
+desaparecer.
+Fique relaxado.
+Tá?
+Tá tudo bom.
+Tá tudo certo.
+E tem muito conteúdo lá fora, tem muito
+conteúdo que é muito bom, tem muito
+conteúdo freak, puta, qualidade
+imensurável, tá?
+Então fique tranquilo que tem muita
+coisa pra vocês aprenderem.
+Tá?
+Valeu, Henrique.
+Obrigado.
+O último foda vai pra equipe, tem uma
+equipe muito boa aqui, a gente fica
+muito feliz.
+E agradecer a todo mundo e eu deixo o
+tchau com saudade, porque chega no outro
+dia na segunda -feira, sete horas da
+noite não tem o treinamento.
+Mas beleza, a gente se encontra por aí,
+gente.
+Fica com Deus.
+Valeu, Matheusinho.
+Até mais.
+Tchau, tchau.
+Um abraço.
+Tchau, tchau.
+Um abraço.

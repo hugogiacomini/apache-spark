@@ -1,0 +1,3965 @@
+Ali quando fala em Event Hub Eu posso
+entender também Que seria a mesma
+Estrutura de um Como é que é?
+De um Message Broker?
+Como o PubSub também Como Message Broker
+ReptMQ, PubSub Esse era o cara que eu
+queria falar Se ele faz essa Se ele
+entra dentro dessa classificação Digamos
+assim É, sai Ele entra, exatamente O
+PubSub não faz isso, entretanto Se você
+estiver utilizando a Apache Beam Ele faz
+isso pra você Mas se você estiver
+falando de PubSub estreitamente Com
+Spark, você pode ter duplicados Mesmo
+assim Eu posso ter duplicados Pode, pode
+Só um trocadilho ali A pergunta do
+colega ali A pergunta é a mesma coisa
+que quando os caras vêm Ah, é só fazer
+É, não É É É , mas na mesma Três
+terabyte de dados Só fazer um
+ajustezinho Ah, é uma pergunta simples A
+gente está movimentando alguns terabytes
+Super simples Deixa eu mostrar pra
+vocês Aqui, ó At least once Tá vendo?
+Então isso é uma coisa que parece
+simples E, cara, não é,
+entendeu?
+Não é uma coisa chata De você lidar com
+isso Claro, tem formas de você resolver
+o problema Mas Não vai ser garantido pra
+você by granted Tá, é?
+Isso não é um problema Isso é uma culpa
+dos sistemas distribuídos, não É porque,
+cara, pensando isso de forma global
+Basicamente, literalmente, muito mais
+difícil do que um Kafka Porque quando
+você fala de Clubsub, Kinesis e de
+Eventhub Você está falando não é de um
+sistema que está
+distribuído Localmente num cluster Você
+está falando de um sistema que está
+distribuído no mundo inteiro Então
+garantir a ordem disso espalhada no
+mundo inteiro É muito mais complexo do
+que estar dentro de um cluster de
+clusters De Kafka e ele garantir isso
+pra você entre os brokers, tá?
+Então é por causa disso mesmo É a
+dificuldade de você conseguir fazer
+isso Beleza?
+Posso começar?
+Eu gosto assim, quando o pessoal entra e
+pergunta Vocês estão vendo meu PPT?
+Não, não estão vendo, né?
+Tá, agora vocês estão vendo meu PPT Tá,
+vamos
+lá Pode, você não muda você, não Você
+mudou eu Mas eu já
+voltei Beleza, então vamos lá A gente
+vem construindo Todo o nosso
+embasamento, não somente no Spark Acho
+que já está claro aqui que a gente está
+construindo Todo o envolto, né?
+Toda a casca, agora os ingredientes
+Estamos colocando tudo dentro de um
+grande pedaço de balde gigante Que é,
+cara, a gente construiu o conceito
+inicial do que é o Spark As
+possibilidades O deployment de qualquer
+lugar É que você...
+É importante você entender os valores do
+Spark Os conceitos básicos No dia 2 a
+gente viu tudo que tange batch Como a
+gente desenvolve Ontem a gente viu o
+streaming E as capacidades que eu
+consigo fazer Principalmente da
+unificação E a gente viu o ciclo de vida
+da aplicação Do Spark, que é O dado está
+no Data Lake Ou está em qualquer outra
+fonte Mas a gente falou que a melhor
+prática É você trazer o dado para o Data
+Lake E daí processar Porque o Spark foi
+desenvolvido Para tirar o melhor do Data
+Lake Para ser processado No ente HDFS Em
+cima disso E a gente viu o porquê E
+ainda mais os adventos do Data Lake
+House Hoje a gente vai olhar a grande
+verdade Em cima das grandes empresas A
+verdade entre as nuvens E conseguir
+entender e criar um racional De como a
+gente utiliza TDW, MDW, Lake House e
+Virtualization Para entregar o dado Para
+o consumidor final Para o cara que vai
+consumir essa informação E a gente tem
+várias Existem várias opções E a gente
+vai olhar para cada uma delas Com muito
+carinho E discutir Quem quiser levantar
+a mão Para perguntar Eu prefiro que seja
+assim Vai ficar gravado Então é bom
+Porque vocês podem revisitar isso
+novamente E eu acho que vocês Hoje na
+quinta -feira acontece É normal O nível
+de consciência já está bem alto Vocês já
+conseguem discutir Trazer casos Que nem
+a gente teve aqui O cara Velker trouxe A
+gente teve o pessoal trazendo casos de
+uso A gente teve O Luciano também
+falando sobre isso O que remete A banco
+de dados relacional E realmente tudo
+aqui remete A sistemas de banco de dados
+relacionais Então fiquem à vontade Para
+poder perguntar Então vamos lá Vamos
+quebrar Três conceitos muito importantes
+Que nós como engenheiros de dados Talvez
+Acho que não seja importante Mas no
+final do dia é muito importante Que você
+entenda isso também Até porque de novo A
+engenharia de dados Ele é um campo
+multidisciplinar Muito aberto Que cara
+Quanto mais conhecimento Você tiver
+melhor Principalmente para quem trabalha
+Nos ramos de Data Warehouse Data Mart
+Algo desse tipo É muito importante Que
+você traga esse conhecimento Para a mesa
+Para quando você começar A falar de
+estruturação De modelagem de dado De
+modelo singular de acesso De Data
+Literacy Que é como você entrega esse
+dado Literatura do dado Para todas as
+empresas Para todas as organizações Para
+todos os setores Da sua organização Da
+empresa Então é importante Que você
+entenda isso E o primeiro conceito Que a
+gente precisa entender É que a gente tem
+que entender É o simples conceito Da
+diferença do ETL para o ELT Bem, eu
+falei para vocês Que a gente ia falar
+disso Então agora a gente vai falar
+sobre isso O ETL ele remete De novo, ele
+remete Não quer dizer que o ETL Ele é
+vinculado A Data Warehouse Então toda
+vez que eu faço um ETL Eu estou
+obrigatoriamente Carregando isso Para um
+Data Warehouse Não O conceito de ETL
+Simplesmente me diz Que eu vou extrair
+de uma fonte Transformar essa informação
+E posteriormente carregá -la Só que na
+verdade Na maioria das literaturas E na
+maioria dos processos de TI A gente vai
+ver muito desse processo de ETL
+Vinculado ao processo de Data Warehouse
+E o processo de Data Warehouse Ele segue
+uma fundamentação Em um processo muito
+interessante E ele existe por um caso
+muito importante E você vai ver que 95 %
+das empresas do mundo inteiro Utilizam o
+conceito de Data Warehouse E de Data
+Mart Cara, dificilmente Você vai ver um
+sistema analítico Que não traz Ou que
+não herda Características De um Data
+Warehouse E a gente vai ver aqui Um
+pouquinho rapidamente Sobre isso Até
+porque isso é um conteúdo De dias, anos,
+meses Enfim Mas tem alguns pontos
+importantes Aqui a gente se destacar
+Algumas coisas importantes Extrair o
+dado Está remetendo a fonte de dados Na
+qual você está extraindo Isso vem lá em
+meados de 1980 70, 2000 Onde a gente
+descobriu Ou seja, foi descoberto Que
+sistemas transacionais Eram muito bons
+para o que?
+Para o que?
+Gravar rapidamente Recolher dados com
+cláusulas Que tragam poucos dados E que
+se comuniquem de forma eficiente O LTP é
+muito bom para isso E quantos mais joins
+que você adiciona No seu modelo da
+terceira forma normal Melhor na
+perspectiva Por quê?
+Porque geralmente cada tabela Está
+vinculada Ou era vinculada A uma
+entidade de acesso No lado da aplicação
+Então a gente fazia o que?
+Um banco de dados relacional SQL,
+Postgres, MySQL Oracle, MySQL MariaDB e
+por aí vai Ele é desenhado Para ser um
+sistema de Escreve e lê Então Write
+once, read many Então você tem a
+capacidade De escrever muito rápido
+Dependendo de como você escreve E de ler
+extremamente muito rápido Mas depende de
+como você lê A leitura dentro de um
+banco de dados relacional Como ele
+sempre vai conseguir Te atender em
+grande escala É se você passar uma
+cláusula Onde se retornam poucos
+registros Com muitas colunas Por quê?
+Porque é um formato tabular Então lá no
+armazenamento Dentro da página de dados
+Você tem um armazenamento de tabela
+Literalmente tabular Se você entrar
+dentro de uma página de dados Em
+qualquer sistema de banco de dados
+relacional Você vai ver exatamente a
+mesma coisa Às vezes o tamanho muda Mas
+você vai ter a estrutura de uma
+tabelinha Então quanto menos registros
+você traz Você tem eficiência Porque
+você consulta menos páginas de dados E
+você traz o conjunto inteiro da
+informação E isso funciona muito bem
+Para sistemas transacionais Onde eu não
+preciso analisar essa informação Eu
+preciso escrever e ler Escrever e ler
+Mas quando eu mudo o acesso do dado Ou
+seja, quando eu começo a precisar
+Realizar o quê?
+Joins entre duas tabelas Para saber o
+produto e o estoque Para saber o usuário
+Qual tipo desse usuário Qual esteira
+desse usuário Quando eu preciso
+aglomerar Agrupar essas informações
+Puxar o max Enfim, essa clarela fica
+extremamente ineficiente Por quê?
+Porque a cuba de um banco de dados
+Relacional, não Mas o formato da query É
+o jeito com que ela é estruturada Porque
+ela tem de uma faceta diferente Que não
+existia antigamente no relacional Então
+a gente falou Cara, então o mercado
+entendeu Então a gente precisa fazer o
+quê?
+A gente precisa de um sistema analítico
+O LAP Analytical Processing Para
+analisar os dados Que estão dentro do
+transacional Porque agora Além de eu ter
+que precisar fazer isso Eu ainda tenho
+outro problema Eu tenho agora vários
+bancos de dados Na minha empresa Vários
+departamentos Enfim, eu preciso extrair
+informações De vários dados De vários
+lugares agora Então extrair Extrair de
+vários lugares Eu transformo Para dar um
+significado A essa informação E eu
+carrego dentro de um sistema De Data
+Warehouse Que a gente vai ver já já em
+detalhe O que é completamente o oposto
+Do que a gente tem visto Para o conceito
+de Big Data Analytics Inicialmente Do
+que a gente começou a pensar Na
+democratização de dados Dentro do Data
+Lake Então no Data
+Lake O processo é diferente O processo é
+Eu extraio de várias fontes Eu extraio
+de várias fontes Eu jogo o dado cru
+Dentro do Data Lake Do jeito que ele é
+Existe Assim como o Medalha não faz Que
+nem a gente está vendo A arquitetura que
+a gente começou Aqui meia hora Traz o
+dado sempre cru Do jeito que ele é
+Porque eu consigo voltar a isso E
+posteriormente Eu transformo Para vários
+VX E essa mudança de letra É um
+paradigma de mudança Muito grande Muito
+grande Que muda muita coisa Na nossa
+cabeça Que muda muita coisa No processo
+arquitetural Como um todo Trabalhar com
+ETL É totalmente diferente De trabalhar
+com LT Para o mundo de hoje Para
+projetos que se iniciam hoje Para mundos
+recentes Para times recentes Para como o
+dado hoje Tem um significado na empresa
+Antigamente a gente estava falando Que a
+TI era uma área na empresa Hoje a gente
+está falando Que TI é tudo dentro de uma
+empresa Se você não tiver dado fluindo
+Em tudo quanto é canto E você analisar o
+seu dado A sua empresa não é data driven
+Se a sua empresa não é data driven Ela
+não entrega valor Ela não existe por
+muito tempo Porque ela precisa analisar
+O cliente dela Porque senão vai ter uma
+outra empresa Que vai analisar melhor o
+seu cliente E vai ter uma vantagem
+competitiva Que você não vai ter Então o
+processo de ELT Hoje faz muito mais
+sentido Pela democratização E a quebra
+dos silos Que a gente tem Indo um pouco
+mais para frente A gente começa a
+perceber o seguinte Legal Antes de eu
+entrar no conceito De data lake E
+realmente ver como eu arquiteto Tudo
+isso Como que de fato Tudo isso
+aconteceu Por que que isso aconteceu
+Então a gente vai entender aqui Por que
+que isso aconteceu O que que a história
+Nos trouxe de lições aprendidas Em
+relação a isso O TDW Para qualquer
+engenheiro de dados É obrigatório você
+entender TDW e MDW São coisas
+obrigatórias TDW, MDW, Data Lake, Lake
+House E virtualização de dados É uma
+obrigação de você entender Porque se
+você não entende Você não consegue ver A
+figura como ela está Como um todo Se
+você não tem a figura Como um todo Bem
+esclarecida na sua cabeça Você não
+consegue entender O comportamento do seu
+cliente Se você não entende O
+comportamento do seu cliente Você não
+consegue desenhar E ter uma mente
+analítica Para entregar o que o cliente
+precisa Então para você entregar O que o
+cliente precisa Você precisa pensar como
+ele Você precisa se colocar No pezinho
+dele lá E entender Cara, beleza Mas
+legal O processo todo é muito sexy O
+processo escala aqui Spark é foda
+Intercâmbio entre as linguagens Mas
+beleza E o resultado final?
+Como que ele vai chegar Para o
+consumidor final?
+E ele precisa ser estruturado Ele
+precisa ser colocado De uma forma que dê
+significado Para ele O significado
+sempre foi De 1980, 90, 2000 E ainda
+durante muitas empresas Para muitas
+empresas O significado dela ainda É o
+conceito de Data Warehouse Que é o
+Traditional Data Warehouse Então o que é
+um TDW?
+Um TDW, na verdade Esse termo começou a
+entrar
+muito em uso Em pesquisas da IBM em 1980
+Mais ou menos nessa época E a pessoa que
+trouxe Literalmente o conceito de
+CoinEdge Que trouxe esse conceito Para a
+tecnologia E realmente entrou Nos livros
+de história E trouxe esse conceito É um
+cara chamado Bill Inman Que é o pai Ele
+é chamado The father of the Data
+Warehouse O pai do Data Warehouse E é
+legal falar disso Porque além da gente
+ter um podcast Com esse cara Eu conheci
+ele no Japão em 2016 Foi um privilégio
+Que bom que a gente gravou um podcast
+com ele Esse ano, ele ainda está vivo
+Muito bom E depois vocês podem
+acompanhar A gente vai publicar daqui
+duas semanas No YouTube Para vocês verem
+esse podcast clássico Que a gente gravou
+com ele Para ele mostrar e explicar
+realmente O conceito de TDW O que
+aconteceu E você vai escutar Da boca do
+cara que criou Então, basicamente Isso
+foi feito Porque eu precisava aglomerar
+dados No nível Enterprise Em um local
+Para que eu pudesse tomar decisões Só
+que, para centralizar tudo isso É claro
+Que eu precisaria entender Como que esse
+dado vai ser armazenado Ao longo prazo
+Porque sistemas de bancos de dados
+relacionais Eles são muito bons Para
+várias características Mas não são
+desenhados Para reter o dado
+infinitamente E além disso Se você está
+fazendo um processo de ETL Você está
+automaticamente O que, gente?
+Copiando o dado Talvez não o dado todo
+Mas você está copiando um pedaço desse
+dado E a gente está fazendo um processo
+de ETL Você está falando de um ambiente
+de 1990, 2000 Enfim Onde o storage era
+caro Então, eu precisava de storage Eu
+precisava de suporte Para poder
+adquirir, reter E trabalhar com esse
+dado Terceiro A gente aplica técnicas
+para trazer isso O ETL que a gente falou
+aqui Dentro do conceito de ETL A gente
+tem uma lógica muito legal Que é o
+conceito da área de staging A área de
+staging é muito utilizada No ramo de
+Data Warehouse Porque ela é a área onde,
+na verdade O Data Warehouse enxerga O
+que tem que ser feito Na verdade, a
+gente não quer fazer Com que o processo
+de ETL Enxergue o banco de dados online
+Ou banco de dados de produção A gente
+quer trazer só o que aconteceu De
+mudança da última vez que a gente foi lá
+Colocar isso numa área desacoplada Para
+que, após isso, tudo que aconteça Para o
+Data Warehouse Não possa interferir o
+seu sistema de produção Então, essa é
+uma melhor prática Que a gente usa
+quando a gente está Construindo sistemas
+de BI E existe um conceito ainda um
+pouco mais elevado Disso, que eu não sei
+Se as pessoas já utilizaram isso Que é o
+conceito de ODS Que também é trago pelo
+Gleamon Que é o Operational Data Store É
+basicamente tirar um pouco da carga E da
+responsabilidade que o Data Warehouse
+tem Para congerenciar certos tipos de
+métricas Dimensões e coisas desse tipo
+Histórico, enfim A ideia é que você
+consiga manter isso Ainda num viés
+operacional O que é isso, gente?
+Quando você tira o dado dos seus
+sistemas E você coloca isso dentro de um
+Data Warehouse Você tirou uma visão
+Operacional E você transformou isso Numa
+visão analítica Então, você enviesou o
+dado Um dado para entregar uma
+informação O ODS, ele fica entre esses
+dois mundos Você traz o dado Você coloca
+numa plataforma Que ainda enxerga o dado
+operacional E dali você transforma esse
+operacional Para um viés que você quer
+entregar A vantagem aqui é Você tem
+vários sistemas Que transbordam dentro
+do ODS E eles ainda se comunicam De
+forma operacional Isso quer dizer que
+você pode voltar No sistema de fontes
+Sem perder o significado Porque ele é o
+mesmo Mas daqui para frente Você tem um
+significado diferente Eu trabalhei com
+um sistema muito grande no ODS Existem
+clientes gigantes que utilizam isso E é
+um approach muito legal Para quando você
+tem várias fontes de dados Trabalha no
+modelo clássico E você quer reduzir a
+quantidade De registros e de
+complexidade Dentro do seu Data
+Warehouse Métodos para fazer isso Então
+dentro do conceito de TDW Nós tínhamos
+basicamente Dois métodos E o terceiro
+que fazia todo mundo Se remexer no
+caixão O primeiro método é o Bottom Up
+Bottom Up De baixo para cima Esse termo
+foi trago pelo Ralph Kimball E parece
+que ele foi propagado Para o mundo
+inteiro Se a gente tem silo de dados
+Você já pensou por quê?
+Olha aqui Olha de onde começou a ser
+original O problema e a necessidade De
+ter um Data Lake Desse cara aqui Disso
+aqui Vocês entenderam agora Por que a
+gente tem problemas De empresas com
+silos lá dentro Por que a gente tem que
+jogar o dado Dentro de um Data Lake Para
+democratizar Por causa do Data Warehouse
+O conceito de Data Warehouse Foi o
+conceito mais utilizado De TI no mundo
+como um todo Todas as empresas Sem
+exceção Utilizam TDW Utilizam o conceito
+de Data Warehouse Para suportar as
+informações dela É impossível você
+entrar Numa empresa hoje E falar Cara,
+você tem um sistema Analítico aqui?
+Não, a gente consulta tudo Direto no
+banco de dados aqui Enfim Por mais que o
+modelo Talvez seja grosso Você tem um
+processo analítico Que acontece Sistemas
+de BI E assim por diante Tá?
+Então o modelo bottom -up Ele foi muito
+utilizado E o que aconteceu com esse
+modelo?
+Antes de eu entrar aqui Eu vou tirar
+esse conceito Do que é o silo de dados O
+que é o silo de dados?
+É o que eu vou falar agora Vamos pegar
+um exemplo real Você tem uma empresa
+Essa empresa tem vários departamentos E
+consequentemente O que acontece é que Os
+dados vão entrando Em vários lugares
+diferentes da empresa E cada área vai
+olhando aquele dado De uma forma Ele
+olha o dado de usuário Mas ele tem que
+cruzar esse dado Com informações
+geográficas Eu já pego esse dado de
+usuário E eu tenho que usar ele na
+perspectiva De vendas ou de finanças
+Daqui a pouco eu olho esse dado
+Comparado a qual o comportamento Desse
+meu usuário Enfim No final das contas O
+usuário é o mesmo Mas o negócio enxerga
+essa informação De cada variedade de
+forma possível Então o que começou a
+acontecer é O time de vendas O
+departamento de vendas Vai lá, faz um
+ETL E cria uma visualização que ele quer
+Depois vai o time de finanças Tira um
+pedacinho dos dados de alguns lugares
+Cria uma outra visualização Vai o time
+de marketing Vai o time de produto Vai o
+time de recursos humanos Vai o time de
+registro E vai tirando E aí o dado
+começa a ter um significado Para cada um
+desses departamentos Você pega isso e
+multiplica por 15 anos Fazendo
+exatamente isso No globo do mundo
+inteiro O que você fez em uma empresa
+agora?
+Você fez com que o CEO que chega e fale
+o seguinte Gente, quanto eu vendi ontem?
+Depende, qual a área?
+Qual o significado?
+O que é vender?
+Vender para o time de produto é uma
+coisa Vender para o time de finanças é
+outra Quer ver?
+Por exemplo, vender para o time de
+produtos É uma venda que acabou de
+acontecer Para o marketing, por exemplo
+Venda para o time de venda Não é um
+produto que acabou de vender É um
+produto que foi vendido Que foi
+homologado E que foi faturado Perfeito,
+exatamente Isso é uma venda Então,
+existem significados diferentes E as
+empresas começam a quebrar E ter silos
+Ficar dentro de ilhas Várias ilhas
+dentro da empresa Isso é o conceito de
+silo De silo O que o Data Lake vende?
+Vem fazer quebrar isso Por quê?
+Você joga os dados cruz lá Num local E
+de lá você consegue criar tudo o que
+você gostaria Sempre conseguindo voltar
+ao sistema original Sem ter enviesado
+aquela informação Por isso que
+cientistas de dados Não olham o Data
+Lake Por isso que cientistas de dados
+Sempre olham o Data Lake Por quê?
+Porque o dado que está dentro do Data
+Lake Ele está enviesado Ele não serve
+Para que você crie um modelo preditivo
+Porque ele não vai dizer a verdade para
+você do negócio Ele vai te dizer a
+verdade Do departamento que você está
+analisando Aquele negócio É diferente
+Beleza Então, a gente tem dois caras O
+bottom -up e o top -down O bottom -up é
+o Rolf Kimmel Onde ele acredita que você
+cria Vários martizinhos Vários
+pedacinhos departamentais E,
+eventualmente, você cria um sistema de
+day -care house Que enxerga tudo isso E
+existe o Bill Immel Que quebra esse
+approach Pensando de cima para baixo
+Unificando as dimensões Pensando no
+sistema O significado do usuário Como um
+ser somente Num ser como produto Como um
+ser somente Como esses produtos Eles se
+integram entre eles E o ODS é uma parte
+dessa jornada Que ajuda ele Qual é o
+certo?
+Qual é o errado?
+Não tem certo e errado Qual é o mais
+fácil?
+Também não tem qual é o mais fácil É
+difícil Isso aqui é difícil Em qualquer
+natureza Porte ou tamanho Isso é
+complicado de ser feito Mas O que O que
+apareceu ser mais eficiente Ao longo dos
+anos Eficiente slash mais rápido Foi o
+bottom -up Que é Ralph Kimball Então,
+Ralph Kimball teve uma adoção muito
+gigantesca Para quem não conhece Vale
+muito a pena vocês pesquisarem livros
+Como The Day -Care House Toolkit ETL
+Toolkit Enfim, é só você botar no Google
+Ralph Kimball E se você quer realmente
+entender Day -Care House Que vai te
+ajudar muito na sua vida Como engenheiro
+de dados Pega um livro do Ralph Kimball
+Pega um livro do Bill Inman Pega um
+livro Para que você possa ler essa
+literatura É um tipo de conhecimento Que
+vale muito a pena ter E, claro Com tudo
+isso Se criou um modelo dimensional De
+criar Um modelo Para atender tudo isso
+aqui Então, você não usa mais a terceira
+forma normal Você cria um modelo
+dimensional Com fatos, dimensões, grãos
+E coisas do tipo De novo O treinamento
+Não é sobre isso Mas eu vou explicar
+rapidinho Porque é importante vocês
+saberem Antes de eu entrar aqui Alguma
+dúvida Até
+agora?
+Tá Então, tá bom Obrigado Obrigado pela
+participação Eu te aprecio Tá?
+Então, vamos lá Modelo Star Schema Bem O
+nome já diz Uma estrela E o que essa
+estrela faz?
+Gente Falaram para vocês Que joins são
+eficientes Bem Depende Do que significa
+A eficiência Para a gente E qual a
+perspectiva Que a gente está olhando Mas
+Para a perspectiva De trazer resultados
+Em grande escala De forma eficiente
+Joins É uma operação custosa Por
+natureza Tá?
+Ela resolve muitos problemas Primary key
+Foreign key Índices entre eles Aceleram
+esse processo Mas isso não quer dizer
+Que seja uma operação Não custosa Tá?
+O join é custoso Um dos grandes pontos
+Na criação Desse modelo dimensional É
+como você reduz A quantidade de joins
+Reduzindo a quantidade De joins
+Teoricamente Você vai ter Mais
+velocidade De acesso E mudando A
+perspectiva Do dado também Então vamos
+pensar Aqui rapidamente Nesse modelo
+Qual é o fato Por exemplo Né?
+Qual é o fato Da minha empresa Nesse
+caso Vamos supor Que a sua empresa
+Analisa as informações No nível cidade
+País Empregado E produto Vamos supor Que
+você tem Essas dimensões Que a gente
+chama Tá?
+Qual é o fato Da sua empresa?
+Ah O fato É analisar A quantidade de
+vendas Então beleza A minha tabela De
+fato É vendas Fact Sales Então Eu vou
+ter A divisão rapidinha Aqui do que é
+dimensão Do que é fato Qual é o grão E
+quais são as medidas Que eu vou utilizar
+Basicamente Eu vou separar O que é
+descritivo Para o que é mensurável Tudo
+que for mensurável Quantitativo Vai
+ficar dentro Da fato Que vai ser Onde
+vão estar Os números Os valores As
+contagens É , essas informações E o que
+vai estar Fora disso São os descritivos
+O nome do país Né?
+O nome da cidade O nome do produto O
+nome do empregado E você vai ver aqui
+Que todas as informações Quantitativas
+Vão estar lá Além da chave Então Quando
+eu quero fazer Por exemplo Eu quero
+saber A quantidade De produtos Vendidos
+Na cidade X Talvez Eu nem precise Em
+nenhuma tabela Porque todas as chaves
+Daquela tabela Estão aqui Se eu quiser
+saber Qual é a quantidade De vendas Por
+produto Eu vou fazer Um join Se eu
+quiser saber A quantidade De produtos
+Enfim E é extremamente rápido Porque
+você está falando De uma chave Que está
+ligado Aqui com aqui Então é
+extremamente rápido Você fazer Esse tipo
+de consulta Ele simplifica A query
+Unifica E faz com que você tenha
+Performance Exatamente Extrema Qual é a
+desvantagem Aqui?
+Além de você ter que Rodar um processo
+De TN Que vai ser executado De tempos em
+tempos Você perde isso Ao longo prazo
+Porque ao longo prazo Você começa a ter
+Que gerenciar Essas dimensões E isso
+começa A ficar Um pain in the butt Isso
+dói bastante Mas esse modelo Ele é usado
+Até hoje Talvez vocês vão Provavelmente
+A gente vai morrer E esse modelo Ainda
+vai estar sendo usado Então é um modelo
+Extremamente usado Que você vai ter Que
+aprender A entender Tanto é que Quando
+as pessoas Vão para o data lake Você vai
+ter Quando elas vão Para essas novas
+Tecnologias de big data Vocês acham Que
+eles Modelam no final De qual forma?
+Dessa forma aqui Então você vai O que
+você vai estar fazendo Na verdade?
+Você vai estar fazendo Todo um processo
+Moderno Mas no final Você vai modelar
+Você vai criar Um modelo unificado De
+dados Você vai modelar De uma forma Que
+seja exatamente No modelo star scheme
+Então isso é muito Normal acontecer
+Muita gente me pergunta Isso Ah Lua Mas
+eu vou para big data Eu vou para data
+lake Mas no final Eu tento analisar o
+dado E eu preciso Que cara As pessoas
+consultem Os usuários Consultem os
+produtos Unifiquem essas informações No
+final É o BI que brilha Como o João
+falou Então no final Você vai ter que
+Aprender a criar Um modelo dessa forma
+Isso é uma forma De depenar o gap Eu vou
+mostrar outra Essa é uma forma Clássica
+de fazer Que também não está errada
+Beleza?
+E para isso Geralmente Essa forma
+clássica Ela remete A banco de dados
+Relacionado Que foram desenhados Para
+atender Um pedaço Dessa situação Por
+quê?
+Porque a gente fazia Por isso que Vem o
+conceito De TDW Traditional Data
+Warehouse É o quê?
+Nada mais é Do que um viés Com uma
+dimensão Diferente Uma forma De modelar
+Diferente Para que você entregue Uma
+visão analítica Para os seus sistemas
+Muito disso aqui Muito disso aqui É
+feito Com um sistema Num servidor
+Diferente da mesma tecnologia Por
+exemplo Você tem um Oracle Aí você vai
+ter um Oracle Que são sistemas
+transacionais Que estão acontecendo ali
+Em tempo real E você vai ter um outro
+Oracle Uma outra instância de Oracle Do
+time de BI Que o cara vai carregar Vai
+fazer o ETL Vai fazer tudo Por história
+de procedury E vai colocar lá dentro
+Isso é a realidade Acontece muito com
+MySQL Com Postgres Com SQL E assim por
+diante Uma das propostas Que eu trago
+para vocês É o Azure SQL Database O
+Azure SQL Database É o sistema De cloud
+De banco de dados SQL Server Mais
+eficiente no mercado Então, por exemplo
+Se vocês utilizam SQL Server Aí no dia a
+dia de vocês E vocês querem Um ambiente
+No qual vocês possam Trabalhar com tudo
+isso aqui Que eu falei E criar esse
+approach Das tabelas Das dimensões E
+assim por diante O banco de dados Vai
+ser um bom ambiente Para vocês Por quê?
+Porque Em minha opinião De 2011 para
+2012 A gente teve muito Essa adoção Dos
+sistemas OLAP E a Microsoft Foi uma das
+primeiras Empresas A trazer uma
+tecnologia Chamada Colunar Storage Para
+bancos De dados relacionais Colunar
+Storage Existe há muito tempo Para
+sistemas NoSQL E assim por diante Mas a
+Microsoft Foi uma das pioneiras A trazer
+essa tecnologia Para ser implementada
+Dentro de um banco De dados relacionais
+E o Colunar Storage Resolve os problemas
+Das queries Que são realizadas Num
+sistema OLAP Muito bem Então muita gente
+Fala para mim o seguinte Ah, eu vou para
+o mundo De Big Data agora E eu vou usar
+o Synapse A primeira coisa Que eu falo
+para vocês É, cara Vocês tem mais de um
+terabyte De dados?
+Não Então não necessariamente Você vai
+utilizar O Synapse Analytics Então O
+Dedicated Pools Lá do Synapse Analytics
+Ele é um sistema NTP Ele é um sistema
+Massive Parallel Processing A gente vai
+ver O que significa isso aqui Então
+Talvez você tenha Pagando muito caro
+Para uma necessidade Que você não tem
+Que um banco de dados Consiga relacionar
+Consiga te atender E não tem problema
+nenhum Você usar o Data Lake Usar o
+Spark Processar esse escalável E jogar
+esse dado Dentro de um banco De dados
+relacionais Não há problema Nenhum nisso
+Não há nada de errado Nisso Contanto que
+você Consiga atender A demanda Que te é
+implícita Então é muito bom Que você
+pense dessa forma É a forma Com que você
+vai entregar Principalmente agora Com as
+melhorias Que o Azure Se puder
+apresentar E a base traz Então agora Ele
+tem uma feature Chamada Hyper Scale Que
+você pode ter Até 100 terabytes De dados
+armazenados Porque eles conseguiram
+Desacoplar o storage Da computação Você
+tem melhorias Em sistemas de Big Data
+Você tem, cara Beef Machines Máquinas
+muito potentes Para lidar com isso E a
+gente vai ver aqui Como a gente
+normaliza Essa informação Para entregar
+esse dado Por quê?
+Lembra Que na última parte Da nossa
+jornada O que a gente fez Na última
+parte Da nossa jornada Vamos lembrar Na
+última parte Da nossa jornada O que a
+gente fez?
+A gente trouxe o dado Para dentro da
+Silver Não foi?
+Ou não?
+Foi, não foi?
+Isso A gente trouxe para a Silver
+Trouxemos, sim A gente trouxe da Bronze
+Da Bronze a gente trouxe Para a Silver
+tratado E o dado está lá na Silver O que
+a gente vai fazer agora?
+Agora a gente vai utilizar O conceito de
+Entregar esse dado Na Gold E eu vou
+ensinar técnicas Para vocês entregarem
+isso De forma inteligente Na Gold É o
+que eu vou mostrar Exatamente agora Para
+vocês Por quê?
+Porque a gente já fez A jornada de
+trabalhar O tratamento desse dado De fim
+a fim Até a entrega Do que realmente Ele
+vai fazer Então é importante Que vocês
+entendam Que na hora que a gente está
+Entregando os dados De fato A gente
+precisa Normalizá -los E a gente vai ver
+aqui Cara, o que muda Da Silver para a
+Gold Por exemplo Ah, não Eu quero saber
+O que muda da Silver para a Gold Ah, eu
+quero saber Qual a melhor forma Que eu
+vou entregar esse dado Como que eu vou
+trabalhar Essa informação no Spark?
+Como que ela vai ser feita?
+Eu vou fazer isso De forma incremental?
+Eu vou fazer isso De forma Full?
+Como que eu trabalho isso?
+Eu trabalho em batch?
+Eu trabalho em streaming?
+Por quê?
+Porque até agora A nossa jornada Foi
+receber o dado Do Data Lake Trazer para
+a tabela Melhorar ela E entregar essa
+informação De forma eficiente Na Silver
+Só que a gente agora Precisa entregar
+essa informação Para que ela possa ser
+Consumida pelos usuários finais E para
+que ela possa ser Consumida pelos
+usuários finais A gente tem essa extra
+mile Para poder atender Como a gente vai
+fazer isso?
+Como isso realmente Funciona na prática?
+Então a gente vai ver aqui agora Em
+detalhes Essas três maiores Ou mais
+clássicas formas De fazer isso Deixa eu
+compartilhar aqui Minha tela Quando
+vocês estiverem vendo aí Me dá um Me dá
+uma assinalada aí Foi?
+Foi?
+Então beleza Então vamos lá Bem A gente
+viu Rapidinho aqui Sobre dimensão Fato e
+assim por diante Então olha uma forma
+interessante De você trabalhar isso aqui
+Imagina o seguinte Eu tenho uma tabela
+Silver tratada Aqui ó Então eu vou
+consultar Essa tabela Silver tratada Tá
+vendo?
+Eu tô indo lá na Silver Eu tenho uma
+tabela Chamada negócios O que que essa
+tabela De negócios tem?
+Ó Ela tem o ID O nome do local A cidade
+O estado Categoria Subcategoria
+Quantidade de reviews E quantidade de
+estrelas Então eu tenho Isso aqui é como
+se fosse Um sistema de classificação
+Você é usuário Vai comer em algum local
+E você vai Fazer isso Cara, acho que
+isso O TripAdvisor faz isso Existem
+várias outras Outras plataformas que
+fazem isso Essa plataforma é muito usada
+Nos Estados Unidos Que é o Yelp Tá?
+No mundo inteiro Não sei se é muito
+usada no Brasil Mas fora do Brasil Ela é
+bem usada Tá?
+Então a gente tá pegando Ela pra fazer O
+nosso A nossa modelagem Então eu tenho
+um negócio Eu tenho Um negócio O usuário
+Aqui ó Que tem O ID do usuário O nome
+Quantidade de reviews Que aquele cara já
+fez Se essas revisões Foram úteis Ou não
+foi Qual é a média Desse usuário Qual a
+importância Desse usuário Na plataforma
+A gente já trabalhou Essa informação
+Também anteriormente E assim por diante
+Tá?
+E aqui A gente tem As reviews Ou seja O
+que que aconteceu Durante esse processo
+Então vamos esperar Carregar aqui O que
+que a gente Vai fazer agora Bem Tem
+várias formas De você fazer isso Como
+que eu entregaria Uma visão Luan Gold
+Why?
+O que que eu posso fazer aqui?
+Olha que legal Eu posso chegar Fazer Um
+select Pegar o review Fazer um join Com
+business Pelo business ID E fazer um
+join De usuário Com user ID E aí o que
+que eu posso fazer?
+Eu posso criar Uma tabela delta Chamada
+DS Gold Reviews Yelp O que que ele vai
+fazer?
+Ele vai criar Uma tabela gold Pra mim
+Com a junção Dessas informações Isso É
+uma forma De você fazer Uma entrega De
+uma tabela gold Né?
+Só que Nesse caso aqui A gente tá
+Computacionando Tudo Toda vez É uma
+forma De fazer Tá?
+É Nem de tudo Nem de streaming Ou tudo
+Vale a pena Você trabalhar isso Tem
+muitas vezes Que você pode entregar Um
+tabelão Você destrói o tabelão E builda
+ele novamente E entrega pro negócio Qual
+o lado positivo De você fazer isso aqui?
+Toda vez que você Executar esse Esse
+comando Como o delta Guarda um
+versionamento Do que aconteceu Você não
+vai estar Deixando o seu business Ficar
+offline Por quê?
+Porque ele tá criando Versões daquela
+tabela Então você pode Revisitar versões
+anteriores Você pode fazer O time travel
+Daquela informação Então você tem acesso
+A navegar nisso E no final das contas A
+gente vai ter Um dataset aqui Bem
+interessante De 434 milhões Deixa eu ver
+se não aqui Você vai ter um dataset De
+434 milhões Ah tá Não tá aparecendo aqui
+Eu tenho que criar Deixa eu criá -lo
+aqui Então eu vou criar Essa minha
+tabela Que ela vai demorar
+Aproximadamente Seis minutos Pra Ter 434
+milhões 170 mil 650 mil 158 mil
+registros Então eu vou terminar Com essa
+tabela E vou verificar Que eu tenho um
+grande Tabelão aqui agora Essa é uma
+forma De você resolver o problema Você
+entregar um tabelão Como um todo E
+disponibilizar isso Que a gente vai ver
+Em outros lugares Uma outra forma De
+fazer Esse tabelão Seria como se fosse
+Uma tabela fato Exato Já a tabela Só que
+aqui Hoje o meu boa pergunta É a minha
+tabela fato Com tudo Com as métricas Com
+tudo lá dentro É um tabelão Que tem tudo
+Então aqui Quando você for pesquisar
+Você vai ter que Você vai ter dados
+Duplicados Teoricamente Porque ela não
+está Separado Você vai ter que Na query
+Sempre retirar Agrupar o dado E retirar
+As suas Repetições Porque é um tabelão
+Grandão Tá Uma outra forma De fazer isso
+É Dessa forma Aqui ó Se
+você Criar a tabela E uma das formas Pra
+você Otimizar Uma tabela Como todo mundo
+Perguntou Olha só que lindo Você pode
+Particionar a sua tabela Então Olha só
+que legal Por ser delta Eu venho falando
+Todos os dias Que o delta o que?
+É uma tabela No data lake ali O lake
+house É uma camada semântica Que traz
+todos os benefícios Pra você acessar Uma
+tabela Escalável E assim por diante Lá
+Então ó Eu vou criar uma tabela Create a
+replace table E vou falar Review String
+Business String E assim por diante Eu
+vou criar uma tabela Eu vou falar Cara
+Essa vai ser uma tabela Delta Ela vai
+ser Particionada por User importance Tá
+E Ela vai ficar Localizada aqui Então a
+pergunta Ali foi O que que ela vai fazer
+Ela vai realmente Criar essa tabela Sim
+Ela vai te criar Tiago Uma tabela Pra
+você Se eu for aqui No OWS Adhq Delta
+Bet Gold Vamos lá Eu vou ter uma Tabela
+lá Né Que é São os arquivos Parque Que é
+minha Tabela delta Vamos lá Nesse local
+Pra gente ver Então eu vou no Delta OWS
+Adhq Delta
+Bet Gold DS Full Reviews Olha só que
+lindo Gente É que no outro Create você
+mostrou Não tinha location Aí ele vai
+pegar O location padrão Tá Mas aqui ele
+vai Colocar Tá Beleza Olha só que lindo
+Gente Vocês perceberam O que ele fez Ou
+não Quando eu cheguei aqui
+Especificamente Pra ele criar Uma tabela
+Parcionada Pro usuário Olha como que ele
+Escreveu os arquivos Separado Por
+usuário Tá vendo Por user importance Low
+Os arquivos Low aqui Normal Os arquivos
+Normal aqui E Rockstar Olha os arquivos
+Rockstar aqui Então basicamente O que
+ele faz É ele divide Os arquivos De
+acordo Com a característica Que você
+pediu Na criação Então Aí se eu quiser
+Carregar Essa tabela grandona Eu consigo
+fazer Olha Consigo Eu pego O meu select
+E eu escrevo Esse select Lá dentro Na
+tabela delta Pego O data frame Que bate
+Todos os campos Review User Os campos
+Tem que bater Se eu tentar No arquivo
+Quer ver Vou fazer isso Pra vocês aqui
+Pra vocês verem Tá Vocês podem Pode
+paticionar Vou pegar aqui Mateus Que
+legal Review stars Tá vendo Review stars
+É long Eu vou pegar aqui Review stars E
+eu vou Ter o bename Aqui Só pra vocês
+chorarem Falar um foda No formato
+arquivo Pra vocês verem Que eu não tô
+mentindo E eu vou pedir Pra escrever Na
+tabela delta Aqui ó Pega esse data frame
+E escreve No formato delta
+Sobrescrevendo Poderia fazer o append
+Mas eu vou Sobrescrever Dentro da minha
+Tabela delta Reviews full Reviews full
+Beleza E eu vou escrever Esse dado aqui
+Olha que tesão Data Lake Te traz isso?
+Não, né?
+Então Olha o foda Entrando aí Failed To
+merge fields Review stars Interview
+Review stars Failed to merge
+Incompatible data types Long and string
+Gente Formato arquivo Lake house
+Trazendo Esquema Olha que coisa linda,
+né?
+Isso aqui é lindo demais E se eu
+consultar Isso depois Eu vou ter ali Os
+meus Quatrocentos e trinta e quatro
+Milhões Cento e setenta mil Seiscentos e
+cinquenta e oito Registros Tá?
+Pra poder fazer Query em cima Gente Olha
+que coisa linda Agora Deixa eu perguntar
+Pra vocês Vocês que são De banco de
+dados Que são os bichão Pega um SQL
+server Ou um Oracle Quanto tempo
+Demoraria Numa tabela normal Pra fazer
+Uma query De quatrocentos e trinta e
+quatro Milhares De registros Agrupado E
+ordenado Decrescente Toma os quinhentos
+Café e
+volta Isso aí Tá mais próximo Da
+hexadata Que usamos Alguns segundos E aí
+Quanto custa A hexadata?
+Me fala aí Alguns milhões, né?
+Alguns dinheiros Mas geralmente Quanto
+tempo Num banco de dados Normal Na
+maioria das empresas Que roda Um SQL
+server Ou um Oracle Enfim Quanto tempo
+Essa query Demoraria Isso que a gente Tá
+falando De um sistema De banco de dados
+Relacional Que tem um storage Indy Enfim
+Não, falando sério Quantos minutos Vocês
+acham Que isso aqui Demoraria Pra fazer
+Com o order by Porque o problema É que o
+order by Que fode muito, né?
+Mas assim Banco de dados Normal Enfim
+Mas se tiver indexado De forma Whole Tá?
+De forma Não colunar De forma como Um
+banco de dados Normal armazena Não,
+gente Não demora tudo isso não Demora
+algum tempo Mas pega em média aí É 輪 O
+que o João falou aqui É mais ou menos
+isso Demoraria Claro Depende de várias
+coisas Mas eu diria 15 minutos 20
+minutos Pra entregar esse resultado Pra
+você Cadê seu Deus?
+Cadê o seu Deus aqui?
+Fala aí Cadê o Deus de vocês?
+1 .41 segundos Tá bom, hein?
+Você gosta, né?
+Você gosta No formato arquivo, velho É
+muito É feio em total É, velho Foda Foda
+É tosco, velho É tosco É tosco Vocês
+entenderam?
+E aí, o que vocês acharam?
+É foda isso aqui?
+A gente só tá começando E agora Que até
+O ateu fala Meu Deus Velho Agressivo,
+né?
+Ó Xiblém E quando se agrupa Por uma
+coluna Que não seja partição Aí eu gosto
+É assim, moleque Quando o cara Faz as
+perguntas legais Então Vamos por Uma
+coluna Que não está Por partição Vamos
+agrupar Por Store name Store name Store
+name E aí?
+Agora aqui Você fudeu, né?
+Ai, ai Acho que é engraçado Você
+conversa
+Assim Tchalã Não tem muito Tem muita
+diferença No modo dia Então, assim Muito
+bom, né?
+É Isso porque Ele não tá Ele não tá Sem
+Nada Mas se eu pegar Essa gold aqui Se a
+gente conseguir Constar essa gold Yelps
+Deixa eu ver Se ela já fez E aí Tchalã
+Agora a gente vai fazer Aqui o group by
+Sem partição Pra vocês sentirem O tesão
+Acontecendo Gente, vocês não estão
+animados Com isso É tão legal Fazer isso
+aqui Então vamos Vamos fazer isso aqui,
+ó Tchalã Por que que você Não está
+funcionando?
+Era pra você Funcionar, não?
+É o mesmo Tava sete?
+Deixa eu ver aqui Se é o mesmo Se não
+tava sete
+Ah, tá Figurinha ali Foi isso?
+Pontinho Não, acho que não Pontinho
+vírgula não Deixa Deixa eu
+ver Ah, tá Obrigado Boa Ajuda, hein?
+Eu entendi O animal de teta Chamado Luan
+Deixou o ponto e vírgula aqui, né?
+Aí, realmente Vamos ver?
+Tchalã 0 ,26 É, foi ruim agora, né?
+Agora foi, foi Foi muito ruim 0 ,26 aqui
+E aqui a gente demorou nove segundos Pra
+trazer o dado Ou seja Lembra que eu
+acabei de falar e provar pra vocês?
+O que que eu provei pra vocês?
+Uma tabela não particionada Que consulta
+genérica Talvez seja melhor do que uma
+tabela que você particionou Entretanto,
+você não consulta pela coluna Estão
+gostando, gente?
+A gente só tá começando Mas é isso que
+eu quero que vocês comecem a entender Tá
+vendo como que é eficiente para caceta?
+Beleza?
+E hoje o foda tá ligado Poderia também
+fazer o foda Como é que é?
+De forma inversa, né?
+Que nem ele falou Ele não gasta o foda,
+né?
+Teoricamente É, então isso aqui é
+agressivo Mas, beleza Vamos continuar,
+né?
+Uma outra forma de fazer Que o nosso
+querido amigo Esse Adolf Pronto Pode
+usar Adolf bastante Vai gostar?
+É se a gente utilizar uma técnica muito
+legal Chamada Merge Que é custosa Mas a
+gente tá falando de um engine
+distribuído Então, vamos ver aqui O que
+que eu vou fazer?
+Uma outra forma, se você quiser
+Incrementalmente É no Community
+Databricks que você tá fazendo?
+Não Esse aqui eu tô fazendo no
+Databricks Com 112 GB de RAM mesmo No
+meu Então, aqui a gente tá usando o
+Databricks de verdade Beleza?
+Beleza?
+Até agora eu não mostrei nada pro
+proprietário do Databricks Só pra deixar
+claro, tá?
+Vou carregar o dado aqui, ó Tudo que tem
+na Silver Usuário Tudo que tem na Silver
+Movies Gente, demorou 0 ,78 segundos
+Esse comando que eu executei Pergunta
+Ele carregou isso já pra memória?
+Ou ele fez uma Lazy Evaluation?
+Foi Isso aí é uma transformação, não é
+uma ação Eu tô preguiça, não vou fazer
+nada não Aí, agora, se eu falar o quê?
+O que que é isso aqui?
+É uma ação?
+Isso aqui vai despertar o Lazy ou não?
+Viu, meus...
+Vai não?
+Sim, não Vai, vai Vai, não vai Vamos ver
+Foi?
+E se eu fizer um Select?
+Ele vai exibir Aqui, o que que ele fez?
+Ele executou Beleza?
+Então, que bom que os meus alunos estão
+entendendo!
+Então, o que que eu vou fazer aqui, ó?
+Eu vou criar uma View Prestem atenção
+Que faz o Join de Usuário Com Movies
+Sempre façam isso, tá?
+É uma melhor prática Eu vou unir essas
+duas Eu vou contar a quantidade de
+registros que tem Nesse caso aqui São...
+Vamos ver 32 mil 32 mil Não 321 mil
+registros, tá?
+Vou selecionar essa View Isso mesmo Essa
+TempView criada por SQL Que aqui a gente
+tava navegando em águas Né?
+Aqui a gente tava navegando em águas
+PySpark E aqui a gente veio navegar Com
+águas SQL Qual é a diferença?
+A diferença é que O Delta deixa você
+acessar diretamente o arquivo Usando
+esse comando Olha que tesão Então você
+não precisa carregar pro PySpark Pra ler
+novamente Você simplesmente chama aqui,
+ó O local E ele sabe que é uma tabela
+Delta E ele carrega pra você logo no
+SQL, igual Você não precisa puxar no
+PySpark E passar pro SQL Ele já faz isso
+pra ti já, tá?
+Beleza Agora a gente vai Jogar pra Gold
+Gente, olha que coisa linda que eu vou
+fazer agora, ó Eu vou criar Isso aqui é
+lindo, gente Fala pra gente se a gente
+vai achar bonitinho isso aqui, ó!
+Isso aqui Não tinha no Spark Só existe
+isso aqui por causa do Delta Você não
+faz isso em Parquet Você não faz isso em
+um RC Não faz Você faz Merge no Delta,
+mano Olha só Vou criar a tabela Que ela
+já existe, né?
+Create your Replace, ó Versão 15 Ela já
+existe E, Matheus Isso aqui é lindo
+demais, Matheus Olha o que que eu vou
+fazer Insert, Update, Delete Merge Na
+tabela Chora, chora Pode chorar, eu
+deixo Usando a View Aonde?
+O usuário igual ao usuário Quando o
+usuário existir Atualiza User, Gênero,
+Título, Linguagem, Rating e Tomatões
+Quando não existir Insere Se você tiver
+GDPR When Not Not When Quando você não
+escreveu Not Not meted Not meted By
+source By source Eu acho que é by source
+Quando não existir na fonte Then Delete
+E aí, você pode excluir o registro da
+sua gold,
+tá?
+As views criadas serão removidas após
+desligar Se for em scripta temp sim Você
+vai gerar novamente no script E eu vou
+executar aqui, ó Beleza?
+Então, eu vou executar aqui, ó Então,
+vou executar isso aqui Isso aqui é O que
+que foi?
+Faz aí Eu tô fazendo aí, executando, pô
+É que eu quero mostrar uma parada
+gozante aqui Que ninguém já Que ninguém
+viu Temos essa feature de merge quando
+trabalhamos com o Rudi Boa pergunta
+Matheus, vem pra mim Eu não
+sei Tudo bem Mas isso aqui eu tenho que
+habilitar Tan tan tan tan Isso aqui é
+porque eu mudei de De fonte Tá dando
+conflito Aquele mesmo volume que a gente
+teve no stream Eu mudei Não tem problema
+não A gente vai fazer o seguinte, ó A
+gente vai criar uma nova tabela aqui
+Increment Um
+Dois Que tava num outro Tava num outro
+storage Por isso que tá dando problema O
+bom que eu faço aqui de tudo, tá?
+Vamos fazer um merge aqui Provavelmente
+não vai dar
+Que não vai te resolver essa code
+Increment Id Gimli Column Blá blá blá
+Merge in Tá Deixa eu ver Beleza Outro
+que resolve Ah tá É
+Cadê?
+Aqui Qual o tamanho deste cluster que
+você tá usando?
+Tá vendo quem é?
+Deve ser mais fácil É Estamos usando Um
+cluster com 112GB de RAM e 16
+cores Não é Já foi?
+Já Três máquinas Três máquinas Três
+máquinas Três máquinas Sobre o HUD, ele
+tem só que a documentação parece que
+está subindo nessa próxima versão,
+porque a documentação já está com o
+tópico, mas você não consegue acessar a
+informação.
+Então, deve subir nessa versão ou na
+próxima.
+Obrigado.
+Gente, eu consigo escalar isso aqui?
+Além de ser muito mais rápido do que um
+merge em um banco de dados relacional,
+efetivamente mais rápido, tem uma
+técnica que você pode usar aqui, que é
+para você fazer mais partition pruning.
+Então, tem duas técnicas para você
+deixar isso aqui lindo.
+Primeiro, você habilita o team de data
+feed e você particiona antes de fazer.
+Então, ele vai conseguir fazer isso de
+forma muito mais rápido.
+Isso aqui é uma coisa linda, que vocês
+devem usar de forma inteligente e eu uso
+nos meus clientes toda hora para
+atualizar a gold deles.
+Então, isso é uma coisa que a gente usa
+muito na vida real, real, real, super
+real.
+O que vocês acharam?
+Fala para mim aí.
+Legal, interessante.
+ShopTop.
+Adolf.
+Adolf é legal mesmo também.
+Boa.
+Como você trabalha o pruning que eu não
+entendi?
+O pruning a gente vai ver daqui a pouco,
+ele por padrão.
+Você seta o padrão e tem uma técnica que
+você pode aqui, deixa eu ver se é aqui.
+Ah não, aqui ó, eu deixei.
+Eu deixei aqui, ó.
+O link dentro do notebrick.
+Aqui, ó.
+How to improve performance of delta
+-merging to queries using partition
+pruning.
+Então, basicamente aqui ele mostra para
+vocês como você pode melhorar o
+partition pruning absurdamente.
+Aí vale a pena vocês darem uma olhada
+aqui.
+Ele saiu de não me lembro, faz tempo que
+eu não vi isso aqui.
+Ele saiu de 13 minutos para...
+10 minutos?
+20 segundos.
+Tranquilo, não teve muita diferença não.
+De 10 minutos para 20 segundos não teve
+muita diferença mesmo
+não.
+Matheus Merge verificou se o registro
+existia.
+Se ele existir e tiver alguma alteração
+ele altera o registro.
+Caso não exista ele insere.
+É isso.
+É isso, miserável.
+Muito bom.
+Beleza?
+Então, tá vendo que existem várias
+formas de trabalhar com esse dado.
+Tá?
+Beleza.
+Fechamos aqui e vamos voltar para a
+nossa apresentação.
+Esse notebook tá no repositório?
+Tá.
+Eu vou acabar hoje aqui, eu já vou
+atualizar tudo isso que eu tô escrevendo
+pra lá, mas ele já tá lá já, tá?
+Mas, cara, eu entrego o dado, e aí?
+Você falou que o Spark não entrega o
+dado, a gente vai ter que jogar esse
+dado agora em outro lugar.
+Vocês perceberam que se eu tenho uma
+gold no Delta Lake, eu simplesmente
+copio e colo pra qualquer lugar?
+Vocês entenderam isso?
+Fala pra mim que vocês...
+que bateu assim, ó.
+Caraca, olha só.
+Então, se eu tiver bronze, silver e
+gold, eu só vou no Getar.
+O que que é no Getar?
+Ah, eu quero botar no BigQuery.
+Escreve.
+Ah, eu quero botar no Redshift.
+Manda pra lá.
+Ah, eu quero botar, sei lá.
+Joga.
+Porque o dado já está do jeito que você
+quer na camada gold no seu Data Lake
+House.
+Então, é só você enviar pra onde você
+quiser.
+É comum duplicar gold no Data Lake, no
+DW?
+Exatamente, sim.
+Completamente normal.
+Você vai enviar pra um time de gerência
+aqui, de finança, que vai ver no
+Synapse.
+Depois você vai enviar pra outra
+vertente da sua empresa, vamos supor,
+que usa o BigQuery.
+Você vai usar pra um outro cara que usa
+o Redshift.
+Você vai mandar pra alguma storage, por
+exemplo, que usa a Pina.
+Você vai mandar pra um SQL Server que, é
+consumido por uma outra área.
+Bronze, Silver e Gold.
+Pega Gold, joga lá.
+Acabou.
+Essa é a diferença.
+Então, a gente vai ver isso aqui.
+Antes de eu fazer a demo de cada uma, eu
+vou mostrar alguns, que é a mesma coisa,
+e eu vou mostrar no final.
+Vou passar o conteúdo todo e depois eu
+venho nas demos.
+Qual o critério que você usa pra definir
+quando uma tabela objeta de um
+armazenado no Data Lake com um batch
+stream tipo fato, dimensão e batch?
+Depende da velocidade do seu negócio e
+daquele viés que você quer entregar.
+Então, por exemplo, muitas das vezes
+você tem é mais fácil pra você,
+desenhando no seu processo, você pagar
+um rebuild de tudo porque demora 5, 10
+minutos.
+Em muitos dos casos, quando o volume de
+dado é muito grande, você não vai ficar
+recomputacionando toda hora porque vai
+ser caro.
+Então, você vai ter que vir com uma
+estratégia de incremental.
+Nem tudo você precisa fazer incremental,
+de fato.
+Tá?
+Às vezes você precisa fazer, às vezes
+não.
+É melhor sempre fazer desenhar
+incremental?
+Cara, sim, é.
+Sempre é melhor.
+Mas nem sempre o melhor é o que você vai
+fazer agora, que talvez vai te requerer
+vários outros estados, steps adicionais.
+O lado bom de você estar no Lake House é
+que se a gente seguir esse pattern que a
+gente tá vendo aqui, é meio que
+tranquilo fazer isso, né?
+É como mandar o silver para um
+relacional?
+Geralmente não, porque ele não é o
+resultado final e teoricamente ninguém
+vai olhar o seu silver.
+Não é pra ninguém olhar o seu silver, a
+não ser o seu time de engenharia de
+dados.
+Ah, mas o meu time de ciência de dados,
+ele olha o silver?
+Não, ele olha o gold.
+Ele olha o gold do jeito que ele quer o
+dado cru lá.
+Ou do jeito que o dado vai ser preparado
+pro time de ciência de dados.
+Ele pode usar o silver?
+Pode.
+Mas a verdade é que só quem tem que ter
+acesso ao silver é o seu time que
+trabalha exatamente com a normalização,
+com a padronização, e assim por diante.
+É uma regra?
+Não.
+Normalmente é assim, tá?
+Então, normalmente você vai mandar a
+silver, tá?
+Na sandbox você manda a silver, o gold,
+ou gold?
+O gold.
+Você vai mandar o gold pra ser
+consumido, tá?
+A silver não.
+A não ser que alguém queira fazer uma
+exploração de dados ou algo do tipo,
+enfim, você vai conceder acesso a
+silver.
+Eu só não recomendo você conceder acesso
+pra silver pra ninguém, porque senão a
+silver vira verdade da pessoa.
+E aí, o que que acontece?
+Quando a silver vira verdade da pessoa,
+se você como time de engenharia, como
+núcleo de dados, de governança, enfim,
+for mudar na padronização do dado, for
+mexer pra entregar autovies, for elevar
+o esquema dessa informação, enfim, você
+tem sistemas que estão plugando.
+E outra coisa, se você dá acesso ao
+cara, você não sabe o que ele vai fazer
+com o dado na silver.
+Talvez ele vai botar um sistema plugando
+ali na silver e, cara, quando você mudar
+aquilo ali, isso vai afetar o sistema do
+cara.
+Sendo que se você tiver esse na gold,
+você saberia que tudo que toca gold é
+extremamente importante.
+Então, você teria um outro nível de
+compliance, um outro nível de
+governança, um outro nível de lineage e
+assim por diante.
+Então, eu sempre recomendo qualquer um
+que consome, não consome silver, ele
+consome gold.
+Ah, Luan, mas se o cara, se o meu time
+de engenharia, de ciência de dados
+quiser consumir o dado que é igualzinho
+o dado da silver, cria um tabelão com
+tudo e entrega pra ele o nome de gold.
+Ah, mas eu vou ter que ficar atualizando
+isso?
+Bem, que é o downside de você fazer
+isso, mas aí eu te expliquei, acabei de
+explicar ali, aqui atrás agora, quais
+são os lados positivos de você fazer
+isso.
+Aí agora vai você caber o que você acha
+melhor.
+Isso é uma recomendação, quer dizer que
+você deve
+seguir.
+O Sandbox é uma zena relacional, ABL?
+Quando você fala Sandbox, você tá
+falando o que
+especificamente?
+Uma área de testes para as áreas?
+Cara, área de teste para as áreas de
+novo, gold.
+Tudo de novo.
+Você vai entregar alguma coisa?
+Entregue gold.
+Faça um join de todas as tabelas gold lá
+e entregue um tabelão gigante pro cara
+lá, mas entregue gold.
+É isso que eu faria, beleza?
+Bem, um outro approach é você trabalhar
+o conceito de Modern Data Warehouse, que
+é o Data Warehouse 2 .0.
+Basicamente, o que é o Data Warehouse 2
+.0?
+É a habilidade de você utilizar a
+arquitetura moderna de cloud para
+entregar dados de forma escalável.
+O que é o Modern Data Warehouse?
+O Modern Data Warehouse, na verdade, é a
+evolução do Traditional Data Warehouse.
+O Traditional Data Warehouse nada mais é
+do que appliances, máquinas físicas, que
+utilizavam certas características para
+poder entregar dados de forma massiva.
+Mas com os adventos e evolução da
+tecnologia, da TI, de software, de
+hardware, principalmente, a gente
+começou a ter algumas coisas que
+caracterizaram o processamento massivo.
+Então, o que acontece?
+O conceito de MPP, se você pesquisar
+sobre isso a fundo, você vai ver que o
+conceito de MPP, que se chama Massively
+Parallel Processing, ele, durante muito
+tempo, foi usado no conceito físico, no
+conceito hardware físico.
+Hoje, se você for olhar sobre MPP, você
+vai ter literaturas que falam sobre esse
+conceito de lógico.
+No nível aplicação, no nível otimização.
+Então, é um termo meio amplo hoje.
+Mas o que é MPP?
+É basicamente você conseguir executar
+instruções no nível, fisicamente
+falando, no nível do core da máquina de
+forma extremamente efetiva, com vários
+núcleos ao mesmo tempo.
+Então, dentro ali da sua máquina, você,
+por exemplo, se você for comprar um
+hardware que não é MPP, ele vai custar,
+sei lá, 20 mil dólares.
+Se você for comprar o mesmo hardware que
+tem características MPP, ele vai custar
+37, 40 mil dólares.
+Só que ele vai processar de 3 a 4 vezes
+mais rápido.
+Por causa da característica do hardware
+pra relação a isso, tá?
+Então, eu já quero que vocês entendam
+que quando um sistema é delegado como
+MPP, ele é 3, 4, 5 vezes mais caro pela
+sua natureza.
+Ou seja, dedicated pools, snowflake, SQL
+data bricks, coisas desse tipo, são
+caros pelas suas excepções porque usam
+beef machines, usam máquinas otimizadas
+pra fazer isso, tá?
+Então, é importante que você entenda que
+MPP, fisicamente falando, é caro, tá?
+Todos os sistemas de modern data
+warehouse, sem exceção, utilizam modelo
+colunar.
+Por quê?
+O modelo colunar vai pegar o que é um
+tabelo ali, ele vai pegar cada coluna,
+ele vai virar e vai comprimir aquela
+coluna e vai otimizar aquele acesso.
+Então, na hora que você fizer uma
+consulta analítica, você vai estar
+carregando somente o que realmente você
+precisa.
+Quais são os de mercado que a gente tem?
+Cara, existem vários cloud data
+warehouses aí, né?
+A gente tem o Redshift, a gente tem o
+Synapse, a gente tem o BigQuery, a gente
+tem agora um cara muito famoso, que é o
+Snowflake, que tem ganho de tração e
+todos eles são muito bons.
+Eu também considero o Hive um cloud
+-based data warehouse hoje, tá?
+Eu considero ele, ele ainda é muito
+utilizado no mercado, você tem ele como
+um serviço gerenciado, ele te traz
+características MPP também, então eu
+também considero o Hive como um puta
+cara, vou poder te trazer isso aí.
+Para garanto, as áreas analíticas podem
+conectar na Gold ou nunca?
+As áreas analíticas devem conectar na
+Gold também.
+Tudo que conecta, conecta na Gold.
+Isso é o que eu faço, isso é o que eu
+recomendo para os meus clientes em
+qualquer lugar do mundo, tanto para os
+clientes na Piffin, quanto para os
+clientes do Brasil, eu recomendo isso.
+Eu já vi cenários que o cara não usa, a
+galera conecta na Silvia, beleza, vai
+resolver teu problema?
+Vai, tá de boa.
+Eu não recomendo fazer isso.
+Para garantir o histórico de dados a CCD
+tipo 2, eu ajusto isso no código,
+apontando que seja feito um append, para
+quando a coluna específica alterada,
+deixo como merge.
+Exatamente.
+Mas são caras mais, mas são caras, mas
+são mais rápidas e eficientes.
+Exatamente.
+Lembrando que toda vez que você adiciona
+características SCD, você está trazendo
+mais complexidade para o seu processo.
+Aí você fala, mas como que eu vou
+resolver isso?
+Tem formas para resolver isso?
+Tem, não usar SCD.
+Como que eu não uso SCD?
+Talvez a ideia de você usar tabelões
+faça com que você não precise utilizar
+SCD.
+Você faça um amarramento dos joins e de
+tudo que você precisa fazer no seu
+processo de ETL, que é o approach mais
+moderno utilizado hoje.
+Então eu mostrei o approach ali de estar
+esquema, é uma forma de entregar.
+Outra forma é você entregar os tabelões.
+O tabelão gold com tudo, o tabelão gold
+para a finança, o tabelão gold para a
+área de marketing, o tabelão gold
+para...
+É uma forma também.
+Não existe certo ou errado.
+Existe como você vai dictar, qual é a
+cultura da sua empresa, como você
+entrega, como eles estão acostumados, e
+assim por diante.
+Não existe não existe certo e errado
+aqui.
+Mas para usar o tabelão não vai ficar
+ruim, ruim para a área analítica?
+Por que ficaria ruim para a analítica?
+Me explique aqui por que ficaria, por
+exemplo.
+Se a gente vai colocar isso num sistema
+elástico.
+De novo, cultural.
+Vai ser cultural o seu problema, não em
+relação à escalabilidade.
+No caso do BigQuery, o pessoal da Google
+disse que assim, tabelão ele é mais
+performático.
+É porque, no final das contas, o modelo
+de armazenamento do Google é um
+pouquinho diferente, mas não é só por
+causa disso.
+Porque, cara, você está evitando o join,
+você está evitando algumas coisas, tá?
+Então, você tem isso tudo aglomerado.
+Então, Júnior, se, por exemplo, na
+ferramenta deles especificamente, eles
+estão acostumados a modelar isso no
+Power BI, que eles podem modelar e
+linkar ali, você ainda continua
+entregando dessa forma, mas talvez você
+possa experimentar para umas outras
+áreas, entregar tabelões e ver como que
+você se comporta.
+É tudo questão de e a educação.
+O que é mais fácil fazer, eu também, eu
+já tive várias discussões com várias
+empresas, gigantes aqui no Brasil e lá
+fora, assim, o que é mais fácil?
+Depende do background da sua equipe.
+Então, não tem mais fácil, tá?
+Tem o que a sua equipe está mais
+adaptável.
+Por exemplo, a gente tem um cliente
+muito grande do Agro, que eu não posso
+falar o nome aqui, que a gente está
+fazendo consultoria, é um dos maiores
+que tem na América Latina, que os caras
+estão fazendo tudo isso aqui que a gente
+está vendo, mas, no final, eles querem
+integrar, eles querem entregar no
+modelo estar esquema, bonitinho e tal, e
+é isso que a gente vai fazer, porque
+eles já são acostumados, com isso.
+Vai mudar a casca, né?
+A casca é um processamento, a casca é a
+mesma, vai mudar o que está acontecendo
+ali no Intune.
+O processamento escalável, facilidade de
+rastreabilidade do dado e assim por
+diante, tá?
+Vamos pegar uns use cases aqui, ó.
+Ah, eu quero, por exemplo, use cases de
+Modern Gateway House.
+Olha só que legal.
+Trouxe pra vocês todos os casos, tá?
+Amanhã é o dia que a gente fala de tudo,
+assim, de revisão, de nível alto de
+arquitetura, mas aqui eu já vou trazer
+umas coisas pra vocês começarem a
+pensar.
+Esse tabelão seria o mesmo conceito de
+usar um 8 -Base?
+É.
+Usar um Cassandra, usar um 8 -Base,
+seria daí mesmo.
+Você planejar como isso seria, como isso
+aconteceria, tá?
+A tabela também facilita na pesquisa por
+self -service no Power BI, certo?
+Ajuda, ajuda também.
+Se bem que, cara, hoje o Power BI, ele é
+tão multifacetado, né?
+Que caraca, o Power BI é foda.
+Pra quem sabe mexer no Power BI faz faz
+mágica ali dentro, né?
+Então vamos pegar aqui o use case.
+Primeiro use case, que a gente já tá
+entendendo agora, né?
+Olha lá, o dado cai no Data Lake, o dado
+vem de streaming, no Kafka, por exemplo,
+no HD Insight, que você pode
+provisionar.
+Você usa o Spark Pulse do Synapse, que é
+o Spark lá dentro, que a gente viu na
+segunda -feira, e você entrega esse dado
+no Synapse Analytics.
+Isso é uma arquitetura que a gente usa
+bastante no Azure.
+Beleza?
+Ah, mas eu curto o Google.
+Uma das formas de você fazer isso é você
+recebe o dado no Google Cloud Storage,
+você recebe por cima lá no PubSub, você
+pode utilizar, como a gente tá falando
+de Spark aqui, você pode usar o
+Dataproc, que você vai levantar o Spark,
+e aí você joga esse dado no memorial, no
+Kraken, chamado BigQuery.
+Uma outra forma de fazer isso, na AWS,
+você tem o S3, você tem o Kinesis, né,
+S3 Storage, Kinesis, né, sistema de
+injeção em tempo real, você tem um
+Databricks, por exemplo, lá dentro, você
+poderia utilizar o Glue aqui também, não
+tem problema, e você escreve dentro do
+Redshift.
+Beleza?
+Então, dá pra ver pra vocês que é tudo a
+mesma coisa, não foi uma das culpas, né?
+Só mudou o nome das tecnologias, as
+caixinhas continuam exatamente as
+mesmas, a gente viu isso na segunda
+-feira, não entendeu aquilo ali como um
+todo, mas hoje a gente já tá vendo que,
+beleza, a caixinha, é a mesma, muda o
+nome das tecnologias, mas eu quero
+chegar no mesmo, tipo, muito bom,
+Matheus, parabéns, isso é uma
+arquitetura lambda.
+Mas no Pulse do Spark do Azure, já está
+uma versão que dá pra usar o Delta
+Change Data Feed?
+Ainda não, você pode instalar os bits,
+né, você pode passar os pacotes dos
+bits, mas já vai entrar a nova versão do
+Delta 2 .0, pode ficar tranquilo, nas
+próximas semanas pro mês, tá?
+Já teve um update sobre isso.
+Bem, e aí eu vou começar a falar de um
+dos data houses mais, MDWs mais famosos
+do mercado, que é o Hive, tá?
+O Hive é um dos mais usados ainda hoje
+pras grandes empresas, grandes empresas
+que ainda estão navegando aí no seu
+processo digital de sair de on -premises
+e ir pra nuvem, utilizam o Hive.
+O Hive, na verdade, é um produto open
+source, donado, criado pelo Facebook e
+acelerado demais pela Netflix.
+A Netflix, durante muitos anos, usou o
+Hive pra processar teras e teras e
+petabytes de dados dentro da
+infraestrutura dela, tá?
+E depois bateu no roadblock, num
+problema muito grande, que é o Hive, ele
+depende ou ele traz, né, na verdade, o
+que ele faz é, ele pega o código do
+MapReduce, ele transforma em SQL, ou
+seja, você escreve SQL e transforma em
+MapReduce e executa pra você.
+Então, como o MapReduce executa em
+disco, eventualmente, depois de 2014,
+2015, que a memória baratilhou, Facebook
+começou a ter vários outros problemas de
+conseguir trazer esse dado, enfim, e
+eventualmente começou a pensar em formas
+de como acelerar isso, tá?
+Ele te traz a ideia de você escrever no
+Hive e o que que aconteceu aqui, a gente
+começou lá em meados de 2014, ver o
+barateamento da RAM, como eu falei, e aí
+a Ortonworks, junto com a Microsoft,
+criaram uma iniciativa chamada Stinger,
+que é uma iniciativa para fazer com que
+o Hive ficasse muito, muito rápido, tá?
+Foram anos de iniciativa, eu acho que
+foi um ano e meio mais ou menos, os
+times se uniram e criaram um produto pra
+fazer com que o Hive ficasse
+extremamente rápido.
+O Hive é um puta sistema ainda muito
+utilizado e eles conseguiram fazer o que
+a gente chama de LLAP, Live Long
+Process, ou seja, a primeira execução
+que você faz do Hive, ele usa o TES
+otimizado, né, que é uma melhoria do
+MapReduce, ele reduz a quantidade de
+hops que você faz, ele processa esse
+dado, ele carrega pra uma memória
+compartilhada, e depois qualquer query
+que você faz em relação a isso é
+subsegundo.
+Então ele usa um cache inteligente em
+memória pra fazer isso, e inclusive o
+Azure é o único produto que entrega de
+fato o LLAP otimizado pra você, tá?
+Então dentro do HDInsight você tem isso.
+O melhor formato de arquivo pra você
+trabalhar com o Hive se chama ORC,
+Optimized Row Column.
+Esse é o casamento perfeito, perfeito
+com o Hive.
+Então, ah, eu quero usar Delta.
+Não, eu quero usar Lake House.
+Não.
+Se você for utilizar Hive pra entregar
+no final, você vai fazer isso pro ORC,
+tá?
+E os IKs do Hive?
+Vamos supor que você tem o Kafka ali,
+né, você tem uma integração com o Kafka
+e Hive também, você tem dado do HDFS,
+esses dados passam pelo Spark, e você
+escreve no Hive.
+Uma recomendação aqui pra vocês
+escutarem isso, talvez vocês nunca usem
+esse cara, tá?
+Que é o seguinte, nunca escrevam do
+Spark direto no Hive se vocês estiverem
+trabalhando com grande escala de dados.
+Vai ser muito mais eficiente você pegar
+o dado do Spark e escrever no
+subsistema, ou seja, escrever no S3, no
+Bob Storage, ou no Google Cloud Storage
+no ORC, e usar o Hive para ler do
+Storage e carregar.
+Vai ser infinitamente mais rápido e mais
+eficiente, tá?
+Agora vem a pergunta, realmente vimos
+que o Delta é muito melhor que um DW,
+mas será se ele tem toda essa infra por
+trás, como que consegue ser muito mais
+barato?
+Muito boa pergunta, Lucas, segura aí que
+eu ainda não acabei.
+Boa pergunta, eu vou responder isso aí,
+tá?
+A grosso modo, por que o ORC casa tão
+bem com o Hive?
+O ORC casa muito bem com o Hive porque
+ele foi um tipo de arquivo criado
+pensando em como a estrutura interna do
+Hive se comporta com isso.
+A mesma coisa para com o Spark e para o
+Parquet.
+Foi pensado em como seria isso.
+E usa o Trino que é melhor com o ORC.
+Exatamente.
+O Trino, por exemplo, entre Parquet e o
+ORC, o Trino funciona melhor com o ORC
+do que Parquet.
+Diferentemente do Spark.
+E aí Douglas e João, Lucas, essa é a
+ideia que o treinamento tem que trazer
+para vocês.
+Você vai sair daqui entendendo isso,
+cara.
+Ah, mas quando eu for usar aqui, quando
+eu for ligar, é melhor esse tipo de
+arquivo do que esse, que vai performar
+melhor.
+Então, você já vai começar a criar um
+arquivo, que não vão te dar dor de
+cabeça, ou já seguindo as melhores
+práticas e as dores de cabeça que vocês
+vão ter, vocês já sabem quais são as que
+vocês vão passar.
+O HDFS está ligado com o Hive?
+Juliana, exatamente.
+Então, o que acontece?
+Antigamente, quando a gente tinha um
+zoológico todo, o Hive foi um sistema
+construído em cima do MapReduce que
+precisava do HDFS, porque ele é um
+sistema de processamento.
+Aí, o que acontece?
+Eu chego, escrevo dentro do Hive em SQL
+e dou um submit lá.
+Ele pega esse código, reescreve para
+MapReduce e pede para ser executado no
+HDFS.
+Só que, nesse caso, o Hive agora pode
+ser conectado em qualquer object store.
+S3, BlobStorage, Google Cloud Storage,
+que é um HDFS dos baixos planos.
+Mesmo comportamento, mesma ideia, segue
+o mesmo conceito.
+Vamos ver se eu também mostro isso para
+vocês
+aqui.
+Deixa eu só voltar aqui.
+O Douglas fez uma pergunta pertinente.
+Poderia explicar um pouco como funciona
+a parte de metadado com o Hive?
+O que acontece, gente?
+A gente tem o dado e o metadado, né?
+Uma das coisas que eu amo no Delta é
+porque ele tem o próprio sistema de
+metadado deles.
+Só que no mundo de Big Data, o que
+aconteceu é que o Hive criou um puta
+metadado eficiente chamado Metastore.
+Hive Metastore.
+Então, quando você instala o Hive, ele
+automaticamente provisória.
+Ele provisória para você um Hive
+Metastore.
+E ele grava todo o Metastore, todo o
+metadado do que está acontecendo dentro
+desse Metastore.
+Então, quando você vai executar queries,
+ele te ajuda ali a trazer o metadado,
+orientar a engine de query como que ele
+vai fazer.
+Isso é maravilhoso.
+E aí, por algum motivo, por ser muito
+eficiente, as tecnologias que foram
+criadas após isso, em vez de desenvolver
+o próprio catálogo dela, começaram a
+falar, não, mano, já tem um puta
+catálogo bom chamado Hive Metastore.
+Vamos usar ele, porque é muito foda.
+Ele realmente é muito bom.
+Então, por exemplo, o Spark, você pode
+configurar o Spark para salvar todo o
+Metastore dentro do Hive Metastore.
+O Iceberg, por exemplo, o Iceberg
+precisa de um Metastore.
+Ele precisa de um Metastore.
+E você precisa, por exemplo, quando você
+está trabalhando com Spark e Iceberg,
+você precisa de um Hive Metastore para
+funcionar.
+Ou o JDBC, que não funciona muito bem,
+mas você precisa de um Hive Metastore.
+Então, o Hive Metastore é um componente
+separado.
+Você pode ter os dois ou você pode ter
+separado.
+Lá na live, a gente tem uma live de uma
+hora e dez, uma hora e vinte sobre
+Iceberg, que a gente mostra a
+demonstração, explica as características
+do Hive e assim por diante.
+Redshift.
+Redshift é outro cara também que segue o
+mesmo conceito, a mesma ideia, só que
+para Amazon.
+Então, na verdade, ele é um Postgres,
+inicialmente, o código...
+Quem não sabia disso?
+Fala aí.
+O Redshift, que é o Data Warehouse mais
+eficiente, desculpa, que foi o primeiro
+a ser lançado, ele nada mais é do que um
+fork do Postgres, e aí a AWS trabalhou
+em como você vai escalar isso, enfim.
+E hoje é um puta sistema.
+É o mais caro de todos os Data
+Warehouses.
+Tem que tomar muito cuidado com ele.
+E todos os billings mais altos de todos
+os centros que eu já participei nos
+últimos sete anos com Big Data vem de
+Redshift.
+E hoje existe muita migração de AWS para
+Google por causa disso.
+Porque o cara faz query no Redshift,
+gasta 170 mil dólares e de repente ele
+vai lá para Google e gasta 2 mil dólares
+por mês.
+Sim.
+Isso é verdade.
+Eu que fiz a migração no cliente.
+Para Grasshopper, inclusive.
+Então, a Grasshopper tinha 170 mil
+dólares de billing de Redshift e a gente
+migrou para o Redshift, para o...
+para o Big Query e gastava 2 mil
+dólares.
+Então, isso é verdade.
+Isso acontece.
+Eu fiz a migração e acho que talvez...
+Ah, o Leon também já passou por isso.
+Então, ele é muito bom.
+Use com cuidado.
+Ele faz a integração inteira com o
+ecossistema e assim por diante.
+O Big Query é o melhor sistema que eu já
+vi na minha vida.
+Um dos melhores...
+Um dos pedaços de tecnologia mais
+impressionantes que eu já vi na minha
+vida.
+Tem alguns.
+Drill, Kubernetes, Yoga Byte, Big Query,
+Spark, Kafka.
+Tem algumas coisas que me fascinam.
+O Big Query é...
+Fascinação é utopia, né?
+Big Query é utopia.
+A gente vai falar dele aqui.
+Deixa eu mostrar ele aqui também.
+Difícil competir com o Big Query.
+Muito difícil competir com a Google.
+Muito difícil mesmo.
+A gente vai ver.
+Um use case para a AWS.
+Então, o dado vem do Kinesis, o dado vem
+da Amazon.
+Esse dado pode ser usado pelo Glue, como
+eu mostrei para vocês ali, que é um
+serverless, para poder fazer
+processamento, trazer as informações,
+catalogar e assim por diante.
+Eu entrego no Redshift.
+Uma dos pipelines que a gente usa muito,
+porque as pessoas hoje entendem que o
+Redshift é caro.
+As pessoas usam o Glue e escreve dentro
+do S3 novamente, em formato RC, e usam a
+TINA para consultar o TINA.
+Nada mais é do que eu presto o DB
+conterinizado ali, gerenciado da Amazon,
+para fazer consulta em cima disso.
+Uma dúvida onde eu trabalho?
+Temos um Redshift com 14 máquinas
+parrudos e estamos querendo dirigir o
+curso do Redshift.
+Então, começamos a utilizar o
+processamento em Spark como camada T,
+perfeito, muito inteligente, ao invés do
+Redshift, que é o que muita gente fazia
+e o billing era para casa do cacete.
+Só que deixamos de gastar 3K no Redshift
+e passamos a gastar 3K mais no Glue.
+O que você recomenda?
+O que você recomenda?
+Saia da AWS.
+Não, agora falando sério.
+Recomendaria isso.
+Não, não é assim.
+Não, estou brincando, é uma zoeira.
+Não é não, não é zoeira não, é verdade.
+Eu recomendaria sair da AWS, mas a vida
+não é assim, né?
+É sério isso aí?
+É, é sério.
+O custo é muito alto, né?
+Para analíticos, gente, assim, eu vou
+falar para vocês, para analíticos, a
+AWS, eu não considero a melhor nuvem
+para analíticos, tá?
+De fato.
+Então, assim, eu posso desenhar a
+solução de você aí em outro ambiente, eu
+vou economizar 70 % do que você gasta
+aí, juntamente com Spark, que
+provavelmente seja em Yamaha ou Glue,
+junto com Redshift, eu desenho essa
+mesma solução dentro da Google, ela vai
+ser muito mais econômica.
+Então, assim, eu, particularmente, Luan,
+trabalho nas três nuvens, eu não gosto,
+eu gosto de recomendar soluções de
+analytics para os meus clientes na AWS,
+eu não acho que é a melhor nuvem para
+isso.
+A AWS é uma puta nuvem para muita coisa
+foda, mas eu acho que para analytics,
+ela não é a melhor nuvem.
+Ela é muito boa, mas eu não acho ela a
+melhor nuvem, tá?
+Essa é uma opinião minha mesmo,
+trabalhando com ela há cinco
+anos.
+Mas vamos lá, vamos falar agora sério,
+beleza?
+Isso é uma opinião Luan, né?
+Só que, na verdade, o Luan vai vestir um
+bonezinho lá quando for no seu cliente
+para atender, e eu não vou falar isso.
+Ninguém chega numa empresa que usa AWS e
+fala, nossa, a AWS é uma merda, vamos
+usar Google?
+Não é assim que a gente faz, né?
+Então, assim, vamos ser, não vamos ser
+crianças.
+Mas o que eu tentaria entender aí,
+Matheus, é o seguinte, quais são as
+transformações que vocês estão fazendo,
+como elas estão sendo feitas, aonde você
+está fazendo o deployment do Spark, como
+isso está sendo feito, o que vocês estão
+usando.
+Mas o que eu tentaria fazer nesse caso
+aí de vocês, seria uma proposta legal, é
+continuar utilizando o Spark, só que em
+vez de inteiramente ir para o Redshift e
+usar o Redshift Spectrum, eu usaria o
+Amazon Athena.
+Essa é uma das formas que a maioria das
+empresas que usam a AWS bastante começam
+a transicionar entre o Redshift e o
+Athena.
+Então, eu pego o Glue, ou eu pego o
+Spark lá no EMR, serverless ou no EMR,
+whatever, e eu escrevo em um RC, que é o
+melhor formato, e peço para fazer query
+em cima disso.
+Casa muito bem com o RC e,
+consequentemente, com o Spark.
+Então, eu iria por esse lado
+primeiramente.
+Eu faria isso.
+Mas a verdade tem que ser dita, custo
+bater a Google é difícil.
+Não, não tem como bater.
+Custo da Google não bate.
+Ninguém.
+Ninguém bate.
+Isso aí é fora de cogitação.
+Se você falar assim, custo, ninguém bate
+a Google.
+Ninguém bate a Google.
+Mas tem um motivo, a gente já falou, na
+segunda -feira, qual é o motivo?
+Toda infraestrutura da Google é baseada
+em Kubernetes, em containers, né?
+E hoje, a Google, hoje o Azure e a AWS
+estão correndo contra o tempo para fazer
+o quê?
+Toda infraestrutura dela por debaixo do
+que você vê ser containerizada.
+Isso já está acontecendo.
+Se você provisionar um S2, se você
+provisionar uma VM no Azure, se você
+entrar no SSH dela lá, você vai ver que
+na verdade ela é um container.
+Ela não é mais uma VM, na maioria das
+vezes.
+Não sei se vocês sabiam disso, mas essa
+revolução que está acontecendo por
+debaixo dos panos, dentro da AWS e
+dentro do Azure, enquanto a gente
+conversa agora.
+Diferentemente do Google, que já fez
+isso, né, dos sistemas lá do Borg, como
+o Velker falou aqui.
+Sei que sua opinião de migrar de AWS
+para Google foi meio rústica, mas qual a
+sua visão do mercado brasileiro e
+internacional?
+Pode virar tendência a migração de
+clientes de Azure e AWS para GCP?
+Muito boa pergunta, João.
+Eu vou resolver, eu vou fazer isso.
+Hoje estamos migrando e saindo da OCI e
+aos poucos indo para a Google.
+Estou até agora tentando entender como
+que o Luan consegue guardar tanta
+informação assim.
+É normal, as pessoas geralmente
+perguntam isso.
+Eu vou te ensinar como é que é, você faz
+assim.
+Não dorme.
+Não, não é assim não.
+Se drogue bastante.
+Não, estou dizendo.
+Não é isso não.
+Amanhã eu vou falar da minha técnica de
+estudo.
+Mas não tem segredo, não.
+Porque assim, todo mundo olha e fala
+nossa, mano, o cara sabe pra caralho.
+Não é não.
+O que eu fiz?
+Amanhã eu vou ensinar como eu aprendi
+tudo isso.
+Eu aprendi uma coisa muito bem e depois
+todas as outras nuvens fica tudo igual.
+Então, tipo assim, eu aprendi muito bem
+em blog storage.
+Quer dizer, desculpa, eu aprendi muito
+bem em HDFS.
+Depois foi questão de osmose.
+Então, se você estudar da forma certa de
+baixo para cima, ou seja, estruturando
+seu conhecimento, estudando os
+fundamentos.
+Por isso que eu falo para todos os
+animais de teta que me escutam, gente.
+Estudem fundamentos, aprendam isso.
+Porque, cara, na hora que você aprende
+isso mesmo de verdade, transicionar
+entre as nuvens é muito menos difícil,
+tudo menos doloroso.
+Então, façam isso, tá?
+Em relação a migrações.
+O que não sou eu que estou dizendo.
+O que tem acontecido muito no mercado?
+Muita migração de AWS para GCP.
+Muita migração de AWS para Azure.
+Muita migração de Azure para GCP.
+Tem muita gente na área de dados saindo
+da AWS.
+Isso quer dizer que a AWS não funciona?
+Negativamente.
+Existe uma quantidade de componentes
+absurdos que envolvem essa solução.
+Mas é porque a Google ficou muito
+agressiva na parte de vendas.
+E, por exemplo, se você pegar o Google
+BigQuery, pegar o Synapse Analytics e
+pegar o Headshift e botar um do lado do
+outro, cara, eu vou mostrar aqui.
+É, porra, você abre o BigQuery, você faz
+query e você está ali consultando o
+dado.
+E o modelo de billing é mais barato.
+Então, assim, a Google usa muito isso
+para trazer a galera.
+E ela está fazendo uma parada muito
+chata, que é assim, a gente da Pifia,
+nós somos o segundo maior representante
+de data analytics do mundo.
+Então, o que eles fazem?
+Eles chegam para um cliente grande tipo
+o BMW e falam assim, vocês estão aonde?
+Vocês estão na Headshift?
+Vocês estão na AWS.
+Então, olha só, o esquema é o seguinte,
+vocês vão vir para cá, um ano grátis e a
+gente vai pegar nosso time e vai fazer
+migração para você.
+O cara ganhou um ano de custo zero,
+nuvem, pega uma parceira tipo Pifia, a
+gente faz a migração do cara e quem paga
+é a Google.
+Então, assim, eles estão em umas
+propostas meio indecentes, assim, então
+é tipo...
+Agressivo, né?
+É, agressivo.
+Então, assim, a AWS tem se modelado
+também, por exemplo, trouxe um serviço
+muito foda, o service do do do EMR.
+Está remodelando o Headshift para fazer
+com que ele fique mais service, fique
+mais inteligente também, reduzir,
+reduzir a custo.
+Por quê?
+Porque tem todas as outras pressões
+acontecendo ao longo do caminho.
+Então, eu acredito que a AWS vai chegar
+num modelo muito legal, mas, enquanto
+isso, ela tem perdido muito mercado para
+a Analytics, tá?
+Muito mesmo.
+Assim como a Microsoft estava perdendo.
+Por que você acha que eles lançaram
+Synapse Analytics?
+Porque eles pediram para o BigQuery toda
+hora.
+Os caras foram lá e mandaram service,
+entendeu?
+É competição, velho, é cloud battle.
+Mercado, né?
+O vício de um amigo mesmo.
+Eles têm um consultorio de pequeno
+porte, os caras deram 300k de crédito
+logo de cara.
+Aí, pô, 300 mil de crédito na Google,
+meu irmão.
+Caralho, eu ia minerar, eu ia minerar
+Bitcoin até a morte.
+Ficar é milionário, velho.
+Botar lá as marcas de GPUs, torando.
+Ai, ai.
+E a gente que se vire para aprender
+tudo.
+Mas amanhã eu vou passar de técnicas de
+vocês estudarem, de hackings para vocês
+estudarem, que acho que pode ajudar
+alguns de vocês aí.
+Synapse Analytics, a versão melhorada,
+fluffy, do Azure SQL Data Warehouse.
+O que é o Azure SQL Data Warehouse?
+O MPP da Microsoft.
+Já vou dar o recreio para vocês, tá?
+Só um minuto.
+É o MPP da Microsoft.
+Recreio, né?
+Eu sou tipo infantil, tenho 10 anos de
+idade.
+E ele evoluiu para virar o que a gente
+chama de Synapse Analytics.
+O Synapse Analytics, ele é um workspace
+que traz a porra toda.
+Ou seja, hoje, Luan, hoje, estou
+começando a trabalhar com a Zuri.
+Para onde eu vou?
+Velho, a Microsoft é aí eu falo para
+você.
+Ninguém faz o que a Microsoft faz,
+velho.
+Nenhuma nuvem.
+Em relação à experiência de integração,
+a experiência de look and feel, de
+facilidade.
+A Microsoft é foda em software, velho.
+É assim, o Synapse Analytics que eu vou
+mostrar para vocês hoje é absurdo,
+assim, sabe?
+Tipo, é tudo num lugar só.
+Então, ele trouxe ali uma parada só, um
+one -stop -shop para você fazer tudo.
+E é o produto mais usado fora do país
+hoje.
+No mundo inteiro tem utilizado o Synapse
+Analytics para tudo quanto é campo.
+Então, se você está no Zuri, adora
+Microsoft, né, cara, é Microsoft que
+você quer?
+Synapse Analytics.
+E aí vai ser alguém que vai perguntar, o
+que é melhor?
+Synapse Analytics ou Databricks?
+Eu vou falar disso daqui a pouco também.
+A gente vai discutir sobre isso, tá?
+Mas, basicamente, você tem um ambiente
+geral que vai te entregar tudo.
+Uma experiência unificada, todos os
+componentes, por exemplo.
+No Synapse Analytics você tem vários
+componentes.
+Vamos lá, você tem o SQL Pools, que é um
+Big Query, teoricamente, eu vou botar
+aqui em aspas, porque você faz um
+OpenRosset, você faz query ali no
+DataLake, né, você tem um terabyte ali
+por cinco dólares, beleza.
+Você tem o Dedicated Pools, que você
+paga por um pool dedicado, isso eu acho
+muito legal, e realmente tem muito bug,
+eu escutei isso de um cliente,
+inclusive, hoje, tem alguns bugs,
+algumas formas ali, mas, a ideia é que
+cada vez mais vai melhorar, o produto tá
+trazendo, é um produto novo, enfim, uma
+das coisas que eu gosto dele é que ele
+te traz esses dois sabores, né?
+Você pode pagar um Tera aqui, cinco
+dólares e experimentar, fazer query no
+Lake, enfim, beleza.
+E um outro modelo que você pode, cara,
+você quer força?
+Você quer poder?
+Você quer horsepower?
+Beleza, provisiona aqui, paga por hora e
+você tem uma puta máquina MPP que vai
+funcionar, beleza.
+Em cima disso, você tem o Spark, que é o
+Spark Pools, que era muito ruim, muito
+ruim mesmo, era muito ruim.
+A gente, como, por ser MVP, eu tô desde
+a versão era muito ruim, hoje tá muito
+bom.
+Eu lembro de ter falado Nossa, era muito
+ruim, vocês não tem noção, não, era
+muito ruim mesmo.
+Hoje é muito bom, tem muito espaço pra
+melhoria, tem acontecido muitas
+melhorias, mas já é um serviço que você
+pode utilizar em produção, já é um
+serviço que você pode brincar com ele,
+enfim, e ele utiliza pra provisionar
+esse Spark e Kubernetes por debaixo, tá?
+Você tem o estúdio, você tem mais
+algumas outras features de linking, você
+tem features de Synapse Pipelines, que é
+um data factory lá dentro.
+Por que que eu botei aspas aqui também?
+Porque são produtos ainda diferentes,
+você tem basicamente tudo, mas tem
+algumas coisas que são um pouquinho
+diferentes, tá?
+Importante vocês saberem disso, tá?
+Mas, você tem um ambiente unificado.
+Então, teoricamente, o que que você
+consegue fazer com isso?
+É como se você tivesse tudo, opa, é como
+se você tivesse tudo no lugar, não é
+como se você, é você tem tudo no lugar
+só.
+Então, seus dados entram dentro do Data
+Lake e lembra que o Data Lake Gen2 é o
+protocolo mais rápido de acesso entre os
+Data Lakes que a gente tem hoje
+atualmente no mercado.
+Lá dentro do Synapse, você tem o Data
+Factory, você tem o custo, que é,
+teoricamente, você consegue fazer...
+O custo é como se fosse um Dremel, tá?
+Gente, em relação ao que ele faz, a
+proposta da exploração de dados, com uma
+linguagem específica dele, que tem
+várias máquinas potentes que carregam
+tudo em memória e você faz query em cima
+disso.
+O Azure Monitor, na verdade, não sei se
+vocês conhecem, que é o serviço de
+monitoramento da nuvem do Azure, tudo
+que roda por debaixo é custo, tá?
+Então, o Azure usa o custo pra poder
+gerenciar todas as métricas, fazer query
+e assim por diante.
+Tá?
+Você tem o Databricks ali dentro, de
+novo, você tem o Spark, não o
+Databricks, né?
+E o SQL Data Rehauld.
+Você tem a integração direta com Power
+BI, você tem a integração com Machine
+Learning e cada vez...
+Ou seja, hoje o produto da Microsoft,
+hoje a Microsoft acelera qual produto?
+Synapse Analytics, tá?
+Por que que esse produto foi criado?
+Porque o Databricks tava dando um cacete
+em tudo que tava dentro do Azure.
+Então, tanto é, não sei se vocês
+perceberam, se você for na AWS, se chama
+Databricks.
+Se você for na Google, se chama
+Databricks.
+Se vocês forem na Azure, se chama Azure
+Databricks.
+Vocês sabem por quê?
+Tem um motivo por quê.
+Vocês sabem por quê?
+Porque a Microsoft comprou um pedaço da
+Databricks.
+Ele tem um chairman lá dentro pra falar
+quais são, o que que vai entrar, o que
+não.
+Ou seja, a Microsoft tem um cara lá
+dentro da Databricks pra poder elencar,
+enfim, de tanto que o produto foi
+agressivo.
+Então, a Microsoft aprendeu com esse
+produto e, classicamente, fez o quê?
+Criou um produto nativamente dela pra
+lutar contra o Databricks.
+Tá?
+Isso.
+Vai, Matheus.
+Matheus.
+Podemos considerar o Synapse o flagship
+da Microsoft?
+Exatamente.
+É o produto flagship da Microsoft, é o
+produtão da Microsoft, que você vai ver
+cada vez mais sendo acelerado, cada vez
+mais robusto, cada vez mais com
+features, com integrações, vai chegar
+tudo aqui.
+A Microsoft é clássica em fazer isso,
+né?
+A gente que trabalha com a Microsoft
+sabe.
+A Microsoft é tipo um bocado de gente
+correndo pra lá, né?
+Tipo, produto novo.
+Aí todo mundo sai e vai focar naquele
+produto.
+Foda -se os outros, né?
+A Microsoft peca muito nisso.
+Então, assim, graças a Deus a gente tem
+o Databricks como Spark lá dentro e tem
+o próprio time, mas eu vi isso acontecer
+na saída do Data Lake Analytics, que era
+o produto anterior da Microsoft com o
+Azure Databricks.
+Eu fui lá em Webman em 2015.
+A galera, não, que a gente tem que usar
+o Analytics, o Data Lake Analytics pra
+fazer processamento com C Sharp e SQL e
+isso aqui.
+Eu, caralho, recomendei pra um trilhão
+de arquivos, de cliente.
+Aí, no outro ano, eu volto na Microsoft
+e eu falei e aí, gente, bora conversar e
+conversar sobre o quê?
+O Analytics?
+O que que é isso?
+Morreu.
+Todo mundo do time de Analytics foi pro
+time de Databricks.
+170 pessoas.
+Então, a Microsoft meio louca de fazer
+isso, tá?
+Isso acontece mesmo.
+Mas, contanto que vocês estejam aqui no
+Sinaps Analytics, vocês estão bem até
+agora, beleza?
+Caso de uso do Azure.
+Como que você pode utilizar o Sinaps
+Analytics numa entrega de arquitetura
+Lambda?
+Então, ó, você pode utilizar o Pipelines
+ou o Dataflow, que a gente vai falar,
+plugar a tabela nos lugares das fontes
+de dados e trazer esse dado pra dentro
+do Data Lake e também de streaming, usar
+o Event Hubs e todo mundo pode convergir
+dentro do Data Lake.
+Bem, agora que entrou dentro do Data
+Lake, você pode utilizar ou Spark Pools
+ou Serveless ou Dedicated Pools pra
+utilizar o Sinaps como um todo.
+Então, teoricamente, você pode criar uma
+solução inteira de Lambda, utilizando
+toda a infraestrutura do Workspace lá do
+Sinaps.
+A não ser do Event Hubs.
+Mas, eles estão trazendo um sistema de
+streaming pra dentro do Event Hubs
+também.
+Pra dentro do Sinaps.
+Então, fiquem atentos com isso.
+Ou seja, a ideia da Microsoft é,
+literalmente, ter um local só onde você
+faz tudo.
+E aí, realmente, a ideia é muito genial
+e muito difícil de fazer.
+Então, dê um crédito aí, porque,
+realmente, é muito foda você botar
+Spark, botar Dedicated Pools, Serveless,
+botar Storage, botar Link, botar a porra
+toda dentro de um sistema.
+Isso é muito complexo de ser feito.
+Tanto é que ninguém nunca tinha feito
+até então.
+Então, é muito difícil de ser feito, tá?
+A gente vai falar sobre isso também.
+E aí, a gente vai pra um cara chamado,
+que eu chamo com muito amor, é o chamado
+The Kraken.
+Eu não sei se vocês já viram o Kraken,
+mas ele é uma figura mitológica muito
+legal e bem assustadora.
+É exatamente o que significa o BigQuery
+pra mim, tá?
+É o Kraken.
+Por quê?
+Porque, uma vez que você conhece ele, é
+meio difícil, assim, sabe?
+De novo, segue a mesma ideia de todos os
+MPPs.
+Só tem uma pequena diferença nele,
+porque ele é Serveless.
+Ele é o primeiro sistema de MPP, MDW,
+Serveless.
+Isso quer dizer o quê?
+Você entra nele, abre uma aba e mete a
+query lá dentro.
+É isso.
+Você não precisa configurar máquinas,
+você não precisa configurar
+absolutamente nada.
+E ele usa Kubernetes pra poder fazer
+isso por debaixo dos panos e é muito,
+muito rápido, né?
+Ele é bem rápido mesmo.
+E ele é muito barato pra maioria dos
+seus cenários, claro.
+Eu já vi, por exemplo, cliente numa
+query gastar 700 dólares.
+Eu tenho cliente que em uma query gastou
+700 dólares porque ele escaneou 73
+terabytes de dados.
+Então, acontece, né?
+Se você botar um cara pra meter um
+select asterisco lá numa tabela imensa,
+você pode ter esse tipo de problema.
+Mas tem como você gerenciar isso, tem
+como você controlar isso e assim por
+diante.
+Mas, na maioria dos cenários, o BigQuery
+vai atender muito
+bem.
+Quando você quando se começa no BigQuery
+você fica mal acostumado, né?
+Porque aí meio que perde a graça.
+Google, PubSub, né?
+De novo, só estamos trocando de
+caixinha.
+Google Cloud Storage, aí aqui sim é uma
+combinação muito perfeita.
+Por quê?
+O PubSub é serverless, o Cloud Dataflow
+é serverless e o BigQuery é serverless.
+Então, é tudo serverless.
+Então, o PubSub escala automaticamente,
+o Dataflow também processa e escala
+automaticamente e o BigQuery também.
+Então, aqui realmente, na Google, você
+consegue ter um ambiente fim a fim
+serverless muito eficiente.
+E muito legal, inclusive.
+É muito bonito.
+Vou falar dele também.
+E aí, eu vou dar o recreio até 9h30 e a
+gente vai até as 10h30.
+Eu vou mostrar mais os outros dois ou
+três data warehouses, MDWs, MDWs, e
+depois a gente vai fazer uma demo de
+vários deles, pra gente comparar preço,
+comparar tempo, verificar o que vale a
+pena ou o que não e assim por diante.
+Então, a gente volta 9h30 em ponto pra
+poder falar desses caras.
+Beleza?
+Vamos lá, pessoal.
+Vamos lá, vamos ver.
+Negócio louco aqui.
+Muita loucura.
+Se funcionar, vai ser bom.
+Vamos lá.
+Vamos, vamos...
+Vamos ver as demos do demo.
+Deixa eu compartilhar a minha tela.
+E vamos pra emoção.
+Primeira coisa que a gente vai ver.
+O Synapse Analytics.
+Beleza?
+Então, vamos dar uma namoradinha nesse
+sistema maravilhoso que eu vou passar
+com vocês.
+Gente, olha que maravilha.
+Vou até abrir aqui pra vocês terem noção
+da maravilha que a gente tá construindo
+aqui.
+Por quê?
+Porque aqui, a gente falou sobre o
+seguinte, ó.
+Sobre a pastelaria, Matheus, qual o nome
+dessa pastelaria
+aí?
+Qual o nome da nossa pastelaria?
+Pastelaria dos...
+Derindinias Pastelaria.
+Então, é aqui, ó.
+Pastelaria.
+Porque é tipo assim, né?
+É, pastelaria.
+Já ouviu falar em pastelaria?
+Então, vou mostrar pra vocês a
+pastelaria como que funciona.
+É...
+Lakehouse .mdw Ó, se a gente tem
+teoricamente o que eu fiz aqui?
+Se a gente tem os dados chegam no Data
+Lake espaçam aqui, tanto em batch quanto
+stream e no final a gold.
+Matheus, você coloca aqui os sistemas
+bonitinhos, Big Query bota daqui pra
+cá.
+Aí aqui eu posso fazer isso em
+full ou incremental.
+Legal, né?
+Então, olha só, se eu construir toda a
+minha estrutura no conceito de Data
+Lakehouse aí eu quero que vocês abram o
+áudio e tal, porque isso aqui é muito
+importante é o final da nossa jornada da
+estrutura de in -process out.
+Vocês concordam comigo que se eu fizer
+todas as melhores práticas que a gente
+tá vendo Lake, Lakehouse, pegou o dado
+cru, melhorou esse dado, jogou na gold,
+o dado tá aqui em formato delta, né?
+Então aqui é formato delta.
+Só pra gente não esquecer.
+Eu tô já conseguindo tirar o áudio já,
+tá bom.
+Se vocês quiserem aí...
+Tá, arregaça.
+Estamos aqui pra arregaçar.
+Estamos com o áudio liberado.
+E aí, o dado chegou aqui, tá tudo em
+delta, armazenado bonitinho.
+Vocês concordam que agora, se a gente
+fizer isso aqui bonitinho, o Matheus vai
+colocar aqui as ferramentas, é só a
+questão de escolher pra onde vai.
+Se vai pra um traditional, pra um TDW,
+se vai pra um MDW, eu
+escolho.
+Então, o que a gente vai fazer aqui?
+Nesse caso, a gente vai olhar o
+Lakehouse, desculpa, a gente vai olhar o
+Analytics, o Synapse Analytics.
+Como que a gente faz isso?
+Então, a gente vai pegar a nossa gold,
+que tá aqui, e a gente vai enviar ele,
+bota o linkzinho do Synapse Analytics
+aqui, Matheus, que é bem bonitinho, né?
+Já chegou?
+Você já fez?
+Tem um desenhado lá, vou pegar de novo.
+Tem um desenhado.
+A gente vai mandar ele pro Synapse.
+Ah, você mandou o nosso, não foi aqui.
+É, então, vamos dar uma olhada em como
+isso acontece no Databricks, ainda pra
+enviar pra lá.
+Então, por estar no Databricks, estar
+dentro do Azure, eu já tenho um
+conector.
+Então, eu já tenho aqui pra vocês feito
+todo o processo de conectar.
+Entretanto, tem um ponto muito
+importante que eu gostaria de falar com
+vocês.
+As conexões de saída, muitas delas, não
+estão muito desenvolvidas em PySpark,
+elas estão em desenvolvidas em escala,
+tá?
+Então, às vezes vai acontecer de você
+não ter em PySpark.
+Então, tá aqui já o processo de como
+fazer em escala, mas não é um bicho de
+sete cabeças, é tranquilo, tá?
+Você tá no configuração, e ele é um
+dataframe.
+Então, de novo, a beleza do dataframe é
+a facilidade de abstração.
+Então, eu falo o seguinte, olha, pega o
+dataframe que eu carreguei de 434
+milhões de registros, não sei o que,
+escreve no formato com o ponto
+databricks .spark .cdw, passa o URL,
+passa qual é a tabela, e ele vai
+escrever essas informações no data
+warehouse.
+Beleza.
+Ele vai escrever isso.
+Então, vamos olhar aqui o que que é a
+maravilha do Synapse Analytics.
+O Synapse Analytics, ele é, de novo, um
+workspace que tem tudo.
+Então, eu vou explicar aqui rapidinho o
+que que esse cara é.
+Então, você tem algumas blades aqui.
+A blade de data é a blade onde, de fato,
+você se conecta com os produtos de
+dados, com os databases, com os stores,
+tá?
+Então, quando você cria ele, quando você
+chega lá no Azure e você cria o Data
+Lake, desculpa, quando você cria o
+Synapse Analytics, você vai falar pra
+ele o seguinte, olha, eu quero que esse
+ambiente do Synapse Analytics, aqui, ó,
+eu quero que esse ambiente do Synapse
+Analytics, ele tenha o storage, né?
+Ele se link com o storage.
+E aí, ó, o Primary ADLS, tá vendo, ó?
+Ele vai enxergar aqui esse Azure Data
+Lake Storage, que é o OWSHQ Blob STG,
+que é exatamente aquele onde tá tudo
+caindo ali, olha que coisa linda.
+Você já chega aqui e seta ele.
+Então, quando você vier aqui em Link, o
+que que tá linkado aqui?
+Ó, Azure Data Lake Storage Gen2, olha
+só, por aqui você já consegue
+ver os dados que estão caindo no
+storage, do jeito que a gente vê lá, ó.
+Cara, isso é muito foda da Microsoft,
+então, quem é, desculpa, gente, que eu
+preciso saber disso aqui, é importante,
+quem é que nunca viu isso aqui?
+É a primeira vez, coloca eu aqui, só pra
+saber quantas pessoas nunca viram o
+Synapse.
+Nossa, vocês vão amar isso aqui, né?
+Porta uma galera, ó, então vamos lá.
+Porra, legal, legal, vocês vão amar isso
+aqui.
+Então, é um ambiente integrado, não, é
+lindo, olha só, tô lá conectado, Data
+Lake, lembra?
+Tá chegando do Kafka, tá chegando as
+aplicações e tal, vou chegar aqui em
+Lending e eu, dentro da interface dele,
+não
+preciso fazer nada, né?
+Eu já tô vendo aqui a Lending.
+Você sai Lending, você sai User e olha
+que coisa foda isso aqui, velho.
+Você pode criar um script, você pode
+criar um notebook, você pode criar um
+dataset de integração pra ser usado,
+você pode criar um Dataflow, ele te dá
+várias opções.
+Uma das opções que ele vai, você vem
+aqui, ó, botão direito, ele gera um
+preview do arquivo pra você.
+Botão direito, ele cria um select,
+gerencia acesso e propriedades do
+arquivo, né?
+Propriedades se você tiver.
+Qual o local do driver pra você acessar
+ele, ó, você já copia aqui.
+Cara, de novo, a Microsoft vai fazer
+software, puta merda, desculpa, é foda.
+Você pode chegar aqui também no
+Workspace e isso aqui é foda.
+Lembra dos metadados, lembra de tudo que
+a gente falou?
+Então, quando você vem pro Synapse, ele
+tem os próprios metadados integrados
+dele.
+Então, se eu vier aqui em Lake Database,
+olha isso aqui.
+Você tem tudo que aconteceu no Lake, que
+você fizer referência, ele cria um
+metadado dentro aqui.
+Ó, como eu criei o Dedicated Pulse, que
+eu vou mostrar, olha aqui as tabelas, eu
+vejo todo o metadado das informações
+aqui.
+Então, eu tenho uma tabela, eu consigo
+ver as colunas, consigo ver as
+informações dela, posso fazer query,
+posso carregar pro frame do Spark, ele
+já faz isso pra você, tá?
+Isso é muito foda, velho, essa
+integração.
+Eu posso chegar aqui também e botar mais
+e eu posso criar um novo Lake, tá?
+Que aí eu posso pedir pra esses dados
+entrarem aqui dentro.
+Eu posso chegar aqui e criar um
+database, serverless ou não, só que olha
+só o que eu posso fazer aqui também.
+Eu posso conectar com uma fonte externa,
+ou seja, eu posso conectar com outro
+Blob Storage, calma aí Luan, você pode
+conectar com Cosmos DB, eu posso
+conectar com Cosmos DB no nível do
+seguinte, o LinkedIn.
+Na hora que cai um dado no Cosmos DB,
+ele traz pra dentro do meu Sinal Pessoa
+Analytics automaticamente, e você
+consulta esse cara, HTAC.
+Posso conectar no Custom e assim por
+diante, beleza.
+Top.
+Não vou publicar.
+Agora, Develop.
+Olha que legal.
+Eu venho aqui na parte de
+desenvolvimento, clico no mais e falo
+cara, o que você quer?
+Você quer um Script SQL, você quer um
+KQL, que é o Custom Query Language, você
+quer um Notebook, você quer um Dataflow
+ou enfim.
+Ah, então vamos pra oferta serverless
+dele.
+A oferta serverless dele é o que, gente?
+É a oferta do valor.
+Então se você botar Synapse Analytics
+serverless equal pool price o que que
+você tem aqui?
+Você paga 5 dólares por terabyte
+consumido, beleza?
+Então imagina que você é uma empresa de
+pequeno, médio porte, você pode ter uma
+solução inteira pagando 5 dólares por
+terabyte consumido.
+Então eu vou criar aqui, ó, com SQL
+deixa eu aumentar aqui pra vocês
+verem com SQL eu vou criar um database,
+vou criar um master key o que que eu vou
+fazer aqui?
+Vou criar um external data source que é
+o meu storage lá, tá?
+Vou criar um external file format, um
+formato parquet.
+Detalhe, ele já aceita formato delta
+então se a gente tá construindo, nossa
+Matheus, que lindo se ele já tá
+construindo aqui eu consigo fazer isso
+tá?
+Então eu já consigo utilizar o delta pra
+poder passar o dado daqui pra lá e
+consultar, então é basicamente falar que
+eu posso pegar aqui, ó o sinapse e
+consultar direto do meu delta, eu não
+preciso carregar esse dado aqui, beleza?
+Ó lá, eu posso delta, se for delta tá
+vendo?
+Eu já posso fazer isso dá pra criar tipo
+DW lógico, exatamente é um DW lógico que
+vai usar a infraestrutura do EJA pra
+consultar pra você, então eu vou criar
+uma tabela externa, tá vendo?
+Ó, quando eu criar essa tabela externa
+aqui, ó que que ele vai fazer?
+Eu criei ele no database OWSHQ, quando
+eu venho em data aqui,
+ó cadê?
+Cadê o meu refresh?
+Daqui a pouco eu faço olha só que lindo
+OWSHQ eu criei eu tenho uma
+tabela externa e ele vai mostrar aqui,
+ó, tabela externa que na verdade é fazer
+query aonde?
+No DatAlake Então eu vou chegar aqui e
+vou falar, olha, criei essa tabela faz
+uma query pra mim de novo, nos
+quatrocentos e trinta e quatro milhões
+no Lake do Databricks, lembra?
+vamos ver quanto tempo vai demorar
+Demorou pra fazer essa query cinco
+segundos e agora eu vou fazer aquela
+mesma eu vou fazer uma query que é o
+seguinte é uma query que consulta os
+quatrocentos e trinta e quatro milhões a
+tabela não está particionada é uma
+tabela normal então eu vou filtrar pelo
+usuário Rockstar e vou armazenar para o
+store name e store city e eu vou
+executar essa query aqui, o que acontece
+essa
+infraestrutura é built -in, está vendo
+ela é do Azure ela não é sua, ela não é
+dedicada ela é common, ela é shared mas
+ela te dá o senso de você utilizar ali 5
+teras 1 tera por 5 dólares você pode
+gerenciar a quantidade de queries, você
+pode vir aqui por exemplo monitor e você
+pode ver as queries que estão sendo,
+aqui você consegue ver as informações
+mas você pode ver aqui, 5 requests as
+queries que estão chegando aqui quanto
+tempo demorou quanto dado processou
+quanto tempo demorou e assim por diante
+quem foi que executou e assim por diante
+então aqui você tem um controle você
+pode setar a cota você pode fazer um
+bocado de coisa para os seus usuários
+então ele ainda está executando aqui não
+vou estar lá em develop beleza está
+executando de novo, eu executei uma vez,
+demorou 36 segundos executei outra vez,
+demorou 25 segundos e beleza, é isso aí
+ah Luan, eu preciso de um ambiente
+predictable você quer dizer o que?
+cara, aqui é um ambiente que não vai te
+garantir um SLA às vezes vai executar em
+20 minutos, em 20 segundos às vezes vai
+executar em 30 segundos às vezes vai
+executar em 1 minuto e meio e por aí
+vai, demorou 1 minuto e 12 talvez se eu
+executar agora vai ser mais rápido ou
+não, então depende beleza, só que eu
+preciso de um ambiente MPP então tudo
+bem, você vai lá em manage eu quero
+criar um cycle pool dedicado então,
+dead, o WSHQ Luan Moreno e aqui você
+escolhe os cavalos de potência que você
+quer então aqui eu posso chegar para
+DW100 DW200, DW300, DW400 DW500, DW600
+cara, e aí eu vou posso pagar até 360
+dólares por hora e eu crio esse cluster
+tá agora o que que acontece eu criei já
+aqui, o Matheus criou esse dedicated
+pools ele foi criado agora 439 -3 400,
+tamanho de 240 terabytes de dados dentro
+desse workspace então, eu carreguei lá
+do Databricks lembra?
+direto nele agora, a gente vai botar ele
+pra smig lá, ó, demorou 50 segundos
+agora a gente vai pro, beleza eu preciso
+de cavalos de potência então agora eu
+vou selecionar o dedicado vou fazer um
+count, vou te provar que são os mesmos
+454 milhões de registros e agora eu vou
+executar essa consulta que demorava 50
+segundos um minuto enquanto o tempo ela
+vai executar dentro do
+dedicado então, essa possibilidade do
+synapse de te trazer esses dois sabores
+é uma coisa muito legal não só por isso
+você pode chegar aqui, por exemplo, ó a
+externa abstração lógica da consulta em
+cima do data lake perfeito, Thiago, é
+isso mesmo então, aqui a gente abstraiu,
+né você tá indo lá no lake então, o
+built -in, ele vai lá no lake e faz a
+query tá olha só que coisa legal você
+pode trabalhar de muitas formas legais
+que eu posso chegar aqui, por exemplo, ó
+e falar, não, eu quero carregar aqueles
+meus arquivos não não, vamos fazer o
+seguinte eu quero pegar aqui, ó olha as
+possibilidades que você tem essa é a
+questão as possibilidades parquet batch
+gold eu
+quero criar na verdade deixa eu ver se
+eu consigo fazer isso aqui agora
+o que ele é chamado aqui ele não tá
+aparecendo porque o formato deixa eu ver
+se ele aparece eu vou mostrar no formato
+delta desculpa,
+parquet Isso, aqui, ó.
+Load to DataFrame.
+Ó.
+Eu posso vir aqui e falar asterisco
+reviews for Spark.
+Aqui.
+Ele já me criou o comando Spark pra eu
+executar.
+Então, eu não tenho nenhum Spark aqui.
+Na verdade, eu tenho o anterior.
+Vou pedir pra executar aqui.
+Ele vai executar em Spark.
+E eu tenho um conector que escreve
+direto no Dedicated Pulse e que lê
+direto no Dedicated Pulse.
+Então, essa ideia de você conseguir
+andar e transicionar entre os ambientes
+de uma maneira unificada é muito foda.
+Por isso que vocês viram a entrada do
+Big Lake.
+Vai fazer exatamente isso também.
+E agora a gente vai esperar a AWS trazer
+o que ela tem que trazer pra gente ver
+como que vai ser isso.
+Então, isso é muito foda.
+Essa ideia de você conseguir
+transicionar e assim por diante.
+Alguma pergunta aqui?
+Ficou claro?
+Big Lake é a proposta do Google pra
+fazer a porra toda.
+Depois vocês dão uma olhada.
+No treinamento de Google que a gente vai
+aqui, eu vou ministrar daqui dois meses,
+eu vou falar de Big Lake também.
+Então, fiquem tranquilos.
+E também vou falar disso no canal.
+Pode também ficar de boa.
+Vai.
+Vai.
+O curso de Google também.
+O de Google, de Azure e de AWS já tá.
+E o Azure e o Matheus quer fazer.
+E o de Google eu que vou ministrar.
+Como faz um set direto no Dedicated
+nesse caso?
+Eu perdi o comando.
+Mas é assim, ó.
+Pai Spark.
+Spark Pulse.
+Insert into Dedicated Pulse.
+Posso fazer inclusive agora pra vocês
+verem.
+O que eu perdi?
+Eu troquei de ambiente.
+Long story.
+Long story.
+Long story short.
+Eles aqui, ó.
+Aqui.
+Ler do pool dedicado.
+Synapse, Table, Name, String, blá, blá,
+blá.
+Python.
+Sem autenticação.
+Autenticação básica, esse aqui.
+Bota aqui, ele carrega pra dentro um
+data frame pra você.
+Se você quiser, ele grava dentro do data
+frame pra você.
+Ou seja, você pode transicionar entre
+eles.
+Isso é proprietário da Microsoft.
+Eu tinha isso no outro, mas a minha
+conta foi hackeada e aí gastaram
+simplesmente uma bagatela de vinte e
+três mil dólares na minha conta.
+Mas, detalhes, né?
+E aí, bilou no cartão.
+Claro.
+E deu negativo.
+Eu sumi.
+Mentira, deixa eu explicar como é que eu
+só acho que eu tive que criar um novo
+ambiente.
+Beleza.
+Então, aqui.
+Show.
+Deixa eu desligar, porque eu não sou
+milionário, né?
+Até onde eu sei, eu não sou milionário.
+Então, desligar aqui.
+Vou pausar aqui também.
+Vai, quinze minutos, sai.
+Agora, a gente vai pro BigQuery.
+Mesma coisa, tá?
+Mineral nos bitcoins, certeza.
+Vou pro BigQuery.
+O que que aconteceu do BigQuery pra
+Google daqui?
+Mesma coisa.
+Então, eu tenho um notebook.
+Esse notebook, ele escreve dentro do
+escreva no formato BigQuery e ele vai
+lá e escreve dentro do BigQuery.
+Tá?
+Os mesmos quatrocentos.
+Quem nunca viu o BigQuery, fala eu aqui.
+Pra você já chorar, já ficar depressivo
+e tal.
+Beleza.
+Então, o que acontece?
+Bem -vindos.
+Prazer, BigQuery.
+Eu não tenho infraestrutura.
+Prazer, Google.
+Eu venho aqui.
+BigQuery.
+Clico em C -Core Space.
+E aí, por um passe de mágica, aparece um
+Management Studio aqui, uma query.
+Eu venho aqui.
+Ah, quero usar.
+Mas, copio a query.
+Aqui tá o dataset que eu carreguei lá do
+DataFrame.
+Carreguei lá do Spark.
+Carreguei aqui dentro de SilverCharm.
+O WSHQ.
+Tá aqui, ó.
+Dado de streaming, gold reviews e tal.
+Esse meu dataset tem quatrocentos e
+trinta e quatro
+milhões e eu vou fazer a mesma query que
+eu fiz no DedicatedPulse.
+E acabou.
+Executou.
+Demorou...
+Quanto demorou?
+Não tô vendo.
+Duration demorou zero segundos.
+Se executar de novo, ela vai ser
+cacheada.
+Vai aparecer Cached.
+Cadê Cached?
+Antigamente, pelo menos, aparecia pra
+mim
+Cached.
+Aqui.
+Cached.
+Na minha cara.
+Tá?
+Então, vamos descachear isso aqui, né?
+Então, vamos fazer assim, ó.
+Vamos ver se ele vai descachear.
+É.
+É, ele descacheou agora.
+Uai, Luan, você deu um espaço aqui e ele
+descacheou?
+É.
+É um...
+É uma query diferente.
+Então, aqui, ó.
+Ele fez em dois segundos.
+Escaneou quinze pontos tantos gigas.
+Beleza?
+Agora, a próxima vez que executar, ela
+tá cacheada.
+Eu não pago mais por esse scanning,
+porque já tá cacheado.
+Eu mudei aqui de novo, né?
+Isso aqui não pode ser cacheado.
+Você consegue integrar?
+Você consegue integrar Spark Python com
+isso aí?
+Sim.
+Consegue?
+Aqui, ó.
+Eu posso ler daqui.
+Escrever daqui.
+Esse notebook mostra aqui.
+Isso aqui.
+Pode ler, escrever, interagir com ele.
+Sinistro, né?
+Você não tem infraestrutura, não tem
+nada.
+Você só executa o comando.
+Bem.
+Mas e se eu quiser utilizar o próprio
+Delta Lake pra fazer isso?
+Eu consigo fazer?
+Consegue.
+Quanto tempo vai demorar essa consulta?
+Ó, a gente viu que a gente pode pagar
+ali no Dedicated Pulse.
+Viu que a gente pode pagar ali também no
+BigQuery, mesmo que barato.
+Mas a gente também pode deixar aqui, ó.
+E fazer query aqui.
+A gente pode também utilizar o Spark pra
+fazer isso.
+Né?
+Nada nos impede.
+Impede?
+Não sei.
+Vamos ver.
+Quanto tempo a gente executa essa
+consulta?
+Então vamos aqui no Delta.
+E vamos ver que a gente executou aquela
+consulta em 11 segundos.
+Isso porque não tá particionado e assim
+por diante.
+Qual é o lado legal disso aqui?
+É que, cara, você tá falando de o mesmo
+cluster.
+Você tá usando o mesmo cluster pra
+entregar o valor.
+Então você não precisa estar fora.
+Você tá dentro, aqui, entregando.
+É uma das formas de fazer.
+Tá?
+O problema é literalmente como você vai
+culturalmente ensinar os seus clientes.
+É como você vai posicionar eles.
+É muito mais em relação a isso do que a
+ferramenta.
+Uma outra forma que você tem também, por
+exemplo, é utilizar um trino, por
+exemplo.
+Utilizar um sistema de virtualização pra
+fazer isso.
+Como que você faz?
+Ah, eu posso pegar esse mesmo DataFrame
+que tava aqui.
+Eu posso escrever ele em ORC, em
+Parquet, em Delta.
+Por exemplo.
+E eu posso mandar isso pra um local e
+ter o trino pra consultar.
+Inclusive, eu tenho um YouTube lá que
+tem.
+Eu escrevo isso aqui lá no DataLake e
+uso o trino pra consultar isso.
+Posso fazer isso também.
+É...
+Sei que o Dremio consegue ler Delta, mas
+é aconselhável usar?
+Sim.
+Você pode jogar isso aqui no DataLake e
+usar o Dremio pra consultar.
+Sem problema.
+De novo.
+Bota o Dremio aqui, Matheus, também.
+Bota o Dremiozinho aqui também.
+Bonitinho.
+Pode usar o Dremio também, sem problema
+algum.
+Outra coisa que você pode fazer.
+Isso eu vou mostrar por último, tá?
+Você pode colocar isso dentro do
+Snowflake.
+Também.
+Outro Data Warehouse.
+Outra forma de interagir.
+E assim por diante.
+Você também pode escrever DataFrame
+Spark Read Format Snowflake.
+Spark Read Write Format Snowflake.
+Você pode escrever também.
+Não tem problema.
+E você vai ter o seu dado dentro do
+Snowflake, aqui dentro.
+Tá vendo?
+Computation Note.
+E você vai ter o seu dadinho ali.
+Go to Reviews.
+Também do mesmo jeito.
+Beleza?
+Então, é mais o que eu queria que vocês
+entendessem.
+O que eu queria que vocês entendessem?
+Alguém consegue sumarizar o dia de hoje?
+O que eu queria que vocês entendessem?
+Que o processo é mais importante do que
+o destino.
+Obrigado, Matheus.
+O processo é mais importante do que o
+destino.
+Por quê?
+Porque se você estabelecer esse processo
+muito bem, você vai simplesmente fazer
+isso aqui.
+Entendeu?
+Você vai deixar o dado disponível nas
+ferramentas.
+E isso vai habilitar com que você pense
+numa cabeça multi -cloud também.
+Ou multi -approach.
+Você pode entregar para vários times
+diferentes que trabalham de diversas
+formas, sempre tendo a sua source of
+truth.
+Olha aqui, ó.
+Caralho, não sei escrever truth.
+Eu já estou no nível top hoje.
+Não está aqui?
+É verdade, sempre no primeiro H.
+Caralho!
+Eu vou ter que olhar aqui mesmo?
+É isso mesmo.
+THU...
+Obrigado.
+Esse curso está abrindo muito a minha
+mente.
+Essa é a ideia.
+Eu quero que vocês enxerguem tudo.
+Eu quero que vocês sejam analíticos,
+critiquem, pensem, e tentem padronizar
+as coisas.
+Então, cara, fica muito mais fácil o
+seguinte.
+Se você...
+Recomendação do tio Luan.
+Qual a recomendação?
+Cara, bota um sistema de ingestão aqui.
+Padroniza esse dado para a entrada.
+Coloca os dados para entrar aqui
+bonitinho.
+Sem problema.
+Depois, cara, usa o Spark para trazer o
+seu Data Lake House.
+Passar pelas camadas.
+E modelar.
+Fazer o quê?
+Um Unified Data Model.
+Eu vou falar um pouquinho mais disso.
+Unifica o seu modelo.
+Cria um modelo que vai ser usado para
+todo mundo.
+Across the board.
+E aí, cara, depois no gueto da
+pastelaria.
+Isso aqui é onde, irmão?
+Ah, vamos supor que o time de Finance
+está aqui.
+Isso acontece.
+Isso é real.
+Isso é vida real.
+É o que eu passo na minha vida aqui.
+Finance.
+Aqui é o time de Human Resources.
+Sei lá.
+O cara do Big Query é o time do...
+Me dá um time dentro da empresa de
+Marketing.
+E do Snowflake.
+Vai ser time do quê, gente?
+Me dá uma ideia aí.
+Operações.
+Põe operações aí.
+Ops.
+Operações.
+Ops.
+Sales.
+Vou botar sales.
+Sales.
+Sales.
+Está vendo?
+Olha que legal.
+Tudo vindo da sua fonte de verdade.
+Cara, olha que foda, velho, que vocês
+estão criando.
+Tudo vindo de um modelo unificado da sua
+fonte da verdade.
+Que você está entregando.
+Você sempre vai conseguir fazer isso.
+O Lake House é justamente para fazer
+isso aqui para vocês.
+Para entregar isso aqui.
+E como cereja de bolo, esse cara que eu
+vou explicar agora.
+Para a gente fechar o dia de hoje.
+Vamos lá.
+O último foda da noite.
+Olha só, gente.
+Agora, a Databricks criou algo
+paramount.
+Groundbreaking totalmente novo.
+Que é bater na cara de todo mundo na
+própria competição deles.
+O que é isso aqui, gente?
+O Databricks SQL é a proposta da
+Databricks para um ambiente aberto.
+Lake House.
+E a proposta que eles estão indo com
+tudo.
+O que eles fizeram?
+O dado está ali.
+No formato delta.
+Para ser consumido.
+Beleza?
+Está lá.
+Eles criaram uma engine em cima disso.
+Chamada Photon.
+Que, cara, ganhou vários prêmios já.
+Bateu vários sistemas.
+Qual o nome daqueles padrões, Matheus,
+de testes do TDA?
+Como que é?
+TCH?
+Os benchmarkings.
+Os benchmarkings, padrões.
+Bateu contra os MTWs e tudo.
+Eles fizeram vários testes.
+O que é o Photon?
+É uma engine vetorizada em C++ que
+acelera ainda mais o acesso.
+TPC.
+Obrigado, Douglas.
+Que acelera mais ainda o acesso no dado
+no Data Lake.
+Isso é uma outra forma.
+E está muito famosa.
+Tem gado na puta adoção.
+E a Microsoft...
+Desculpa.
+A Databricks está trazendo isso.
+É o Photon Native Vectorized Engine.
+É um engine que eles criaram vetorizado
+em C++ para acelerar o acesso.
+Então, você faz uma query.
+Esse cara faz o parsing em todo o
+processo dentro do cluster.
+E utiliza a engine Photon para buscar o
+dado no Delta.
+Gente, a gente está falando inicialmente
+de 4, de 2 a 4 vezes mais de velocidade.
+Então, se você usa um cluster de Spark
+normal para consultar e demora 5
+minutos.
+Se você usar o cluster de Photon, ele
+vai demorar...
+2 vezes menos.
+Até 4 vezes menos.
+Quem nunca viu isso, fala eu.
+Olha só.
+Outra opção.
+Então, vamos lá.
+Vamos ver.
+Vamos ver.
+Então, olha que legal.
+Olha a comparação no teste que eles
+fizeram de 30 TB do TPC.
+A query em relação a velocidade.
+A query em 30 TB custou US $ 60.
+Custou US $ 81 no BigQuery.
+US $ 83 no C++.
+US $ 83 no Synapse.
+E US $ 273 no Redshift.
+Fica com vergonha não, gente.
+A ideia é interagir que minha garganta
+aqui está só o...
+Só o Todd.
+A gargantinha aqui vai ser top, meu
+irmão.
+Amanhã eu vou ficar modelo zen.
+Se eu falar amanhã, eu vou falar sem
+mímicas, beleza?
+Para economizar.
+Estamos juntos.
+Estamos juntos.
+Porque a gargantinha aqui, filho...
+Meu saco.
+Vamos lá.
+O que eu fiz?
+Presta atenção para a gente fechar com
+chave de ouro.
+Por favor.
+Vim dentro do Databricks e agora eu
+tenho uma aba.
+Olha lá.
+A gente estava na aba de Data
+Engineering que tem um cluster.
+Você cria, dispara e está tudo certo.
+Agora...
+Eu posso desligar esse cluster também?
+Agora tem uma nova aba chamado SQL.
+SQL.
+E aqui ele traz um ambiente novo.
+Então, você vem aqui em SQL Warehouses,
+que eles já mudaram, antigamente era
+Endpoint, e você cria um SQL Warehouse.
+Novidades, Matheus, que você sabe porque
+a gente gravou esse podcast que vai no
+ar daqui duas semanas.
+OWSHQ, SQLDW,
+animal de teta.
+Hoje, você tem que escolher os
+Databricks Units, e você tem
+configurações aqui, mas daqui algumas
+semanas, barra mês, você vai ter a
+proposta Serverless, Matheus.
+Na AWS já tem o Serverless, e agora eles
+estão trazendo o Serverless para o Azure
+SQL Database.
+Isso é foda, hein?
+É.
+Então, eu tenho que criar aqui esse
+cluster, é um cluster adicional, só que
+tem algumas coisas muito legais.
+Você pode conectar a JDBC nele, você
+pode agora conectar com Python, você
+pode conectar agora com várias
+linguagens de programação, você pode
+conectar com Power BI, o acesso do
+Connection File, você conecta ele, faz
+pass -through, faz todas as melhores
+práticas, você pode conectar com Tableau
+nele, você pode conectar com várias
+outras ferramentas de BI.
+Olha isso aqui.
+E aí, cadê seu Deus?
+Olha que foda.
+Tudo isso você pode conectar, com as
+melhores práticas, tudo rápido, fazendo
+Pushdown Computation e tudo de bonito.
+Mas não só isso, olha que foda isso
+aqui.
+Eu vou em SQL Editor, olha só, o
+Hivemetastore.
+Hivemetastore.
+É, eles usam o Hivemetastore.
+Embedder, né?
+Embedder.
+Esperar ele carregar, mas eu vou em SQL
+Queries aqui, e eu vou criar uma nova
+query.
+Isso é muito bom.
+Tem?
+Tem um, Luan, não sei se...
+Ah, não, também, né, Luan?
+Porra, animal de teta.
+Me ajuda aí, é porque eu tava pegando
+errado.
+Default OWSHQ Select Ai, Jesus.
+Select asterisco from Select asterisco
+from OWSHQ OWSHQ full.
+Agora tá bem.
+Essa aqui?
+Essa aí.
+Tá vendo que eu consultei
+transparentemente, né?
+E aí a gente manda um shimbling aqui.
+Vamos ver.
+Tô rodando um cluster small, né?
+Não, eu tô num cluster super small aqui.
+Mas eu quero só demonstrar.
+Porque eu não tenho grana, né, pro
+cluster 434 milhões.
+E agora a gente vai fazer aquela query
+padrão, gostosa, que a gente faz pra
+vocês experimentarem.
+É isso que eu quero que vocês entendam.
+No dia de hoje eu saio feliz se vocês
+entenderem, velho, que nesse caso a
+tecnologia tanto faz, contanto que você
+entenda o processo do Lake House.
+Então é isso que eu queria que vocês
+entendessem,
+sabe?
+Beleza?
+Eu tô no cluster mais básico, tá?
+O smallzinho dele.
+Small, small, small mesmo, tá?
+Vamos ver quanto tempo vai demorar.
+Aqui eu pesquiso.
+Porra.
+No mais...
+No pior cluster.
+No pior.
+Aí eu venho aqui, velho, eu tenho várias
+informações fodas.
+Eu tenho uma query, eu tenho quem criou,
+qual foi o warehouse, quanto tempo,
+quanto tempo ele gastou em cada um.
+Bonito, né, velho?
+Isso aqui é bonito.
+Quanto tempo ele escaneou, você pode ver
+o query profile.
+Olha isso.
+Qual o profile que ele fez.
+Você pode ver em preview também.
+Shuffle, processo, linhas escaneadas.
+Cara, assim...
+Sem comentários.
+Obrigado, gente, pelos fodas.
+Vocês me animam porque eu tô no final do
+dia, então vamos lá.
+Me animem.
+Me deixem felizes, meus alunos fodas.
+É, isso é muito legal pra fazer
+planning, pra entender e por aí vai.
+Só que olha só isso aqui.
+Add visualization.
+Então eu venho aqui, cara, quero um pie.
+E eu quero salvar isso.
+E aí eu tenho um salvo aqui.
+Não, mas eu quero mais.
+Eu quero criar um dashboard interativo.
+Então tudo bem.
+Vamos criar o dashboard da WSH aqui.
+Salva.
+Meh.
+Como que é?
+Aquele lá é...
+É...
+Vamos pegar um visualization.
+É...
+Add visualization widget.
+Eu não me lembro mais que já mudou tudo
+aqui, ó.
+É...
+Eu posso pegar query.
+Ah, vou favoritar minha query.
+Deixa eu voltar ali.
+Pass execution.
+Save.
+É...
+Query total.
+Vou pegar o piezinho.
+Vou dar um adicionar o dashboard.
+Search dashboard by name.
+Adicionar.
+Dashboard tá aqui.
+Vou selecionar.
+Posso pegar o samples aqui também.
+Mas eu vou pegar o meu dash.
+Que é esse aqui.
+O pie tá aqui.
+Eu posso agendar.
+Pra executar de tempos em tempos.
+Posso compartilhar com o meu time.
+E eu posso continuar evoluindo esse
+cara, adicionando queries e tudo que eu
+quiser.
+Então...
+Ele te traz essa unificação também.
+Ou seja...
+Hoje você vai sair desse treinamento
+falando que alguma tecnologia é melhor
+do que a outra.
+Depende do seu...
+Do seu skill.
+Depende do background do seu time.
+Depende da proposta.
+Mas eu quero deixar pra vocês várias
+possibilidades.
+Por quê?
+Porque você vai ter o quê?
+De novo.
+O cinturão do Batman.
+E o cinturão do Batman vai falar pra
+você o seguinte.
+Cara, eu tenho essas opções aqui.
+Então, você vai ter várias opções pra
+brincar com ele.
+Matheus, bota o Databricks aqui pra mim.
+Pra gente finalizar.
+Que eu vou mandar essa foto pra vocês.
+Eu vou botar dentro do treinamento lá.
+Pra vocês.
+Depende.
+O importante é saber utilizar a melhor
+solução.
+É exatamente essa proposta.
+Esse é o level 7.
+Mental que eu gostaria que vocês
+tivessem hoje.
+Se vocês quiserem postar isso aqui.
+Eu acho legal.
+Na verdade, Matheus.
+Eu acho uma boa ideia de vocês postarem
+isso aqui.
+Explicando que não é sobre a ferramenta.
+Mas o processo de Lake.
+Do Data Lake pro Lake House e tal.
+Então, o quê que eu vou fazer?
+Eu vou pegar.
+Vou exportar isso aqui agora.
+Vou mandar no WhatsApp pra vocês.
+Quem quiser escrever.
+Eu acho legal.
+Bota o Databricks aqui, Matheus.
+Pra mim.
+Qual vai ser...
+Como eu falei na texta.
+Tem um canivete suíço de soluções.
+Exatamente.
+Gente, é isso.
+Eu vou atualizar agora o...
+O Git.
+Mas vou mandar isso aqui pra vocês
+agorinha.
+Já no WhatsApp.
+Se vocês quiserem usar.
+E aí?
+Gostaram de hoje?
+O que vocês aprenderam hoje?
+Qual foi o takeaway?
+Takeaway de segunda.
+A gente bota o Spark em qualquer lugar.
+Takeaway de terça.
+Cara, a gente processa batch.
+É eficiente.
+Posso usar pra Spark.
+Posso usar SQL.
+Takeaway de quarta.
+Melhores práticas de streaming.
+Como que eu trago esse dado.
+Utilizar o Kafka pra buildar minha
+solução.
+Quarto dia.
+Cara, vou cuspir esse dado.
+Mas antes, se eu criar o Lake House como
+um todo.
+Deixar isso tudo estruturado.
+Eu posso navegar entre...
+Obrigado, Matheus.
+Quem vai ser área do...
+Me fala aí, Mária.
+Eu vou conseguir estruturar o meu Lake
+House pra entregar valor em relação a
+isso.
+Então, eu não preciso me preocupar com a
+ferramenta.
+Porque isso vai ajudar com que eu
+planeje o meu processo como um todo.
+E eu vou conseguir entregar valor.
+Exatamente.
+Boa, Leon.
+Então, cara.
+Qual é a experiência do meu cliente que
+eu quero entregar?
+Exatamente.
+Então, cara.
+Vai começar com a área.
+Imagina você conseguir, como engenheiro
+de dados, começar na área e falar.
+Cara, aonde dói pra você?
+Cara, qual ferramenta te agrada?
+Lembra, quando a gente vai conversar com
+essa galera, a gente quer diminuir a
+fricção.
+A gente quer trazer uma curva de
+aprendizado baixa pra esse cara.
+Então, se você fizer o processo de ter
+engineering
+aqui, muito bem feito, você tá reduzindo
+a fricção pras ferramentas.
+Ótima pergunta que o Eli fez, Matheus.
+E como que fica a parte de governância?
+Cara, aí a gente vai brincar com várias
+outras coisas aqui.
+Aí você vai ver ferramentas de
+governança de dados.
+Por exemplo, você pode utilizar o
+Purview no Azure.
+Você pode utilizar o Amildsen, que é
+open source.
+Você pode utilizar o Open Metadata, que,
+inclusive, eu vou fazer uma live sobre
+ele daqui algumas semanas pra mostrar
+como que o Lean Med, né, Matheus?
+É lindo, né?
+É open source.
+Pode botar dentro do Kubernetes.
+A gente tá usando vários clientes.
+Então, isso vai também ajudar vocês.
+Quem é a área do Databricks?
+Quem vai usar aqui o Databricks?
+Eu troquei, só que não apareceu o nome.
+Vamos ver quem vai.
+Vai ser o time de TI, é?
+Botou o time de TI pra fazer parte?
+Não foi eu que coloquei.
+Mas mudou aqui.
+Logistics.
+E tá aqui.
+O data projetado.
+Beleza?
+Alguma dúvida antes da gente fechar o
+dia de
+hoje?
+Ficou claro?
+A comunidade tem um curso só de
+fundamentos conceitos de Big Data?
+Tem uma sessão, né?
+Tem uma série de fundamentos.
+Matheus, vamos fazer o seguinte.
+Anota pra mim aí.
+Eu vou dar o treinamento pra eles.
+A série, você tá falando?
+É, eu vou dar a série dos fundamentos
+pra eles, tá?
+Eu vou...
+Eu vou...
+O Nick tá achando que a gente tá fazendo
+isso porque...
+Não, essa turma é muito foda.
+Eu vou habilitar pra vocês isso aqui, ó.
+Dentro da comunidade a gente tem os
+fundamentos, ó.
+Que é uma série que passa sobre todos os
+teoremas.
+OLTP, Teorema ACID, OLAP, ETL, Business
+Intelligence, TDW, Data Lake, Big Data,
+MDW, Cloud Computing, Provedores de
+Nuvem, Governância, Star vs Snowflake
+Schema, ELT, Arquitetura de Dados Kappa,
+Message Delivery Garantia, Apache
+Hadoop, Terama Kappa, Computação
+Distribuída.
+Inclusive a gente teve alguém da
+comunidade hoje que falou sobre isso,
+que entrou na comunidade e fez...
+Devorou a turma.
+São vídeos de 10, 15, 20 minutos pra dar
+uma visão pra você se sentir mais
+confortável.
+Foi até legal.
+Gostei pra caralho, ó.
+Terminei de ser o primeiro conteúdo de
+engenharia e fiquei extremamente animado
+porque eu consegui entender e gostei
+demais do aprofundamento.
+Preciso assistir novos, fazer resumos e
+tal.
+Então, você anotou aí, Matheus?
+Anotei, tá anotado.
+Pra quem tá fazendo treinamento, pra
+quem tá...
+Pedi pra Cristina, tá?
+Amanhã você pede pra Cristina?
+Pra habilitar pra vocês os fundamentos.
+Beleza?
+A lista, eu acho que a gente não...
+Quantas pessoas na lista?
+Deixa eu ver aqui agora.
+Acho que foram 9 ou 10 pessoas.
+Até onde eu vi não tinha batido.
+Parei aqui.
+Eu dei stop.
+Infelizmente não tinha batido.
+Deixa eu ver aqui.
+É, 9 pessoas.
+9 pessoas.
+Beleza.
+Então, gente.
+Sobre isso, sobre as pessoas que se
+cadastraram sobre isso, o Regis tá
+pensando em uma forma de como ele vai
+falar com vocês.
+Não vai ser da mesma forma.
+Mas o Regis vai falar com vocês essa
+semana, tá?
+Sobre a comunidade.
+Então pode ficar tranquilo que ele vai
+fazer o upload de vocês.
+Beleza?
+Gente, espero que vocês tenham gostado.
+Amanhã a gente vem com mais conteúdo.
+Então tenta ficar mais relaxado.
+E amanhã é sexta -feira, o dia da
+maldade.
+O dia de dropar um monte de dados de
+produção.
+Botar o seu Line Airplane mode.
+E só voltar na segunda -feira.
+Fica com Deus aí.
+Obrigado a todo mundo.
+E até amanhã.

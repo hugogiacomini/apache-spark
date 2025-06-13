@@ -1,0 +1,6918 @@
+Vamos lá.
+Não, o Delta não fornece conexão Direct
+Query direto, tá?
+Então, aí existem algumas outras formas
+de como você vai fazer isso.
+Você vai ter que ter um DW para poder
+fazer e acessar certas features que você
+precisa, beleza?
+Então, gente, o que a gente vai fazer
+agora?
+A gente vai começar a aula de hoje, que
+seria supostamente de streaming, vai ser
+de streaming ainda.
+A gente só precisa primeiro terminar o
+nosso pipeline de batching.
+Então, a gente viu todo o roadmap de
+batch, características de Data Lake,
+melhores práticas, qual é o ciclo de
+vida do Spark, lembrando que ele é um
+engine de processamento, o nascimento de
+um sistema de storage interessável para
+Lake House, o Delta Lake e assim por
+diante.
+Então, agora a gente vai criar um
+pipeline fim a fim dentro de um
+notebook.
+Acho que o Cameroun ontem perguntou o
+seguinte, cara, é melhor a gente colocar
+isso tudo dentro de um notebook?
+Como funciona e assim por diante?
+Então, na verdade, eu quero mostrar para
+vocês uma das formas de você fazer.
+Você pode encapsular o processo inteiro
+dentro desse cara, tá?
+O Lucas está perguntando o seguinte,
+podem perguntar, gente, fique à vontade.
+A camada bronze do Delta seria parecida
+com o staging do DW?
+Deixar o registro sem nenhum tratamento?
+Em características do que ela significa
+para o processo de ETL como um todo?
+Sim, então ela seria ali a sua staging
+area, teoricamente.
+Só que aqui existem algumas outras
+características.
+Algumas características que você tem que
+você não tem numa staging, por exemplo.
+Normalmente numa staging, uma das
+grandes prioridades na staging é você
+garantir que esse dado fique somente por
+24 horas ou até a última parte que você
+processou.
+Dentro da tabela bronze, você pode fazer
+melhor, você pode guardar infinitamente,
+você pode reter infinitamente.
+E você, além disso, pode garantir, se
+você quiser, certos tipos de retenções
+diferentes que eu vou falar aqui.
+Então, vamos entrar aqui no processo de
+falar um pouco da Medallion Architecture
+ou a Delta Architecture, tá?
+Então, o que acontece?
+Lembra que a gente viu que os dados
+chegam no Data Lake.
+Então, de novo, para a gente reforçar o
+nosso processo, tá?
+Pessoal, não precisa, em relação a
+Delta, enfim, a gente vai passar pelo
+pipeline inteiro agora.
+Então, guardem as dúvidas referentes a
+isso até o final, que talvez elas sejam,
+na verdade, elas vão ser respondidas.
+Bem, possivelmente, eu vou explicar o
+detalhe, o processo de cada um, vou
+trazer algumas dicas muito importantes
+para vocês aqui, que a gente não vê isso
+lá fora, nem aqui dentro no Brasil.
+Então, como a gente utiliza realmente o
+Lake House em projetos reais.
+Então, na vida real, como a gente viu, a
+gente tem dados chegando na landing
+zone, né?
+E a gente tem o Databricks, que agora
+consegue visualizar pelo mount point do
+Databricks File System.
+É aquele cara que fica entre o storage e
+o...
+Spark.
+Então, a característica inicial é o quê?
+Você olhar para o seu Data Lake, pode
+estar em qualquer lugar, e você falar o
+seguinte, cara, eu vou trazer os dados
+para dentro da tabela bronze.
+Lembra que a gente mostrou ontem que uma
+coisa é você ter arquivos parquê, outra
+coisa é você ter uma tabela bronze.
+Quando você traz para Delta, quando você
+escreve em Delta, você está estruturando
+o seu dado, você está criando uma tabela
+em cima disso.
+Por mais que pare que é um data frame
+ali por debaixo dos panos, ele está
+comentando isso em formato tabela,
+literalmente, ele está estruturando
+aquele dado.
+A gente viu isso em detalhe, viu os logs
+ontem do Delta Lake e assim por diante.
+Então, o nosso primeiro passo é trazer
+os dados da bronze para o Spark para a
+gente processar.
+Então, ontem a gente viu algumas
+informações que vêm de diversos lugares.
+A primeira coisa que eu vou fazer, vou
+aumentar aqui a minha
+tela.
+Dentro do Spark, eu ainda tenho esse
+conceito, tá?
+De Create Database.
+O que ele vai fazer?
+Ele vai fazer uma estrutura lógica
+organizacional para que eu possa
+armazenar todos os componentes e objetos
+que eu crio ali dentro.
+Notem que esse notebook, ele está
+inicialmente, a sua linguagem primária é
+Python.
+Então, aqui eu estou escrevendo um SQL.
+Então, olha só que legal.
+A experiência de notebook permite que eu
+possa ou escrever em Scala, ou escrever
+em Python, ou escrever em SQL.
+Então, ele vai fazer uma estrutura
+lógica organizacional para que eu possa
+armazenar todos os componentes e objetos
+que eu crio ali dentro.
+Agora, claro que é importante você
+entender como tudo isso se conecta.
+Então, a gente vai ver isso em detalhe,
+tá?
+O primeiro cara que a gente vai atacar
+são os usuários.
+Então, lembra que no nosso processo
+passado, a gente pegou os dados e a
+gente colocou aqui dentro de OWSHQ,
+Delta, Batch, Bronze.
+Os dados estão aqui de Bronze, tá vendo?
+Tá vendo?
+A gente já escreveu eles no formato
+Bronze.
+Então, na vida real, o que está
+acontecendo?
+Os dados estão caindo dentro do Data
+Lake.
+Você está pegando o Spark ali, lendo as
+informações e escrevendo dentro da
+tabela Bronze.
+Escrevendo dentro da tabela Bronze.
+Sem nenhum tipo de tratamento, dado
+exatamente cru.
+A gente agora vai entrar no detalhe por
+que a gente faz isso, beleza?
+Então, vamos seguir aqui.
+A primeira coisa que eu vou fazer agora,
+eu vou usar o Spark para ler, tá?
+Onde está...
+Os meus Data Frames.
+Então, eu vou falar o seguinte.
+Spark, leia no formato Delta e carregue
+esse cara dentro do Data Frame User.
+E um outro Data Frame, Data Frame SSM.
+Dentro do componente usuário, a gente
+vai carregar dois Data Frames.
+User e Social Security Number, beleza?
+Então, vejam que na hora que eu faço
+isso, eu tenho dois Data Frames.
+E aqui eu quero...
+Vou mostrar uma coisa que vocês não
+viram ainda, tá?
+Prestem atenção.
+Por ser Delta, olha só.
+Eu tenho algumas outras informações
+aqui, além do esquema.
+Está vendo isso aqui?
+Que lindo, gente.
+Cara, isso aqui é muito sexy, tá?
+A abertura para os códigos estão
+abertos.
+Então, fiquem à vontade.
+Olha só que legal isso aqui.
+Se eu olhar o formato e como o
+comportamento desse JSON é...
+Ele é um JSON que tem vários nations.
+Ele tem vários níveis.
+Então, automaticamente, o Spark entendeu
+que isso é um struct.
+Então, quando ele vê que o JSON tem
+níveis, ele vai chamar isso de uma
+struct.
+Que é um objeto complexo.
+E esse struct pode ter níveis.
+E no Spark é ridiculamente, com o
+DataFrame, ridiculamente fácil de
+acessar.
+Esse cara a gente vai ver aqui.
+Vocês vão achar até engraçado como que a
+gente acessa isso, tá?
+Então, a gente tem um esquema, mas olha
+só o que a gente tem aqui.
+Details.
+Isso é algo que você não tem quando você
+carrega de um parquet.
+Quando você carrega em um RCE ou assim
+por diante.
+Por essa niche integration.
+Por essa integração que a gente tem do
+Delta com o Spark.
+E o Databricks como um todo.
+Isso é open source agora, tá?
+Tudo que você está vendo aqui está open
+source depois do 2 .0.
+Então, você não precisa se preocupar com
+isso.
+Então, olha só que legal.
+Ele fala quando essa tabela bronze foi
+criada.
+Quantidade de arquivos.
+Quantidade de arquivos que você tem.
+Quantidade de tamanho.
+E o histórico, olha.
+Olha que legal, gente.
+Você consegue por aqui ver qual é o
+histórico do que aconteceu nessa tabela
+Delta.
+E quais foram as ocorrências que
+aconteceram.
+Então, aqui você consegue consultar
+informações do que aconteceu.
+Tá vendo?
+Você tem o histórico, o lineage desse
+processo.
+As alterações que aconteceram e assim
+por diante.
+Beleza?
+Legal.
+Agora, como um processo de engenharia de
+dados.
+O que eu vou fazer?
+A primeira coisa que eu vou fazer é eu
+vou selecionar as colunas que eu quero
+dentro desse DataFrame para iniciar o
+meu processo de transformação e de
+melhoria e enriquecimento de dados.
+Então, aqui eu vou trazer uma série de
+comandos que vocês não vão gravar de
+primeira, mas eu deixei tudo muito bem
+documentado para vocês começarem a
+brincar no Databricks Community Edition.
+Então, lá dentro, amanhã de manhã, vocês
+vão ter acesso a todos os desafios,
+vocês vão ter acesso a todos os
+arquivos, aos laboratórios, que está bem
+explicado o que você vai fazer em cada
+um deles.
+Eles já estão lá, mas eu vou atualizar
+com a última informação e vocês vão
+poder brincar com os datasets que vocês
+tenham.
+Mas, basicamente, eu posso fazer isso de
+diversas formas.
+Eu posso fazer isso escrevendo Python,
+como eu posso fazer PySpark, como eu
+posso fazer isso escrevendo SQL.
+Eu vou mostrar de todas as formas para
+vocês terem várias formas de fazer a
+mesma coisa.
+Então, esses notebooks que eu estou
+trazendo para vocês, eles seguem um
+pattern.
+Qual é o pattern?
+Faz o processo do Medallion Architecture
+e traz várias transformações e processos
+para vocês aprenderem o comportamento do
+Sparq.
+Então, lembra que do jeito que o modelo
+de programação do Sparq é feito, ele é
+feito de Lays Evaluation.
+O que o Lays Evaluation faz?
+Ele é validação atrasada, ou retardada,
+ou atrasada.
+Isso quer dizer o quê?
+Isso quer dizer que todo comando, não é
+todo comando que você vai executar, que
+basicamente ele vai fazer uma operação
+de transformação, ou uma ação.
+Ele vai executar uma ação em cima disso.
+Então, existem certas operações que vão
+estartar uma ação e tem algumas
+operações que vão estartar uma
+transformação.
+E para que ele faça o processo de
+executar isso, você executa uma ação que
+vai fazer.
+Por exemplo, aqui eu estou
+explicitamente pedindo para visualizar
+automaticamente esses DataFrames aqui,
+certo?
+Mas, por exemplo, olha só que
+interessante.
+Eu vou pegar esse DataFrame aqui e vou
+falar, olha DataFrame, seleciona para
+mim os seguintes campos.
+Então, olha só como é fácil utilizar o
+PySparq.
+DataFrame .select e eu seleciono quais
+são os campos que eu quero acessar.
+Então, o que eu estou acessando aqui?
+User ID, beleza?
+Então, eu estou acessando User ID aqui.
+Eu estou acessando UUID, ID, First Name,
+estou acessando Last Name, estou
+acessando Date of Birth, Gender,
+Employment e Date Current Stamp.
+Beleza?
+E do SSN eu estou acessando ID e Valid
+que eu acessei.
+Quando eu aperto esse comando, olha só o
+que acontece.
+O comando levou 0 .17 segundos.
+Isso aqui foi executado devidamente?
+Processado?
+Não.
+Por quê?
+Essa é uma operação, essa é uma
+transformação que não faz nenhum tipo de
+ação.
+Você está pedindo para que ele selecione
+os campos, mas você não está pedindo
+para que você veja esses campos.
+Agora, na hora que eu dou um display,
+por exemplo, aí sim ele vai iniciar uma
+ação, uma transformação.
+E essa transformação, sim, vai executar
+o que foi pedido antes.
+Então, eu pedi o Select.
+Então, agora sim ele vai me mostrar o
+Select.
+Mas veja uma coisa interessante aqui.
+Eu pedi para ele trazer o campo
+Employment.
+E o campo Employment, por padrão ali,
+quando eu carreguei, ele é um campo de
+struct.
+Fique tranquilo.
+Deixa eu passar por tudo.
+Aqui, ele é uma struct.
+E aí, olha só que legal.
+Se eu clicar aqui, ele aparece como um
+objeto, porque ele é um struct.
+E aí, eu falo Title e Key Skills.
+Mas, cara, o que eu quero fazer na hora
+de análise de dados de sendo
+estruturados ou não estruturados?
+Eu tenho que fazer o quê?
+Flatten, né?
+Eu tenho que pegar a estrutura de JSON e
+fazer com que ela fique flat.
+Isso acontece porque 90 % das vezes,
+quando você faz uma análise de dados,
+você tem que verificar que 99 % das
+análises de dados são feitas com
+informações tabulares e relacionais.
+Então, é normal você fazer isso no seu
+dia a dia como engenheiro de dados.
+Então, a gente vai fazer isso e vai ver
+como isso é difícil, tá?
+Então, eu vou fazer um display tanto do
+usuário como vou fazer um display do
+Social Security Number.
+Então, aqui eu tenho o ID do usuário
+relacionado às informações dele e qual é
+o Social Security Number dele.
+Beleza?
+Tá vendo que o primeiro processo foi
+carregado.
+Carregar os dados.
+Certo?
+Mas o segundo processo é transformar
+esses dados para colocar numa tabela
+refinada.
+Então, é exatamente isso que a gente
+está fazendo.
+A gente está iniciando o processo de
+refinamento do dado para deixar ele mais
+bonito para ser entregue.
+Olha só que legal isso aqui que a gente
+vai fazer agora.
+Ó, a gente vai agora começar a utilizar
+um pouquinho mais a capacidade do
+PySpark para trabalhar as colunas e
+fazer o data managing.
+Primeira coisa que a gente vai fazer.
+A primeira coisa que eu vou fazer, eu
+vou criar um novo DataFrame que vai
+herdar do DataFrame que eu selecionei as
+colunas.
+Então, tá vendo que é uma cadeia, é uma
+DAG, é um Directed Icyclic Graph.
+É uma sequência de transformações que
+você faz.
+Então, aqui, baseado nesse DataFrame, eu
+vou selecionar o quê?
+A coluna UUID e eu vou dar um sobrenome
+para ela.
+Eu vou chamar ela de User UID.
+Eu vou pegar a coluna ID e eu vou chamar
+ela de User ID.
+Tá vendo que não é um bicho de sete
+cabeças?
+Calma que eu vou mostrar isso em SQL
+também.
+Você pode fazer com SQL também.
+Mas o que eu quero que você entenda é
+que, claro, a primeira vez que você está
+vendo isso aqui, poxa, caraca, eu vou
+sair escrevendo?
+É óbvio que não, né?
+Mas o que eu quero que vocês entendam
+daqui é que, cara, não é um bicho de
+sete cabeças.
+Vocês realmente estão vendo que são
+funções pré -colocadas.
+E que são processos que servem na
+lógica.
+Então, com prática, com algumas semanas
+e meses olhando a documentação, você vai
+dar craque em fazer isso aqui.
+Então, olha só.
+Eu quero concatenar.
+Conquete no Discord WS.
+O que eu quero concatenar?
+Por espaço, eu quero concatenar o
+primeiro nome com o último nome.
+E eu vou chamar isso de Username.
+Beleza?
+Então, olha só.
+Eu estou trabalhando o enriquecimento do
+dado.
+Outra coisa.
+Eu quero converter a coluna DateOfBirth
+para DateTime.
+Então, eu peguei aqui DateBirth e dei um
+.cast DateTime.
+E chamei ela de UserBirthDate.
+Aqui, Gender.
+E, gente, olha que difícil acessar a
+estrutura nested, né?
+Está vendo aqui?
+Title e Key Skills.
+Acreditem ou não?
+Você só precisa botar o ponto para
+acessar o nível que você quer.
+Então, Employment .Title.
+Está feito.
+UserTitle.
+Employment .KeySkills.
+UserSkills.
+E aqui eu estou pegando esse cara,
+trazendo somente os valores distintos.
+Os DataFrames são imutáveis.
+Quando eu fizer alguma transformação, eu
+tenho sempre que gravar em outro, certo?
+Sim, você pode reutilizá -lo, mas a
+ideia é que se você está evoluindo, eles
+são imutáveis.
+Exatamente isso.
+Então, você vai fazendo uma operação em
+cima de outra, pela imutabilidade.
+Ficou claro aqui?
+Que legal.
+Como que eu acesso?
+.Title.
+Ah, Luan, e se eu tiver três níveis?
+Você vai...
+Deixa eu ver se eu tenho um aqui com
+três níveis.
+Ah, não sei.
+Acho que não tem.
+Tem.
+Aqui, olha.
+Se eu quiser acessar o Let.
+Address .Coordinates .Let.
+E aí eu vou acessar.
+Eu vou fazer o flighting desse cara, tá?
+Tem um lugar que eu vi com a ordem de
+escrita do PySpark.
+Select.
+From.
+Where.
+Ele vai seguir a sequência lógica, tá?
+Então, aqui, olha só o que eu vou fazer.
+Eu fiz esse processo, tá?
+Eu tenho que importar algumas
+bibliotecas para conseguir fazer isso.
+Datetime.
+Integer.
+Conquete.
+Mas olha só que legal.
+Depois disso, eu vou registrar isso como
+uma tabela temporária, tá?
+Então...
+Presta atenção no que vai acontecer aqui
+agora.
+Eu vou registrar ele como uma tabela
+temporária.
+O Matheus está perguntando qual a
+diferença de utilizar o col no select ou
+passar o nome da coluna direto.
+Nenhum.
+Diferença nenhuma.
+Depende.
+Só...
+Existem algumas formas de você fazer
+isso.
+Existe mais uma forma de você fazer
+isso.
+Olha só.
+Future warning.
+Deprecated in 2 .0.
+Use creator replace temp view instead.
+Então, eu venho aqui.
+Creator replace temp view.
+Deprecated in 2 .0.
+Use creator replace temp view.
+Ele vai tirar o erro aqui da minha tela.
+Então, olha só.
+Ele já deixou bonitinho o dado.
+E olha só que bonitinho.
+Agora o title e o skills está fluttered,
+né?
+Então, ele está fluttered.
+Beleza.
+Vou fazer isso também para social
+security number.
+Só que lembra que eu registrei agora.
+Quando eu faço isso aqui, gente.
+Create or replace temp view.
+Eu estou basicamente no PySpark falando
+o seguinte.
+PySpark.
+Habilitação.
+Habilita um channel de comunicação,
+porque tudo SQL por debaixo dos panos.
+E faz com que esse data frame esteja
+viável para ser acessado em SQL.
+Então, olha só que sexy isso aqui.
+Eu vou agora testar realmente se isso é
+verdade.
+Então, eu vou pegar a view enhanced
+users com a view enhanced SSN.
+E eu vou fazer um join.
+Olha que coisa sexy.
+E eu vou ver realmente se existe.
+Juntar essas informações de social
+security number com as informações do
+usuário.
+E olha que legal.
+Agora eu tenho o social security number
+daquele indivíduo.
+Desse usuário.
+Tá?
+Beleza.
+Mas vamos supor o seguinte.
+Tá?
+É.
+Isso é muito massa.
+Agora vamos supor o seguinte.
+Vamos supor que...
+Bem.
+O que vocês acham mais fácil?
+Fazer isso?
+Ou fazer isso aqui?
+Tá?
+Então, eu trouxe duas formas para vocês.
+Então, uma forma é eu explorar ali no
+SQL.
+Outra coisa é eu utilizar o PySpark para
+fazer join.
+Como eu venho do background de dados.
+Então, uma forma é eu explorar ali no
+SQL.
+Para mim, é muito fácil e muito
+intrínseco, muito, sabe, óbvio que
+trabalhar com dados e fazer
+transformações e inteirar em cima de
+certas coisas é muito mais fácil
+utilizando o SQL.
+Mas, cara, cada pessoa tem um
+background, cada pessoa tem uma forma.
+E, cara, vamos ver como que a gente faz
+esse join no PySpark.
+Também é muito tranquilo.
+Tá?
+Então, eu vou pegar esse data frame.
+Vou chamar ele de left join users.
+Por que que eu estou fazendo um left
+join?
+Aqui eu fiz um join, um inner join para
+a gente testar, mas por que que eu estou
+fazendo um left outer join aqui,
+pessoal?
+Deixa eu só fazer uma coisa aqui.
+Tá me incomodando.
+Só um minutinho.
+Eu fiz isso porque, na verdade, não são
+todas as pessoas que possuem social
+security number na minha regra de
+negócio.
+Então, eu quero garantir que eu vou
+trazer todo mundo se eu não tiver social
+security number.
+Beleza, né?
+Então, o que que eu vou fazer agora?
+Eu vou trazer o dado que eu tinha
+carregado.
+O dado na memória, né?
+E eu estou escrevendo agora numa tabela
+silver.
+Eu estou o quê?
+Curando a informação.
+Estou trabalhando essa informação.
+Beleza?
+Então, olha só.
+Vou pegar o data frame e é bem simples,
+tá?
+Data frame ponto join.
+Vou pegar o data frame que eu vou fazer
+o join.
+Vou pegar o data frame inicial.
+Vou falar qual é a coluna que une eles e
+vou falar um how.
+Como?
+Left.
+É isso.
+E o resultado disso eu vou escrever na
+minha tabela
+silver.
+Silver users.
+Então, eu vou vir aqui, voltar, silver,
+users.
+Então, eu estou escrevendo essas
+informações aqui, tá?
+Agora, notem uma coisa muito legal que
+eu vou mostrar para vocês, que é o
+seguinte.
+Eu não sei se vocês perceberam, que na
+foto, o que que vocês conseguem ver
+aqui, ó?
+Tem três, seis, nove, doze.
+Beleza?
+São doze tabelas bronze e no final elas
+se tornam seis tabelas silver.
+Gente, aqui vai uma dica de ouro, tá?
+Que eu levo para as consultorias, que a
+gente trabalha isso, que a gente coloca
+isso nas grandes empresas.
+Enfim.
+Quando você está indo de bronze para
+silver, a primeira coisa que você quer
+trazer é a característica de domain
+tables, tá?
+Tabelas de domínio.
+O que que é isso, gente?
+É você olhar para as suas tabelas
+bronze.
+E, por exemplo, não sei se vocês
+perceberam aqui, mas aqui em cima, o que
+que eu fiz?
+Eu chamei de users, que, na verdade, é a
+combinação de usuário e SSN.
+Então, o que que eu vou fazer?
+Eu vou criar grandes tabelões grandes,
+que reduzem a quantidade de bronzes e
+que me facilitam eu criar visões para o
+negócio depois.
+Eu vou criar uma estrutura de tabelões
+para que eu consiga aglomerar
+informações que são pertinentes.
+Então, coisas de venda vão para dentro
+dessa tabelona de venda.
+Isso é delicioso, né?
+Porque o que vai acontecer na vida real
+é que você vai ter vários, vários
+sistemas e vários sistemas vão ter
+usuários.
+Então, em vez de você ter cada tabela
+silver de usuário, o que que você vai
+fazer?
+Você vai criar um modelo, que a gente
+chama de domain tables, que são o quê?
+Exatamente um encapsulamento do que
+significa aquele usuário para o business
+como um todo.
+Você vai ter somente uma tabela de
+usuário.
+Assim, você está trazendo a congruência
+da informação, a atomicidade, como se
+você tivesse, Belker, exatamente uma
+grande dimensões, várias dimensões.
+Eu chamo de várias tabelas porque as
+tabelas, elas podem ter tanto dimensões
+quanto métricas.
+Então eu deixo o conceito como tabelões,
+tá?
+Por isso que a gente chama de domain
+tables, porque são tabelas de domínio.
+Elas representam o valor do negócio
+relacionado ao que você está trazendo
+para aquele domínio, beleza?
+O Matheus perguntou, tanto em SQL quanto
+em PySpark tem o mesmo tempo de
+execução?
+Sim, é para ser o mesmo tempo de
+execução, porque o que roda ali por
+detrás de PySpark, o de escala, enfim, é
+SQL, tá?
+Não, não são tabelas fato, são tabelões,
+são tabelas de domínio, tá?
+Elas retém qualquer informação que você
+queira que elas retém.
+Só que elas são o aglomeramento, a
+junção de tabelas que pertencem ao mesmo
+significado.
+Então, nesse caso, eu fiz usuário.
+Usuário é o quê?
+No meu caso aqui, a gente está
+analisando o usuário na perspectiva do
+meu negócio, eu estou trazendo o usuário
+com social security number e eu estou
+colocando dentro de uma tabela silver
+chamada users, usuários, tá?
+Então dentro dessa tabela usuário, na
+verdade são duas tabelas que vieram
+bronze, a tabela de usuário e a tabela
+de SSN, elas se juntaram e viraram uma
+tabela só, beleza?
+Então aqui eu tenho a mesma informação
+também, o profile, enfim.
+Eu posso fazer uma query entre elas e
+aqui eu posso fazer exatamente a visão
+dessas informações que eu tenho.
+É como se você tivesse tabelas de
+usuário de vários sistemas com
+particularidades, de que eles juntassem
+toda essa espécie em um master data, em
+um evento vindo de um NoSQL com
+informações de vários domínios em um
+único registro, como você desmembra
+esses domínios nas tabelas
+bronze.
+Então, eu não desmembro na bronze, ela
+vai chegar do mesmo jeito, tá?
+Ela vai ser desmembrada na silver.
+A bronze, se você tiver 50 sistemas de
+usuário, você vai ter 50 tabelas bronze.
+O desmembramento, a união, o acoplamento
+disso vai acontecer na silver, porque na
+bronze a gente é o que?
+Exatamente exis do que está dentro do
+data lake.
+Então se você tem 50 sistemas, você vai
+ter exatamente 50 na silver, tá?
+Como que a gente vai manter o
+relacionamento?
+Então a gente pode desenhar isso aqui
+agora, né?
+Então vamos pegar um exemplo aqui, um
+caso de uso.
+Então vamos aqui dentro do Spark, vamos
+criar aqui o conceito de domain
+tables.
+Então eu posso pegar alguma coisa que eu
+já tenho aqui, deixa eu ver,
+pra trazer uma visão um pouco mais
+aberta do processo como um todo.
+Então tá aqui, ó.
+Deixa eu pegar a ideia da arquitetura
+delta pra
+vocês.
+Vamos desenhar isso aqui, porque eu acho
+que no desenho fica muito mais fácil de
+vocês entenderem, beleza?
+Então tá aqui, ó.
+O que que a gente tá fazendo, né?
+Os dados chegam de diversas fontes de
+dados, então você tem vários data
+sources, beleza?
+Essas fontes de dados, eventualmente,
+elas vão cair dentro do seu lake, do seu
+data lake, beleza?
+Na landing zone, por exemplo, um bocado
+de JSON, e aí esses, essas dados vão
+entrar aqui dentro da bronze, beleza?
+Agora, vamos desmembrar isso aqui, tá?
+Vamos desmembrar isso aqui em
+características mais relacionadas ao
+treinamento pra que vocês possam
+entender as melhores práticas do
+mercado, então vamos pensar aqui no
+batch, beleza?
+Então, vamos pegar aqui e vamos trazer
+pra cá.
+Três casos, e aí vocês me ajudam, tá?
+Nesses três casos.
+Vamos supor que esse JSON aqui é, vamos
+pegar aqui, mongodb .collection .user,
+tá, então esse cara aqui vem do Mongo,
+vamos botar aqui esse cara aqui, mssql
+.table .user, e agora vamos supor que
+esse cara vem do Mongo.
+vendpostgres .table .user.
+Gente, eu preciso da participação de
+vocês, a gente tá fazendo algo inédito
+aqui, quero saber se vocês estão
+entendendo o que eu estou fazendo aqui.
+A gente tá criando e modelando o nosso
+lake em tempo real, beleza?
+Até aqui tudo bem?
+Vamos lá, gente, me ajudem, interajam,
+show, beleza, é, legal?
+Então, isso aqui...
+É a minha...
+Legal isso aqui, né?
+Eu adoro isso aqui, fazer esses live
+sessions, acho que isso aqui é muito...
+Isso, beleza.
+Isso aí.
+Bronze.
+Tá?
+É bronze.
+Tá aqui.
+E agora o que que eu vou fazer?
+Vamos pensar no seguinte, vamos pensar
+aqui, vamos elevar aqui o bastão do
+negócio, né?
+Matheus, você ainda tá aí?
+Você consegue colocar a estrutura da
+tabela do usuário pra mim, do SQL
+Server, se tiver lá?
+Você consegue fazer isso...
+É do usuário?
+É, ia ser legal, ia ser bem legal.
+Deixa eu ver aqui.
+O que eu quero mostrar pra eles é a
+modelagem de vida real, entendeu?
+Como realmente é a vida real.
+A vida real é muito doida, aqui ó.
+Poxa, ele tá aí.
+Infelizmente, deixa eu ver aqui como que
+eu
+vou...
+Não ficou bom, calma aí, gente.
+Deixa eu ver se eu consigo copiar esse
+cara aqui.
+Tá bom, tá bom.
+Pra ele ficar bonitinho pra vocês.
+Se não, tudo bem, não tem problema
+nenhum, fica legal.
+Mas...
+Deixa eu ver.
+Vou tentar de uma outra forma aqui.
+Matinho, copia pra mim aqui, por favor.
+Que eu tô tentando copiar um negócio
+aqui pra vocês.
+Pra vocês poderem...
+É, não vai funcionar.
+Tá?
+Tudo bem.
+Então eu tenho aqui usuário, enfim, tá?
+Então, quando eu for pra Silver...
+Então, vamos lá.
+Quando eu for pra Silver, o que que vai
+acontecer?
+Eu venho...
+Aqui eu venho com a ideia do dado cru,
+né?
+Então, é um dado que está completamente
+as -is.
+E aqui eu venho com o conceito de domain
+tables, né?
+Que são as tabelas de domínio que eu
+falei pra vocês.
+Então, o que que eu vou fazer aqui?
+Eu vou falar o seguinte.
+Cara, agora eu vou modelar uma tabela.
+Perfeito?
+Beleza?
+Que se chama...
+Essa tabela se chama users.
+Tá?
+E essa tabela, na verdade, é a
+combinação da coleção do Mongo, do que
+vem do SQL e do que vem do Postgres.
+Vamos pegar um exemplo aqui, tá?
+Deixa eu só...
+Por exemplo, um evento.
+Arquivo JSON.
+Rondas de usuário.
+Localização de usuário.
+Produtos adquiridos pelo usuário.
+Tudo em único JSON.
+Como transformar uma tabela no domínio
+se ela tem...
+Se ela vem em um único registro.
+Então, aqui você pode utilizar algumas
+características.
+Então, aqui, por exemplo, você pode
+botar uma coluna que eu gosto de usar,
+chamada source system, né?
+Source system.
+E aí, aqui nessa coluna, né?
+Source system.
+Event time.
+Eu gosto de colocar primary key.
+Eu gosto de colocar business key.
+Eu gosto de colocar...
+Isso aqui eu gosto muito.
+Vou ensinar pra vocês.
+Is active.
+Por quê?
+Se você tiver alguma regra de GDPR aqui,
+você pode simplesmente...
+Olha que lindo.
+Inativar o registro.
+Esse registro, depois, ele pode ser...
+Ele pode ser inativado pro pipeline como
+um todo.
+Em vez de eu ter que passar pelo
+processo de merge e passar por alguns
+processos complicados, eu posso
+simplesmente inativar ele.
+Tá?
+Então, isso é uma das coisas que eu uso.
+A domain table mantém o controle dos
+registros que foram atualizados a partir
+da camada bronze?
+Não só mantém o controle.
+Ela não é uma tabela de metadados.
+Você pode até ter uma tabela de
+metadados.
+Eu não gosto de usar uma tabela de
+metadados.
+Por quê?
+Porque o delta já é o próprio metadado
+em si.
+Então, eu adiciono alguns campos que vão
+me ajudar.
+Me ajudar a entender qual é a fonte
+desse cara.
+Então, vamos supor aqui, só pra você
+entender.
+Tá?
+Se no MongoDB eu tenho esse cara sendo
+como registro único, né?
+Esse ID aqui sendo como registro único.
+Se eu tenho aqui uma coluna chamada user
+ID,
+que ele é, sei lá, 137.
+E aqui o meu user ID é 457, 467.
+Quantos registros eu vou ter lá?
+Bem, três, teoricamente.
+Né?
+Agora, se eu quiser fazer com que esse
+cara seja a mesma pessoa.
+Então, vamos supor que ele seja a mesma
+pessoa.
+Né?
+Vamos supor que eu vou identificar isso
+por algumas características do meu
+negócio.
+Tá?
+Então, pode ser pelo social security
+number.
+Pode ser pelo CPF.
+Pode ser pelo, realmente, o user ID.
+E eu vou identificar esse cara.
+E aí eu vou ter o quê?
+Uma regra aqui que vai falar o seguinte.
+Olha, esse cara, na verdade, ele é o
+mesmo.
+Tá?
+Então, porque ele é o mesmo, o que que
+vai acontecer?
+Esse registro aqui, esse registro aqui e
+esse registro aqui vai se tornar o quê?
+Um registro só.
+Ele vai ser colocado lá na domain table
+como um registro.
+Com todas as informações.
+Então, aqui você pode, por exemplo, do
+source system, o que que você pode falar
+que ele é?
+Tá?
+Você pode falar que ele é um source
+system nu.
+Porque, na verdade, ou ele é um source
+system domain.
+Que aí eu sei, por exemplo, que ele é
+aglomeração de tudo.
+Event time, 2022.
+Zero.
+Nove.
+A gente tá no mês nove, não.
+A gente tá no mês oito.
+Dezessete.
+At.
+Nineteen through nine pm.
+BRT.
+Primary key.
+Qual é a primary key que você quer usar?
+Vai depender de qual que você quer
+considerar aqui.
+Ah, eu posso botar isso dentro do quê,
+gente?
+Dentro de uma struct.
+Então eu posso botar uma struct que vem
+falando qual é o primeiro, qual é o
+segundo e qual é a terceira primary key
+desse cara.
+Assim você consegue fazer o traceback.
+Você pode voltar no tempo.
+Tá?
+Você pode voltar e verificar qual é a
+business key.
+Como que você vai achar esse cara?
+Qual é o negócio?
+Ah, um três sete.
+E ele tá ativo?
+Is active?
+Sim, ele tá ativo.
+Tá?
+E aqui você tem a primeira
+característica extremamente importante.
+Se você tá de fato modelando e
+trabalhando com isso na sua vida real
+mesmo, isso aqui é uma puta prática foda
+de você fazer.
+Porque você já tá estruturando seu
+making house.
+Tá?
+Tá claro?
+Parei aqui vinte minutos pra gente
+entender essa transição.
+Ficou claro?
+Na língua chega Jason, na bronze chega
+Parquenas, dois chega Delta.
+Sim, sim, sim.
+Ficou legal?
+Marcelo falou que não.
+Então, Marcelo, se você quiser abrir o
+áudio e perguntar, fica mais
+fácil.
+Habilita pra ele, Matheus, o áudio.
+Que é bichinho.
+Tem que ficar escrevendo.
+Meia hora eu já passei aqui, tá?
+Marcelo com Moura.
+Pode ir.
+Pode ir, Marcelo.
+Pode desativar aí.
+Tá bloqueado, mas não.
+Alô?
+Tá me ouvindo?
+Agora tá.
+Tá.
+Não, assim, o evento vem com três
+informações de domínio no próprio
+evento.
+Eu tenho um Jason, que eu tenho
+informações de localização do usuário,
+eu tenho os dados do usuário.
+Sei lá, o e -mail dele.
+E eu tenho no mesmo registro que produto
+ele adquiriu.
+Tudo em um Jason.
+Entendi.
+E aí eu preciso transformar isso em
+domínios.
+Mas eles estão em um registro.
+Como é que eu faço pra fazer o
+relacionamento depois?
+Perfeito.
+Entendi.
+Tá.
+Vamos lá, então.
+Valeu.
+Vamos pro...
+Esse é um...
+Tava pensando se eu ia gastar tempo com
+isso, não, mas eu acho que é uma parada
+muito foda pra trazer altos insights pra
+galera aqui.
+Então vamos resolver esse problema aqui.
+Isso aqui é legal.
+Ou seja, isso é um, né, que você tem
+separado e você sabe a natureza.
+Esse outro caso aqui que ele postou aqui
+também é bem legal, tá?
+Eu vou fazer porque é legal de fazer
+mesmo, tá?
+É legal de pensar.
+Gente, se eu der uma travada é normal,
+tá?
+Porque a gente tá fazendo literalmente
+ao vivo, beleza?
+Então vamos lá.
+O que que o Camemura falou?
+Legal, Luan.
+Beleza.
+Mas e se...
+Se eu tiver esse problema aqui?
+Na verdade, vou fazer melhor.
+Vou pegar a porra toda pra você,
+Camemura, pra ficar...
+Show.
+Vamos gastar tempo com isso, gente,
+porque aqui a ideia é vocês aprenderem.
+Porque, cara, isso aqui é muito massa.
+Aprendeu a fazer isso aqui, velho?
+Não é só usar a tecnologia, gente.
+Desenhar na vida real.
+Então, ó.
+Olha só o que o Camemura falou.
+Ah, legal, Luan.
+Vida boa.
+Mas e se você tiver um evento que,
+cara...
+O bicho tem a porra toda, né?
+É, porque, por exemplo, ele tá certo
+mesmo, ó.
+Olha só.
+Aqui você tem as informações de usuário.
+Aqui você tem as informações de
+endereço.
+Tá vendo?
+Aqui você tem as informações de
+endereço.
+E aqui...
+Então, vamos lá.
+Ó.
+Informação de endereço aqui.
+Informação de cartão de crédito aqui.
+Informação de...
+Informação de plano aqui.
+Tá?
+E a informação do usuário mesmo que tá
+aqui.
+Então, como ele falou...
+Olha que legal isso aqui.
+Teoricamente, você tem aqui...
+Domain user.
+Ó.
+Você tem o domínio de usuário.
+Você tem o credit card.
+Você tem o...
+Desculpa.
+Address.
+Você tem o credit card.
+E você tem o subscription.
+E você tem o...
+Temass alltså ele tem você tem slowly
+que pode ser o wiederisches dessas
+entidades diferentes lá na bronze não
+está errado tá sempre também e e aí como
+que o bagulho funciona bem que a gente
+pode fazer aqui a gente pode fazer aqui
+Vamos pensar uma tão interna De nosso
+uso Nossa nossa Não sou uma vez Que
+então eu vou pensar aqui como a gente
+pode não whiskey Então eu vou volegar
+aqui a primeira nãoadece algo trouvé vou
+usar então é bom um table que vai ser
+usuário.
+Beleza?
+Então, o que que o usuário vai ter como
+colunas, como campos?
+Então, ele vai ter, vou pegar aqui
+algumas coisas, tá?
+Então, vou pegar o user ID e durante
+esse processo aqui, né, eu vou usar o
+Spark pra poder fazer esse processo
+aqui, né?
+Já entendeu, né?
+Vai usar o Spark aqui pra fazer esse
+processo, processo, transformar o dado e
+fazer o date enrichment, né?
+Então, date enrichment.
+Enrichment.
+Ok?
+Domain table, user ID.
+Vou pegar first name.
+Vou pegar last name.
+E vou pegar...
+Tá bom.
+Da domain table subscription, eu vou
+pegar plan status
+payment method e term.
+Beleza.
+Agora, eu vou deixar vocês fazerem.
+E aí?
+A gente consegue fazer o traceback dessa
+forma?
+Gente, de novo, são trinta e quantas
+pessoas na turma?
+Trinta e cinco pessoas.
+São trinta e cinco engenheiros de dados,
+a gente vai pensar como a gente vai
+fazer isso aqui e resolver esse problema
+real, no caso de uso real, tá?
+A gente não combinou isso.
+Então, vamos resolver todo mundo junto.
+O que que vocês fariam aqui?
+Qual a primeira garantia que eu tenho
+que fazer quando eu estou fazendo a
+modelagem?
+A primeira coisa que eu tenho que fazer
+é garantir o seguinte, que eu consigo
+voltar e recompor esse modelo.
+Então, eu tenho que garantir que o que
+eu fizer aqui, esse modelo, quando eu
+voltar pra ele, ele pode ser decomposto,
+tá?
+Traceback.
+Eu tenho que ser.
+Vamos lá.
+Subscription não precisaria do user ID?
+Caralho!
+Caralho!
+Que orgulho dessa galera daqui, meu
+irmão.
+Dá até vontade de arrastar o chifre no
+chão de novo.
+Perfeito.
+Muito bom.
+Olha só.
+User ID vai me ajudar bastante aqui.
+Por quê?
+Porque o user ID vai fazer com que eu
+consiga...
+Por que esse cara não tá preenchido
+dentro?
+Whatever.
+Esse cara vai garantir com que o quê?
+Se eu tenho user ID e user ID aqui, eu
+consigo formar isso aqui.
+Mais alguma coisa que pode faltar aqui?
+Pra eu recompor esse evento, essa tabela
+de
+iluminação?
+Ou a gente tá bem?
+A gente tá bem?
+Eu diria para usar apenas o event ID em
+todas as tabelas.
+Muito bom.
+Poderia também.
+Então, você poderia criar um
+autogenerated column, igual a event ID.
+Muito bom também.
+Legal.
+Gosto.
+Gosto dessa ideia também.
+Gosto do usuário também, porque às vezes
+você pode reduzir alguns hops para poder
+chegar no resultado que você quer.
+Então, colocaria os dois.
+Beleza?
+Mas gosto do event ID.
+Acho foda.
+Event ID.
+Event.
+Cara, legal esse caso de uso.
+Gostei.
+Tá bom.
+Tá bom.
+Camemora.
+Essa foi uma parada muito legal.
+Gostei.
+Gostei.
+Gostei.
+Acho que foi legal.
+Poderia ficar complexo, mas poderia
+criar um campstruct.
+Pode também.
+Posso.
+Entende?
+Você pode fazer o que você quiser,
+contanto que você entenda o conceito.
+Então, a gente entendeu aqui a ideia.
+Insert at, event ID, schedule at.
+Pode ser também.
+Você pode preencher de.
+Add metadata to support.
+Your.
+The new.
+The new data model.
+Você pode adicionar metadata para
+suportar o seu novo modelo de dados, que
+eventualmente vai virar ouro.
+A gente vai voltar daqui a pouco nisso
+aqui.
+Camemora.
+Poderia também, conceito de surrogate
+key, também poderia usar aqui.
+Está aberto.
+Funcionaria.
+Ficou agora crystal clear.
+Fizemos dois cases legais aqui.
+E agora, vamos ver.
+E bota aí no chat se sim.
+Dá para entender, né?
+Vou complicar, hein?
+Estamos falando desse next json, mas se
+for flatten json objects.
+Ah, se a gente fizer o flatten em vários
+diferentes, e aí você pode ter um evento
+que combina eles, né?
+Você pode dar uma significância para
+esses três caras.
+Você pode criar um ID que faça
+referência a esse documento aqui.
+Por exemplo, esse ID, esse objeto, ou
+esse index, ou enfim.
+A esse evento aqui.
+Então, você conseguiria descer, rastrear
+nos três e voltar.
+A ideia é, a grande regra é, contanto
+que você consiga recompor ou reverter
+para o estado original do evento que
+você precisa, está dope.
+Está foda.
+Então, essa é a grande ideia.
+Beleza?
+Gostei.
+Então, beleza.
+Escrevi.
+De nada.
+Escrevi aqui.
+Vou explorar.
+E olha só.
+Fiz isso também para subscriptions.
+Está vendo?
+Subscriptions é o englomerado de
+subscriptions e devices, dispositivos.
+Eu vou juntar isso tudo dentro de um
+novo domain table chamado subscriptions,
+com S no final.
+Então, vamos ver algumas coisas que eu
+fiz aqui.
+Ah, isso aqui é muito foda.
+Isso aqui, quem quiser usar foda, fique
+à vontade.
+Olha só o que eu vou fazer.
+Eu vou mostrar uma das formas que a
+gente usa Python quando a gente usa
+JavaScript.
+Eu vou criar uma função Python, então eu
+vou declarar uma função Python.
+Beleza?
+Então, eu vou pegar aqui.
+Vou criar uma função de classificação.
+Vou classificar os meus usuários.
+Ele vai receber subscription plan.
+Beleza?
+Matheus, fica à vontade de você ir lá
+para a Live.
+Beleza?
+Pode ficar tranquilo.
+Eu já ia falar agora, estou enganado.
+Fica tranquilo.
+Boa sorte.
+Arrebenta lá.
+Valeu.
+Depois eu quero assistir.
+Certo.
+Se Subscription estiver entre Business,
+Diamond, Gold, Platinum, Premium,
+retorna, que é um usuário de alta
+importância na minha plataforma.
+Se o usuário Subscription for Bronze,
+Essential, Professional, Silver,
+Standard, ele é normal.
+Se ele for diferente de tudo isso, low.
+Agora, gente, o choro é gratuito.
+Eu vou chegar e falar o seguinte.
+Spark, pega seu DF e registra para mim.
+Essa User Defined Function com o nome de
+FN underscore Subscription Importance,
+que na verdade faz referência a
+exatamente essa função que eu acabei de
+criar.
+Tá?
+Agora eu vou selecionar algumas colunas,
+criar uma tabela temporária e vou
+enriquecer o meu trabalho com SQL.
+Então eu chamo spark .sql.
+Ok?
+E faço todo esse processo.
+E olha só o que eu estou chamando aqui
+embaixo do SQL, porque eu registrei isso
+como uma função.
+Eu estou executando o enriquecimento
+dessa função aqui que eu acabei de
+criar.
+O Velker perguntou se não poderia fazer
+isso com o Lambda.
+Pode também.
+Pode fazer.
+Então agora eu vou executar.
+Aqui eu fiz alguma transformação.
+Né?
+Tive algumas ações, mas isso não
+desencadeou uma transformação.
+Agora aqui sim, eu vou pedir um SELECT.
+Ele vai acionar o processo.
+E aquela função que eu escrevi em Python
+foi colocada dentro da engine do Spark e
+registrada dentro da engine do Spark.
+E eu posso rodar em SQL.
+Isso é muito foda.
+Isso é uma capacidade que o Spark tem de
+você poder estender a capacidade do
+Spark.
+Beleza?
+Aqui eu vou continuar trabalhando na
+seleção dos meus campos.
+Enriqueceu.
+Enriquecendo a coluna, fazendo o JOIN
+dos meus datasets e unindo eles no
+final.
+A mesma coisa que eu fiz lá.
+Tá?
+É.
+É, Juliana.
+É muito foda.
+Também concordo.
+Exatamente.
+Isso é um análogo ao SP em SQL.
+Nesse caso aqui seria uma function
+mesmo, um UDF.
+Vou fazer isso para filmes também.
+Mesma coisa.
+Vou ler.
+Tá?
+Vou fazer algumas transformações.
+Olha que legal essas outras
+transformações que eu trouxe para vocês
+aqui.
+Transformações diferentes para vocês
+verem, ó.
+Isso tem várias formas de fazer, gente.
+Eu posso chegar aqui e fazer um SELECT e
+o PySpark me possibilita utilizar
+expressões.
+Olha que legal.
+Então eu posso falar o seguinte, ó.
+Quando case when.
+Isso é foda, Luan.
+Isso seria fim do case no Spark.
+Digo isso em performance, montar uma
+função compensada em memória de
+descasos.
+Boa pergunta, João.
+Na sexta -feira a gente vai ver que
+essas funções a gente usa com um pouco
+de cuidado, né?
+A gente usa com um pouco de cuidado, né?
+Porque aqui você tem um problema porque,
+basicamente, que bom que você perguntou.
+Eu ia falar de qualquer jeito na sexta,
+mas o que que acontece aqui?
+A gente tem que, como desenvolvedor,
+pensar muito bem.
+Porque, de novo, Spark não escala,
+beleza?
+Então, quando eu registro a UDF aqui, o
+que que acontece?
+Eu tô saindo do contexto do Spark.
+Então, o que que rola?
+Na hora que eu venho e faço esse SELECT,
+ou eu boto uma consulta em cima disso,
+ele vai ter que sair do contexto do
+Spark.
+Ele tem que ir no interpretador do
+Python, executar e voltar com o
+resultado.
+Então, eu não consigo ter escalabilidade
+linear nisso.
+Ele executa muito bem, mas eu não tenho
+escalabilidade linear.
+Isso era um problema, uma dor de cabeça.
+E o que que a gente fazia antes do Spark
+3 .0?
+A gente reescrevia essa função escala.
+Aí sim.
+Aqui é um caso onde você reescreve essa
+função escala e aí o escala entra e,
+porra, dá show, dá tapa na cara do
+Python.
+Por quê?
+Língua materna.
+Eu vou escrever essa função escala,
+registro ela do mesmo jeito e executo.
+Só que a partir do Spark 3 .0, a gente
+tem a entrada do Pandas UDF com PyArrow.
+Então agora essa intercomunicação é tipo
+10 vezes mais rápida.
+Então hoje você pode criar essa UDF,
+registrar e executar a escalabilidade
+passando uma tipagem que eu vou mostrar
+lá na sexta -feira.
+E aí você vai ter essa função
+funcionando 10 vezes mais rápido.
+Beleza?
+E ainda escrevendo, então.
+Olha só.
+Tem um sábio legal aqui também, o case
+when.
+É comum usar um UDF que faça uma
+pesquisa em outro dataframe.
+Acontece.
+Eu já usei.
+É case sensitive.
+É só a pessoa ver se é preciso tomar
+cuidado no case when.
+Sim.
+Aqui, ó.
+Case when original language is GA, then
+Japanese, plus when original, then
+English, when original, blah, blah,
+blah, French, plus else and non
+-English.
+E eu também queria uma coisa bem legal.
+Quando o rating estiver entre 1 e 3, é
+podre.
+Quando estiver entre 4 e 7, é fresco.
+Quando estiver diferente disso, é não
+classificado.
+Eu criei a minha própria classificação
+do Rotten Tomatoes.
+Pra quem não conhece, pra quem não gosta
+muito de filme, é uma classificação que
+a gente tem, na verdade, que fala um
+pouco dos filmes que a gente assiste,
+como eles são classificados e olha só
+que bonitinho depois como fica.
+Então a gente augmentou a nossa tabela
+de filmes também.
+E a gente acabou o nosso caso de batch
+com o quê?
+Users, subscriptions e movings, né?
+Então, daqueles três diferentes
+sistemas, virou um, ou se a gente
+tivesse um evento que representasse
+vários domínios, eu poderia quebrá -los
+e fazer a estruturação dessa informação.
+Luan, isso vale a pena, cara?
+Vale porque quando a gente for...
+Entregar isso na GOLD, que a gente vai
+entregar amanhã, você vai ver a
+diferença que isso vai fazer na sua
+vida.
+Aí sim você vai ver a diferença.
+Então, at first glance, parece que, ah,
+eu vou terminar esse processo de
+modelagem, mas aqui você tá unificando
+um processo de modelagem de dados dentro
+da sua empresa e isso é muito foda, tá?
+Você vai ter um data lake house, que
+realmente é um lake house.
+Então, lake house.
+Lake house não é só utilizar o formato
+de arquivo, entende?
+O lake house é muito mais que isso, é
+você conformar o dado, você garantir a
+qualidade dessa informação, você
+garantir o lineage, é você garantir a
+escalabilidade entre as camadas e assim
+por diante, tá?
+E aí, o que vocês acharam?
+Podemos respirar e começar streaming?
+Que agora tá bem fresco o batch, isso é
+bom, né?
+Gostaram?
+Top?
+E aí?
+Up?
+Dá um volt.
+Bom?
+Toda vez que vocês quiserem que eu
+desenhe, fala, vai pro desenho, que a
+gente desenha em tempo real aqui, eu
+acho foda, eu acho gostoso fazer isso,
+tá?
+Eu acho que ajuda bastante, tá?
+Gente, quero perguntar pra vocês, tô
+indo rápido, o nível de detalhe tá bom,
+vocês querem que eu fale mais rápido,
+mais devagar, tá bom?
+A gente tá no terceiro dia ainda, falta
+hoje, quinta e sexta, tá bom?
+Me diz aí, tá tranquilo?
+Tá bom o pace?
+Tá de boa?
+Eu só não tô falando muito rápido hoje,
+que a minha garganta tá doendo
+infinitamente já, tá?
+Então, desculpa se eu não conseguir
+falar muito, é porque eu passei o dia
+todo, desde cinco da manhã, em call, fiz
+call, muitas coisas na minha garganta tá
+explodindo de dor.
+Cês tão conseguindo me escutar bem?
+Tá bom o som?
+Eu tô falando bem menos, tá?
+Bem menos alto, beleza.
+Então, tá bom, tá bom, tá bom, tá bom,
+tá bom, tá bom, tá bom, tá bom, tá bom,
+tá bom, tá bom...
+Som real então.
+Então, vamo lá.
+Vamos pra diversão agora.
+Beleza!
+A gente viu o batch, faz sentido falar
+de batch pra muita coisa, e agora a
+gente vai explorar as capacidades de
+streaming capabilities, né?
+Então, eu falei pra vocês, eu prometi
+pra vocês o seguinte, que o Kafka...
+Desculpa, que o Spark ele é tão foda,
+mas tão foda que ele unificou as
+linguagens de programação, pra vocês
+poderem ter facilidade na hora de
+transformar sua internet.
+transicionar entre as linguagens.
+Então é exatamente isso que a gente vai
+falar agora.
+Mas para a gente entender o conceito e o
+processo de processamento de streaming
+no Spark, a gente precisa dar alguns
+passos para trás para entender conceitos
+de streaming e capacidade de streaming.
+Por quê?
+Porque se você for vendar os seus olhos
+e ir direto para a prática, não vai
+estar claro para você qual é a
+necessidade, como você resolve e o
+porquê você precisa resolver dessa
+forma.
+E primeiro, quando você tiver um
+problema, qual é o tipo de processamento
+que eu vou escolher dentro do Spark e
+quais são as melhores características?
+Eu vou escolher batch?
+Eu vou escolher streaming?
+Por quê?
+Quais características que eu vou usar?
+Quais são as melhores práticas?
+E continua perguntando aí se tiver
+alguma coisa que está faltando, beleza?
+Então, o primeiro conceito que você
+precisa entender sobre streaming, como
+um todo, a gente viu conceitos de batch,
+lake house e assim por diante, você
+precisa entender conceitos de streaming
+que são muito
+importantes.
+O primeiro conceito de streaming que
+você precisa entender é o conceito de
+event streaming.
+A gente vai ter que compor um pouco o
+que significa esse cara.
+Por quê?
+Porque isso vale para todas as nuvens,
+para todas as tecnologias que utilizam
+isso.
+É a mesma coisa de eu falar para vocês
+de banco de dados.
+Lembra que a gente falou sobre ACID?
+E ontem alguém perguntou para mim, cara,
+mas o que é ACID?
+Então, o que rege bancos de dados
+relacionais e muito sobre batch são as
+duas coisas que a gente vai ter que
+entender.
+Então, as características de data lake
+com data house com as características de
+batch.
+O que rege streaming são esses conceitos
+que eu vou trazer para você.
+Event stream e event stream process.
+Esses são os conceitos que regem stream.
+Então, a vez que você endereça isso,
+fica muito mais fácil, depois desse
+pilar construído, construir o que está
+em cima desse
+caso.
+Então, vamos lá.
+Event stream.
+O event stream é a representação de um
+dataset que é o que a gente chama de
+data set.
+O que a gente chama de unbounded.
+O que é bound?
+Bound é você ser limitado ou estar em
+uma circunferência.
+Você tem um limite.
+O que é ser unbounded?
+Unbounded é sem limite.
+Então, o que isso acontece?
+O que basicamente significa unbounded?
+Infinito e eternamente crescente.
+Então, é literalmente você ver
+streaming, o conceito de event stream,
+como você ligar a torneira lá da sua
+casa.
+Então, cara, a partícula daquilo ali que
+está, cada gota, cada droplet que está
+caindo, é um evento.
+E o que é um stream?
+É a quantidade de conjuntos de gotas que
+caem.
+Então, é exatamente isso.
+É como se você ligasse uma torneira e
+você tivesse os eventos chegando ali em
+tempo real.
+Isso, às vezes, parece um pouco mais
+abstrato.
+A gente vai entrar nesse conceito agora
+em detalhe.
+Coisas que event streams trazem para
+você right off the shelf, que já te
+entrega isso out of the bat.
+Coisas muito fáceis.
+Coisas fodas, como, por exemplo, eventos
+são ordenados.
+Diferentemente de um banco de dados, né?
+Se alguém falou para você um dia que
+bancos de dados que você cria uma tabela
+como primary key, você faz um Celeste
+Asterisco front e esse dado sempre vai
+vir ordenado, essa pessoa está mentindo
+para você porque ela não vai vir
+ordenada.
+Então, não existe ordem em um banco de
+dados relacional.
+Nenhum banco de dados relacional
+consegue te garantir uma ordem explícita
+se você não literalmente fizer isso de
+forma explícita, entendeu?
+Então, por mais que você tenha ali um
+Celeste Asterisco front em uma tabela
+que tem uma primary key e que está de um
+a um mil, você pode durante muitas vezes
+achar que o seu Celeste Asterisco front
+está trazendo do primeiro ao último,
+mas, na verdade, ele não está.
+Então, a única forma de você garantir
+ordenação dentro de um banco de dados é
+você fazer o quê?
+Aplicar o conceito de order by.
+Uma das grandes características de event
+stream é que ele já é ordenado por
+natureza, porque a ordenação acontece de
+acordo com o tempo.
+Então, o tempo é a ordenação natural do
+evento.
+Então, um evento.
+Então, olha só que legal, você já começa
+a pensar em coisas muito fodas, como,
+por exemplo, vamos pensar aqui num
+sistema bancário.
+É uma das lives que eu sempre quis
+trazer para o meu canal, que eu ainda
+não tive tempo de parar realmente para
+construir.
+Mas, olha só que legal isso aqui.
+Vamos parar para pensar num sistema bem
+bancário há 10 anos atrás.
+Basicamente, esse sistema bancário
+estava dentro de um banco de dados
+relacional.
+Então, você tinha ali um TED
+acontecendo, algo desse tipo, você tinha
+algumas tabelas em que essas transações
+caíam, existiam alguns níveis de
+serialização e garantias que você tinha
+que fazer e assim por diante.
+Só que, cara, isso começou a ficar muito
+grande.
+É claro que o banco de dados não
+suportaria a quantidade de insetos e de
+transações que aconteceriam.
+E a ideia de evento soa muito
+interessante.
+Se você olhar...
+Se você olhar agora o seu extrato de
+banco, o que que ele é?
+Ele é, nada mais é do que um event
+stream, ele é ordenado, né?
+Então, você tem TED, você tem DOC, você
+tem um saldo, você tem um extrato,
+enfim.
+Eu não sei se vocês já perceberam isso,
+mas quando você faz um TED, vamos supor
+que você fez um TED para a conta do
+Luan, de 300 reais.
+Ele vai falar ali, menos 300.
+E se por algum problema acontecer de
+aquele TED ser rejeitado, ele atualiza
+aquele campo no seu extrato?
+Ou ele aparece embaixo, mais 300?
+Me fala aí, o que que aparece para
+vocês?
+Olhando para essa sequência, você já
+começa a entender que sistemas bancários
+hoje são exatamente o que?
+Append only.
+Eles garantem o fluxo pelo event stream,
+na maioria deles.
+Beleza?
+Exatamente.
+Segundo, os registros são imutáveis.
+Então, não existe a deleção daquele
+registro e não existe o update daquele
+registro.
+O que vai acontecer é que, por exemplo,
+se eu mandei...
+Se eu mandei um menos 300, eu vou mandar
+um mais 300.
+E aí, claro, que a soma disso no final
+vai dar o valor com o que eu queira.
+Ou seja, eu consigo visualizar toda a
+cadeia de eventos que aconteceram desde
+o início até o fim, para aquele usuário,
+para aquela característica, para aquele
+grupo, ou de como eu quiser estruturar.
+E último, e mais legal de tudo, é que
+você pode o quê?
+Reproduzir quantas vezes...
+Se você quiser, os seus eventos.
+Eventos são guardados e retidos.
+Eles podem ser retidos por sete dias,
+365 dias ou infinitamente.
+Por exemplo, um dos casos muito legais
+de retenção infinita de eventos,
+principalmente no Kafka, tá?
+Eu não estou só falando de Kafka, estou
+falando de sistemas que são event
+stream.
+A gente vai ver quais são.
+O que a gente tem aqui?
+Eles retém todos os posts já feitos no
+New York Times desde o início da criação
+deles.
+Você tem uma biblioteca lá que está
+tudo...
+Tudo em Kafka, que você consegue fazer
+um acervo e ver tudo que foi escrito até
+hoje.
+Eles têm um sistema que lê o Kafka e
+consegue ver todos os artigos que foram
+publicados até hoje.
+Eles utilizam o Kafka para isso também.
+Então, o que é isso legal disso?
+Então, eventos são o quê?
+Ordenar pelo tempo.
+Segundo, eles são imutáveis, eles não
+mudam.
+Você não pode deletar um evento.
+Você não tem essa característica de
+fazer isso.
+E terceiro, você pode reproduzí -los
+quantas vezes você quiser.
+Porque você tem isso guardado em storage
+em tempo real.
+Bem, se eu tenho esses três conceitos,
+eu preciso agora processar esses
+eventos.
+Não é só receber esses eventos, né?
+Então, se a gente quebrar cada um desses
+componentes, o que é que significa?
+O evento nada mais é algo que aconteceu
+em algum momento.
+Então, cara, eu tive um evento, uma
+corrida.
+Eu tive um evento, vou assistir um
+filme.
+Irei, estou comendo.
+Um outro evento, irei dar aula.
+Cara, um outro evento.
+Estou assistindo um filme e tal.
+Outro evento.
+Estou com a minha comida aqui e ainda
+não jantei.
+Então, evento.
+Peguei o meu celular.
+São eventos.
+Então, o conjunto disso é o stream.
+Então, o conjunto de eventos é o stream.
+Então, tudo isso que eu falei agora, ele
+passa dentro de um fluxo de stream.
+Que é o conjunto de eventos.
+E por último, eu recebo o evento.
+Ele está dentro de uma torneira aberta,
+passando por um puta cano.
+Está acontecendo vários streams, que tem
+várias informações ali dentro.
+E eu quero processar essas informações.
+Esse é o famoso Event Stream Processing,
+ESP.
+Então, toda vez que você ouvir falar
+sobre esse termo de ESP, ou Event Stream
+Processing, nada mais, nada menos,
+significa do que você processar um
+conjunto de eventos de forma eficiente
+em tempo real.
+Beleza?
+Por exemplo, como a gente poderia fazer
+isso?
+Vamos pegar um caso real.
+Vamos pegar um evento de stream.
+Que você teria o quê?
+Você escreve um evento como, por
+exemplo, olha só como a gente remodela
+processos.
+Eu gosto muito de usar esse exemplo
+aqui.
+Vamos supor que o time A desenvolveu uma
+aplicação que faz o seguinte, tá?
+Eu vou lá, o usuário entra no meu front
+-end.
+Tem uma página super bonitinha para mim
+ali, sexy, que fala o seguinte.
+Olha, você gostaria de comprar um
+imóvel?
+Faça a avaliação para ver se você tem
+score para ter um conjunto.
+Aí você fala, poxa, legal, quero comprar
+uma casa e tal.
+E aí você vai fazer o quê?
+Você vai lá botar as suas informações,
+vai preencher as suas informações, você
+vai apertar enviar.
+Num sistema não ESP, o que vai acontecer
+num sistema normal?
+Você vai ter o front -end, vai passar
+essas informações para o back -end.
+Normalmente, vai escrever isso dentro de
+um banco de dados relacional.
+De tempos em tempos, esse dado vai
+passar por um processo de ETL ou LT.
+Ele vai ser analisado, vai ser aplicado
+regras ali no seu processo de ETL, que
+pode rodar de meia em meia hora, de duas
+em duas horas, de quatro em quatro
+horas, esse é o normal.
+Esse cara vai escrever isso em um banco
+de dados, que vai rodar uma rotina, por
+exemplo, e vai te enviar um e -mail
+falando, cara, você tem score para
+aprovação de um crédito de 300 mil
+reais.
+Isso é uma forma de fazer.
+Agora, se você remodelar essa mesma
+visão num sistema de Venture Processing,
+olha só que legal que você poderia
+fazer.
+Você tem um front -end.
+Um front -end, bonitão, do mesmo jeito,
+a casca é a mesma.
+O cara colocou enviar, o seu back -end
+escreve num sistema de event stream e
+automaticamente, de forma reativa, os
+consumidores que estão olhando para esse
+sistema são notificados da mudança que
+aconteceu.
+Gente, olha que foda isso.
+Os sistemas estão plugados consumindo
+daquele evento.
+Então, ele recebe uma atualização no
+processo de ETL que fala, opa, reage a
+esse evento.
+E aí, eu tenho uma regra de negócio que
+vai ali no banco de dados, verifica em
+tempo real o microserviço que verifica,
+se esse cara tem score, puxa as
+informações dele e tal.
+E aí, escreve isso num outro local, num
+outro output, numa outra fila ou num
+outro tópico.
+E aí, se você tem um consumidor olhando
+para esse tópico, que é o quê?
+A sua aplicação que vai dar a resposta
+para o cliente.
+Então, em vez de você entregar...
+Se você entregar isso num reach de 3, 4
+horas, você pode fazer isso em 10
+segundos.
+Você pode fazer isso em 3 segundos.
+Você pode fazer isso em 25 segundos.
+Você pode fazer isso em 1 minuto.
+O Douglas falou aqui, inclusive,
+simultâneo.
+Usam bastante para antifraude, com
+certeza.
+Por exemplo, o Nubank, um dos pioneiros
+no Brasil a implementar o sistema de
+antifraude.
+Então, cara, treinou o sistema de
+machine learning, botou isso dentro do
+sistema de event stream deles, que eles
+usam Kinesis, e, cara, bate lá dentro e
+ele vê o score.
+Olha que foda.
+Então, você está arquitetando uma
+solução que foi feita inicialmente para
+a Beth e repensando ela para como ela
+pode ser colocada num sistema de event
+stream processing.
+Ficou claro?
+Deu para entender aí?
+Ficou claro, gente?
+Beleza.
+Legal, Luan.
+Entendi.
+Mas eu sou técnico.
+Eu quero saber.
+Eu não vou comer, não.
+É uma merda você dar aula e ficar
+comendo.
+Foi mal.
+É porque hoje foi bem legal.
+Não, relaxa.
+Tem momentos piores.
+Tem problema que o pão fica duro, que
+não acontece.
+O que rola?
+Legal, curti.
+Mas quais são as engines que fazem isso?
+Então, velho, vamos se deliciar aí.
+Então, vamos lá.
+Open Source.
+Quais são as engines que processam
+informações?
+Que podem processar dessa fila ou desse
+storage system, dessa parada aí legal em
+tempo real?
+Bem, Kafka.
+Spark, Apex, Flink, Storm, Pin, Sansa, e
+por aí vai, tá?
+No Azure, HDInsight, você pode
+provisionar um cluster lá dentro.
+Você vai ter o Spark, por exemplo.
+Você pode utilizar o Synapse Analytics,
+né?
+A nova oferta que tem Spark Pools e tem,
+cara, The Host Bank lá dentro.
+Você pode utilizar o Azure Stream
+Analytics, que você pode utilizar a SQL
+para fazer isso.
+E você também pode usar isso de forma
+reativa.
+Você pode utilizar um Azure Functions,
+por exemplo, para receber um evento e
+processar essa informação e aplicar
+regras de negócio.
+Você pode fazer também isso no GCP, com
+a mesma ideia.
+Cloud Data Proc para Open Source Spark.
+Dataflow, que implementa o BIM de forma
+gerenciável.
+Cloud Functions, que é a mesma coisa do
+Azure Functions.
+E para AWS, exatamente a mesma coisa.
+Amazon e EMR, porque HDInsight, Data
+Proc e EMR é a mesma coisa.
+São produtos Open Source, Next Next, que
+eles gerenciados.
+Carenciadores Streams e Carenciadores
+Analytics para receber essas
+informações.
+E a AWS Lambda para processá -las.
+Ou seja, você tem em todas as nuvens os
+mesmos tipos de oferta da mesma forma.
+O Event Hubs não faz parte da solução do
+Azure?
+Boa pergunta.
+O Event Hubs, ele é um sistema de
+entrada de ingestão.
+Ele não é um sistema de processamento.
+Então, a gente vai falar sobre ele daqui
+a pouco, tá?
+Beleza.
+Mas, eu sou um tipo de cara que mostrei
+para vocês na segunda -feira.
+A gente está na quarta -feira.
+Eu mostrei para vocês o quão Python é
+foda.
+O quão a adoção está acontecendo cada
+vez mais.
+Acho que já aconteceu, não é questão de
+si.
+A gente tem aí, por cinco anos
+consecutivos, o Python sendo a linguagem
+mais utilizada, mais amada do Stack
+Overflow, de todas as pesquisas que
+acontecem, não só lá no Stack Overflow.
+Então, Python é uma realidade.
+Seria muito bom se a gente conseguisse
+fazer streaming com Python.
+Can we?
+A gente consegue, será, velho?
+Processar com Python, tá?
+Hoje, é...
+Vai, Bruno.
+É o terceiro dia que você está comigo
+aqui.
+Você ainda está duvidando que a gente
+não vai ver isso aqui na prática?
+Vamos, daqui uma hora, uma hora e meia,
+a gente vê isso aqui na prática.
+Fica tranquilo.
+Vamos ver se...
+Então, o que eu trago para vocês de
+opções, tá?
+Primeira opção, Flink.
+O Flink tem uma API chamada Table API.
+Boa, você que pediu para duvidar, pode
+falar.
+Manda os duvidas aí que eu curto.
+As weather never ends, estou ligado.
+Então, o Flink é uma opção muito boa,
+inclusive.
+Eu diria para vocês colocarem o Flink
+numa wishlist lá, guardar, anotar.
+Seguir o que eu estou falando para
+vocês, porque é uma tecnologia que
+começou juntamente com o Spark, na
+verdade, um pouquinho antes do Spark.
+O Spark copiou algumas coisas e algumas
+melhores práticas, inclusive o conceito
+de high -level API loader, o level API
+vem do Flink, tá?
+Antes do Spark, historicamente falando.
+E é uma linguagem que tem sido em adoção
+absurdamente no Vale do Silício, nas
+grandes empresas como Netflix, Waze,
+enfim.
+Tem substituído seus sistemas que
+trabalham com Spark para utilizar Flink,
+tá?
+E o motivo disso é porque, para certos
+tipos de use case, o Flink performa
+melhor do que o Spark.
+Eu não acho que vocês devam estudar
+agora, por isso mesmo que você estiver
+falando de Python, beleza?
+Mas é uma tecnologia que definitivamente
+é importante você deixar na sua
+wishlist.
+E caso você comece a ver cada vez mais
+adoção, eu falando demais sobre isso,
+porque, cara, eu estou lá na fonte, eu
+estou lá na frente do mercado, cara, lá
+fora.
+Então, assim, se você me ver falando
+demais de Flink, comece a achar
+estranho, comece a pesquisar, comece,
+cara, a navegar sobre isso, porque
+realmente o Flink é muito fabuloso, tá?
+Outra opção, Spark, é o que a gente vai
+ver, né?
+A gente está no treinamento de Spark.
+Então, Spark tem o PySpark, que também
+processa em streaming, então a gente vai
+ver em detalhe isso hoje.
+E a gente tem uma outra biblioteca que
+eu mostrei hoje na sessão da Ucrânia, lá
+no use case, que é o Faust.
+O Faust é uma biblioteca em Python que
+você tem a expressividade e os mesmos
+tipos de expressões.
+Que remetem a sistemas de processamento
+de sistemas escalável.
+Entretanto, ele é uma biblioteca
+escalável de Python.
+Isso quer dizer o quê?
+Que você pode utilizar Python.
+Então, você pode utilizar isso com a
+biblioteca de Machine Learning, você
+pode fazer qualquer tratamento de dado
+que você quiser.
+Você pode, cara, brincar do jeito que
+vocês quiserem.
+Se vocês quiserem, no final do dia, se
+eu tiver tempo, eu posso mostrar para
+vocês um código live que o Faust, que
+está aqui já rodando do meu lado, então
+não seria uma complicação.
+Vocês vão ver uma aplicação Python
+processando do Kafka, que é o sistema
+mais famoso do mercado que existe para
+streaming.
+E eu vou provar para vocês daqui a
+pouco.
+Mas eu gostaria de fazer select na vaca.
+Eu não sei se vocês conhecem essa minha
+expressão muito famosa.
+Inclusive, a gente tem uma camisa aqui
+na empresa chamada Select na Vaca.
+Do que eu estou mostrando na live?
+Eu mostro, eu mostro.
+A gente tem uma camisa bem famosa aqui
+na empresa, chamada Faça Select na Vaca.
+Que é basicamente um select na vaca que
+é o seguinte, eu trabalhei num projeto,
+isso não é brincadeira, eu trabalhei num
+projeto, não é para rir, porque é muito
+sério.
+A gente trabalhou num projeto, trabalhei
+num projeto que o cara tinha, cara, acho
+que cinco mil ou sete mil cabeças de
+gado espalhadas em vários lugares nos
+Estados Unidos.
+E uma das coisas que ele fez com
+transformação digital da área dele, ele
+shipou cada vaca e dentro de cada vaca,
+acredite ou não, ele tinha um
+rastreador, né, um dispositivo que
+mandava informação para o
+Kafka.
+E mandava informação se a vaca estava
+viva, mandava informação de algumas
+coisas que ele capturava da vaca.
+E é muito foda isso.
+E aí o que a gente fazia?
+O projeto seria o seguinte, vocês estão
+rindo, mas é sério, é muito foda.
+O projeto consistia em o seguinte, esse
+cara mandava vários 01, 00, eles tinham
+uma tabela de domínio, né, com o que
+significava aquela trilha de eventos de
+IoT.
+E aí o que que eu fiz?
+Eu usei uma das tecnologias aqui, dessas
+tecnologias, para...
+Caralho, que massa, Leon, eu nunca
+pensei nisso.
+Animal of Things, puta merda, caralho,
+curti, virei fã, boa.
+E aí o que que a gente fez?
+O que que eu fiz, na verdade?
+Eu resolvi, em vez de fazer isso com
+Python, resolvi fazer com SQL.
+Então eu utilizei o ksql, né, em 2019,
+para fazer isso.
+Então o dado chegava no Kafka, eu
+pegava, criava um streaming que
+vinculava isso, tratava todos os 01s com
+case, if, else, enfim, construí o
+evento, joguei esse evento tratado num
+outro tópico de saída enriquecido e
+colocava esse tópico dentro de um banco
+de dados relacional, dentro do SQL
+Server.
+E aí de tempos em tempos, eu conseguia
+fazer select na vaca, para ver se a vaca
+estava onde ela estava, se ela estava
+bem ou não, se ela estava pingando ou
+não, e a gente podia dar ping na vaca.
+Foda, né?
+Isso foi uma parada muito massa, por
+isso que a gente usa o conceito de ping
+na vaca aqui.
+Então, sim, tem como fazer ping na vaca
+e várias outras coisas aqui, muito foda.
+No projeto da American Airlines, que eu
+vou falar daqui a pouco, que eu
+participei, a gente não fez isso com
+SQL, mas a gente fez isso com Python e
+Scala.
+Então, foi um projeto que a gente
+processa, a última vez que eu vi
+era, acho que três teras por semana,
+acho que era algo desse tipo.
+Três teras por semana, a gente processa
+ainda, porque é um projeto que ainda
+funciona, que ainda roda, está em
+produção, e eu vou explicar um pouquinho
+sobre alguns use cases bem legais, esse
+é um use case muito foda que eu
+participei.
+Mas, mas, segura seu cavalo aí, ou
+segura sua vaca, ou segura seu animal,
+porque você precisa entender parar de
+novo.
+Lembra aqueles momentos que eu falo para
+você parar, botar o telefone em modo
+avião?
+Inclusive, o meu está em modo avião, né?
+Claro, eu sou professor, né?
+Mas beleza.
+Coloque em modo avião, tá?
+Faça isso se você puder, porque, cara,
+isso aqui é o santo grau do entendimento
+de streaming.
+Você entendeu isso aqui?
+Você dá aula, você humilha.
+Eu já entrei em reunião com gente pica,
+que os caras estavam fazendo coisas
+erradas, porque eles não entendiam esse
+conceito, porque estavam utilizando
+tecnologias que não entregavam, achando
+que entregavam em projetos globais, tá?
+Global.
+E errando por coisas básicas, porque não
+entende do conceito realmente.
+Então, isso aqui é muito importante sem
+sacanagem, tá?
+Então, vamos parar aqui um pouquinho e
+vamos prestar atenção, tá?
+Primeiro ponto, o que que significa
+mensagem, ou seja, garantia de entrega
+de mensagem?
+Isso é o coração, isso é o heartbeat de
+um sistema de streaming.
+Gente, parece simples, mas um sistema
+distribuído, você conseguir fazer com
+que um, dois, três, quatro, cinco, seis,
+sete, oito chegue e que um, dois, três,
+quatro, cinco, seis, sete, oito saia,
+isso é um dos top...
+Não vou conseguir falar isso em inglês.
+Mas isso vai ser um dos problemas mais
+complexos que existem em sistemas
+distribuídos.
+Top, topest problems.
+Aí agora consegui.
+Tá?
+Então, é um dos problemas mais
+complexos, foi durante muitos anos, um
+dos problemas mais complexos de como
+isso era resolvido.
+Cara, a gente tá falando de uma
+infraestrutura distribuída com diversas
+máquinas, com diversos eventos
+acontecendo em tempo real, com a
+capacidade de você consumir isso de
+diversas formas, como você garante a
+ordem da entrega.
+E porra, a ordem da entrega é tudo,
+mano.
+Você não quer ver um débito e um crédito
+se você mandou um crédito e um débito.
+Você não quer ver tua conta ficando
+alguns mil negativos e te cobrando um
+IOF ali absurdo, ou uma taxa porque você
+usou o seu cartão de crédito, o seu
+limite, porque na verdade a sequência
+dos eventos entraram erradas.
+Não, você precisa pra certas coisas ter
+estritamente a ordem disso.
+Principalmente pra engenharia de dados.
+Cara, eu preciso saber que o evento X,
+ele aconteceu depois, antes do evento Y.
+E ponto final, eu preciso garantir a
+ordem disso, tá?
+Então, por padrão, quando sistemas de
+streaming foram criados, em primeiro
+ponto, em primeiro momento, eles só
+tinham essa característica.
+At most, once.
+Então, se por algum motivo o cara que
+tava produzindo o dado tivesse algum
+problema, você poderia não escrever.
+Aqui eu tô usando o exemplo do Kafka,
+mas isso se aplica a qualquer coisa, tá?
+É a mesma coisa.
+Isso aqui é comum entre sistemas de
+entrega, sistemas de streaming, sistemas
+de armazenamento em tempo real.
+Isso é comum, tá?
+Não, não tem diferença nenhuma.
+Então, é muito importante que você
+entenda isso, porque eu vou mostrar uma
+parada muito foda que vocês não sabem,
+por exemplo.
+Então, at most, once.
+Isso quer dizer o quê?
+Cara, se eu tiver, por exemplo, eu tô
+enviando mensagem aqui pro meu sistema,
+tô produzindo, é um microserviço ou uma
+aplicação que tá escrevendo dentro do
+Kafka ou dentro de um sistema, que a
+gente vai ver aqui em detalhe, e por
+algum momento você perde a conexão ou
+você, na hora de dar o back, que é, ei,
+recebi a sua mensagem anterior, ele
+falha?
+Cara, eu posso perder o dado.
+Então, vai chegar um, três, quatro,
+seis, oito.
+O dado chega picotado.
+Existe casos de uso onde você usa isso
+aqui?
+Existe, tá?
+Por exemplo, clickstream, né?
+Então, por exemplo, a Amazon é muito
+especialista nisso.
+Claro que quanto mais granularidade e
+seriedade que você adiciona no Message
+Delivery Guarantee, mais overhead você
+tem, mais complexidade você tem.
+Então, quanto mais leve, mais rápido é.
+Então, existem casos onde você vai
+querer utilizar a ECMOST ONCE.
+Por exemplo, existe uma tecnologia
+dentro da Amazon, que é proprietária
+dela, que é o Mouse Over, né?
+Foi uma das primeiras empresas a
+utilizar isso.
+Então, quando você entra ali na Amazon
+.com e você pega o seu mouse e você
+começa a passar no site, todos os cards
+do site, eles são interáveis.
+Isso quer dizer que quando você passa
+ali, ele manda um evento pro Kynisis,
+que é um Kafka por debaixo dos planos.
+Ele manda um evento pro Kynisis.
+Falando, olha, esse animal de teta, ele,
+que vem lá do AOT, do Animal of Things,
+ele mandou um evento aqui porque ele
+tava vendo esse card aqui.
+Esse card é traduzido pra um significado
+do que ele é.
+E se você mexer um pouquinho no site e
+depois você fizer um refresh daquele
+site, você já viu o que que acontece?
+Ele personaliza em tempo real aquele
+site pra você.
+Com cards que são relevantes ao que você
+tá fazendo.
+Tá acessando.
+E pra isso, imagina a Amazon .com nesse
+exato momento.
+A gente tá falando de bilhões de eventos
+por segundo.
+Então, cara, você vai perder alguns
+eventos e tá tudo bem.
+Você não vai morrer por causa disso.
+Porque isso é uma das funcionalidades
+que podem permitir com que você escreva
+de uma forma e que você possa perder
+eventos ao longo do caminho.
+Porque isso vai aliviar os serviços como
+um todo.
+Segundo ponto.
+At least once.
+E aqui é importante.
+Aqui todas as tecnologias de nuvem
+estão.
+Tá?
+Todas as tecnologias de nuvem que eu vou
+mostrar pra vocês, que as que vocês
+olham e falam, puta, isso aqui é muito
+foda.
+Todas elas estão em at least once.
+Isso quer dizer o quê?
+Que você pode ter duplicado.
+O at least once te garante o seguinte.
+Olha, eu garanto pra você que você vai
+receber o evento.
+Entretanto, você pode receber ele mais
+de uma vez.
+Beleza?
+E você tem um santo graal.
+Graal do planeta Terra.
+Que ninguém conseguiu fazer até 2017.
+E aí eu queria saber qual é a primeira
+tecnologia do planeta que implementou
+Exactly One Semantics.
+Você produz 1, 2, 3, 4, 5, 6, 7, 8.
+E você recebe 1, 2, 3, 4, 5, 6, 7, 8.
+Exatamente do jeito que você tava
+esperando.
+Qual foi o primeiro sistema do planeta a
+entregar isso?
+Alguém sabe?
+Chuta.
+Isso aí, Márcio.
+Isso aí, Douglas.
+O primeiro sistema do planeta a fazer
+isso.
+Kafka.
+Beleza.
+E como isso acontece por debaixo dos
+planos, né?
+Então, uma das características que o
+cara que produz o dado, ou seja, quem é
+o produtor?
+O cara que escreve no sistema.
+Ele precisa ter uma característica que a
+gente chama de
+idempotent.
+Idempotent.
+Que que é isso?
+Produtor e depotente.
+O que que significa um produtor e
+depotente?
+Um produtor e depotente segura, te diz o
+seguinte, que independentemente da
+quantidade de vezes que você executar
+aquele comando, independente, a ordem e
+a sequência sempre será a mesma.
+O resultado sempre será o mesmo.
+Isso é ser e depotente.
+Mas por que que isso é importante?
+Por causa disso aqui, ó.
+Imagina o seguinte.
+Eu tenho um produtor.
+O cara que escreve ali no broker, tá?
+O cara que escreve no sistema de
+mensageria ali em tempo real.
+RabbitMQ, Kafka, Kynises, PubSub.
+Vocês vão descobrir agora que todos
+esses herdam de Kafka.
+Mas beleza, tá?
+É um pequeno detalhe.
+Legal.
+Aí, eu mandei o evento.
+O evento que foi escrito lá no log.
+E aí eu voltei e falei.
+Ei!
+Esse evento que você me mandou aí foi
+escrito.
+Beleza.
+Esse é o caminho normal.
+Mas a gente sabe que shit happens.
+Que tem macaco na rede.
+Que tem uns macacos tirando os cabos de
+rede.
+Que acontece um bocado de parada que a
+gente não entende.
+Enfim.
+Então, shit happens, né?
+Então, na vida real, não é só assim que
+acontece.
+Na vida real, você tem o seguinte
+cenário.
+Eu vou lá, mando pra escrever no broker.
+O broker vai lá e escreve um novo
+evento.
+Beleza.
+Só que, na hora do broker voltar e falar
+pro produtor.
+Ei, eu escrevi aquele evento que você
+enviou.
+Pode acontecer que, cara, você teve um
+problema de interconectividade.
+Você teve saturação na sua rede.
+Você teve algum tipo de caída de
+sistema.
+Pode acontecer.
+Você tem intermitência.
+E ele não conseguiu se comunicar com o
+producer.
+Beleza?
+O que que acontece aqui?
+O producer entende.
+Ei, então eu tenho que tentar mandar
+novamente.
+Porque não rolou de escrever.
+O que que acontece?
+Ele vai lá e escreve o W e o Z
+novamente.
+Que legal, né?
+Então, o at least once é exatamente
+isso.
+E aí, eu volto e falo.
+Olha, agora eu consegui entregar.
+Então, se a gente para pra olhar.
+A gente começa a ficar muito triste.
+Por quê?
+Se você olhar.
+Kinesis.
+Azure Event Hubs.
+Google Pub Sub.
+Todos eles são at least once.
+Eles não oferecem exactly once
+semantics.
+Isso quer dizer o quê?
+Isso quer dizer que você pode ter
+duplicado.
+E isso quer dizer que você tem que
+tratar essa deduplicação no seu código.
+Beleza?
+Agora, se você estiver utilizando Kafka,
+por exemplo.
+Se você estiver utilizando Pulsar.
+Você não precisa fazer isso.
+Porque você tem isso garantido by
+granted.
+E isso é muito foda, né?
+Então, a gente tá falando aí de você ter
+capacidade de simplesmente herdar essa
+característica.
+Essa evolução.
+Simplesmente utilizando a tecnologia
+correta.
+Pra o caso que você quer entregar.
+Mas a gente precisa entender um pouco
+mais de Kafka.
+E por quê que esse sistema é muito
+importante.
+E por quê que isso tem a ver com Spark?
+Vocês vão entender, por exemplo, do que
+eu tô falando.
+Por quê?
+A NASA usa Spark com Kafka.
+A Walmart usa Spark com Kafka.
+A New York Times usa Spark com Kafka.
+Netflix usa Spark com Kafka.
+O Waze.
+Uber.
+Spotify.
+Cara, Apple Music.
+A Apple.
+Todas as grandes empresas do mundo
+utilizam esses dois caras.
+E eu lembro que lá em 2019, 2018.
+Eu tinha feito um trabalho muito
+extensivo de Kafka e Spark.
+Enfim.
+De me certificar nas tecnologias e tal.
+Só que eu sempre me intrigava muito
+entender por que que eles eram...
+Por que a utilidade do Kafka com Spark.
+Por que que eles eram utilizados e assim
+por diante.
+Aí eu lembro que em 2019 eu viajei pras
+duas maiores conferências de Big Data.
+Eu fui no Kafka Summit.
+E eu fui no Spark Summit.
+No mesmo ano.
+Um em Amsterdã.
+O outro lá em São Francisco.
+E aí sim eu entendi o porquê.
+Então eu vou trazer isso pra vocês.
+O porquê é o que a gente chama de Match
+Made in Heaven.
+Por que que não existe Kafka sem Spark.
+E Spark sem Kafka.
+Por que que eles se complementam
+perfeitamente.
+E por que que eles são usados em todas
+as grandes empresas do mundo.
+Então toda vez que você for ver
+streaming.
+Você vai ver Kafka.
+Ou você vai ver sistemas que herdam
+isso.
+Event Hubs.
+PubSub.
+Cayences.
+Por debaixo dos panos.
+São implementações open source
+melhoradas.
+Que vem do Kafka.
+Que são melhoradas após isso.
+Então tudo por final das contas é Kafka.
+Por isso que é uma tecnologia que a
+gente fala bastante no canal.
+Por isso que é uma tecnologia que a
+gente sabe.
+Advoga bastante.
+Porque você como engenheiro de dados.
+Talvez esteja olhando no Spectrum de
+batch.
+E talvez entenda o Spark como uma engine
+super foda pra você trabalhar.
+Mas existem outras coisas.
+Em volta disso.
+Que você precisa saber.
+E que eventualmente você vai precisar
+saber.
+Coisas que você vai precisar saber.
+Eventualmente você vai ter que saber
+muito bem Spark.
+Eventualmente você vai ter que saber
+Kafka.
+Eventualmente você vai ter que saber
+Kubernetes.
+Eventualmente você vai ter que saber
+muito bem uma nuvem.
+Eventualmente você vai ter que entender
+sobre arquitetura.
+Eventualmente você vai ter que saber
+também.
+Como escrever um bom SQL.
+Um bom Python.
+Você vai ter que aprender durante a sua
+jornada.
+Aí você vai decidir quando isso é
+importante pra você.
+Por isso que o dia de hoje é voltado a
+streaming e eu não posso falar de Spark
+sem eu falar de Kafka, porque você vai
+entender do que eu estou falando,
+principalmente das deficiências que o
+Data Lake tem para streaming, beleza?
+Então vamos lá.
+Dentro do Kafka, o Kafka ele produz
+mensagens, tá?
+Essas mensagens são produzidas.
+Então existe um processo de enviar essas
+mensagens, tá?
+E só para vocês entenderem a maravilha
+por detrás desse sistema,
+o Kafka trabalha com três níveis de
+entrega.
+X0, X1 e XO.
+Além disso cair na prova, em nosso
+treinamento de Kafka, a gente passa
+todos os pormenores de como passar na
+certificação de Kafka, que poucas
+pessoas tem no Brasil, inclusive, é o
+seguinte.
+É como você escreve no Kafka.
+Então isso aqui é engraçado, eu chamo
+sempre o Matheus para falar disso, que
+cara, eu não vou falar o nome da
+empresa, porque eu não posso falar, mas
+a gente atendeu a maior empresa de e
+-commerce do Brasil.
+E aí, o que aconteceu?
+A gente foi conversar com o time dos
+caras, os caras utilizavam Kafka para
+tudo, o sistema se chamava integrador,
+né?
+Daí você já entende que é tipo assim,
+coisa tranquila.
+Você tinha atualização de um produto,
+você mandava essa atualização, esse
+evento de atualização para esse
+integrador.
+E esse integrador mandava para mais de
+135 mil parceiros que essa empresa tem.
+Só que simplesmente o integrador parou
+de funcionar.
+E aí, uma televisão que estava
+aparecendo no cara lá, para o cara
+comprar, no AdWords do cara, no valor de
+3 mil, não era 3 mil, era 5 mil.
+Só que o sistema não atualizava, e a
+loja continuava vendendo por 3 mil.
+Coisa tranquila, tipo, coisas de milhões
+de reais assim, perdidos em algumas
+semanas, mas assim, não muito...
+Preocupante, não.
+E aí, quando a gente foi entender o que
+aconteceu, o time não sabia explicar
+para a gente isso aqui.
+Cara, tá, tá perdendo mensagem?
+Não tá perdendo?
+O que tá acontecendo?
+Porque não, porque o Kafka perde
+mensagem, Kafka não funciona e assim por
+diante, tudo bem.
+Mas qual a configuração que você tá
+utilizando?
+Qual o callback que você tá
+implementando, que é o retorno?
+O que que tá acontecendo na sua
+aplicação?
+Quais são os resultados que a sua
+aplicação tá retornando para você?
+E nada, crickets, né?
+E aí, isso aqui...
+É o coração.
+Se você entende isso aqui, isso já te dá
+um bom entendimento de como o Kafka se
+comporta.
+Primeiro ponto é, X igual a zero.
+Então, você tem um produtor, é uma
+aplicação, pode ser uma aplicação em
+qualquer linguagem, tá?
+Ele vai escrever dentro do Kafka.
+Se você tiver, se você colocar X igual a
+zero, ele vai fazer o conceito de o quê?
+Enviar mensagem e...
+Beleza, ele não quer...
+Ele não quer se preocupar com o que vai
+acontecer se essa mensagem...
+Chegou lá ou não.
+Isso é legal, porque isso acelera muito
+a escrita.
+Mas você não tem segurança e nem
+confiabilidade de que aquele dado foi
+entregue.
+No segundo modo, que é o padrão, você
+tem o quê?
+Você manda a escrita para o Kafka.
+Ele escreve no líder.
+Você tem o líder e os followers, tá?
+O líder, você só interage com o líder.
+Você nunca interage com o follower.
+A aplicação nunca interage com o
+follower.
+A aplicação só interage com o líder.
+O follower nada mais é do que a réplica.
+A cópia daquela informação.
+O Kafka é um data lake em tempo real.
+Então ele copia aquele dado para quantas
+réplicas você quiser.
+Por padrão, três.
+Por isso que eu estou usando aqui essa
+demonstração de broker 101, 102, 103.
+Ele escreve no líder e aí ele retorna
+para você um acknowledgement, um
+reconhecimento.
+Olha, gravei, tá?
+Beleza.
+Eu tenho um data loss aqui.
+O que vocês acham?
+Pergunta.
+Olhando para isso aqui.
+Eu posso ter data loss?
+Nesse padrão do Kafka?
+Sim ou não?
+O que vocês acham?
+Sim?
+Olha, tem dois aqui falando sim.
+Só dois de 30?
+Não.
+Acho que não.
+Sim.
+Então eu vou provocar vocês um pouco e
+vou falar o seguinte.
+Imagina que na hora que eu escrevi e
+teve um acknowledgement, o broker 101
+caiu.
+E aí ele não voltou.
+Não voltou.
+Beleza.
+O 102 assumiu como principal.
+Mas e o dado que estava dentro do 101?
+Será que ele conseguiu ser replicado a
+tempo por follower?
+Talvez não.
+Então, por padrão, você pode ter data
+loss.
+Então, como acontece?
+Você escreve no líder e o líder replica
+essa informação de forma assíncrona para
+os followers.
+Nesse modelo.
+Então, pode acontecer que nesse momento
+você tenha data loss.
+Então, não.
+Não é síncrono, tá?
+Não é síncrono, velho.
+Não no X igual a 1.
+Beleza?
+Então, isso é uma misconception comum de
+todo mundo achar que você vai replicar o
+dado na hora em que ele é escrito.
+Errado.
+Ele não é dessa forma que ele se
+comporta.
+Ele vai escrever isso de forma
+assíncrona.
+Beleza?
+É super eficiente, mas é assíncrono e
+pode acontecer que ele pode cair antes
+de replicar exatamente, Douglas.
+Então, você vai perder dado.
+Agora, a história é diferente quando
+você bota na sua aplicação X igual a
+menos 1 ou X igual a 0.
+Olha só o que acontece aqui.
+Produtor enviou um evento.
+Broker recebe no líder.
+Manda escrever no follower e nos
+followers ainda de forma assíncrona, por
+padrão.
+Tá?
+Só que ele espera o acknowledgement
+back, então, ele recebe da aplicação, de
+novo, a aplicação não interage com o
+follower, a aplicação só interage com o
+líder, então, ele recebe essa
+informação, manda para a quantidade de
+brokers que, por padrão, está
+configurado para ele replicar, por
+padrão 3, então, ele coloca em 3
+lugares.
+Ele manda para o 102, manda para o 103,
+espera.
+Ele recebeu o acknowledgement back do
+102 e do 103 e, só após isso, ele
+retorna para o produtor falando, ei, seu
+dado está em 3 lugares.
+Quem sabia disso?
+Quem não sabia, diga eu.
+Vamos lá, gente, interagem comigo.
+Que foda, né?
+Eu achava que o X sempre era igual a 0.
+Não.
+O X, por padrão, é igual a 1.
+E aí, pode ter data loss.
+Tem alguma degradação de performance?
+Olha que legal como a gente está em
+síntese.
+Assim que, Daniel, olha isso.
+Foda, né?
+Quando a gente está em sync, quando o
+time está em sync, quando o treinamento
+está em sincronismo, o cara pergunta,
+aparece uma imagem aqui.
+Exatamente isso, tá?
+Então, só para vocês terem uma ideia de
+alguns testes, de coisas para vocês
+entenderem, consigo, vou repetir assim,
+João.
+Se você estiver usando o X igual a 0,
+utilizando um back size de 10 mil, que é
+um dos padrões, tá?
+Você tem 70 megs de throughput, que é
+coisa para cacete.
+Se você botar X igual a 1, você desce
+para 55.
+No meu teste aqui, com a minha máquina,
+enfim, tá claro.
+Você pode alcançar níveis muito mais
+absurdos.
+Mas só para vocês terem uma ideia.
+Obrigado.
+Foda também.
+Eu também acho isso foda.
+Kafka é a minha tecnologia, né?
+Não sei se vocês sabem, mas é uma das
+tecnologias que eu sou extremamente
+especialista em Kafka, Spark, Flow.
+São as três tecnologias que eu mais
+trabalho em Kubernetes.
+E, cara, isso aqui, para mim, é
+fascinante.
+A gente sabe o Kafka como se é
+fascinante, os use cases que ele traz.
+E quando você aprende Kafka e Spark, meu
+irmão, acabou.
+Eu vou ensinar para vocês que você pode
+fazer batch streaming com Kafka, tá?
+Então, assim, vocês vão entender isso na
+sexta -feira.
+Então, vocês podem criar uma arquitetura
+capa em cima disso e fazer fim a fim.
+E aí eu vou quebrar alguns conceitos,
+vou explicar para vocês como a gente
+está vindo.
+Então, fica tranquilo que a gente vai
+desmembrando aí a cabeça e trazendo
+coisa nova.
+Olha só quando eu meto X igual a 0.
+Eu desço para 25.
+Então, gente, é sempre uma coisa de
+balanceamento.
+É uma balança do poder.
+Onde é ADOF?
+O que é ADOF?
+I don't know about fucking Google.
+Então, é sempre, cara, é uma balança.
+Então, por isso que é importante você
+desenhar as suas soluções baseadas na
+necessidade que você tem.
+Como pediram, eu vou repetir o X igual
+a...
+Eu vou repetir todos os X.
+Foda ao contrário.
+É para poder não gastar, né?
+Gostei, Bruno.
+Então, X igual a 1.
+Luan, mas antes de tudo isso, como que
+eu escrevo isso?
+É literalmente uma linha no código que
+você fala assim para a aplicação.
+Ei, escreva em X igual a 0.
+Ei, escreva em X igual a 1.
+Ei, escreva em X igual a 1.
+Mas, Luan, aparece essa opção por
+padrão?
+Por padrão, não.
+E qual é o padrão?
+Já vou falar qual é o padrão.
+Primeira opção, X igual a 1.
+Ele vai escrever...
+Eu vou escrever rápido porque ele não
+tem acknowledgement.
+Está vendo?
+Não tem acknowledgement.
+Ele não espera receber.
+Ele não espera receber uma confirmação
+do servidor e só está enviando.
+Ele não quer saber se o cara vai
+receber.
+Segundo, ele envia, mas ele quer receber
+um acknowledgement back para ter o quê?
+Uma confirmação que o dado chegou no
+líder.
+Mas isso não quer garantir que você não
+vai ter data loss.
+Você pode ter data loss, beleza?
+Mas esse é o modo padrão do Kafka.
+É o que funciona...
+Para muitos casos de uso.
+Mas para coisas muito sérias, como, por
+exemplo, transação bancária, eu posso
+confiar em botar um X igual a 1 nunca na
+minha vida.
+Eu tenho que, além de...
+Eu não sei se vocês...
+Isso vocês não sabem com certeza, mas eu
+posso fazer transação dentro do Kafka.
+Beleza?
+Então, além de eu ter uma transação que
+faz o fencing de zumbis...
+Daqui a pouco eu explico isso.
+Você tem que estar no modo X igual a 1.
+Não tem conversa.
+Aqui é X igual a 1.
+Então, eu escrevo no líder.
+O líder manda essa mensagem assíncrona.
+Ei, escreve aí.
+Os dois retornam.
+Escrevi.
+E, no final, eu falo...
+Epa, agora sim.
+O seu dado, produtor, foi escrito com
+sucesso.
+Então, meu filho, na hora que voltar o
+acknowledgement back aqui, pode cair
+dois brokers desse aqui que você ainda
+vai estar...
+De pé.
+Beleza?
+Então, o caso da empresa do e -commerce
+estava com o X igual a 1?
+Exatamente.
+Estava com o X igual a 1.
+E o cara falando que o Kafka não era de
+confiança, que não funcionava, que era
+uma bosta, que era uma tecnologia.
+Eu falei, cara, que engraçado, né?
+É usado em umas empresas pequenas,
+tipo...
+Capital One, Netflix, umas paradas
+pequenas, assim, né?
+Não funciona na sua empresa.
+Talvez esteja alguma coisa errada aí,
+né?
+Se o X igual a 1 sempre vai garantir
+tudo, porque o X igual a 1...
+Vamos lá.
+Se o X igual a all, que é o de baixo,
+sempre vai garantir tudo.
+Ah, tá.
+Por que usar o X igual a 1?
+Boa pergunta, Lucas.
+Por que usar o X igual a 1?
+Porque uma das coisas que você acabou de
+ver aqui é sobre o throughput e a
+velocidade de ingestão.
+Então, até deixei uma colinha pra você
+aqui, ó.
+X igual a 1, a gente usa quando a gente
+quer alcançar alto throughput.
+Tipo assim.
+Só pra vocês terem uma ideia.
+A ideia da brutalidade do Kafka.
+Vocês vão rir agora.
+Pode falar foda, tá?
+O foda ficou aberto até esse momento da
+conversa, depois pode fechar, se vocês
+acharem foda.
+O Kafka, numa máquina aproximadamente de
+2 cores e 4 GB de RAM, ele vai conseguir
+escrever por nó aproximadamente 1 .3
+milhões de mensagens por segundo por
+nó.
+Então, é um sistema extremamente
+agressivo de throughput.
+Ele é absurdo.
+A gente tá falando de falar de 1 .3
+milhões de mensagens por segundo sendo
+escritas no Kafka, tá?
+Esse é o pace de escrita pra uma máquina
+extremamente pequena.
+Então, é, realmente é muito foda.
+Beleza?
+Então, X igual a 0.
+Eu quero throughput, não tô me
+preocupando com o K -Knowledgement e
+nada.
+Ah, eu preciso de uma garantia.
+Eu preciso garantir, mas eu ainda quero
+ter um alto throughput.
+Então, a gente usa o padrão.
+Cara, ele ainda vai garantir muito bem.
+Tenha segurança.
+É muito raro isso acontecer, tá?
+Que eu tô falando de o broker 101 cair e
+você perder o dado.
+Por quê?
+O broker cai, eventualmente ele vai
+voltar e eventualmente ele vai
+sincronizar automaticamente.
+Mas pode acontecer, entendeu?
+O cenário pode acontecer.
+Mas você ainda tem um bom throughput.
+Throughput é a velocidade que você
+consegue ingerir por segundo,
+exatamente.
+É a cadência que você consegue ingerir
+lá dentro do sistema, beleza?
+E a gente usa o X igual a 0.
+Quando a gente quer ter o quê?
+A alta disponibilidade do dado.
+Você quer ter o maior nível de entrega
+de segurança possível no Kafka.
+É quando você usa o X igual a 0.
+Beleza?
+Então, gente, o que o Kafka resolve?
+O Kafka resolve exatamente um problema
+que deve estar acontecendo agora
+enquanto você olha essa imagem daquele
+boneco aqui que é você.
+Ou o seu time, né?
+Que é um dos problemas que eu passo na
+minha vida, no meu dia a dia.
+Por isso que eu consigo...
+O conceito de data mesh, ele tem ganhado
+muita atração.
+Bota de novo no wishlist lá, sabe?
+Data mesh.
+Você vai ver que, intrinsecamente, o
+data mesh está vinculado ao Kafka.
+E você vai ver que a Confluent tem
+apostado muito...
+Claro, o data mesh não é tecnologia.
+Mas você vai ver que a Confluent Cloud,
+que são os aceleradores, assim como a
+Databricks para o Kafka, eles apostam no
+data mesh.
+Você marca The Gany, que inclusive eu
+vou soltar um spoiler aqui, foda.
+A gente vai gravar.
+Com a criadora do conceito data mesh.
+Com a Zemak Degani, da ThoughtWorks.
+A gente vai gravar com ela em novembro.
+A gente vai ter um podcast com ela.
+Então, fiquem ligados que, cara, é
+legendário,
+né?
+Então, o que acontece?
+Isso aqui é o problema que todo mundo
+passa.
+Todo mundo, tá?
+Todo mundo.
+14 anos de TI.
+Nos últimos 8 anos eu só tenho escutado
+isso.
+Siloed data.
+Meu dado está em silo.
+Meu dado está dentro do meu
+departamento.
+Como que eu, cara, como que eu abro
+isso?
+Mas como que eu abro isso em tempo real?
+Como que eu me comunico em tempo real?
+Como que eu sei que os meus aplicativos
+podem se comunicar e trocar mensagens e
+eventos do que está acontecendo?
+Olha só.
+Isso aqui é o data mesh.
+Então, o cara senta um aplicativo que,
+na verdade, escreve um banco de dados,
+que tem um sistema de monitoramento, que
+escreve um data warehouse, depois você
+tem um sistema, um outro aplicativo que
+escreve um outro banco de dados, um
+MySQL, enfim, que vai para um sistema de
+busca, que vai para o Hadoop, por aí
+vai.
+E se você tivesse uma interface, se você
+tivesse o que a gente chama de um
+sistema nervoso central, um data hub, um
+hub, olha só que lindo isso.
+Onde todas as suas aplicações pudessem
+se comunicar com esse barramento e esse
+barramento entregasse todas as
+mensagens.
+Além de você ter o dado centralizado,
+você teria o dado centralizado em tempo
+real, onde os eventos, os eventos
+acontecem de forma reativa.
+Ou seja, você tem um aplicativo que está
+esperando, que está esperando alguma
+coisa entrar dentro de um tópico.
+Quando aquele evento chegou, quando o
+produtor escreveu naquele tópico,
+automaticamente o consumidor reage e
+processa o que ele tem que fazer.
+E você cria uma cadeia reativa de
+processos que são geridos de forma
+reativa.
+Você reage ao evento quando ele
+acontece.
+E somente se ele acontecer.
+Além de você ter um barramento vertical
+que cruza a sua empresa como um todo.
+Então isso o Kafka resolve.
+Ou seja, o maior problema que a gente
+tem hoje no business é exatamente isso
+aqui.
+Além de você ter que fazer com que os
+seus microserviços, seus aplicativos se
+comuniquem de forma eficiente e
+escalável, sem depender de um sistema,
+você tem a possibilidade de utilizar
+isso para analytics e criar streamings
+em tempo real.
+Mas se chegar naquele primeiro caso,
+dificilmente vai conseguir deixar
+bonitinho daqui, não vai conseguir
+deixar bonitinho daquele jeito, né?
+Cara, a gente, o que a gente faz é, na
+verdade, a gente faz essa transformação
+de migração.
+Que é exatamente como você botou aqui
+embaixo.
+Fazer isso de forma gradualmente.
+Como, Luan?
+Ah, vamos supor que essa aplicação aqui,
+a gente tem acesso ao desenvolvedor.
+Então a gente fala, ei, desenvolvedor,
+você tá escrevendo aqui no SQL Server.
+Beleza, continua aí escrevendo no SQL
+Server.
+Só cria uma extensão que quando você
+escrever no SQL, você também escreve no
+Kafka.
+E ele manda esse barramento para lá.
+E aí, depois ele vai começar a falar o
+seguinte, cara, eu preciso do SQL para
+isso?
+Talvez não.
+Beleza, outro ponto.
+Ah não, eu não tenho acesso ao
+aplicativo.
+Eu quero, eu só tenho acesso ao SQL
+Server.
+Tudo bem, não tem problema.
+A gente pega o Kafka Connect, que é a
+extensão do Kafka que conecta com fontes
+de dados, e ele conecta no SQL.
+Quando chegar um novo evento no SQL
+Server, ele manda esse evento para
+dentro do Kafka.
+E assim por diante.
+Ele se conecta com milhares de
+plataformas.
+É o sistema que mais possui conectores
+hoje em dia.
+A gente tá falando de mais de 200
+conectores.
+Então, se conecta com todo mundo aí para
+trazer o dado para dentro do Kafka.
+Cara, o Kafka é lindo, assim.
+Cara, Spark é lindo.
+Kafka, assim, internamente é muito mais
+lindo, muito mais complexo, né?
+Porque ele é um sistema de storage e de
+processamento.
+Então, é muito foda, tá?
+Tem criptografia no meio?
+Tem, os dados podem passar
+criptografados, enfim.
+Essa abordagem seria o Event Driven
+Architecture?
+Muito bom, Douglas, exatamente.
+Para a software engineering, para a
+engenharia de software, o Kafka vai ser
+usado demais para habilitar o que a
+gente chama de Event Driven.
+E o Event Driven vai ajudar para a gente
+de dados a fazer o quê?
+Ter uma fonte unificada para trazer essa
+informação.
+Você teria um data lake com dados
+online, exatamente.
+Por isso que eu gosto de falar para a
+engenharia de dados que o Kafka...
+Cara, o Kafka pode ser muitas coisas.
+Mas quando eu falo dele, eu gosto muito
+de falar que ele é um data lake em tempo
+real para os meus clientes.
+Isso ajuda muito eles a entenderem que
+eles podem utilizar os adventos e as
+melhorias das aplicações, combinados com
+pipelines reativos em tempo real e ter
+um barramento unificado na sua empresa
+inteira que responde tanto as aplicações
+como os dados ao mesmo tempo.
+Duvido ao custo de Kafka presente para
+nós, igual fez o do Databricks.
+É isso que eu ia anunciar aqui, mas
+segura aí, tá?
+Na verdade, eu vou explicar para vocês.
+Eu estou esperando o Matheus chegar,
+porque isso é exatamente...
+Neguinho tá foda comigo, eu duvido.
+Deu duvida aqui e fudeu, meu filho.
+Eu sou super...
+Ah, é?
+Duvida?
+Então, bora lá.
+Não, mas então, eu estou trazendo um
+pouco de Kafka para ver se isso traz
+para vocês, se isso ring any bells,
+assim.
+Porque perguntava o Matheus, Matheus
+tirou certificação de Kafka, porra,
+recebe vaga todo dia.
+E o treinamento é preparatório para
+certificação.
+Tanto é que no último dia, a gente roda
+uma accreditation para vocês fazerem,
+que já é a preparação do treinamento.
+Então, o treinamento de Kafka é
+desenhado para certificação.
+Na verdade, a gente desenhou ele quando
+eu fui para o evento que eu paguei
+míseros 2 .300 dólares, é isso mesmo que
+vocês estão escutando, para o
+treinamento de Kafka on -site lá em São
+Francisco.
+E aí, eu trouxe os PPTs, enfim, e
+preparei esse conteúdo em português.
+Claro, aqui está muito mais detalhado
+que o treinamento de Kafka nosso.
+Cara, falo tranquilamente, que puta que
+pariu, o nível de detalhe é absurdo.
+Então, sim, para entender rapidamente,
+Juliano, só para te responder, o Spark
+Series vai ser exatamente o complemento
+que você precisa para ser o preparatório
+da certificação do Databricks.
+E o D -Databricks Series vai ser
+exatamente para complementar as
+certificações.
+Então, você vai ter o treinamento, que
+vai te dar a visão como um todo.
+Você vai ter a série, que vai te ensinar
+os detalhes todinhos, as melhores
+práticas.
+E você vai ter o D -Databricks Series,
+que vai falar das séries desse cara.
+Então, você vai ter todo o conteúdo.
+Pegar esse conteúdo, olhar para o
+roadmap da certificação, fazer alguns
+testes ali que tem na internet, pode
+fazer que você não vai reprovar.
+Então, é por isso que a gente criou esse
+conteúdo gradativo.
+E a razão que a gente fez isso é porque,
+se eu focar o treinamento no VI
+Certificação, eu não te mostro o que é
+mais importante, que é a vida real, os
+casos de uso e assim por diante.
+Se eu te mostrar tudo aqui, eu perco
+também na certificação.
+Porque eu vou ter que te mostrar código,
+eu vou ter que mostrar alguns detalhes
+de código que pede na certificação.
+Então, como que a gente fez isso?
+Em pedaços, entendeu?
+Para conseguir entregar todos e trazer o
+valor.
+Porque eu acho que o valor desse
+treinamento que eu entrego aqui é essa
+conversa, a gente abrir aqui, desenhar,
+ver a arquitetura.
+Como que usa, Luan?
+Qual é a realidade?
+Por que...
+Eu acho que isso é o valor do
+treinamento mais que qualquer outra
+coisa.
+O que vale mais uma certificação do SPAC
+ou certificação da nuvem?
+Eu ia falar sexta -feira, eu falo sobre
+isso.
+Mas, primeiramente, uma certificação de
+nuvem.
+Então, eu sempre falo isso nos meus
+treinamentos.
+Estou começando agora.
+O que eu faço?
+Escolho uma nuvem.
+Eu vou ensinar vocês como elencar com a
+nuvem, estudar.
+Beleza.
+Tirou a nuvem?
+Beleza.
+Agora a gente vai.
+Qual é o santo graal de você ser o filho
+da puta fodido para trabalhar fora do
+país?
+É a combinação rapidinha assim.
+Uma certificação cloud, que eu vou falar
+qual é.
+Certificação de SPAC.
+Certificação de Kafka.
+E inglês.
+Impossível você não ser contratado por
+uma empresa no Brasil para ganhar muito
+bem.
+E muito dificilmente não fora do país.
+Mas eu vou falar sobre isso lá na sexta
+-feira.
+Eu pego uma hora para a gente falar de
+carreira, hackings, melhores práticas.
+O que vocês querem e por aí vai.
+Beleza?
+Então, vamos voltar aqui.
+Vamos lá.
+Porque a parada é louca.
+Quando o Matheus chegar aí, a gente fala
+do que eu quero ofertar.
+Mas eu vou rapidinho passar no Kafka.
+Então, o Kafka é um sistema de log
+distribuído diferente de um banco de
+dados relacional.
+Banco de dados relacional também é log.
+Mas a diferença é que no Kafka você é o
+quê?
+Um sistema de log distribuído aonde ele
+age com o modelo ativo -ativo.
+Por quê?
+Porque você pode escrever em várias, em
+vários líderes.
+Você não tem só um líder, tá?
+Você tem vários líderes.
+Então, você pode escrever de forma
+distribuída.
+Então, imagina o seguinte.
+Só para vocês passarem mal com isso.
+Para vocês entenderem o quanto é sexy a
+estrutura do Kafka.
+Por isso que ele é o sistema mais rápido
+de escrita que hoje tem no mercado.
+Por isso que todo mundo, né?
+Todas as grandes empresas da Fortune
+500.
+7 de 10 empresas da Fortune 500 utilizam
+o Kafka, tá?
+Então, cara, basicamente todo mundo
+utiliza em todos os níveis de setores
+que você pensar.
+Desde entretenimento até financeiras,
+né?
+A Capital One foi a primeira empresa, de
+fato, a utilizar todo o sistema bancário
+americano.
+Você tem noção do que é isso?
+Sistema bancário americano, Kafka.
+Tudo, tá?
+Tudo.
+Sistema 100 % desenhado em Kafka.
+Sistemas de monetário, sistemas de trade
+market, de stock market.
+E por aí vai.
+Netflix.
+Enfim.
+Tudo utiliza Kafka e Spark.
+Beleza.
+Então, como que eu escrevo, né?
+Os dados são escritos de forma binária.
+E só para vocês trazerem um outro foda,
+porque eu abri para o Kafka.
+Vocês podem fazer foda o quanto vocês
+quiserem.
+Muita gente acha que o Kafka escreve,
+armazena em memória, né?
+Porque, cara, como você escreve 1 .3
+milhões de eventos por segundo, né?
+E aí, se eu falar para você que ele
+grava em disco.
+O que você acha dessa pequena bagatela
+na sua cara?
+É isso mesmo.
+O Kafka não escreve em memória.
+O Kafka persiste em disco.
+Beleza?
+Isso é uma parada bem agressiva do
+Kafka.
+E como que ele faz isso?
+Ele tem várias otimizações que funcionam
+por debaixo dos panos.
+Mas a coisa mais foda do Kafka é que ele
+escreve tudo em binário.
+Tudo é binário.
+Você vai serializar e deserializar do
+jeito que você quer.
+Então, na hora que você escreve no
+Kafka, você serializa em JSON.
+Na hora que você vai lendo Kafka, você
+deserializa em JSON.
+Mas você deserializa o quê?
+O binário.
+Então, o dado é inteiramente replicado,
+escrito binário.
+E ele tem várias otimizações para
+escrever esse dado.
+Ele tem uma parada muito foda chamada
+Zero Cop Optimization.
+Que tem o endereçamento de barramento de
+memória que escreve direto.
+Sem você copiar o dado no endereçamento
+do disco.
+Então, você não faz cópia de memória
+disco.
+Ele já é um endereçamento de barramento
+direto.
+Então, você simplesmente persiste nessa
+informação em disco.
+Tá?
+Cada evento está dentro de um offset.
+Que é como ele vai escrevendo essas
+informações.
+Ah, o Kafka é um sistema de chave
+-valor.
+Então, é como se ele fosse um Redis.
+Então, ele é um banco de dados no ciclo
+distribuído em log.
+Que tem chave -valor.
+Então, você pode armazenar o que você
+quiser ali dentro.
+Baseado no tempo.
+Tá?
+Então, você escreve e lê essa
+informação.
+Ele tem esse conceito.
+Ele não chega a usar CPU.
+É isso que é foda, né?
+Ele é muito pouco a CPU.
+Ele só usa para endereçar.
+Tá?
+Então, assim.
+Ele é um sistema memory heavy.
+Ele não é um sistema de CPU.
+E de...
+CPU, memória e disco, né?
+De memória também.
+Então, ele é um sistema que depende
+muito de storage.
+E muito pouco de CPU e disco.
+Ele não chega...
+Mas, no caso de segurança.
+Se você habilitar algumas coisas.
+Você perde a característica do Zero Copy
+Optimization.
+Mas, eles são técnicas.
+São formas.
+Tá?
+Que a gente utiliza.
+E aí, lá no treinamento, a gente vê isso
+com mais detalhes.
+O Kafka tem esse conceito de tópico,
+partição e offset.
+Então, o tópico...
+Pensa no tópico como uma tabela.
+Beleza?
+É uma tabela.
+O tópico é uma tabela.
+Então, quando eu vou desenhar ali.
+Eu falo assim.
+Gente, olha.
+Eu tenho um tópico.
+Esse tópico.
+Ele vai ser um tópico de usuários.
+Por exemplo.
+Ele vai ter usuário.
+Lá dentro.
+Tá?
+Então, os eventos vão cair dentro desse
+tópico.
+Só que a gente tem mais dois níveis
+dentro do tópico.
+Olha só que foda isso aqui.
+Dentro do tópico, você tem a partição.
+A partição é o quê?
+A forma com que o Kafka faz a escrita
+horizontal escalável.
+Então, você escreve nas partições.
+Então, você pode chegar e falar o
+seguinte.
+Ó.
+Eu tenho um tópico.
+Esse tópico se chama usuário.
+Ele tem uma partição só.
+Beleza?
+Ele vai escrever em uma partição.
+Ah.
+Agora eu tô recebendo muito mais eventos
+por segundo.
+Beleza?
+Aumenta as suas partições.
+Ele vai escrever distribuído.
+Ele vai distribuir as partições.
+Vai escrever distribuído.
+Tá?
+E outra coisa.
+A ordenação é no nível partição.
+Ela não é no nível tópico.
+Isso é muito importante que você
+entenda.
+Então, um exemplo interessante aqui.
+Vamos supor que tem uma aplicação que
+escreveu.
+Tá?
+Escreveu ali no offset 3 da partição 1.
+No offset 5 da partição 2.
+Onde o evento tá.
+Ele escreveu 3 eventos.
+E na partição 2.
+No offset 2 da partição 3.
+E aí vamos supor que duas aplicações
+completamente diferentes.
+Tá?
+Você escreveu em escala.
+E você vai ter uma aplicação que lê em
+Python.
+E outra que lê em Go.
+Por quê?
+Não é tudo binário?
+Tanto faz.
+Tá?
+Isso é foda.
+É binário.
+Tanto faz.
+Então, se o produtor escreveu em JSON.
+Serializou.
+Serializou em JSON.
+Binário.
+Na hora que você for ler.
+Você vai desserializar em JSON.
+Binário.
+E assim por diante.
+E o offset é o controle da onde aquela
+aplicação está.
+Então, a aplicação fica olhando.
+E aí?
+Tem coisa nova pra mim?
+Tem coisa nova pra mim?
+Tem coisa nova pra mim?
+Quando chega um novo evento.
+Ele vai olhar e vai falar.
+E aí?
+Você já veio aqui.
+O consumidor Python.
+Então, na verdade.
+Você não leu o 3, o 5 e o 2.
+Toma aí.
+Então, ele só entrega o diferencial.
+Ou seja, ele é um CDC humano.
+O Kafka é um CDC naturalmente por vias
+de EC.
+Ele foi criado justamente assim.
+Por isso que ele é muito rápido.
+Um dos casos que a gente trabalhou com o
+Kafka.
+Isso aqui foi um trabalho que eu fiz na
+PIF.
+É muito foda.
+Porque é um projeto que eu sempre me
+emociono quando eu falo dele.
+Porque literalmente a gente salvou vidas
+com esse projeto.
+Eu vou explicar o que aconteceu.
+O que aconteceu assim.
+Então, é o seguinte.
+Era uma empresa.
+Uma empresa muito grande nos Estados
+Unidos que tem uma frota de mais de 30
+mil máquinas espalhadas em dois ou três
+continentes diferentes.
+E a gente começou a trabalhar na Brent
+dos Estados Unidos para implementar a
+nova geração de dados para a evolução do
+que eles precisavam rastrear.
+Então, para cada uma dessas novas
+máquinas que eles compraram, tinha um
+sistema de IoT que mandava algumas
+informações como, por exemplo,
+posicionamento global de onde ele
+estava.
+Localização daquele caminhão.
+Informações de pesagem.
+Informações, cara, diversas informações.
+A cada 20 segundos, essas informações
+eram enviadas para o Kafka.
+E, literalmente, ela era enviada para
+esse tópico aí, chamado GPS Location
+Trucks.
+Que te dava o quê?
+O Truck ID.
+Dava um ID do caminhão.
+A latitude e a longitude.
+Então, o que a gente fazia?
+A gente recebia esse evento.
+Utilizava o SPARC para ir lá.
+Ir em outros sistemas.
+Buscar qual era o Truck ID.
+Augmentar o dado de latitude e
+longitude.
+E entregar informações no dashboard
+dessas máquinas.
+Então, os caras, todas essas máquinas
+tinham um iPad.
+E dentro do iPad tinha um sistema da
+empresa onde eles recebiam notificações.
+O que aconteceu é que a gente fez a
+implementação do Weather Location and
+Condition recentemente, na época.
+Que era o seguinte.
+Havia casos, de ter casos esporádicos
+assim, de certos caminhões passarem por
+problemas técnicos e por problemas de
+condições meteorológicas.
+Por quê?
+Porque muitos desses caminhões, eles
+atravessavam ali a barreira entre os
+Estados Unidos e Canadá, Manitoba e
+lugares que fazem menos 30, menos 40
+graus.
+E aí, na época que a gente terminou a
+implementação e moveu para a produção, a
+gente tinha acabado de habilitar.
+No serviço de notificação, a condição da
+informação de meteorológica de condição
+de clima.
+E aí, o que aconteceu?
+Cara, três semanas depois que a gente
+implementou isso, a gente recebeu um
+feedback do CEO da empresa.
+Onde, cara, a gente conseguiu avisar que
+haveria uma tempestade de neve num certo
+local e fez com que, acho que cinco ou
+sete caminhões parassem.
+De transitar e não fazer a estrada
+porque, na verdade, era um risco de
+thunderstorm.
+E aí, o que aconteceu é que um outro
+parceiro que não tinha um sistema de
+notificação implementado foi e houveram
+a falecer.
+Então, isso é uma coisa que mexe comigo
+até hoje porque foi uma das coisas mais
+marcantes da minha vida ter recebido
+esse e -mail, sabe?
+Tipo, eu lembro que a gente fez um puta
+movimento na pif, foi uma parada muito
+foda porque a gente salvou pessoas,
+cara.
+Então, assim, é literalmente você ver
+como a tecnologia habilita com que você
+possa ter salvo vidas de pessoas de
+verdade na realidade.
+Então, o Kafka trouxe isso pra minha
+vida e eu tenho, isso é muito marcante
+pra mim por causa disso, tá?
+Então, isso é muito marcante pra mim
+mesmo, assim.
+Isso mostra o poder dos sistemas de
+notificação.
+Isso mostra o poder de sistemas de
+notificação.
+Isso mostra o poder de tempo real e como
+isso tudo faz
+sentido.
+A Netflix, por exemplo, utiliza o Kafka
+e o Flink pra processar dados em grande
+escala.
+Então, você tem os dados ali chegando
+nessas informações, são aproximadamente
+35 clusters diferentes de Kafka, o dado
+é enriquecido com o Flink e, ou o Spark,
+tá?
+Os dois.
+E depois ele tem 12 Kafkas diferentes de
+back -end que vão receber essas
+informações e vão ser consumidas por
+diferentes sistemas.
+Pra trazer as informações analíticas do
+Netflix.
+Tem um caso legal do Uber também, tá?
+Que já foi divulgado.
+O Uber tem informações vindo das
+informações do aplicativo, informações
+do Cassandra, enfim, essas informações
+batem no Kafka.
+Aproximadamente, a gente tá falando de
+trilhões de mensagens por dia, olha que
+foda, né?
+Mais de milhares de tópicos e
+aproximadamente 100 petabytes de dados
+armazenados no Kafka.
+Foda, né?
+100 petabytes.
+E o que é mais foda do Kafka é que a
+performance do Kafka é linear.
+É um append log.
+Você pode ter 67 teras atrás de você.
+Você tá escrevendo append.
+Então, pra perspectiva da escrita, é
+sempre linear.
+É sempre rápido.
+Não muda nada.
+E você tem os consumidores como Kafka,
+como o Pinoo, por exemplo, e como o
+próprio aplicativo baseado nas
+recomendações e em todas as viagens e
+assim por diante.
+E onde você consegue botar o Kafka hoje?
+Cara, everywhere.
+Então, quais são os serviços de Kafka
+que você tem hoje no mercado?
+Cara, você pode botar no Docker local.
+Você pode utilizar o Amazon MSK, muito
+bom hoje.
+Você pode usar o HDInsight.
+Você pode usar o Confluent Cloud, que tá
+na mais lenta que os criadores, assim
+como o Databricks, os criadores do
+Kafka.
+Você pode utilizar o StreamZ, que é o
+Kubernetes, é o StreamZ dentro do
+Kubernetes.
+Na verdade, só pra vocês terem uma
+ideia.
+A gente entrevistou um dos criadores do
+StreamZ, que é o Kafka no Kubernetes de
+forma otimizada, que é o Jacob Schools.
+E, eventualmente, o StreamZ, ele é uma
+branch da Red Hat, do produto
+proprietário da Red Hat.
+E sabe onde esse produto proprietário da
+Red Hat, que é o StreamZ, roda?
+Alguém chuta aí?
+Simplesmente num sistema chamado esse
+aqui, ó.
+Pix.
+Ou seja, o que roda no Pix é o StreamZ.
+Pra vocês terem ideia.
+Então, é foda.
+Pode crer, velho.
+Pode crer.
+A gente recebeu essa informação do Jacob
+Schools.
+É a branch do produto proprietário do
+StreamZ, lá da Red
+Hat.
+Acho que na F1 eles usam o Kafka também.
+Sim.
+Porque eles têm uma previsão absurda
+sobre o que acontece no carro cada
+segundo, o que acontece...
+Exatamente.
+Cadê a GCP?
+A GCP não tem nada proprietário.
+Boa pergunta.
+Você pode utilizar o Confluent Cloud e
+fazer o deployment dele em qualquer
+nuvem.
+É multi -cloud.
+Mas não tem nada específico dele.
+Tá?
+Bem, já tô acabando aqui.
+O que que acontece, gente?
+Antes da gente entrar, vou entrar aqui
+no conceito do Structural Streaming.
+A gente viu o quê?
+O Kafka como um sistema de ingestão e
+como tudo isso acontece.
+E aí, o que que o Spark tem a ver com
+isso?
+Como que o Spark trabalha?
+E agora a gente vai ver como isso é
+foda.
+Agora que a gente entendeu os conceitos,
+né?
+Que é um sistema de armazenamento,
+escalável, porra, extremamente
+eficiente, tem algumas características
+de produção e consumo e assim por
+diante.
+O que que é o Structural Streaming?
+Bora um café?
+Me dá 10 minutinhos que eu vou cortar
+pra vocês terem o tempo do café.
+Que aí depois eu venho com as demos, tá?
+Só um minutinho.
+O que que é o Structural Streaming?
+É a biblioteca pra se trabalhar com
+streaming dentro do Spark, tá?
+Algumas coisas muito legais delas.
+Primeiro, quando você olha isso aqui, o
+olho já brilha.
+End to end, exactly one guarantee.
+Tá aí a pergunta e a resposta de um
+milhão de dólares.
+Por que que todas as empresas do planeta
+utilizam Kafka Spark?
+Porque o Spark foi uma das primeiras
+tecnologias de processamento escalável
+distribuído a entregar exactly one
+semantics para o processamento.
+Então agora você escreve de forma
+garantida no Kafka.
+E você processa o dado de forma
+garantida no Kafka.
+No Spark.
+E manda essa informação pro Kafka
+novamente ou pra algum outro lugar.
+Então você garante o ciclo de vida
+inteiro.
+Então você pode, por exemplo, fazer uma
+transação bancária.
+Onde o dado chega no Kafka, processa no
+Spark e entrega em algum local.
+Por quê?
+Porque ele entrega final, fim a fim, com
+exactly one semantics.
+Legal, né?
+Coisas que o RDB faz.
+O RDB, que é a plataforma baixa do
+Spark, não entregava anteriormente.
+Então essa é a nova biblioteca.
+Gente, vamos traduzir o que é Structured
+Streaming?
+SQL por debaixo, né?
+Porque, bem, streaming estruturado é
+baseado na engine do SQL.
+DataFrame.
+Então, de novo, SQL pra processar
+streaming também.
+Chupa aqui, chupa mundo, né?
+E outra coisa mais foda ainda.
+Eu já disse pra vocês que do jeito que
+você interage de forma computacional em
+batch, eu tenho que fazer também em
+streaming.
+Eu vou mostrar pra vocês.
+Por isso que o Spark é tão famoso.
+Beleza?
+E aqui ele entrega basicamente nível
+micro -batch.
+Diferentemente de algumas outras
+tecnologias que entregam linha a linha.
+Mas ele entrega de 100 milissegundos o
+exactly one semantics.
+Então é muito eficiente também.
+Basicamente, o que que você tem?
+Spark leia 1, 2, 3, 4, 5.
+Ah não, mano.
+Você tá falando sério que em vez de
+Spark leia JSON, Spark leia streaming?
+Não, eu não boto fé não.
+Você tá falando que se eu botar spark
+.read eu tô lendo em batch e se eu botar
+spark .read e stream eu tô lendo em
+streaming?
+É, infelizmente é.
+Lembra que a gente falou que a grande
+ideia era o quê?
+Unificar batch e streaming.
+Olha só que coisa linda.
+Read, batch, read, stream, stream.
+Qual é a fonte?
+Kafka.
+Eu vou assinar qual tópico carrega esse
+tópico.
+Eu posso adicionar transformações em
+tempo real.
+Eu posso escrever essas informações em
+outro local.
+Eu posso ter formas de engatilhar esse
+processamento.
+E eu tenho formas.
+Eu tenho que escrever o checkpoint.
+Que é a garantia do exactly one
+semantics.
+Então essa estrutura unitária que a
+gente vai ver em detalhes na
+demonstração sobre o structure streaming
+que nada mais é do que uma tabela que
+você vai fazendo insert into em cima
+dela.
+É basicamente isso.
+É uma unbounded table baseada em date
+streams.
+Ou seja, a mesma coisa que a gente
+aprendeu ali em batch a gente vai
+aprender aqui e vai ver o quão isso é
+fácil.
+Traduzindo para um use case.
+Por exemplo.
+Olha que legal.
+O que a gente vai fazer?
+A gente vai pegar tanto o dado do data
+lake em streaming.
+Isso mesmo.
+Quando o dado do Kafka.
+A gente vai trazer para bronze.
+A gente vai enriquecer na silver.
+E a gente vai entregar na gold amanhã.
+E a gente pode escolher aonde a gente
+vai colocar esse dado.
+Beleza?
+Bem.
+Antes da gente ir para o nosso recreio.
+Para a gente voltar e comer demo.
+Eu queria mostrar para vocês.
+Queria falar para vocês o seguinte.
+A gente tem quantas pessoas na turma?
+32 pessoas.
+O que acontece?
+Algumas das pessoas que estão aqui na
+sala hoje.
+Elas adquiriram e foram aprovadas para
+estar dentro da comunidade.
+E dentro da comunidade a gente já tem um
+treinamento de Kafka gravado do ano
+passado.
+Beleza?
+E aí eu estava conversando com o
+Matheus.
+Hoje a gente está com uma agenda
+extremamente lotada de gravações.
+Mas uma das coisas que a gente quer
+fazer é trazer a nova release do Kafka 3
+.1 .2.
+Que é a nova release na verdade que faz
+algumas outras coisas.
+Que traz melhorias e assim por diante.
+Então a gente está fazendo o seguinte.
+Por ser essa turma.
+A gente vai entregar GCP.
+A gente vai entregar Databricks.
+A gente tem várias coisas no pipeline.
+Mas uma das coisas que eu falei para o
+Matheus.
+O Matheus concordou em fazer.
+Ele não está aqui agora.
+Mas ele concordou em fazer.
+É.
+O Matheus é certificado.
+Também assim como eu.
+Enfim.
+Trabalha três anos com Kafka.
+É.
+De administrar um novo treinamento de
+Kafka.
+E com isso também vocês terem acesso ao
+The Confluent Series.
+Que vai ser a série da mesma ideia.
+Então você faz o treinamento de Kafka.
+A partir de agora.
+E para quem adquirir o treinamento de
+Kafka.
+Você vai ter o The Confluent Series.
+Que vai ser a série assim como o
+Databricks.
+Então você vai aprender tudo que é
+Enterprise de Kafka.
+Para a gente fazer esse treinamento.
+A gente precisa ter no mínimo 15
+pessoas.
+Esse treinamento é ofertado por R $1
+.797.
+Só que vocês estão fazendo o treinamento
+de Spark.
+Beleza?
+Então o que eu falei com o Matheus.
+O que a gente concordou de fazer é o
+seguinte.
+Se nós tivermos 15 pessoas desse
+treinamento.
+Que não estão na comunidade lá.
+Porque a comunidade já vai ter acesso a
+esse treinamento.
+Que quiserem fazer o treinamento de
+Kafka.
+A gente vai ofertar ele.
+Unicamente nessa turma por R $1 .000.
+Porque vocês já estão fazendo
+investimento para o treinamento de
+Spark.
+Então se você.
+A gente vai anunciar de qualquer jeito.
+Por R $1 .797.
+Daqui dois, três meses.
+Na internet.
+Ele vai sair.
+Na academia de dados.
+De qualquer jeito.
+Ele vai sair por R $1 .797.
+A gente vai ter que entregar ele esse
+ano.
+Só que se vocês quiserem.
+Adiantarem ser uma turma exclusiva.
+Para fazer comigo e com o Matheus.
+Eu vou estar também.
+Se a gente tiver 15 pessoas.
+A gente faz esse treinamento.
+Então eu tenho que ter no mínimo 15
+pessoas.
+Se a gente tiver.
+E fechar o quórum de 15 pessoas.
+Que não estão na comunidade.
+Mas estão comprando.
+Aí a gente divide do mesmo jeito.
+Aí o processo a gente faz acontecer
+aqui.
+De qualquer jeito.
+Beleza?
+Aí eu vou ver aqui com o time de
+marketing.
+Vou ver com o Regis.
+Vou ver com a equipe aqui.
+E aí é isso que eu queria sentar com
+vocês aqui.
+Antes da gente ir para o recreio.
+De quando que seria.
+Por isso que eu quero ver.
+Se eu consigo trazer o Matheus.
+Para a gente conseguir.
+Se a gente fechar 15.
+Fechar a data.
+Que vai ser por agora.
+Que a gente já entrega Spark.
+Já vem Kafka para vocês.
+Por isso que eu queria ver com o
+Matheus.
+Por isso que eu acho que vale a pena.
+A gente esperar um pouquinho.
+Antes de ir para o recreio.
+Porque ele.
+A gente consegue fechar a agenda agora.
+A gente tem agenda compartilhada.
+Então.
+Matheus está aqui?
+Matheus não está aqui.
+Eu pinguei ele aqui.
+E a gente podia.
+Dar um convênio em uma data.
+Mas a gente tem 15 pessoas.
+Ele vai estar disponível para assinantes
+da comunidade?
+Sim.
+Quem assinou a comunidade.
+Quem foi aprovado a estar na comunidade.
+Vai ter acesso.
+Então.
+De novo.
+15 pessoas que não estejam na
+comunidade.
+Exclusivamente terão acesso a esse
+treinamento.
+E.
+O The Confluent Series.
+Que é a série.
+Que a gente vai ofertar.
+Por também.
+Pelo treinamento.
+Então gente.
+Eu quero o seguinte.
+Eu quero que vocês me mandem.
+Eu quero que vocês façam um favor para
+mim.
+Que é o seguinte.
+A gente vai para o recreio.
+Tá.
+Quando voltar.
+Eu vou criar um form aqui.
+Rapidinho.
+Para vocês passarem.
+Se a gente fechar 15.
+Aí a gente força.
+É.
+A gente vai para o recreio.
+A gente força a entrada.
+Para que vocês possam.
+É.
+Passar por isso.
+Tá.
+Uma.
+Outra.
+Possibilidade.
+É.
+O que eu acho que vale muito a pena.
+É.
+Ao invés.
+Da gente ofertar o treinamento de Spark.
+Dependendo.
+Vocês entrarem.
+Na comunidade.
+Pode ser também.
+O que vocês acharem melhor.
+Né.
+A comunidade.
+Nada mais é.
+Do que.
+Tudo.
+Em um local só.
+Então.
+Você vai pagar uma subscription.
+Que vale.
+Para o recreio.
+Por um ano.
+E.
+Você vai ter acesso.
+A tudo.
+Isso aqui.
+Né.
+Então.
+Você vai ter acesso.
+A tudo isso.
+A todos os treinamentos.
+Que a gente vai lançar.
+Esse ano.
+A coisas.
+Que acontecem.
+Todos os dias.
+Todas as semanas.
+A gente tem conteúdo.
+Ao treinamento.
+Ao treinamento.
+De AWS.
+Spark.
+Kafka.
+As séries.
+Que a gente tem.
+Então.
+Cara.
+Só que você tem.
+Big data.
+No Kubernetes.
+Big data.
+GCP.
+As séries.
+Kafka.
+Já.
+Com o primeiro episódio.
+Spark Series.
+Vai ter.
+O The Confluent Series.
+Enfim.
+Então.
+A galera da comunidade.
+Vai ter.
+Também.
+Acesso.
+A conferência.
+Que vai acontecer.
+A gente.
+Vai picotar.
+Essa conferência.
+Vai construir.
+Um conteúdo.
+Exclusivo.
+Então.
+É que.
+Você vai ter.
+Um bilhão.
+De.
+De.
+De coisas.
+Dentro da comunidade.
+E aí.
+Eu vou fazer o seguinte.
+Eu vou deixar o link.
+Da comunidade.
+Para vocês.
+Para vocês.
+Darem uma olhada.
+Quem faz.
+Essa aprovação.
+Da comunidade.
+Somente.
+Eu e.
+Matheus.
+A gente tem.
+É.
+Hoje.
+Aqui.
+Para falar.
+Que eu não estou mentindo.
+Duzentas e dez.
+Pessoas.
+Tá.
+De todo lugar.
+Do Brasil.
+É.
+Essa comunidade.
+A gente.
+Tem.
+Um local.
+Onde.
+Responde.
+Todos os problemas.
+E todas.
+As perguntas.
+E aqui.
+A gente.
+Tem.
+O que.
+Uma agenda.
+Semanal.
+Eu não falei.
+Isso.
+Mas.
+É.
+Isso.
+Mesmo.
+A gente.
+Tem.
+Duas.
+Aulas.
+De inglês.
+Por semana.
+Que são.
+Conteúdos.
+Vinculados.
+Primeiro.
+Com.
+O professor.
+Luiz.
+Que é.
+Brasileiro.
+E depois.
+Com.
+O meu.
+Professor.
+Particular.
+Que.
+Que.
+Fala.
+Quatro.
+Línguas.
+Inclusive.
+Ele.
+Fala.
+Português.
+Então.
+A gente.
+Tem.
+Duas.
+Aulas.
+De inglês.
+Que acontecem.
+Toda.
+Semana.
+Aulas.
+Que rende.
+Zoom.
+Tudo.
+Que.
+Acontece.
+Comunalmente.
+Live.
+E.
+Vários.
+Outros.
+Conteúdos.
+Que.
+Eu.
+Mostrei.
+Aqui.
+Para.
+Vocês.
+Então.
+Tudo.
+Isso.
+Aqui.
+É.
+Conteúdo.
+Que.
+Vocês.
+Consomem.
+Tanto.
+Online.
+Quanto.
+Offline.
+Dentro.
+Da.
+Plataforma.
+Qual.
+O.
+Valor.
+Da.
+Comunidade.
+O.
+Valor.
+Da.
+Comunidade.
+É.
+3997.
+Na.
+Só.
+Que.
+Para.
+Entrar.
+Nessa.
+Comunidade.
+Não.
+É.
+Só.
+Pagar.
+Eu.
+Preciso.
+Validar.
+A.
+Sua.
+Entrada.
+Então.
+Se.
+Você.
+Tiver.
+Interesse.
+Você.
+Vai.
+Preencher.
+A.
+Aplicação.
+Aqui.
+E.
+Aí.
+Para.
+Eu.
+Saber.
+Que.
+Você.
+É.
+Você.
+Da.
+Comunidade.
+Lá.
+No.
+Campo.
+Que.
+Você.
+Tiver.
+Preenchendo.
+Você.
+Coloca.
+Que.
+Estou.
+Fazendo.
+Treinamento.
+De.
+Spark.
+Tá.
+Porque.
+Geralmente.
+A gente.
+Tem.
+Alguns.
+Critérios.
+De.
+Validação.
+Aqui.
+É.
+A gente.
+Recusa.
+Algumas.
+Várias.
+Pessoas.
+Mas.
+Cara.
+Essa.
+Essa.
+Turma.
+Especificamente.
+Me.
+Chama.
+Muita.
+Atenção.
+Pelo.
+Nível.
+De.
+Seriedade.
+Pelo.
+Nível.
+De.
+Engajamento.
+Participação.
+E.
+Cara.
+Se.
+Você.
+Quer.
+Realmente.
+Achar.
+Que.
+Vale.
+A pena.
+E.
+Aí.
+Assim.
+Eu.
+Acho.
+Na.
+Minha.
+Concepção.
+Sendo.
+Bem.
+Sincero.
+Que.
+Caso.
+Você.
+Seja.
+Provado.
+Seja.
+Mais.
+Interessante.
+Você.
+Entrar.
+Na.
+Comunidade.
+Do.
+Que.
+Você.
+Pagar.
+Mil.
+Reais.
+Adicionais.
+Tá.
+Ó.
+Matheus.
+Voltou.
+É.
+Porque.
+Matheus.
+Eu.
+Tava.
+Pensando.
+O.
+Seguinte.
+A.
+Gente.
+O.
+Treinamento.
+De.
+Kafka.
+Por.
+Mil.
+Reais.
+Mas.
+Cara.
+Essa.
+Turma.
+Tá.
+Muito.
+Foda.
+Então.
+Que.
+Eu.
+Pensei.
+É.
+Se.
+O.
+Cara.
+Vai.
+Se.
+Ele.
+Pagou.
+Mil.
+Quatrocentos.
+E.
+Tanto.
+Pra.
+Pagar.
+Mais.
+Mil.
+Reais.
+E.
+Cara.
+Tá.
+Faltando.
+Ali.
+Mais.
+Mil.
+Reais.
+Para.
+Comunidade.
+Eu.
+Acho.
+Que.
+Vale.
+Muito.
+Mais.
+A.
+Pena.
+Comunidade.
+Por.
+Que.
+Na.
+Comunidade.
+Já.
+Vai.
+Ter.
+O.
+Treinamento.
+Vai.
+Ter.
+O.
+Treinamento.
+De.
+AWS.
+Olha.
+Só.
+O.
+Que.
+Que.
+A.
+Gente.
+Vai.
+Trazer.
+Aqui.
+Até.
+O.
+Final.
+Do.
+Ano.
+Que.
+Que.
+A.
+Gente.
+Pode.
+É.
+Pergunta.
+Você.
+Tá.
+Achando.
+Foda.
+Mesmo.
+Cara.
+Eu.
+Na.
+Verdade.
+Tô.
+Porque.
+Não.
+De.
+Fazer.
+Isso.
+Então.
+O.
+Que.
+Eu.
+Tô.
+Pensando.
+Que.
+Pode.
+Fazer.
+Legal.
+Cara.
+Pra.
+Quem.
+Comprar.
+Comunidade.
+Dessa.
+Turma.
+Que.
+A gente.
+Faz.
+Um.
+Treinamento.
+Mas.
+Só.
+Se.
+Quem.
+Fechar.
+Comunidade.
+Sim.
+Não.
+Beleza.
+Faz.
+Sentir.
+Pra.
+Mim.
+Também.
+Acho.
+Foda.
+Faz.
+Faz.
+Até.
+O.
+Longo.
+Desse.
+Desse.
+Ano.
+Gente.
+Vocês.
+Terem.
+Ideia.
+Que.
+A gente.
+Vai.
+Ter.
+Que.
+A gente.
+Não.
+Mostra.
+Pra.
+Ninguém.
+Não.
+Tá.
+Mas.
+Olha.
+Só.
+Big.
+Data.
+No.
+GCP.
+Big.
+Data.
+No.
+Azure.
+Evento.
+Em.
+Brasília.
+Big.
+Data.
+No.
+Kubernetes.
+Introdução.
+Python.
+Introdução.
+SQL.
+Introdução.
+No.
+SQL.
+Data.
+In.
+Vision.
+Que.
+Vai.
+Ser.
+Um.
+Evento.
+Online.
+Big.
+Data.
+Na.
+Confluent.
+Cloud.
+Big.
+Data.
+No.
+Databricks.
+Então.
+Até.
+Começo.
+Do.
+Ano.
+Tudo.
+Isso.
+Aqui.
+Vai.
+Disponibilizado.
+Dentro.
+Da.
+Plataforma.
+Por.
+Isso.
+Que.
+Realmente.
+Eu.
+Acho.
+Que.
+Em.
+Relação.
+A.
+Comparação.
+O.
+Valor.
+Vale.
+A.
+Pena.
+Então.
+Quem.
+Quiser.
+Participar.
+Mateus.
+Aí.
+Como.
+Que.
+A.
+Gente.
+Faz.
+Para.
+Capturar.
+Quem.
+Quer.
+Participar.
+Tá.
+A.
+Gente.
+Acho.
+Poderia.
+Fazer.
+Melhor.
+Poderia.
+Fazer.
+Melhor.
+Em.
+Vez.
+Você.
+Você.
+Dá.
+O.
+Treinamento.
+Que.
+Ele.
+Vai.
+Acontecer.
+Até.
+Ano.
+Que.
+Vem.
+Eu.
+Acho.
+Que.
+Eu.
+Por.
+Ser.
+O.
+Dono.
+Da.
+Parada.
+Toda.
+Né.
+Eu.
+Posso.
+Fazer.
+O.
+Que.
+O.
+Eu.
+Posso.
+Fazer.
+É.
+O.
+Cara.
+Que.
+Foi.
+Participar.
+Da.
+Comunidade.
+A.
+Gente.
+Faz.
+Com.
+Que.
+Os.
+Mil.
+E.
+Tantos.
+Que.
+Ele.
+1200.
+Vamos.
+Botar.
+Um.
+Padrão.
+Aqui.
+Ele.
+Use.
+Com.
+A.
+Diferença.
+Da.
+Comunidade.
+Seja.
+Tipo.
+Desconto.
+Para.
+Ele.
+Poder.
+É.
+Então.
+Se.
+É.
+3997.
+Ou.
+3.
+Não.
+Sei.
+Que.
+Ele.
+Vai.
+Pagar.
+A.
+Diferença.
+Disco.
+Só.
+A.
+Diferença.
+Agora.
+Vai.
+Ganhar.
+Alguma.
+Diferença.
+Mas.
+Tem.
+Uma.
+Quantidade.
+Mínima.
+Não.
+Mas.
+Tem.
+Uma.
+Quantidade.
+Mínima.
+E.
+Vai.
+Ter.
+O.
+Curso.
+Do.
+Matheus.
+Matheus.
+Aí.
+Aí.
+Você.
+Vai.
+Me.
+Dizer.
+Além.
+Do.
+Desconto.
+Você.
+Quer.
+Se.
+Comprometer.
+Mas.
+Eu.
+Acho.
+Que.
+A.
+Ideia.
+É.
+Vamos.
+Fazer.
+O.
+Seguinte.
+Se.
+Eu.
+Só.
+Faço.
+O.
+Trabalhamento.
+Se for.
+No.
+Mínimo.
+Trinta.
+Pessoas.
+Não.
+Deixa.
+Quinze.
+Coitado.
+Não.
+Passei.
+Justo.
+Mas.
+É.
+Justo.
+Não.
+Mas.
+É.
+Porque.
+Já.
+Tem.
+Gente.
+Aqui.
+Que.
+É.
+Da.
+Comunidade.
+Ah.
+Cara.
+Tô.
+Tô.
+Mandando.
+Tanta.
+Coisa.
+A.
+Galera.
+Que.
+Fizer.
+O.
+Treinamento.
+Vai.
+Ter.
+Acesso.
+A.
+Participar.
+Do.
+Treinamento.
+Presencial.
+Em.
+Brasília.
+Que.
+É.
+Pago.
+Aí.
+Demais.
+Tem.
+Conta.
+Mas.
+Não.
+Tem.
+Provações.
+Mais.
+E.
+É.
+É.
+Não.
+É.
+É.
+Não.
+Não.
+Então.
+Se.
+Você.
+Não.
+É.
+Já.
+Que.
+Eu acho que dá 3...
+3 ,997?
+3 ,497?
+3 ,497, eu acho.
+Tem que ir no formulário.
+É que aí eu já faço aqui o cálculo.
+Esse é o lado bom de falar.
+3 ,497.
+3 ,497 menos 1 .500.
+1 .997.
+É isso.
+Então, quem quiser, se a gente tiver 15,
+vocês vão ser ofertados por 1 .997.
+Beleza?
+Tá.
+Matheus, cria um formulário.
+Se a gente tiver 15, a gente faz esse
+processo.
+Vou mandar lá no grupo de WhatsApp pra
+você até amanhã, pro pessoal.
+Beleza.
+Então, beleza.
+Show.
+São 9h30.
+9h45 a gente volta e a gente vai até as
+10h30 no máximo.
+E aí a gente termina o dia de hoje com o
+streaming entregue fim a fim.
+Beleza?
+Então, vejo vocês já já.
+Vou aqui coordenar com o Matheus aqui
+com o que já fazia isso.
+Falou agora que vai ser.
+Matheus?
+Tá de volta aí?
+Todo mundo de volta aí?
+Sim?
+Beleza.
+Só um minutinho que eu já compartilho
+aqui,
+gente.
+Já estão me cadastrando.
+Nossa, sim.
+Galera agressiva.
+O Matheus tá construindo o form aí pra
+ele explicar.
+Tá tudo bonitinho?
+Não restar dúvidas.
+Pra ter certeza que todo mundo aí na
+mesma
+página.
+Não se cadastra ninguém não, porque a
+gente vai ter um form especial pra
+vocês, tá?
+Boa.
+Vou trazer também a informação do form.
+Tudo bonitinho pra vocês.
+Ó, acho que o que eu falei ali de porra,
+tô animado, não sei o que, é papo de
+vendedor, não.
+Acho que já deu pra entender que eu não
+sou vendedor, né?
+Eu tô falando isso porque eu sou no
+ouvido a tesão mesmo, sabe?
+Que bom que a gente pegou uma...
+Cara, sempre acaba...
+A gente sempre tem turmas muito boas,
+pra ser sincero, mas cada turma tem um
+gosto especial, tem sabe, tipo, tem
+palavras novas, a gente zoa e tal, e eu
+acho isso muito foda, sabe?
+Então, eu tô muito animado de eu amo
+fazer isso aqui, mas, cara, é muito bom
+quando você tem uma turma foda.
+Quando você tem perguntas boas, quando o
+negro tá no nível de engajamento,
+fazendo...
+Tudo isso é o que vale a pena pra gente
+que tá ministrando.
+Então, isso tudo aqui é pra vocês, de
+fato, e eu me divirto demais aqui,
+velho, eu aprendo muito com vocês.
+E...
+É isso.
+Não vou chorar, não, prometo.
+Mas é foda.
+Voltou, Matheus?
+Voltei.
+Então, você terminou aí?
+Explica pra eles enquanto eu dou uma
+finelada aqui na
+demonstração.
+Tá, passo do carro.
+Como é que vai funcionar?
+Porque a gente, né, isso aqui, né, a
+gente tá sendo customizado na hora aqui,
+né?
+Vou fazer o bit ali aqui agora.
+É funcionar, tá, gente?
+Agora a gente conversou antes do
+intervalo.
+Pra quem tiver 15 adesões na comunidade,
+vai ter o valor de R $1 .997 à vista, ou
+R $199 ,70 de 12 vezes pra entrar na
+comunidade.
+Isso é uma coisa.
+E não vai ser, e não vai precisar passar
+pelo processo de aprovação.
+Exatamente.
+Direto, já tá pré -aprovado.
+É só a gente conseguir o quórum de
+pessoas, eu pedi pra gerar o link de...
+Já gerou.
+Eu já pedi pro Redis gerar o link de
+compra.
+Tá melhor ainda.
+Tá no WhatsApp.
+Ah, tá melhor ainda.
+Então, tem umas 15 pessoas, a gente faz
+isso, aí vão ter dois bônus, que eu
+mandei, vou mandar o link pra vocês
+poderem preencher.
+Bônus 1.
+Acesso ao treinamento online que eu vou
+fazer de Apache Kafka, sem nenhum tipo
+de unidade, de presencial.
+Presencial que eu falo assim, poder
+participar do online.
+Geralmente, como é que funciona na
+comunidade?
+Você entra, pega a gravação, a gravação
+sai na semana seguinte, o treinamento e
+tem acesso.
+Esse é pra poder participar e tirar
+dúvida.
+Beleza?
+É um ponto 1.
+Ponto 2.
+Então, você vai fazer o treinamento
+mesmo, esse ano?
+Vou.
+Vou tentar fazer.
+Se não fizer, no máximo, antes, vocês
+pegam o primeiro treinamento que tiver,
+vocês vão estar participando.
+Podem ficar tranquilos.
+Eu quero fazer esse ano.
+Mas se tudo der errado, a gente faz.
+Vão ter garantia desse treinamento.
+Mas já existe a gravação do treinamento
+já.
+Já existe a gravação.
+Vocês podem ir assistindo, vai ter
+atualização, vai ter algumas coisas
+novas e poder tirar dúvida
+eventualmente.
+Então, essa que é a vantagem de ter.
+2.
+É acesso ao treinamento que a gente vai
+fazer em Brasília, que tá previsto pra
+outubro.
+Que é pago.
+É bom deixar claro.
+É pago.
+Isso, perfeito.
+Algumas pessoas, poucas pessoas
+receberam bônus da comunidade
+anteriormente, que vão ter acesso.
+O resto é pago.
+Você, se vocês quiserem participar, por
+exemplo, seria pago.
+Você não terá acesso sem nenhum tipo de
+valor.
+Só a passagem, hospedagem, que foi fazer
+da viagem.
+Agora, o acesso ao evento não vai ter.
+E isso tudo condicionado a 15 pessoas.
+Um pequeno detalhe.
+A gente precisa saber disso até amanhã.
+Se a gente tem um prazo.
+Por quê?
+Por que eu falo isso?
+Porque eu tenho muita adesão.
+Tem até gente que aderiu recentemente à
+comunidade, depois a gente vai conversar
+com vocês.
+Não se preocupem, a gente vai ter uma
+conversa.
+A gente vai resolver isso.
+Mas a gente vai, a gente precisa de
+agilidade pra poder fazer direitinho,
+tá?
+Então, eu vou colocar aqui o link pra
+preencher e amanhã eu vou dar uma olhada
+e eu preciso dessa resposta.
+Quanto antes vocês fizerem, melhor.
+Melhor.
+Alguém não entendeu?
+Ficou alguma dúvida?
+É boa.
+Ficou alguma dúvida?
+Boa, boa, boa pergunta.
+Isso vai estar já dentro do fórum.
+Dentro do fórum.
+Dentro do fórum.
+Tudo que eu falo vai dentro do fórum.
+Vou mandar aqui e mandar no grupo, tá?
+Vou mandar nos dois.
+Renovação, isso é só um ano.
+No próximo ano eu vou dar renovação da
+comunidade.
+Vida normal, né?
+É, vida normal.
+Vida de certo.
+Deixa eu postar aqui.
+Faz sentido.
+Faz sentido.
+Calma que eu vou postar.
+Calma, calma.
+Vou postar agora.
+Calma, calma.
+Que grupo que eu não tinha...
+Ah, Marcel, eu não tinha copiado o seu
+nome.
+No WhatsApp, não?
+Esqueci.
+Ah, cara, sei por quê.
+Eu copiei, só que eu não tinha copiado o
+seu nome.
+Fechou e não peguei.
+Me posta o seu número de novo.
+O que eu vou colocar agora?
+Agora, nesse momento.
+Vou fazer isso aqui.
+Adicionar.
+Ah, Marcel, eu vou fazer melhor.
+Vou fazer melhor.
+Entra aqui, ó.
+Pronto.
+Tá o...
+Quem não tem acesso ao grupo, tá aí, tá,
+gente?
+O link do acesso ao WhatsApp.
+Beleza?
+Fechou.
+Acho que ficou claro, mano.
+Você pode seguir a viagem.
+Vamos lá.
+Vamos pra viagem.
+Bem, o que a gente vai falar agora?
+A gente vai ver um pipeline, fim a fim,
+utilizando streaming, como prometido.
+Vamos lá?
+Então, gente, dúvidas, eu tô
+acompanhando aqui,
+beleza?
+O que que acontece?
+A gente vai fazer o mesmo processo que a
+gente fez hoje, né?
+Foi até bom a gente ver batch e
+streaming no mesmo dia, porque deixa, tá
+bem fresco na memória de vocês.
+Então, ao invés da gente, cara, Matheus,
+a gente fez uma parada de domain tables
+aqui, foda, viu?
+A gente desenhou em tempo real, tipo, a
+bronze pras domain tables, que a gente
+faz com os clientes, como quebrar em
+domínios.
+Eu vou assistir amanhã.
+Vou assistir amanhã.
+Ficou.
+Não, olha, olha o, o Scaridraw lá, no
+Spark, que você vai ver.
+Ficou bem fácil.
+O Camil Moura trouxe um, trouxe um case
+também.
+Enfim.
+Agora, em vez da gente ir pra lane de
+cima, a gente vai pra lane de baixo e a
+gente vai discutir algumas melhores
+práticas aqui.
+A gente acaba 10 e meia, tá?
+Eu tenho três notebooks pra mostrar pra
+vocês, então, a gente não vai se
+delongar mais que 10 e meia, então,
+aguenta aí.
+Vamos lá.
+Streaming.
+Beleza?
+O nome se chama Structured Streaming.
+Então, a gente vai dar uma olhada como a
+gente vai fazer isso.
+Primeira coisa que eu vou fazer, eu vou
+fazer, sim, streaming do Data Lake.
+Você já ouviu falar, provavelmente você
+já deve ter ouvido falar, que é possível
+fazer streaming do Data Lake.
+Agora, a pergunta é, será que isso é
+factível?
+Será que isso muda a prática?
+Será que realmente é eficiente?
+Então, a gente vai ver aqui e a gente
+vai conversar sobre isso.
+Então, vamos lá.
+Primeira coisa que eu vou fazer, vou
+listar ali pra ver os arquivos que eu
+tenho dentro do meu diretório, né?
+Eu vou ingerir informações do usuário,
+informações de veículos vendidos,
+comprados, informações que estão
+atreladas a esse usuário.
+Então, a primeira coisa que eu vou
+fazer, create um database ou usa o
+database e aqui vem aquela anatomia que
+eu tinha explicado pra vocês, né?
+Nesse caso, se a gente for olhar a
+documentação do Structured Streaming, o
+que a gente vai ver?
+Dentro da programação, dentro da
+documentação dele, ele fala quais são as
+fontes de dados que ele permite.
+E os outputs, tá vendo?
+Output modes e assim por diante.
+A gente vai ver aqui que ele permite
+quais fontes, né?
+Então, ele permite...
+Ele permite...
+Ele permite file source, ele permite
+socket, readsource e Kafka source, tá?
+Por padrão.
+Se você tem oIndex Kini, se vocês têm
+algumas outras bibliotecas que você
+instala.
+Mas, por padrão, você tem Kafka e
+arquivos, ou seja, data lake.
+Beleza?
+Legal.
+Então, a primeira coisa que a gente vai
+fazer...
+Já vou ensinar uma técnica que eu uso em
+todos os meus clientes, que é chupe
+характер, Primeira coisa, bem, se chama
+Structured Streaming, né?
+Então, Streaming estruturado.
+Isso quer dizer o quê?
+Eu tenho que estruturar o Streaming
+antes de executá -lo.
+Caso contrário, vai dar erro.
+E o que é estruturar o Schema?
+É, literalmente, dar um Schema para ele.
+Então, olha só o que eu vou fazer.
+Em vez de você ter que estruturar o
+Schema na mão para poder entregar, eu
+vou ensinar uma dica da mãozinha
+preguiçosa.
+Olha o que eu vou fazer.
+Eu poderia especificar esse Schema na
+mão, eu vou mostrar ali no próximo
+notebook, mas eu vou te ensinar a
+técnica que eu uso.
+Então, o que eu faço?
+Eu vou lá no DBFS, onde estão caindo
+esses arquivos, e eu vejo que esse
+arquivo, teoricamente, vai possuir o
+mesmo esquema, senão a gente vai evoluir
+ele.
+Mas eu vou pegar esse cara aqui, e eu
+vou colocar ele
+aqui.
+E vou fazer isso também para veículo,
+porque eu quero ler os
+dois.
+O que você está fazendo aqui, Luan?
+Olha que sacada legal.
+Eu vou pedir para ler esse arquivo, e
+vou extrair o esquema dele.
+E vou salvar isso aqui em User Static
+Schema, em Vehicle Static Schema.
+Olha que safadão que eu estou fazendo.
+Então, eu estou pagando uma leitura no
+Lake, e estou extraindo somente o
+esquema dele.
+Por quê?
+Porque agora, eu tenho o esquema
+estruturado do meu arquivo, em vez de eu
+ter que passar isso aqui tudo na mão.
+Agora que eu tenho isso, o que eu vou
+fazer?
+Spark Layer Streaming.
+Ah, não, Luan.
+Não pode ser isso.
+Esquema.
+O esquema que eu acabei de carregar.
+Formato, JSON.
+Cabeçalho, True.
+Vai processar um arquivo por vez.
+E onde estão os arquivos?
+Dentro da Landing Zone, em User .json.
+Beleza?
+E aqui, eu vou fazer a mesma coisa para
+o veículo também.
+Tá?
+Só que, de novo, aqui, não é,
+teoricamente, o quê?
+Ação.
+Por quê?
+Ele é Lazy Evaluation aqui.
+Eu estou pedindo para ele ler, mas eu
+não estou iniciando esse processo.
+Então, eu vou verificar aqui se eu
+consigo especificar isso
+aqui.
+Com sucesso.
+Vamos ver se foi.
+Foi.
+E ele falou para mim, existe uma função
+que você chama, chamado Easy Streaming,
+tá?
+Então, eu posso chegar e falar o
+seguinte, esse DataFrame é Streaming?
+Aí, ele vai falar, se sim ou não.
+Tá?
+Então, teoricamente, ele aceitou e
+estruturou aqui bonitinho.
+Tá?
+Só que, o que eu quero que vocês
+entendam sobre melhores práticas de Data
+Lake com Structure Streaming é a
+seguinte.
+Antes disso, deixa eu pegar uma pergunta
+aqui.
+Luan, você mantém esses esquemas em
+algum local para entender a evolução do
+esquema?
+Sim.
+Em ambientes mais complexos, a gente
+guarda isso, essa estrutura, em um outro
+local.
+Para que você não precise ter esse
+problema e você pode evoluir.
+Habilitar uma flag aqui para evoluir o
+esquema.
+Principalmente, porque a gente vai fazer
+isso com Delta.
+Então, você pode fazer.
+Ou, o que você pode fazer é, toda vez
+que você rodar o seu Streaming, quando
+você parar e ler ele novamente, você
+pode pedir para listar o último arquivo
+e verificar se existe diferença entre
+esses caras.
+Tá?
+De onde é possível ler Streaming?
+APIs, bancos, ainda não me se foi muito
+bem.
+Então, você pode ler ou de arquivos do
+Data Lake ou do Kafka, basicamente, tá?
+Aí você tem algumas extensões de APIs,
+por exemplo.
+Você pode ler do Kinesis, você pode ler
+do Event Hubs e assim por diante.
+Então, existem conectores adicionais
+para Structure Streaming.
+Mas, por padrão, Data Lake e Kafka.
+Tá?
+Beleza.
+Só que, o que eu quero que vocês
+entendam sobre isso?
+É eficiente processar ou fazer Streaming
+dentro de Data Lake?
+A resposta é não.
+Por quê?
+Olha só.
+A gente tem aproximadamente 100
+milissegundos, né?
+Para pagar nisso aqui.
+Mas, o que que acontece, gente?
+Todo Data Lake promete Streaming.
+Mas, a gente está falando de um approach
+naíve.
+O que que é um approach naíve?
+É um approach inocente.
+Isso quer dizer o quê?
+Por debaixo dos planos, na vida real, é
+que tanto o Azure, quanto a AWS, quanto
+o GCP, quanto o Open Source, enfim.
+O que que ele faz?
+Bem, qual é a mágica que acontece aqui?
+O Read Stream é muito foda.
+Por quê?
+Porque ele vai ler os arquivos de acordo
+com o que ele chega.
+Mas, isso em escalabilidade gigantesca,
+olha o problema que você tem.
+Como que ele sabe, por exemplo, que
+existe um novo arquivo que acabou de
+chegar?
+Alguém me chuta aí?
+Como que ele faz?
+Então, aos poucos eu estou recebendo
+milhares de arquivos aqui dentro.
+Estou pedindo para olhar esse cara aqui,
+que é o .users, né?
+Vou carregar ele.
+Então, eu vou lá dentro de landing,
+dentro de users, e eu vou carregar tudo
+isso aqui.
+Eu tenho, sei lá, 100 mil, 200 mil, 500
+mil arquivos.
+Como que eu sei que esse arquivo já foi
+processado ou não?
+Pelo Spark?
+Eu tenho que vir aqui, listar.
+Carregar isso numa lista.
+Comparar isso com o Spark.
+Fazer uma diferença dessa lista com o
+que está no Spark.
+E processar o diferencial.
+Vocês entenderam a ideia?
+Então, o que está acontecendo por
+debaixo dos pontos quando você liga um
+streaming?
+Ele lista, traz a diferença, joga,
+compara e remove.
+Tira, joga, compara e remove.
+E assim por diante.
+Então, quando você usa isso numa
+escalabilidade muito grande, você vai
+ter certos problemas de lentidão.
+Cada vez mais, você vai ter lentidão em
+processar o seu arquivo.
+Por isso que a gente fala de
+processamento em near real time.
+Então, processar o data lake não é tempo
+real.
+Porque ele precisa fazer isso.
+E ele faz isso em qualquer um.
+Não é um problema, teoricamente, do
+storage.
+É como o Spark vai se concentrar em
+fazer essa diferença.
+O structure stream processa isso, que é
+muito foda.
+Mas, você precisa apagar o listing desse
+diretório.
+E você tem que fazer isso
+repetitivamente para saber o que mudou e
+o que chegou novamente.
+Ficou claro aqui?
+Não bota aí, gente.
+Ficou claro?
+Vocês entenderam?
+Isso é muito importante que vocês
+entendam.
+Alô, então você está dizendo que não
+presta?
+Não, não estou dizendo que não presta.
+Só estou pedindo para vocês prestarem
+atenção.
+Por quê?
+Porque quando eu ligar o read stream, o
+que é que o read stream é legal?
+Cai um novo arquivo, ele vai lá e
+processa.
+Cai um novo arquivo, ele vai lá e
+processa.
+Só que, dentro do data lake, você tem
+muito tempo.
+Você tem milhares de arquivos ali
+dentro.
+Então, toda vez que você vai processar,
+que o structure stream está lá lendo,
+ele precisa carregar a lista e verificar
+qual arquivo ele processou ou não.
+Se você está falando de várias listas,
+que tem vários folders, que tem
+subfolders e assim por diante, isso
+começa a ficar bem difícil para ele
+fazer.
+Então, isso em escalabilidade massiva,
+você vai ter uma latência muito alta.
+Então, eu vou mostrar aqui agora para
+vocês.
+O que eu vou fazer agora, gente?
+Claro que o streaming...
+No caso do Kafka, é diferente.
+Eu vou mostrar aqui.
+O que eu já fazia agora?
+Primeiro momento, trazer em streaming
+para dentro do delta.
+Olha que maravilha.
+Então, agora eu vou trazer esse dado
+para dentro do delta lake e fazer isso.
+Então, o structure streaming é 100 %
+integrado com o delta
+lake.
+Então, olha só.
+Eu já vou ler e escrever.
+Olha que tesão.
+Vamos ver aqui.
+Eu vou pegar aquele data frame e eu vou
+falar, escreva no formato delta lake.
+O formato delta.
+Append.
+Estou escrevendo.
+E aqui eu tenho que passar um
+checkpoint.
+O que é esse checkpoint?
+Checkpoint bronzeusers.
+Vamos lá.
+Checkpoint bronzeusers.
+Eu acho que vai estar aqui em AWS.
+Delta.
+Checkpoint bronzeusers.
+Está aqui.
+Olha só o que é isso aqui.
+Isso aqui é o santo graal de que se você
+deletar, deu merda.
+Por quê?
+Isso aqui é como ele vai fazer a
+deduplicação do lado dele, é assim como
+que ele vai fazer entender quais
+arquivos que ele processou, que é o
+metadado do que está acontecendo no
+processamento do arquivo ou no
+processamento do processo que ele está
+fazendo.
+Então, eu estou inicializando um
+streaming, olha que legal.
+Então, ele está indo lá no diretório,
+vendo o que aconteceu do último tempo
+que eu liguei, dos arquivos que não
+foram processados, que não está na lista
+de que foi processado, porque ele tem
+essa informação e processando essas
+informações, olha que foda.
+Então, eu estou indo lá, listando,
+vendo, cara, olha, da última vez eu
+processei esses tantos, mas tem esses
+tantos de arquivos novos aqui.
+Então, processa novamente.
+Isso quer dizer que se esse notebook for
+desligado, se esse structure stream for
+desligado durante uma semana, na hora
+que eu ligar ele novamente, ele vai
+fazer o quê?
+Ele vai processar os arquivos que não
+foram processados.
+Isso é muito legal, ele vai fazer isso
+de forma incremental.
+Para você, transparente.
+Você não precisa se preocupar, ele vai
+cuidar disso para você, tá?
+Isso é muito legal.
+E isso habilita uma capacidade muito
+foda no seu pipeline, que você está
+transformando o seu pipeline em quê?
+Num pipeline reativo.
+Então, você pode deixar ele ligado,
+quando cair um novo arquivo, ele vai lá
+e, opa, listei, vou processar.
+Então, ele ligou aqui e ele vai trazer
+algumas informações de metadado aqui que
+vai te mostrar quantos arquivos eu
+processei, qual o meu batch, olha lá,
+olha eu listando os arquivos, olha, file
+stream source, ele está fazendo o quê?
+Um listing de tudo que está ali,
+comparando, vendo quantidade de números
+de linhas, quantidade de registros
+processados por segundo, aonde ele está
+jogando essas informações, está vendo?
+Olha lá, delta sync, está jogando isso
+dentro do delta, quantidade de
+informações que estão sendo consumidas e
+assim por diante.
+Olha que bonitinho aqui.
+Muito foda isso, né?
+Está ligado?
+Está ligado, está processando e já está
+processando de forma atômica.
+Se eu parar aqui no meio e ele estava no
+meio do processamento de um lote, de um
+arquivo, ele vai voltar atomicamente
+isso aí.
+Então, ou você processou tudo ou você
+não processou nada em relação ao
+arquivo, porque a unidade atômica aqui é
+o arquivo.
+Legal.
+Agora, se um arquivo for regerado, ele
+processa novamente?
+Se ele tiver o mesmo nome e ele for...
+Ele for substituído, não, porque é o
+mesmo nome, tá?
+Então, a ideia é que você traga arquivos
+adicionais novos.
+Se ele tiver exatamente o mesmo nome,
+não.
+Beleza?
+Isso.
+Controle é pelo nome.
+Ele faz um listing, verifica o nome do
+arquivo e processa esse cara.
+Beleza?
+Então, eu estou aqui processando essas
+informações.
+E agora eu vou fazer o quê?
+Eu vou enriquecer.
+Eu vou enriquecer essas informações, né?
+Então, só para a gente fazer uma query
+em tempo real.
+Eu estou consultando em tempo real.
+O dado está sendo inserido ali em cima.
+E eu estou em tempo real fazendo select
+asterisco final na tabela delta.
+Olha que coisa linda.
+19 .200, se eu executar de novo.
+Vamos ver se já deu tempo de processar
+um novo lote.
+Olha lá.
+19 .400.
+E assim faz.
+Ele não faz um lock na tabela quando faz
+o select?
+Tcharam!
+Não.
+Pesão, né?
+Tanto é que eu lembro que eu falei para
+vocês que você pode fazer streaming
+batch na mesma tabela porque ele usa o
+modelo de concorrência otimista.
+Foda, né?
+Versionado.
+Então, você está lendo e você não vai
+ter lock aqui porque você está lendo o
+modelo de concorrência otimista.
+19 .900 e crescendo.
+Posso tanto fazer isso para o usuário
+quanto posso fazer isso também para
+users.
+Ele está indo de 100 em 100, diminuir se
+foi configurado.
+Você pode fazer algumas configurações
+para acelerar isso.
+Mas isso é basicamente o que você tem
+dos data lakes.
+Você não pode forçar com certo tipo de
+configuração absurda.
+Você tem um limitro ali.
+Então, vai muito de algumas outras
+configurações que você pode fazer no
+Spark, mas não vai mudar um pouco do seu
+cenário, não.
+Então, ele está processando aqui de 100
+a 100.
+Está demorando.
+Ele está processando.
+Ele está processando 22 registros por
+segundo.
+Deixa eu ver mais aqui.
+Trigger execution, wall.
+A gente pode mexer em algumas coisas,
+mas geralmente vai ser isso mesmo.
+Vai depender do cluster, vai depender de
+algumas coisas.
+Acho que me perdi um pouco.
+Tem arquivo sendo adicionado no blog, no
+data lake?
+Tem.
+É como se eu tivesse uma aplicação.
+Na verdade, é porque como faz dois
+meses, por exemplo, que eu não ligo essa
+aplicação, eu já adicionei vários
+arquivos lá dentro.
+Então, é exatamente isso.
+É como se novos arquivos.
+Os arquivos estão chegando ali.
+Ele está olhando e falando, opa, tem
+arquivo novo.
+Processo.
+Tem arquivo novo.
+Processo.
+Não, esse aqui já está lá no processo
+porque eu já processei ele.
+É exatamente isso, tá?
+Então, é como se estivesse chegando
+arquivos novos mesmo.
+Quando ele terminar de processar aqui,
+eu mando escrever um arquivo novo para
+você ver ele reagir.
+Como que eu sei?
+Quando o input rate, o processing rate,
+descer 100%, você vai ver que ele não
+está processando mais nada.
+Aí, se isso acontecer aqui, porque ele
+ainda não fez o catch up de todos os
+arquivos, eu abro aqui para você ver ele
+ingerindo um arquivo exclusivamente.
+Beleza.
+Agora, eu vou enriquecer esse evento.
+Olha que legal, gente.
+Eu falei que eu ia enriquecer.
+A tabela lá está sendo escrita.
+A tabela lá em tempo real está sendo
+escrita em bronze.
+Lá está em tempo real.
+Agora, eu vou pegar o quê?
+Eu vou pegar um data frame e vou
+carregar em streaming.
+Spark, lei, streaming.
+No formato delta, carrega.
+A tabela está sendo...
+Está sendo escrita lá.
+Tem dado entrando aqui em tempo real.
+E eu estou querendo ler em tempo real.
+Vou fazer isso.
+Vou fazer o enriquecimento dos dados.
+Gente, você está entendendo que eu estou
+usando o mesmo tipo de tudo que vocês
+viram antes?
+Não mudou nada.
+A diferença é que eu estou lendo em
+streaming.
+Uma cadeia de streamings.
+Estou adicionando regras, lógicas e tudo
+mais.
+Olha que coisa linda.
+All the good stuff.
+E aí, vou pedir para ele iniciar esse
+pipeline.
+Que é ligar o quê?
+O dado da silver.
+Que é o enriquecimento do dado.
+Eu vou melhorar a silver.
+Então, eu estou ligando um streaming em
+cima de um outro streaming.
+O que é isso?
+Os dados estão chegando no data lake.
+Tem um streaming ligado do data lake
+para as tabelas bronzes.
+Está sendo adicionado ali dentro.
+Que é exatamente aqui.
+Os dados estão chegando aqui.
+Enquanto a gente fala.
+E aqui.
+E aí, agora eu estou pegando um outro
+data frame.
+Lendo o streaming.
+Esses data frames.
+E fazendo qualquer tipo de transformação
+que eu queira.
+E pedindo para eles gravarem uma nova
+tabela delta.
+A diferença.
+Está vendo?
+Olha que coisa linda.
+Estou processando.
+Então, se eu fizer uma query aqui na
+tabela 5.
+Se eu ver.
+Provavelmente eu tenha mais que 4 .800
+registros aqui.
+Deixa eu ver.
+4 .600.
+Deixa eu fazer um count aqui para ver.
+Em tempo real.
+Oxe.
+Eu estou ficando doido.
+Ah, tá.
+Aqui, olha.
+17 .900.
+Se eu fizer a mesma coisa aqui.
+24 .200.
+Eu tenho arquivos chegando na bronze.
+Sendo enriquecido.
+E eu tenho os dados agora chegando em
+tempo real.
+É uma tabela que está sempre crescendo
+eternamente.
+Olha só que bonitinho.
+Agora eu termino com a minha tabela
+silver de usuário.
+Termino com a minha tabela silver de
+veículo tratada.
+E aí?
+Ficou claro?
+E está rodando.
+Então, vamos voltar aqui.
+Estou trazendo o dado do data lake.
+Para dentro dessa minha primeira tabela.
+Do jeito que está o arquivo.
+E de veículo também.
+Depois.
+Eu estou enriquecendo esses eventos.
+Passando para um novo data frame.
+E lendo esses caras.
+Lá do data lake.
+Desculpa.
+Lá do lake house, né?
+Que é delta.
+Lendo lá do lake house.
+Enquanto está sendo inserido.
+Estou transformando essas informações.
+Posso fazer o que eu quiser aqui.
+E estou escrevendo isso na tabela.
+Então, por exemplo.
+Se eu desligar os notebooks.
+Desliguei tudo.
+Desliguei todos os strings aqui.
+Pedi para dar um stop execution.
+Ele parou.
+Beleza.
+Legal.
+Quando eu iniciar novamente.
+Ele vai ver da onde ele fez o left off.
+Da onde ele parou.
+E vai continuar o processo.
+Em um cenário de produção.
+Esses dois processos.
+Streaming da bronze.
+Enriquecimento da silver.
+Rodariam no mesmo notebook?
+Boa pergunta.
+Eu gosto de deixar separado.
+Na maioria das vezes.
+Então, tipo assim.
+Eu tenho um notebook de bronze.
+Um notebook de silver.
+E um notebook de gold.
+Quando fica muito grande.
+Aí eu vou por domínios.
+Aí eu vou dividindo.
+Entendeu?
+Será cobrado pelo tempo de execução dos
+jobs?
+Muito bom.
+Aqui o cluster está ligado.
+Então, você vai estar pagando por isso.
+Em relação ao custo.
+Por exemplo.
+O Spark Synapse é mais vantajoso que o
+Databricks.
+Se você olhar só o preço.
+Se você olhar só o valor.
+Realmente.
+O Spark Plus vai ser mais barato.
+Se você olhar só o valor.
+Então, sim.
+Em relação ao valor.
+É.
+Vai ser mais barato.
+Motivo do qual.
+Porque aqui você paga o Databricks
+Units.
+Lá ele é provisionado no Kubernetes.
+E vai acabar sendo mais barato mesmo.
+Mas você tem outras features aqui no
+Databricks.
+Que são bem legais.
+Então, depende muito do que você está
+fazendo.
+E ele lê do ponto onde parou.
+Exatamente igual.
+Ele lê da onde ele parou.
+Então, na hora que eu iniciar aqui.
+Ele vai ver.
+Cara, qual foi o último arquivo que eu
+li?
+Eu completei ele?
+Eu não completei ele?
+O que aconteceu?
+Beleza.
+Então, vamos continuar da onde eu parei.
+Atomicamente.
+Ele vai garantir isso para você.
+Beleza?
+Foda.
+Isso é Spark.
+Tá?
+Isso está tanto no Databricks.
+Quanto no código preto.
+Que vocês viram na segunda -feira.
+Tá?
+Agora, eu vou trazer algo novo para
+vocês.
+Que é o Cloud Files.
+O Cloud Files é a proposta da
+Databricks.
+De como melhorar o processamento de
+streaming.
+Tá?
+Melhorando o structure streaming.
+Isso é proprietário da Databricks.
+Então, se você usa a Databricks.
+Isso aqui é proprietário.
+O que acontece?
+Você tem a facilidade de utilizar.
+Ele para reduzir a complexidade do
+structure streaming.
+Ele deixa ainda mais fácil para você.
+Só que ele traz uma parada.
+Que resolve o problema que eu falei
+antigamente.
+De processar dados de forma eficiente.
+Dentro do Data Lake.
+Que é o seguinte.
+Você tem duas formas de ativar o Cloud
+Files.
+Tá?
+De novo.
+Proprietário do Databricks.
+Primeiro.
+Você pode utilizar o padrão que a gente
+vai usar hoje.
+Que é o Directory Listing.
+Tá?
+Só que.
+Diferentemente do Listing do Spark.
+Que é single thread.
+Tá?
+O Directory Listing do Cloud Files.
+É paralelo.
+Então.
+Ele manda threads paralelas.
+Lê.
+Combina tudo isso.
+E utiliza o Spark para poder fazer isso.
+Então.
+É mais rápido.
+O reconcile.
+Tá?
+Então é mais rápido a interação com o
+Data Lake.
+Primeiro ponto.
+Ah!
+Mas eu tenho um puta Data Lake
+gigantesco.
+Cara.
+Eu precisava que isso fosse inteligente.
+Sem problema.
+Ele tem uma outra opção.
+Chamada File Notification.
+Tá?
+Que tá disponível na AWS.
+E no Azure.
+Tá?
+Não tá disponível ainda no Google.
+Que que ele faz?
+Na verdade.
+Ele.
+Usa um Kafka por debaixo dos planos.
+Que é o Event Grids.
+Ou o SNS.
+Pra falar o seguinte.
+Se você habilitar File Notification.
+Ele vai criar.
+Ele vai procurar.
+Provisionar por debaixo dos planos.
+Dentro do Databricks.
+Você vai pagar por isso.
+Um Azure Event Grids.
+Um Kill Storage.
+E mais alguns serviços.
+Que ele vai usar.
+Pra fazer o seguinte.
+Chegou um arquivo novo.
+Né?
+O que que ele vai fazer?
+Ele vai mandar uma notificação.
+Pro Databricks.
+Falando.
+Olha.
+Só olha esse arquivo aqui.
+Só processa esse arquivo.
+Legal.
+Né?
+Então.
+Ele vai fazer.
+Com que o problema do listing.
+Não exista mais.
+Beleza?
+Então.
+Aqui eu vou fazer a mesma coisa.
+Pegar o esquema.
+Ler.
+Aquele arquivo.
+Extrair o esquema.
+E olha como é mais fácil.
+Consumir.
+Com.
+O Cloud Files.
+Ó.
+Spark.
+Ler Streaming.
+Qual é o formato?
+Cloud Files.
+Opção.
+Cloud Files Format.
+JSON.
+Esquema.
+Esquema.
+E o local.
+Onde ele tá.
+Pronto.
+É isso.
+Simples assim.
+E aqui.
+Eu inicio ele.
+Você vai ver.
+Que ele vai iniciar.
+Mais rápido.
+Já.
+Do que.
+Como ele.
+Iniciou.
+Anteriormente.
+Ah.
+Como é.
+Interessante.
+Qual é o erro.
+Que deu aqui?
+The container.
+In the file.
+Event bucket.
+Blá.
+Blá.
+Blá.
+Is different.
+From the expected.
+Source.
+Ah.
+Legal.
+Esse aqui.
+Olha só.
+Que legal.
+Hum.
+Gostei.
+Gostei.
+Que que eu fiz.
+Aqui.
+Eu pedi.
+Só que.
+O que eu fiz.
+Antes desse treinamento.
+É.
+Eu mudei.
+O.
+O.
+Storage.
+Eu mudei.
+O meu.
+Storage.
+Ele.
+Antigamente.
+Era um.
+Storage.
+Block.
+Storage.
+Eu mudei.
+Ele.
+Edge.
+Dele.
+Lake.
+Gentil.
+E movi.
+Todos.
+Os arquivos.
+Pra lá.
+Então.
+O que que ele tá.
+Charupando.
+Aqui.
+Quando ele tá.
+Tentando.
+Iniciar.
+Streaming.
+Ele tá.
+Falando.
+Pra mim.
+Porque.
+É.
+Cloud.
+Files.
+Ele.
+Um.
+Check.
+A mais.
+Ele.
+Tá.
+Falando.
+Seguinte.
+Olha.
+O.
+Container.
+Que.
+Era.
+Antigamente.
+Se chama.
+Landing.
+Brz.
+Luan.
+Com.
+Essa.
+Chave.
+Que.
+Foi.
+O.
+Último.
+Cara.
+Que.
+Eu.
+Processei.
+Só.
+Que.
+Eu.
+Tô.
+Tendo.
+Um.
+Put.
+Diferente.
+Que.
+É.
+Landing.
+At.
+O.
+W.
+S.
+que.
+O.
+O.
+A.
+Ele.
+Tá.
+Reclamando.
+Por.
+Que.
+O.
+Fa.
+É.
+Notification.
+Al.
+Tendência.
+Ele.
+Tá.
+Identificando.
+Que.
+Existe.
+Uma.
+Diferença.
+Atômica.
+Inmutável.
+Na.
+Lista.
+Collection.
+Que.
+Que legal que é o da escala.
+Primeira vez que eu vejo esse erro.
+Interessante.
+Aí, você vai ter que procurar na
+internet como resolver isso.
+Ou você pode fazer algo tipo assim.
+Deixa eu ver.
+Ou você pode simplesmente dar um novo
+checkpoint location para ele.
+Por quê?
+Porque o novo checkpoint location não
+vai ter o metadado anteriormente.
+Eu gostei porque ele está usando o AXE
+-DB por debaixo dos fones para fazer
+isso.
+Foda.
+Por isso que é tão eficiente.
+Tá?
+Tá?
+Iniciei.
+Vai ser a mesma tabela delta.
+Nesse caso, irá processar tudo
+novamente.
+Olha só.
+Vamos ver.
+Então, eu mudei o checkpoint.
+A tabela delta continua a mesma.
+Isso quer dizer o quê?
+Vamos ver o que isso quer dizer.
+Quer dizer que...
+Aqui está aparecendo 113 mil.
+Deixa eu ver se ele já inicializou aqui.
+Já.
+Parece que não tem nenhum arquivo aqui,
+certo?
+Zero.
+Aqui é um bom caso da gente ver.
+113 mil.
+Eu vou pedir para a minha aplicação, que
+está aqui do meu lado, jogar arquivos lá
+dentro.
+Vou fazer agora.
+Então, vamos lá.
+Vai escrever agora lá no Blob Storage,
+tá?
+Então, a gente vai ver se aqui reagiu em
+tempo real.
+Quando ele escrever aqui do meu lado, eu
+aviso para vocês.
+Ele está vigiando o beer.
+Né?
+Então, ó.
+Escreveu o usuário.
+Restaurante.
+Veículo.
+Stripe.
+Bank.
+Credit card.
+Subscription.
+Company.
+Commerce.
+Computer.
+Device.
+Beer.
+Escreveu.
+Escreveu o beer.
+O arquivo que ele escreveu foi esse
+aqui, para a gente ver se ele vai
+reagir.
+Vamos ver aqui, ó.
+Vamos ver se ele é o bichão da reação
+mesmo.
+Vamos ver se ele é mais rápido.
+Bem mais rápido.
+Puta, é muito mais rápido.
+O arquivo que ele processou foi esse.
+Lindo, né, gente?
+De novo?
+Vamos ver?
+De novo.
+De novo.
+É um arquivo JSON com 100 linhas cada
+um.
+Então, vai ser 200.
+E aí, vamos ver qual é o arquivo que ele
+vai gerar.
+Muito legal.
+Reagiu aqui.
+Aqui, ó.
+Teve um pequeno.
+Não está aparecendo o que você estava
+aguardando.
+Não entendi, velho.
+O que?
+Na verdade, apareceu aqui mesmo.
+É que aqui do lado eu estou escrevendo
+no blog de storage lá.
+Aqui, ó.
+Escrevi de novo esse arquivo.
+Agora eu vou ver se ele vai para 13
+.200.
+Já foi.
+Então, foi bem mais rápido.
+Beleza?
+E esse é o...
+Claudio.
+Claudio Files, que é proprietário do
+Kafka.
+Beleza?
+Desculpa.
+Que é proprietário do Databricks.
+Agora, o Match Made in Heaven, na cara
+de vocês.
+Então, qual é a grande sacada de você
+utilizar o Kafka com Spark?
+É você criar uma arquitetura capa, que a
+gente vai ver na sexta -feira, em
+detalhes, onde a ideia é a seguinte, ó.
+Você tem aplicações, que pode ser...
+E você vai aprendendo...
+Isso você ensina no treinamento...
+A gente ensina no treinamento aqui de
+Kafka, né, Matheus?
+Conectar com todas as fontes, trazer o
+dado para dentro do Kafka.
+Isso mesmo.
+Então, no treinamento de Kafka, você
+aprende isso.
+Como trazer o dado inteiro para o Kafka.
+Então, a gente pega aplicações que
+escrevem no Kafka, com as melhores
+práticas, banco de dados relacional,
+NoSQL.
+Cara, todos os padrões, eles vão entrar
+ali, tá?
+Você já fez um comparativo utilizando o
+Cloud File em cenário real de produção?
+Não, nunca fiz, tá?
+Digo porque eu utilizo vários serviços
+por trás, exatamente.
+Esse que eu usei, que é o File
+Notification, que é o padrão, ele não
+vai custar nada mais, não vai ser uma
+dor de cabeça, não.
+Agora, o File Notification, eu nunca fiz
+a somatória, mas realmente vai assustar,
+tá?
+Realmente, eu concordo com você que vai
+ser expressivo ao longo do tempo, vai
+ter um custo adicional mais expressivo.
+Mas, se ele vai...
+Se realmente você depende heavymente...
+Desculpa por usar essa palavra...
+Português, inglesa.
+Se você vai usar isso realmente muito na
+sua empresa, aí você vai balancear se
+vale a pena ou não.
+Mas eu nunca fiz esse comparativo, não,
+tá?
+Os clientes que a gente usa Databricks
+não se preocupam muito com isso, e eu
+também nunca tive que utilizar Structure
+Streaming nesse nível de ter que
+realmente ir pra esse cara e só ter essa
+única opção.
+Porque aí a gente vem na arquitetura
+Kappa.
+Então, em vez de você ficar pegando o
+Spark, e botando ele pra processar no
+Data Lake, o que funciona, mas não é a
+melhor forma, a grande ideia é você
+fazer isso aqui, ó.
+É você pegar o dado, escrever no Kafka,
+e do Kafka você realmente buscar esse
+dado.
+Então, o que a gente vai fazer aqui, ó?
+Eu vou estruturar o que tá chegando do
+Kafka, né?
+Então, eu tenho aqui, ó, uma aplicação
+que escreve no tópico Music Data JSON, e
+que ele tem esse formato.
+Então, eu vou estruturar, porque é um
+Structure Streaming, né?
+Eu tenho que estruturar o esquema da
+minha mensagem.
+Uma das coisas que vocês aprendem no
+treinamento de Kafka é o seguinte, eu
+posso tanto fazer isso, como eu posso
+utilizar o Schema
+Registry pra puxar essa informação.
+O que é o Schema Registry?
+Toda vez que você vai escrever no Kafka,
+o produtor registra aquele esquema em um
+local e escreve.
+Então, eu vou fazer isso aqui.
+Então, na hora que alguém for consumir,
+você vai lá e lê desse Schema Registry.
+Isso quer dizer que agora você não
+precisa se preocupar se o cara escreveu
+em X, whatever.
+Você sempre vai saber, vai conseguir
+decodificar, porque você vai perguntar o
+esquema para o Schema Registry, tá?
+Agente, mesma coisa, estruturei o
+esquema.
+E agora, eu vou falar o quê?
+Olha, Spark, LAY Streaming.
+Qual?
+Bootstrap do Kafka, o formato Kafka.
+Qual é o Bootstrap?
+É o IP do Kafka.
+Qual o tópico que você vai assinar?
+JSON.
+Qual a opção?
+Starting Offset Latest.
+Isso quer dizer o quê?
+Ler o último evento, tá?
+Checkpoint, Checkpoint.
+E carrega.
+Vou mostrar uma coisa pra vocês agora,
+rapidão.
+Por que eu tenho adicionado essa função
+aqui?
+Eu tenho adicionado essa função aqui,
+FAIL ON DATA LOSS, porque, na verdade,
+se eu não habilitar isso aqui, quando eu
+for executar, ele vai dar um erro pra
+mim, tá?
+Quando eu iniciar o streaming.
+E a razão de ele dar esse problema é
+porque, na verdade, como eu troquei de
+Kafka e eu troquei de alguns metadados
+importantes, ele vai falar, olha, no meu
+metadado aqui do Spark, tá dizendo que,
+cara, esse não é o servidor, tem alguns
+metadados que não estão batendo.
+Então, aqui eu tô falando, cara, ignora
+isso, só carrega o dado do último ponto
+que você chegou pra esse cara aqui, tá?
+Olha só que interessante.
+Quando eu dou o LOAD, olha só o que que
+vai vir aqui, ó.
+BINÁRIO, BINÁRIO, STRING, INTERO,
+INTEGER, LONG, TIMESTAMP, INTEGER.
+Ou seja, o seu dado tá aqui dentro, ó,
+de VALUE.
+Tá vendo que tesão?
+BINÁRIO, como eu sempre falei pra vocês,
+que eles carregam BINÁRIO.
+Então, o que que eu tenho que fazer?
+Eu tenho que...
+Pegar a coluna VALOR, converter pra
+STRING, e aplicar uma função JSON com o
+esquema que eu passei, que eu estruturei
+aqui.
+E aí, a mágica acontece.
+Tcharam!
+Olha lá, que lindo!
+Usuário, gênero, artista, track, track
+ID, popularity, duration, integer,
+timestamp.
+Mesma coisa aqui.
+Olha que bonito!
+Agora que esses dados...
+Estão estruturados, eu vou carregá -los
+para a minha bronze.
+Vejam a velocidade...
+Que eu carrego, que eu inicializo esse
+streaming.
+Se eu não fiz nenhuma besteira, é pra
+ele inicializar, teoricamente, de forma
+rápida.
+Já iniciou.
+Já iniciei, streaming...
+E aqui eu vou conseguir ver, daqui a
+pouco, novos dados sendo
+colocados.
+Tá vendo que não tenho nada?
+Aqui?
+É porque eu não tenho nada pra
+processar.
+Mas eu vou aqui do meu lado da
+aplicação, e eu vou ingerir músicas.
+E aí vocês vão ver que na hora que
+entrar no Kafka, eu vou falar aqui, ó.
+Escreveu no Kafka.
+Vamos ver.
+Eu aviso pra vocês quando escrever.
+Eu tô escrevendo.
+Escreveu.
+Produziu no Kafka.
+Acabou de chegar no Kafka.
+Vamos ver aqui se ele vai reagir.
+Me deu um problema.
+Foi cancelado.
+Você foi cancelado, amiguinho.
+Provavelmente ele foi cancelado.
+Stream stopped.
+Job aborted.
+O que que aconteceu aqui?
+Ah, olha só que legal.
+You may get upgrade exception.
+You may get...
+Porque a gente tá usando o Spark 3 .2,
+ó.
+You may get a different result due to
+the upgrading of Spark 3 .0.
+Failed to recognize esse pattern.
+In the data time format, you can set
+pattern legacy time parse to legacy to
+restore the behavior before 3 .0.
+You can form a valid...
+Olha que interessante.
+Já tinha visto isso aqui, meu Deus.
+To legacy.
+Vamos ver, amigão, se eu seto você para
+legacy.
+Hum...
+Eu seto você para legacy.
+Então, aqui.
+Eu tenho um set desse em algum lugar.
+Ó.
+Isso é um caso legal que a gente acabou
+de passar.
+Mudei a minha aplicação, que estava em 3
+.0, para 3 .2 e acabei enfrentando esse
+erro.
+Então, acontece.
+Nas melhores famílias.
+A gente tem que ver como setar.
+Onde eu coloquei o setting?
+Beleza.
+Então, o que que eu vou fazer?
+Como não está indo, porque está com
+problema de versionamento, eu vou deixar
+para amanhã de manhã para a gente não
+estender aqui.
+E aí, o que que eu vou fazer?
+Eu, basicamente, vou setar o modo
+anterior, mas eu vou ver, na verdade,
+como que está o novo formato.
+Assim, eu mostro para vocês como o novo
+formato.
+E esse cara vai ser inserido no Kafka,
+normalmente.
+O problema que está acontecendo aqui é
+justamente nesse formato de data aqui,
+ó.
+Que ele está reclamando por ser um
+formato não mais padronizado.
+Então, ele está...
+Ele está charupando aqui.
+Então, a gente tem...
+Por quê?
+Porque o timestamp, ele é diferente
+disso.
+Tá?
+É...
+Beleza?
+Como que era?
+Era...
+Legacy...
+Mas aí, eu acho que é...
+Eu não me lembro se era com...
+Na verdade, vamos olhar aqui.
+Aqui, ó.
+You need to set or...
+Tá, aqui, ó.
+Beleza.
+Então, vamos ver.
+Vamos ver.
+Vamos ver.
+Sim.
+Eu quero cancelar.
+Writing to Delta.
+Writing to Agent.
+Isso, agora...
+Boa, gente.
+Obrigado, hein?
+Pela...
+Aí, ó.
+Carregou.
+Tá?
+Finalmente, carregou.
+Isso aí.
+Boa.
+Valeu, Daniel.
+Boa.
+Vocês tinham colocado aqui.
+Eu estava...
+Estava viajando.
+Legal.
+Exatamente.
+Legal saber disso.
+Eu não sabia.
+Novo, tá?
+Sparks e colegas.
+Está em Sparks Policy Legacy.
+Interessante.
+Não conhecia essa configuração.
+Viu?
+Aprendendo.
+Live Code é foda.
+É.
+É.
+Mas, deu certo no final do dia.
+Que bom que deu certo.
+Beleza?
+E aí, a gente vai passar por todo o
+processo de enriquecimento, como sempre.
+E fazer o que a gente fez do mesmo
+jeito.
+Só que, qual a diferença?
+Agora, a gente está ingerindo de Kafka
+para...
+De Kafka para Delta Tables e assim por
+diante.
+Tá?
+E a mesma coisa.
+E, eventualmente, eu posso unir esses
+Joins.
+Ah, uma coisa importante que eu não
+falei aqui.
+No Structure Streaming, você pode fazer
+Joins, tá?
+Só que...
+Isso aí é um spoiler fodido.
+Vocês vão se amarrar agora.
+Me digam se é foda para a gente terminar
+com chave de Gold.
+É tanto foda que eu te falo que o
+pessoal da casa quis...
+Velho, não.
+Mas, olha só que foda isso.
+Vocês não sabiam disso.
+Tá?
+Gente, presta atenção antes da gente
+fechar aqui.
+No Structure Streaming, um dos problemas
+que faziam com que eu não conseguisse
+utilizar ele mais do que eu uso no meu
+dia a dia, é porque você só pode fazer
+Join de dois Streamings ao mesmo tempo.
+Então, você só pode pegar, tipo, música
+e a gente e fazer um Join.
+Se você quiser fazer um terceiro Join,
+você tem que pegar o resultado desse e
+unir com outro.
+Então, isso, cara, interfere um pouco na
+evolução do seu sistema.
+Então, a gente opta para outras
+tecnologias, como o ksqlDB, olha aí o
+Júnior, né?
+E assim por diante.
+E se eu te disser...
+Gente, por favor, chorem.
+Chorem.
+A gente gravou um podcast que vai entrar
+na semana, daqui duas semanas.
+Podem chorar.
+Project Lightspeed.
+Faster and Simple Stream Processing with
+Apache Spark.
+Olha só.
+Olha a aceleração de mais de 4 milhões
+de empresas e de processos utilizando
+streaming.
+As vantagens.
+E o que o Project Lightspeed traz,
+gente?
+30 % a 50 % mais de velocidade.
+Checkpoint assíncrono, que vai dar mais
+velocidade.
+E chora.
+Multiple Stateful Operations.
+Currently, Structural Streaming supports
+only one Stateful Operator per Streaming
+Job.
+However, some of these cases require
+multiple Stateful Operators, like
+Chaining Time Windows, Stream -to
+-Stream Outer, Stream -to -Stream Time
+Interval.
+Project Lightspeed will add support for
+this capability of Consistent Semantics.
+Você vai poder fazer múltiplos Joins
+dentro do Structural Streaming.
+Caralho!
+Isso é muito foda!
+E várias outras coisas fodidas.
+Vou deixar aqui para vocês passarem mal.
+Então, a gente finaliza hoje o dia de
+hoje.
+E com essa pequena big news.
+Cara, isso vai ser muito bom.
+Eu estou bem animado para poder ver
+isso.
+Isso vai acontecer ao longo dos anos.
+O projeto já foi aprovado.
+Já virou um Spark Improvement Proposal,
+um SIP.
+E vai entrar aí melhorias no projeto.
+E a gente tem um podcast que a gente
+navega com mais detalhes que vai sair
+daqui a duas semanas.
+Gente, é isso.
+Matheus, você já passou para eles o
+formulário?
+Já passei aqui e passei no grupo do
+WhatsApp.
+E vou colocar na descrição do grupo do
+WhatsApp também.
+Tá.
+Beleza, então.
+Fechou.
+Gente, agradecer por hoje.
+Espero que vocês tenham se amarrado como
+eu me amarrei.
+E amanhã a gente se vê sete horas.
+Amanhã é um dia muito, muito, muito
+legal.
+Hoje, se vocês quiserem postar alguma
+coisa no LinkedIn de vocês também seria
+legal.
+Uma provocação.
+Teve muita gente que postou algumas
+coisas muito legais.
+Eu curti bastante.
+Mas eu acho que o mandado de hoje é que
+vocês conseguem sumarizar o que
+aconteceu no dia 3.
+Que é a possibilidade de utilizar o Data
+Lake como streaming.
+O Spark como esse sistema central de
+unificação.
+E assim por diante.
+Porque amanhã, e o Matheus vai trabalhar
+amanhã nisso para garantir que está tudo
+funcionando.
+A gente vai fazer toda a transição para
+os Day Trade Houses.
+Para o Snowflake.
+Para várias coisas.
+Então tem muita coisa legal amanhã que
+você não vai querer perder.
+Beleza?
+Uma dúvida.
+Quando você faz o Selecting Delta Lake.
+Você faz Delta Path dos arquivos de onde
+você vê esse Delta.
+É um database que você criou?
+Não.
+É o arquivo que está lá no Data Lake
+mesmo.
+No formato Delta.
+O Delta poderia substituir a
+persistência no pool do SQL Synapse?
+O Delta é um formato de arquivo.
+Então ele vai ficar lá dentro do Data
+Lake.
+No caso do Synapse ele usa o Azure Data
+Lake Storage Gen2.
+Então sim.
+Você vai colocar o arquivo lá dentro.
+E aí você pode utilizar o Serverless
+Pools para ler.
+E agora você também tem a integração com
+o Dedicated Pools com o Delta.
+Então você vai conseguir utilizar isso
+para carregar esses dados para dentro do
+Dedicated Pools.
+Beleza?
+Massa.
+Matheusinho.
+Te vejo amanhã então às 7 horas para a
+gente falar disso.
+Então toda vez que eu for fazer um
+Select no Delta.
+Eu preciso passar o Delta Path?
+Sim.
+Você precisa passar.
+Onde é que você está lendo?
+Exatamente.
+Aquele caminho ali ó.
+Estou lendo daqui.
+Tá?
+No SQL.
+Fechou?
+Fechou.
+Então já é gente.
+Obrigado.
+Foi foda.
+E amanhã tem mais para a gente aprender
+custo, organização, melhores práticas,
+virtualização de dados.
+Vocês vão querer ver isso.
+Muita coisa legal amanhã.
+Beleza?
+Fica com Deus.
+E até amanhã Matheusinho.
